@@ -1,0 +1,31 @@
+site_name: MonitorAqua — Proyecto Sello
+site_url: https://claudiob12.github.io/MonitorAqua/
+repo_url: https://github.com/ClaudioB12/MonitorAqua
+repo_name: ClaudioB12/MonitorAqua
+
+theme:
+  name: material
+  language: es
+  palette:
+    scheme: default
+    primary: blue
+    accent: cyan
+  features:
+    - navigation.sections
+    - content.code.copy
+
+nav:
+  - Inicio: index.md
+  - Brief: brief.md
+  - Arquitectura: arquitectura.md
+  - Dimensiones: dimensiones.md
+  - Datos: datos.md
+
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - admonition
+  - tables
