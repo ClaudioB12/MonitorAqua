@@ -1,0 +1,13 @@
+{
+  "shell_port": 56199,
+  "iopub_port": 48245,
+  "stdin_port": 40667,
+  "control_port": 46101,
+  "hb_port": 48113,
+  "ip": "127.0.0.1",
+  "key": "d6baa7d7-df65bdd30de572d7b782a09a",
+  "transport": "tcp",
+  "signature_scheme": "hmac-sha256",
+  "kernel_name": "python3",
+  "jupyter_session": "/home/jovyan/S02_Equipo_Horeb.ipynb"
+}

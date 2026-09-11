@@ -1,9 +1,7 @@
-# compose.yml
-
 name: pyspark-oficial
 services:
     pyspark:
-        image: jupyter/pyspark-notebook
+        build: .
         ports:
             - 4489:8888
             - 4041:4040
