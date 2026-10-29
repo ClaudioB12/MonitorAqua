@@ -5,7 +5,7 @@
 # entrada del ESP32. Las ventanas se solapan y la clave es determinística: reescribir no duplica.
 #
 # GitHub NO garantiza el cron: puede atrasar o saltarse ejecuciones (la primera noche, 2026-10-29, no disparó
-# ninguna entre 01:45 y 08:40, y después faltaron las de 09:07 y 09:37). La ventana de 6 h es la protección: basta
+# ninguna entre 01:45 y 08:40, y después faltaron las de 09:07, 09:37 y 10:07). La ventana de 6 h es la protección: basta
 # una pasada verde cada menos de 6 h para que no quede ningún hueco. Al encender la PC, el puente se pone al día.
 #
 # Requisitos (Settings -> Secrets and variables -> Actions):

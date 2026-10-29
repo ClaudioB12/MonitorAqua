@@ -223,7 +223,7 @@ EDAD_MAX_H=7 python colector_apis.py --una-vez --ventana-min 360
 | ~01:31 y ~01:36 | #1 manual y su re-run | Pasadas de 515 y 538 lecturas (evidencia en `docs/evidencias/colector-nube/`) |
 | 02:07 a 08:07 | Ninguna | **GitHub no disparó el cron.** No hay lecturas de APIs entre las 02:00 y las 06:30 |
 | 08:40 | #2, la **primera programada** ("Triggered via schedule", 43 s, verde): la de las 08:37, 3 min tarde | 543 lecturas, con la ventana de 2 h de entonces |
-| 09:07 y 09:37 | No aparecen en Firebase a las 10:04 | El cron todavía no dispara con regularidad |
+| 09:07, 09:37 y 10:07 | No aparecen en Firebase a las 10:15 | El cron todavía no dispara con regularidad |
 
 GitHub suele tardar en activar el cron de un workflow recién agregado, y en horas de carga atrasa o descarta
 ejecuciones. Por eso la ventana pasó de 2 h a 6 h el mismo día. Con 2 h, cualquier racha de más de 2 h sin
