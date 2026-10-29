@@ -1,5 +1,5 @@
 """
-Partición de datos común a todos los modelos (F6), leída de batch/particion_modelos.yml. Python puro: la usan
+Partición de datos común a todos los modelos (F6), leída de la versión VIGENTE (abajo). Python puro: la usan
 batch/capas.py (columna "particion" de las tablas oro) y batch/evaluacion.py.
 
   asignar(fuente, sensorId, runId, ts_ms) -> "entrenamiento" | "embargo" | "prueba" | "consistencia"
@@ -17,6 +17,8 @@ import yaml
 
 RAIZ = Path(__file__).resolve().parents[1]
 H = 3_600_000
+# Versión vigente. p6.1 (batch/particion_modelos.yml) se conserva sin cambios para reproducir D2 d2.1-d2.2 y D4 d4.1.
+VIGENTE = RAIZ / "batch" / "particion_modelos_p6.2.yml"
 
 
 def ms(texto):
@@ -26,7 +28,7 @@ def ms(texto):
 class Particion:
     def __init__(self, ruta=None, tanques=None, limites_thingspeak=None, inicio_corridas=None):
         """limites_thingspeak: {sensorId: ts_ms máximo del canal}; inicio_corridas: {runId: ts_ms mínimo}."""
-        self.cfg = yaml.safe_load(Path(ruta or RAIZ / "batch" / "particion_modelos.yml").read_text(encoding="utf-8"))
+        self.cfg = yaml.safe_load(Path(ruta or VIGENTE).read_text(encoding="utf-8"))
         tq = yaml.safe_load(Path(tanques or RAIZ / "ingesta" / "tanques.yml").read_text(encoding="utf-8"))["tanques"]
         e = self.cfg["esp32"]
         self.esp32_sensores = set(e["sensores"])

@@ -3,7 +3,7 @@
   "f4.3",
   "f4.4"
  ],
- "ref_vieja": "main",
+ "ref_vieja": "b400e7d",
  "semillas": [
   2026,
   7,
@@ -3464,6 +3464,184 @@
       0.999
      ],
      "eventos_llegada_agua": 337
+    }
+   }
+  },
+  "f2b3": {
+   "f4.3": {
+    "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+    "metricas": [
+     {
+      "anomalia": "fuga_lenta",
+      "evento": "alerta_fuga",
+      "episodios": 12,
+      "eventos": 10,
+      "consistencia_precision": 0.8,
+      "consistencia_precision_ic95": [
+       0.49,
+       0.943
+      ],
+      "consistencia_recall": 0.417,
+      "consistencia_recall_ic95": [
+       0.193,
+       0.68
+      ]
+     },
+     {
+      "anomalia": "corte_prolongado",
+      "evento": "corte_prolongado",
+      "episodios": 19,
+      "eventos": 29,
+      "consistencia_precision": 0.724,
+      "consistencia_precision_ic95": [
+       0.543,
+       0.853
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.832,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "llegada_atipica",
+      "evento": "llegada_agua (fueraDeFranja)",
+      "episodios": 12,
+      "eventos": 12,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.757,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.757,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "falla_sensor",
+      "evento": "falla_sensor",
+      "episodios": 80,
+      "eventos": 80,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.954,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.954,
+       1.0
+      ]
+     }
+    ],
+    "deriva_termica": {
+     "episodios": 9,
+     "con_alerta_fuga_falsa": 1,
+     "ic95": [
+      0.02,
+      0.435
+     ]
+    },
+    "eventos_por_tipo": null,
+    "llegadas_efectivas": {
+     "llegadas": 337,
+     "detectadas": 337,
+     "recall": 1.0,
+     "recall_ic95": [
+      0.989,
+      1.0
+     ],
+     "eventos_llegada_agua": 337
+    }
+   },
+   "f4.4": {
+    "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+    "metricas": [
+     {
+      "anomalia": "fuga_lenta",
+      "evento": "alerta_fuga",
+      "episodios": 12,
+      "eventos": 7,
+      "consistencia_precision": 0.857,
+      "consistencia_precision_ic95": [
+       0.487,
+       0.974
+      ],
+      "consistencia_recall": 0.333,
+      "consistencia_recall_ic95": [
+       0.138,
+       0.609
+      ]
+     },
+     {
+      "anomalia": "corte_prolongado",
+      "evento": "corte_prolongado",
+      "episodios": 19,
+      "eventos": 29,
+      "consistencia_precision": 0.69,
+      "consistencia_precision_ic95": [
+       0.508,
+       0.827
+      ],
+      "consistencia_recall": 0.947,
+      "consistencia_recall_ic95": [
+       0.754,
+       0.991
+      ]
+     },
+     {
+      "anomalia": "llegada_atipica",
+      "evento": "llegada_agua (fueraDeFranja)",
+      "episodios": 12,
+      "eventos": 12,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.757,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.757,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "falla_sensor",
+      "evento": "falla_sensor",
+      "episodios": 80,
+      "eventos": 80,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.954,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.954,
+       1.0
+      ]
+     }
+    ],
+    "deriva_termica": {
+     "episodios": 9,
+     "con_alerta_fuga_falsa": 0,
+     "ic95": [
+      0.0,
+      0.299
+     ]
+    },
+    "eventos_por_tipo": null,
+    "llegadas_efectivas": {
+     "llegadas": 337,
+     "detectadas": 336,
+     "recall": 0.997,
+     "recall_ic95": [
+      0.983,
+      0.999
+     ],
+     "eventos_llegada_agua": 336
     }
    }
   }

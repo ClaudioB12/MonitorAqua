@@ -55,13 +55,37 @@ ambos archivos cuando cambian**; no hace falta reiniciar Spark. El nivel se calc
 `nivel_cm = sensor_al_fondo − distancia compensada`, con `distancia compensada = distancia × c(T) / c(20 °C)` y la
 temperatura del DHT11.
 
+**Compensación en el firmware (f4.4).** El firmware del ESP32 (`firmware/esp32/MonitorAqua_esp32.ino`) ya convierte
+el tiempo de vuelo con `vSonido = 331.3 + 0.606 · T` del DHT11, o con 20 °C si el DHT11 falla. La `distanciaCm` que
+llega a Firebase **ya viene compensada**. Hasta f4.3 el detector la compensaba otra vez.
+
+- **El efecto de la doble corrección:** de −0.48 a +0.26 cm en el historial, a ~13 cm de distancia. A 50-100 cm, con
+  4-10 °C de enfriamiento nocturno, serían 0.35-1.76 cm por noche de cambio ficticio: el enfriamiento se ve como una
+  subida que tapa una fuga, del orden del umbral de `alerta_fuga` (0.8 cm).
+- **La corrección:** el tanque declara `compensacion_en_firmware: {desde}` en `ingesta/tanques.yml`. Desde esa fecha el
+  detector no compensa la distancia (`compensacionOrigen = firmware` en la capa plata). Antes de esa fecha la
+  compensación es `desconocida` y D6 excluye esas lecturas. La flota simulada (f2b.1/f2b.2) imita un sensor que **no**
+  compensa, así que en ella el detector sigue compensando.
+- **Supuesto documentado: "desde el inicio" (1-oct).** El equipo confirma la versión del firmware solo desde el
+  28-oct. Antes no hay registro, y los datos no permiten distinguirlo:
+  - **Sesiones con cambios de temperatura (15 y 22-oct, 4-8 °C):** miden 4-17 cm, donde compensar o no cambia ≤ 0.1
+    cm, igual o menos que la resolución. El 22-oct, la distancia pasa de 16.3 a 16.2 cm con la temperatura bajando de
+    28.9 a 25.0 °C, lo que es compatible con compensación, pero es un solo décimo.
+  - **Sesiones a 137-215 cm (1 y 8-oct):** la temperatura casi no varía (18.0-18.7 °C), así que solo habría un desfase
+    constante de ~0.3-0.6 cm, sin cambios ficticios.
+  - **Consecuencia:** el supuesto no cambia ningún resultado.
+- **Sensor:** el firmware usa un **JSN-SR04T con placa AJ-SR04M** (no un HC-SR04), con zona ciega de ~20-25 cm. Las
+  lecturas reales de 4-17 cm caen dentro de esa zona: eso explica, al menos en parte, los ecos alternos (7 ↔ 17 cm)
+  que motivaron la regla de intermitencia. **Montar la sonda al menos 25 cm sobre el nivel máximo** antes de la
+  prueba real.
+
 Antes de evaluar se descartan:
 
 - las lecturas inválidas de F3;
 - las distancias más allá del fondo;
 - los sensores de prueba (`ingesta/sensores_prueba.yml`).
 
-| Evento | Regla | Umbral (f4.4) |
+| Evento | Regla | Umbral (f4.4, congelado) |
 |---|---|---|
 | `llegada_agua` | La mediana móvil de 5 lecturas sube más de X % de la capacidad dentro de la ventana, y la subida se sostiene en 3 medianas seguidas (f4.2). Tras una falla del sensor la ventana se reinicia: el nivel de antes de la falla no sirve de referencia (f4.2). **Llenado lento (f4.3):** también hay llegada si la tendencia de 60 min (mediana de los primeros 10 min contra la de los últimos 5) sube 5 % o más, confirmada en 5 lecturas. **Caudal de llenado estimado** = subida × capacidad / Δt (L/min), fórmula de la adecuación de D4. `fueraDeFranja` si empieza fuera de la franja de la zona (± 1 h). **Subida sostenida (f4.4)**, solo en canales que informan nivel en % o m (ThingSpeak): la mediana de los últimos 15 min (por tiempo) supera en 10 pp su mínimo desde el último llenado, con al menos 2 lecturas; es el criterio de la adecuación de D4. **Sin llegadas** mientras el sensor está inestable o en la gracia tras una reconexión (f4.4) | 6 % en 15 min, o 5 % en 60 min (lento), o 10 pp sostenidos en 15 min (canales de nivel) |
 | `corte_prolongado` | Horas desde la última `llegada_agua` (o desde el inicio del flujo). `detalle.posibleHuecoDeDatos` avisa si la lectura que dispara la regla llegó después de ≥ 1 h sin datos. **Reanudación (f4.4):** tras un hueco de más de 30 min se reinician las referencias y el reloj vuelve a contar desde la reconexión (`detalle.referencia = reanudacion`), salvo que ya hubiera un corte avisado, que sigue vigente | 30 h (intervalo típico ~24 h × 1.25); crítica desde 48 h |
@@ -99,24 +123,35 @@ El estado no usa timeouts: el corte se evalúa con cada lectura.
 
 ## Congelamiento de reglas
 
-**Las reglas quedan congeladas en la versión f4.3 desde el 2026-10-28 a las 23:37:40, hora de Lima
-(2026-10-29 04:37:40 UTC).** Ese es el momento en que `lambda26-aqua-streaming` arrancó con f4.3, y queda registrado
+**Las reglas quedan congeladas en la versión f4.4 desde el 2026-10-29 a las 17:53:25, hora de Lima
+(2026-10-29 22:53:25 UTC).** Ese es el momento en que `lambda26-aqua-streaming` arrancó con f4.4, y queda registrado
 en `streaming/reglas_servicio.yml` → `congelamiento`.
 
-**Commit de congelamiento: [`b400e7d480363274665ece065db5ea07c66390db`](https://github.com/ClaudioB12/MonitorAqua/commit/b400e7d480363274665ece065db5ea07c66390db)** (rama `u2-fase4`). Es la
-prueba de que las reglas no cambiaron después de ver los datos reales. Fija `streaming/reglas_servicio.yml` (f4.3) y
-`streaming/detector_servicio.py` antes de cualquier prueba con medidas reales. El hash no puede ir dentro de su propio
-commit, porque escribirlo cambiaría el contenido; por eso se registra en un commit posterior que solo agrega estas
-líneas. Para verificarlo:
+**Commit de congelamiento: COMMIT_F44** (rama `u2-f44`). Fija `streaming/reglas_servicio.yml` (f4.4),
+`streaming/detector_servicio.py` e `ingesta/tanques.yml` (`compensacion_en_firmware`) antes de cualquier prueba con
+medidas reales. El hash no puede ir dentro de su propio commit, porque escribirlo cambiaría el contenido; por eso se
+registra en un commit posterior que solo agrega estas líneas. Para verificarlo:
 
 ```bash
-git diff b400e7d -- streaming/reglas_servicio.yml streaming/detector_servicio.py
-# solo debe mostrar las líneas commit/verificación del bloque congelamiento; ninguna regla ni código del detector
+git diff COMMIT_CORTO -- streaming/reglas_servicio.yml streaming/detector_servicio.py
+# solo debe mostrar la línea commit del bloque congelamiento; ninguna regla ni código del detector
 ```
 
+**Congelamiento anterior (f4.3):** desde el 2026-10-28 23:37:40 (Lima), commit
+[`b400e7d`](https://github.com/ClaudioB12/MonitorAqua/commit/b400e7d480363274665ece065db5ea07c66390db). Su periodo de
+rendimiento real nunca empezó (geometría del ESP32 provisional), así que no hay cifras de f4.3 que conservar. Los
+eventos que publicó (versionRegla f4.3) quedan como diseño.
+
+**Partición p6.2** (`batch/particion_modelos_p6.2.yml`): el inicio de la prueba del ESP32 pasa a ser la más tardía
+entre este congelamiento y `geometria_desde`. p6.1 se conserva sin cambios para reproducir d2.1-d2.2 y d4.1. Es
+legítimo porque la prueba real del ESP32 nunca empezó: con p6.1 no había ningún dato en "prueba", así que mover su
+inicio no reutiliza ni descarta nada evaluado. La regeneración de plata y oro con p6.2 y la compensación corregida
+deja **idénticas** las tablas oro de flota y ThingSpeak (d2, d4, d6, d8), así que los resultados de D2 y D4 no
+cambian.
+
 - **Conjunto de diseño.** Todo lo real anterior a ese momento se usó para diseñar las reglas: el historial del ESP32
-  del 2 al 28 de octubre, la falla intermitente del HC-SR04 de esa noche y las llegadas de las 21:46 y las 23:08. Con
-  eso se hicieron f4.2 y f4.3, así que **no se usa para reportar rendimiento real**. Se muestra aparte, como diseño.
+  del 1 al 29 de octubre, la falla intermitente del HC-SR04 de esa noche y las llegadas de las 21:46 y las 23:08. Con
+  eso se hicieron f4.2, f4.3 y f4.4, así que **no se usa para reportar rendimiento real**. Se muestra aparte, como diseño.
 - **Rendimiento real.** Se calcula **solo con lecturas y bitácora posteriores al congelamiento** y, para cada sensor,
   posteriores también al cambio a geometría real:
   - **Inicio:** la más tardía entre `congelamiento.desde` y `geometria_desde` del sensor en `ingesta/tanques.yml`.
@@ -235,29 +270,45 @@ sobre **todas** las llegadas que subieron el tanque al menos 3 cm, normales y at
 - **`falla_sensor` no se mueve en ninguna variante.** No es robustez: el generador escribe el mismo `-1` que el
   detector busca.
 
-### 2b. f4.4 frente a f4.3 (`streaming/comparar_versiones.py`, mismos datos, 6 variantes × 3 semillas)
+### 2b. f4.4 frente a f4.3 (`streaming/comparar_versiones.py`, mismos datos, 7 variantes × 3 semillas)
 
-Tablas completas en `docs/evidencias/f4/f4.4/tablas_f44.md`. Lo que cambia (lo demás queda igual):
+**Lo que se puede demostrar:** f4.4 elimina los falsos positivos **conocidos** del historial real (tabla siguiente).
+**Lo que no:** en los datos aumentados, f4.4 **no es significativamente mejor ni peor** que f4.3. Todos los IC 95 %
+de las dos versiones se solapan, en todas las variantes. Las diferencias de abajo son puntuales y se reportan para
+transparencia, no como mejora.
+
+Tablas completas en `docs/evidencias/f4/f4.4/tablas_f44.md`.
 
 | Variante | Métrica | f4.3 | f4.4 |
 |---|---|---|---|
-| base | `alerta_fuga` precisión | 0.50 [0.19-0.81] | **0.75 [0.30-0.95]** |
+| base | `alerta_fuga` precisión | 0.50 [0.19-0.81] | 0.75 [0.30-0.95] |
 | base | `llegada_atipica` precisión | 1.00 [0.76-1.00] | 0.92 [0.67-0.99] |
-| ruido ×2 | `alerta_fuga` precisión | 0.33 [0.12-0.65] | **0.60 [0.23-0.88]** |
+| ruido ×2 | `alerta_fuga` precisión | 0.33 [0.12-0.65] | 0.60 [0.23-0.88] |
 | ruido ×3 | llegadas (todas), recall | 0.99 [0.98-1.00] | 0.98 [0.96-0.99] |
 | ruido ×3 | `llegada_atipica` precisión | 1.00 [0.76-1.00] | 0.86 [0.60-0.96] |
 | ruido ×3 | `alerta_fuga` precisión / recall | 0.17 / 0.23 | 0.33 / 0.15 |
-| f2b.2 | `alerta_fuga` precisión / recall | 0.80 / 0.33 | **0.90 / 0.42** |
+| f2b.2 | `alerta_fuga` precisión / recall | 0.80 [0.49-0.94] / 0.33 [0.14-0.61] | 0.90 [0.60-0.98] / 0.42 [0.19-0.68] |
 | f2b.2 | `corte_prolongado` recall | 1.00 [0.83-1.00] | 0.95 [0.75-0.99] |
+| **f2b.3** | `alerta_fuga` precisión / recall | 0.80 [0.49-0.94] / 0.42 [0.19-0.68] | 0.86 [0.49-0.97] / 0.33 [0.14-0.61] |
+| **f2b.3** | `deriva_termica` → `alerta_fuga` falsa | 1 de 9 | 0 de 9 |
 
-- **El costo:** ~1 llegada atípica falsa más y, con ruido ×3, el 1-2 % de las llegadas que la intermitencia
-  confunde con ecos. Todos los IC se solapan con los de f4.3.
-- **La ganancia en `alerta_fuga`:** viene de no evaluar noches perturbadas.
-- **`deriva_termica` → alerta falsa:** 0 en las dos versiones.
+- **f2b.3 imita al ESP32:** el firmware compensa con un DHT11 de ±2 °C redondeado a grados enteros. f4.3 compensa por
+  segunda vez; f4.4 no.
+  - Con la doble compensación aparece 1 alerta de fuga falsa por deriva térmica (de 9 episodios), y con f4.4
+    ninguna.
+  - En `alerta_fuga` las dos versiones quedan dentro del mismo IC.
+  - **Por qué el efecto es chico aquí:** la flota mide a 29-40 cm, donde la doble corrección es de décimas de cm. El
+    daño estimado de 0.35-1.76 cm por noche corresponde a 50-100 cm.
+  - **La razón para corregirla es física, no estadística:** el firmware ya compensa (`firmware/esp32`), así que
+    compensar otra vez es un error de definición, aunque estos datos no alcancen para medirlo con significancia.
+- **El costo observado:** ~1 llegada atípica falsa más y, con ruido ×3, el 1-2 % de las llegadas que la intermitencia
+  confunde con ecos.
+- **`alerta_fuga` sube en algunas variantes:** viene de no evaluar noches perturbadas, pero tampoco es significativo.
 - **Por qué 4 eventos en la regla de intermitencia y no 3:** con 3, el recall de llegadas con ruido ×3 caía a
-  0.92 [0.89-0.95] y la precisión de atípicas a 0.71. Con 4 el historial real queda igual de limpio.
+  0.92 [0.89-0.95], ya fuera del IC de f4.3, y la precisión de atípicas a 0.71. Con 4 el historial real queda igual
+  de limpio.
 
-**Historial real (conjunto de DISEÑO: con él se diseñó f4.4, no es rendimiento):**
+**Historial real (conjunto de DISEÑO: con él se diseñó f4.4, no es rendimiento). Es la evidencia demostrable de f4.4:**
 
 | Tanque | f4.3 | f4.4 |
 |---|---|---|
@@ -276,6 +327,11 @@ Tablas completas en `docs/evidencias/f4/f4.4/tablas_f44.md`. Lo que cambia (lo d
   inestabilidad: la recolocación desde 144 cm, y el regreso tras 10 min de `-1`, con lecturas de 4 a 18 cm alternadas
   con `-1`. Es coherente con los datos, pero siguen sin verificar y no se cuentan como aciertos.
 - **1233810:** sus 31 llegadas usan el mismo criterio de llenado de D2 (`batch/modelo_d2.yml` → `llenado`).
+- **La bitácora no tiene ninguna acción de llenado.** Su única acción es la `falla` de las 22:50:29, registrada
+  a posteriori por el sistema. f4.4 la sigue detectando igual que f4.3: queda dentro del episodio `falla_sensor`
+  iniciado a las 22:13. Las otras dos filas son las `no_verificable` de las 21:46 y 23:08.
+- **Con la compensación en el firmware, el historial da los mismos eventos.** La corrección cambia distancias (y
+  `alerta_fuga` a partir de la prueba real), no los eventos de diseño.
 
 ### 3. Rendimiento real: bitácora de pruebas con el ESP32
 
@@ -369,6 +425,15 @@ Al cambiar `ingesta/tanques.yml` (por ejemplo, con las medidas reales del tanque
   corte cuenta desde la reconexión (`referencia = reanudacion`), y no desde la última llegada vista.
 - **f4.4: subida sostenida en el tanque de lluvia.** En 3418755 las llegadas pasan de 49 a 65, y son lluvias. Está
   fuera del alcance de D4 (`batch/modelo_d4.yml` → `fuera_de_alcance`).
+
+- **Zona ciega del sensor.** El JSN-SR04T/AJ-SR04M no mide bien a menos de ~20-25 cm, y la geometría provisional
+  pone el sensor a ~4 cm del rebose. Con el tanque lleno, las lecturas caen en la zona ciega. Al cargar las medidas
+  reales, la sonda debe quedar al menos 25 cm sobre el nivel máximo.
+- **Eventos f4.3 de la mañana del 29-oct.** Entre las 11:05 y las 12:30, f4.3 publicó 5 eventos con el ESP32
+  manipulado (nivel −7.5 %, subidas de 18-53 %). Son anteriores al congelamiento de f4.4: conjunto de diseño.
+- **Las capas oro y la versión de reglas.** `batch/capas.py` recalcula `d4_llegadas` con las reglas vigentes. La
+  regeneración del 29-oct se hizo antes del congelamiento (con f4.3) y es la entrada de d4.1; la próxima, con f4.4,
+  será la entrada de d4.2.
 
 ## Pendientes
 

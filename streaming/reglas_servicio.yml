@@ -1,19 +1,22 @@
 # Umbrales de las reglas de eventos de servicio (F4). El detector relee este archivo cuando cambia.
 # Ver docs/eventos-servicio.md para el razonamiento de cada valor.
 
-version: "f4.3"   # f4.2: histéresis de falla_sensor y llegada_agua tras falla/confirmada (datos reales del 28-oct)
+version: "f4.4"   # f4.2: histéresis de falla_sensor y llegada_agua tras falla/confirmada (datos reales del 28-oct)
                    # f4.3: llenado lento (subida acumulada en 60 min): en Juliaca la baja presión de red es lo común
+                   # f4.4: subida sostenida en canales de nivel (%/m), intermitencia del HC-SR04 y reanudación tras
+                   #       huecos de datos (las tres limitaciones conocidas de f4.3, docs/eventos-servicio.md)
 
 # Reglas CONGELADAS. Desde este momento no se cambian; un cambio exige versión nueva y congelamiento nuevo.
-# Todo lo real anterior (ESP32 y bitácora hasta 2026-10-28 23:37:40 de Lima) es el conjunto de DISEÑO con el que se
-# hicieron f4.2 y f4.3: no se usa para reportar rendimiento real. El rendimiento real se calcula solo con lecturas y
+# Todo lo real anterior a "desde" (ESP32, ThingSpeak y bitácora) es el conjunto de DISEÑO con el que se hicieron
+# f4.2, f4.3 y f4.4: no se usa para reportar rendimiento real. El rendimiento real se calcula solo con lecturas y
 # bitácora posteriores a "desde" (streaming/comparar_bitacora.py lo aplica).
+# Anterior: f4.3, congelada desde 2026-10-28T23:37:40-05:00, commit b400e7d480363274665ece065db5ea07c66390db.
 congelamiento:
-  version: "f4.3"
-  desde: "2026-10-28T23:37:40-05:00"   # arranque de lambda26-aqua-streaming con f4.3 (2026-10-29 04:37:40 UTC)
-  commit: "b400e7d480363274665ece065db5ea07c66390db"   # commit que fija estas reglas (u2-fase4)
+  version: "f4.4"
+  desde: "2026-10-29T17:53:25-05:00"   # arranque de lambda26-aqua-streaming con f4.4 (2026-10-29 22:53:25 UTC)
+  commit: "PENDIENTE"
   # Verificación: las reglas y el detector no cambiaron desde ese commit si este comando no muestra diferencias
-  # fuera de este bloque:  git diff b400e7d -- streaming/reglas_servicio.yml streaming/detector_servicio.py
+  # fuera de este bloque:  git diff <commit> -- streaming/reglas_servicio.yml streaming/detector_servicio.py
 
 compensacion_termica:
   activa: true                 # distancia × c(T)/c(20 °C) con la temperatura del DHT11 (adecuación D6)
@@ -29,6 +32,11 @@ llegada_agua:
     subida_min_pct: 5.0        # 5 % en 60 min = 55 L/h en un tanque de 1100 L, 125 L/h en uno de 2500 L
     confirmacion_n: 5          # medianas seguidas por encima (una por lectura)
     ventana_minima_min: 30     # tendencia: mediana de los primeros 10 min vs. últimos 5 min de una ventana de >= 30 min
+  sostenida:                   # f4.4: canales que informan nivel en % o m (ThingSpeak); los criterios de arriba
+    modos: [nivelPct, nivelM]  # cuentan LECTURAS y no ven llenados si el canal publica cada ~10 min
+    subida_pp: 10              # mediana de 15 min > 10 pp sobre su mínimo desde el último llenado (adecuación D4, D2)
+    mediana_min: 15            # ventana de la mediana, por tiempo
+    lecturas_min: 2            # lecturas mínimas en la ventana
   fin_sin_subida_min: 10       # el llenado termina tras este tiempo sin subir
   tolerancia_franja_h: 1       # fuera de franja = el llenado empieza fuera de [franja] ± tolerancia
 
@@ -66,6 +74,15 @@ falla_sensor:
   lecturas_invalidas_seguidas: 5
   rearme_validas_min: 2        # f4.2: se rearma solo tras 2 min de lecturas válidas seguidas (sensor intermitente = 1 falla)
   margen_fondo_cm: 10          # distancia > sensor_al_fondo + margen = el sensor no ve el agua (salto imposible)
+  intermitencia:               # f4.4: HC-SR04 que alterna ecos (7 <-> 17 cm el 28-oct) o da -1 varias veces
+    ventana_min: 5             # en 5 min...
+    salto_cm: 3                # ...saltos > 3 cm entre lecturas seguidas (un llenado real: ~0.1 cm cada 5 s)...
+    eventos_min: 4             # ...o lecturas inválidas, 4 o más -> inestable: sin llegadas ni autonomía baja
+    calma_min: 10              # hasta 10 min sin esos eventos; al calmarse se reinician las referencias
+
+reanudacion:                   # f4.4: tras un hueco de datos (ESP32 apagado, Wi-Fi caído) no se observó lo ocurrido
+  hueco_min: 30                # hueco entre lecturas que reinicia referencias y el reloj de corte_prolongado
+  gracia_min: 15               # sin detectar llegadas en los primeros minutos tras la reconexión
 
 zonas:                         # hora de Lima en que puede empezar la llegada de agua
   Juliaca-A: [4, 8]            # supuesto declarado (continuidad SUNASS, como en datos-aumentados.md)

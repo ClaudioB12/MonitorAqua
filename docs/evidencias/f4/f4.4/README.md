@@ -12,8 +12,11 @@ rendimiento real empieza en el congelamiento de f4.4 (`streaming/reglas_servicio
 **Reproducir** (~25 min; la versión vieja se toma de git):
 
 ```bash
-.venv/Scripts/python streaming/comparar_versiones.py --ref b400e7d --json docs/evidencias/f4/f4.4/comparativa_f43_f44.json
+.venv/Scripts/python streaming/comparar_versiones.py --ref b400e7d --reglas-nuevas streaming/reglas_servicio.yml \
+    --json docs/evidencias/f4/f4.4/comparativa_f43_f44.json
+.venv/Scripts/python streaming/tablas_comparativa.py docs/evidencias/f4/f4.4/comparativa_f43_f44.json > docs/evidencias/f4/f4.4/tablas_f44.md
 ```
 
-La corrida guardada usó `--ref main` cuando `main` era `f1a3cc6`. Ese commit tiene el mismo detector y las mismas
-reglas f4.3 que `b400e7d`, más las líneas del bloque `congelamiento`.
+Incluye las variantes `f2b2` (fugas persistentes) y `f2b3` (f2b.2 con la compensación térmica en el firmware, como el
+ESP32 real: DHT11 con sesgo de ±2 °C y redondeo a grados enteros). En `f2b3` la versión vieja (f4.3) compensa dos
+veces, que es lo que hacía con el ESP32.

@@ -136,6 +136,8 @@ def d4(pdf, fuente, sensor_id, run_id, eventos, bitacora=(), todas_ts=None):
 
 def d6(pdf, fuente, sensor_id, run_id, ini_h=0.0, fin_h=3.5):
     v = pdf[pdf["distanciaCompensadaCm"].notna()].copy()
+    if "compensacionOrigen" in v:  # f4.4: sin saber si el firmware compensaba, la distancia no sirve para D6
+        v = v[v["compensacionOrigen"] != "desconocida"]
     if v.empty:
         return pd.DataFrame()
     hl = v["timestamp"].apply(hora_lima)
@@ -154,6 +156,8 @@ def d6(pdf, fuente, sensor_id, run_id, ini_h=0.0, fin_h=3.5):
         filas.append({"noche": noche, "ts": int(n["timestamp"].iloc[0]), "minutos_con_datos": int(minutos),
                       "cobertura": round(minutos / ((fin_h - ini_h) * 60), 3),
                       "descenso_cm_compensado": desc_c, "descenso_cm_crudo": desc_r,
+                      # quién compensó: "detector" (flota: crudo = sin compensar) o "firmware" (ESP32: crudo = compensado)
+                      "compensacion_origen": n["compensacionOrigen"].mode().iloc[0] if "compensacionOrigen" in n else None,
                       "tasa_cm_h_compensada": desc_c / horas, "distancia_media_cm": n["distanciaCompensadaCm"].mean(),
                       "temp_inicio_c": a["temperaturaC"].median(), "temp_fin_c": b["temperaturaC"].median(),
                       "hubo_subida": bool((n["nivelPct"].diff() > 2).any()) if "nivelPct" in n else None,

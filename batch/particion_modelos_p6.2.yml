@@ -1,0 +1,45 @@
+# Separación de datos para TODOS los modelos de F6 (D2, D4, D6, D8). Se define una sola vez aquí; batch/capas.py la
+# aplica (columna "particion" en las tablas oro) y batch/evaluacion.py la lee. Ningún modelo define la suya.
+#
+# Principios:
+#   - Siempre temporal, nunca aleatoria: en series de tiempo, mezclar al azar deja que el modelo "vea el futuro".
+#   - Entre entrenamiento y prueba hay un embargo: se descarta un margen para que las variables con rezago o las
+#     ventanas móviles calculadas al final del entrenamiento no usen datos del periodo de prueba.
+#   - La prueba real del ESP32 es intocable hasta la evaluación final.
+
+version: "p6.2"
+# p6.2 (2026-10-29) reemplaza a p6.1 (batch/particion_modelos.yml, que se conserva sin cambios para reproducir D2
+# d2.1-d2.2 y D4 d4.1). Único cambio: el inicio de la prueba real del ESP32 pasa a ser la más tardía entre el
+# congelamiento de las reglas f4.4 (antes f4.3) y geometria_desde.
+# Por qué es legítimo: la prueba real del ESP32 NUNCA empezó. Con p6.1, geometria_desde era null (geometría
+# provisional) y no había ningún dato en "prueba": ningún modelo ni regla vio datos de prueba del ESP32, así que
+# mover su inicio no reutiliza ni descarta nada evaluado. Flota y ThingSpeak no cambian.
+
+esp32:
+  sensores: [esp32-tanque-real-01]
+  # Diseño y entrenamiento: todo lo anterior a la más tardía entre el congelamiento de reglas de F4 y el cambio a
+  # geometría real (ingesta/tanques.yml -> geometria_desde). Prueba real: desde esa hora.
+  # Mientras geometria_desde sea null (geometría provisional), NO hay periodo de prueba real para el ESP32.
+  congelamiento_reglas: "2026-10-29T17:53:25-05:00"       # streaming/reglas_servicio.yml -> congelamiento.desde (f4.4)
+  congelamiento_reglas_p61: "2026-10-28T23:37:40-05:00"   # f4.3, el de p6.1 (solo referencia)
+  geometria_desde: desde_tanques_yml                   # se lee de ingesta/tanques.yml en cada corrida
+  embargo_h: 0                                         # la prueba empieza en un instante fijo, posterior a todo el diseño
+  intocable: true                                      # ningún modelo mira la prueba antes de la evaluación final
+
+thingspeak:
+  # Por canal: entrenamiento con los primeros días, prueba con los últimos N días de ese canal.
+  prueba_ultimos_dias: 7
+  embargo_h: 24
+  canales: [283977, 480876, 1233810, 1233815, 1272968, 3418755, 3019316]
+
+aumentados:
+  # Solo para entrenar y para medir CONSISTENCIA detector/modelo-generador. Nunca se reportan como métrica final.
+  # Dentro de cada corrida también se separa en el tiempo: los primeros 21 días para entrenar, los últimos 9 para la
+  # consistencia, con 1 día de embargo.
+  corridas:
+    r2026-45facae2: {modelo_generador: f2b.1, semilla: 2026}
+    r7-79a6b935: {modelo_generador: f2b.2, semilla: 7}
+  entrenamiento_dias: 21
+  embargo_h: 24
+  uso: [entrenamiento, consistencia]
+  nunca: [metrica_final]

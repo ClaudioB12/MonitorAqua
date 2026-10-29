@@ -11,9 +11,11 @@ Fuentes (todas leídas, ninguna modificada):
 Salidas (no versionadas):
   batch/datos/plata/fuente=*/          deduplicado por eventId, sin sensores de prueba, inválidas MARCADAS (no
                                        borradas), distancia compensada y nivel en % y litros con la geometría vigente
-                                       (geometria_version, geometria_por_medir)
+                                       (geometria_version, geometria_por_medir); compensacionOrigen: la distancia
+                                       la compensa el detector, ya llega compensada por el firmware (ESP32) o no se
+                                       sabe (ingesta/tanques.yml -> compensacion_en_firmware)
   batch/datos/oro/{d2_autonomia,d4_llegadas,d6_noches,d8_termica}/   ver batch/oro.py; columna "particion"
-                                       según batch/particion_modelos.yml
+                                       según la partición vigente (batch/particion.py -> VIGENTE)
   batch/datos/calidad.json             filas, % válidas, rangos de fechas, tramos y huecos (para docs/dataset-modelos.md)
 
   docker run --rm -v "$PWD:/repo" -w /repo -e PYTHONPATH=/repo/streaming:/repo/batch monitoraqua-streaming \
@@ -58,6 +60,7 @@ PLATA = StructType(BASE.fields + [
     StructField("distanciaCompensadaCm", DoubleType()), StructField("compensada", BooleanType()),
     StructField("nivelPct", DoubleType()), StructField("nivelCm", DoubleType()), StructField("litros", DoubleType()),
     StructField("geometria_version", StringType()), StructField("geometria_por_medir", BooleanType()),
+    StructField("compensacionOrigen", StringType()),
 ])
 
 
@@ -134,7 +137,7 @@ def bitacora():
 # --- Plata ---------------------------------------------------------------------------------------------------
 
 def a_plata(lotes):
-    from detector_servicio import Configuracion, Detector
+    from detector_servicio import Configuracion, Detector, origen_compensacion
     from procesar_stream import MEDIDAS, RANGOS
     det = Detector(Configuracion(str(RAIZ / "streaming" / "reglas_servicio.yml"), str(RAIZ / "ingesta" / "tanques.yml")))
     cfg = det.cfg.refrescar()
@@ -169,7 +172,9 @@ def a_plata(lotes):
             r.update(lectura_valida=motivo is None, motivo_invalidez=motivo, distanciaCompensadaCm=dc,
                      compensada=bool(comp) if comp is not None else None, nivelPct=pct, nivelCm=ncm, litros=lit,
                      geometria_version=versiones.get(r["sensorId"]),
-                     geometria_por_medir=bool(geom.get("por_medir")) if geom else None)
+                     geometria_por_medir=bool(geom.get("por_medir")) if geom else None,
+                     # f4.4: quién compensó la distancia (detector, firmware o desconocida; D6 excluye "desconocida")
+                     compensacionOrigen=origen_compensacion(med, geom) if dc is not None else None)
             salida.append(r)
         yield pd.DataFrame(salida, columns=PLATA.fieldNames())
 

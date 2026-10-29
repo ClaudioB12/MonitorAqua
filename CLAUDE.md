@@ -86,10 +86,22 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
   - **Consumidor:** `lambda26-aqua-consumidor-eventos`, grupo `aqua-servicio-consumidor`, con su lag en Prometheus.
   - **Validación:** `streaming/validar_detector.py` sobre `aqua-eventos-aumentados`, con un tópico de prueba que se
     borra al terminar.
-  - **Reglas CONGELADAS en f4.3 desde 2026-10-28 23:37:40 (Lima)**, registrado en `reglas_servicio.yml` →
-    `congelamiento`. Lo real anterior es el conjunto de diseño y nunca se reporta como rendimiento. El rendimiento
-    real sale solo de lecturas y bitácora posteriores (`streaming/comparar_bitacora.py`). Un cambio de reglas exige
-    versión y congelamiento nuevos.
+  - **Reglas CONGELADAS en f4.4**, desde la hora y con el commit de `reglas_servicio.yml` → `congelamiento`
+    (f4.3 estuvo congelada desde 2026-10-28 23:37:40, commit `b400e7d`). Lo real anterior al congelamiento es el
+    conjunto de diseño y nunca se reporta como rendimiento. El rendimiento real sale solo de lecturas y bitácora
+    posteriores (`streaming/comparar_bitacora.py`). Un cambio de reglas exige versión y congelamiento nuevos.
+  - **f4.4** corrige las tres limitaciones de f4.3: subida sostenida en canales de nivel (%/m), intermitencia del
+    sensor (4 eventos en 5 min → inestable) y reanudación tras huecos de datos. Comparación lado a lado:
+    `streaming/comparar_versiones.py` (evidencia en `docs/evidencias/f4/f4.4/`). Los IC de f4.3 y f4.4 se solapan
+    en los datos aumentados: lo demostrable es la eliminación de los falsos positivos conocidos del historial.
+  - **El repositorio no se edita en caliente:** el contenedor monta `streaming/` e `ingesta/` y relee
+    `reglas_servicio.yml` y `tanques.yml` al cambiar. Unas reglas nuevas se preparan en otro archivo y se copian
+    recién al desplegar el código que las entiende.
+  - **Compensación térmica en el firmware:** el firmware del ESP32 (`firmware/esp32/MonitorAqua_esp32.ino`; `secrets.h`
+    nunca a git) ya compensa la distancia con el DHT11. `tanques.yml` → `compensacion_en_firmware.desde` evita la
+    doble corrección (supuesto documentado: desde el inicio; confirmado desde el 28-oct). La flota (f2b.1/f2b.2)
+    imita un sensor sin compensación; **f2b.3** (`generador_f2b3.yml`) imita al ESP32. El sensor real es un
+    JSN-SR04T/AJ-SR04M con zona ciega de ~20-25 cm.
   - **Tres niveles de validación que no se mezclan:**
     - **Consistencia detector-generador** (`evaluar_detector.py`): mide definiciones compartidas, **no** rendimiento.
     - **Sensibilidad:** `sensibilidad.py`.
@@ -118,16 +130,24 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
   - **Uso:** sirven para volumen y para evaluar modelos. La demo en vivo y la métrica final de cada modelo usan solo
     datos reales. Detalle en `docs/datos-aumentados.md`.
   - **Terminología:** se dice "datos aumentados" y "flota extrapolada", nunca "sintéticos".
-  - **Dos modelos del generador:** f2b.1 (`generador.yml`, corrida de referencia `r2026-45facae2`) y f2b.2
-    (`generador_f2b2.yml`: fugas persistentes de 1-4 días y toda llegada omitida etiquetada como corte).
+  - **Tres modelos del generador:** f2b.1 (`generador.yml`, corrida de referencia `r2026-45facae2`), f2b.2
+    (`generador_f2b2.yml`: fugas persistentes de 1-4 días y toda llegada omitida etiquetada como corte) y f2b.3
+    (`generador_f2b3.yml`: f2b.2 con la compensación en el firmware, DHT11 ±2 °C redondeado; solo sensibilidad).
 - **Capa batch y dataset de modelos (F6 común):** Spark en batch (`batch/capas.py` + `batch/oro.py`, imagen
   `monitoraqua-streaming`, `local[4]`). Fuentes en `batch/datos/fuentes/` (`batch/descargar_fuentes.py`).
   - **Plata** (`batch/datos/plata/`): deduplicado por `eventId`, sin sensores de prueba, inválidas **marcadas** y
-    nivel con `Detector.nivel` (guarda `geometria_version`).
+    nivel con `Detector.nivel` (guarda `geometria_version` y `compensacionOrigen`: detector, firmware o
+    desconocida; `d6_noches` excluye "desconocida").
   - **Oro** (`batch/datos/oro/`): `d2_autonomia`, `d4_llegadas`, `d6_noches` y `d8_termica`, por tramos continuos y
-    sin interpolar huecos. Los eventos salen del detector congelado f4.3. En `d4_llegadas`,
+    sin interpolar huecos. Los eventos salen del detector con las reglas de `reglas_servicio.yml` **del momento de
+    la corrida**: la última regeneración (29-oct, antes de desplegar f4.4) usó f4.3, y es la entrada de d2.1-d2.2 y
+    d4.1. Una corrida de `capas.py` posterior al congelamiento de f4.4 recalcula `d4_llegadas` con f4.4 (entrada
+    de d4.2). En `d4_llegadas`,
     `artefacto_reanudacion = true` marca la reconexión del ESP32, que no es servicio real.
-  - **Partición única:** `batch/particion_modelos.yml` (`p6.1`), columna `particion` en cada tabla oro. Es temporal.
+  - **Partición única:** la vigente es **`p6.2`** (`batch/particion_modelos_p6.2.yml`, `particion.VIGENTE`); `p6.1`
+    (`batch/particion_modelos.yml`) se conserva sin cambios para reproducir d2.1-d2.2 y d4.1. p6.2 solo cambia el
+    inicio de la prueba del ESP32 al congelamiento de f4.4 (legítimo: la prueba nunca empezó). Columna
+    `particion` en cada tabla oro; flota y ThingSpeak salen idénticas con p6.1 y p6.2. Es temporal.
     La prueba del ESP32 es intocable y no existe mientras la geometría sea provisional. Ningún modelo define su
     propia partición.
   - **Evaluación común:** `batch/evaluacion.py`. Métricas con IC por bootstrap de bloques; líneas base de
@@ -177,7 +197,7 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
   - **Llegadas:** `d4_llegadas` (detector f4.3) sin `artefacto_reanudacion` ni `no_verificable` (se reportan aparte).
     **El detector f4.3 no ve los llenados de los canales nivelPct de ThingSpeak** (1233810 tiene 36 por subida
     sostenida y 0 en el detector): complemento rotulado "subida sostenida" (> 10 pp, criterio de D2/adecuación).
-    Hallazgo para una f4.4; las reglas congeladas no se tocan.
+    f4.4 ya los detecta (criterio "sostenida"); d4.1 se queda con f4.3 y el complemento.
   - **Modelo:** supervivencia en tiempo discreto por hora: riesgo según horas desde la última llegada (Kaplan-Meier o
     Weibull con censura si hay ≥ 10 intervalos) × hora del día, por IPF; la flota se agrupa por zona. Salidas: hora
     más probable, ventana P10-P90 calibrada (conforme, ajuste de p6.1, ≥ 5 episodios) y probabilidad de llegada en
