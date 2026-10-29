@@ -24,6 +24,15 @@
   "conforme": {
    "alfa": 0.2,
    "horas_minimas": 0.25
+  },
+  "evaluacion": {
+   "umbrales": [
+    10,
+    25,
+    50
+   ],
+   "min_episodios_ic": 5,
+   "min_episodios_evidencia": 10
   }
  }
 }

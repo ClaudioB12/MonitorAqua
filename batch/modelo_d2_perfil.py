@@ -45,6 +45,8 @@ FINAL = (("consistencia", "consistencia"), ("thingspeak_real", "prueba"), ("esp3
 AUTONOMIA = {"perfil_p50": "d22", "consumo_medio": "base d2.2", "holt_d21": "base d2.2 (d2.1 principal)",
              "persistencia_vel_d21": "d2.1", "tendencia_d21": "d2.1", "gbt_d21": "d2.1"}
 NIVEL = ["pred_perfil", "pred_holt_d21", "pred_gbt_d21"]
+EVAL = CFG2["evaluacion"]
+UMBRALES = EVAL["umbrales"]
 
 
 def log(**c):
@@ -233,7 +235,9 @@ def evaluar_autonomia(df, u, cal):
         # 1) Error en horas, solo no censurados (verdad <= tope); IC por episodios
         v = d[d[f"evento_u{u}"] & (d[f"verdad_h_u{u}"] <= tope)]
         bloque["origenes_no_censurados"] = int(len(v))
-        bloque["episodios_no_censurados_evaluados"] = int(v["episodio"].nunique())
+        bloque["episodios_no_censurados_evaluados"] = k_ep = int(v["episodio"].nunique())
+        bloque["episodios_censurados"] = bloque["censurados"]
+        bloque["evidencia"] = "suficiente" if k_ep >= EVAL["min_episodios_evidencia"] else "indicativa"
         # 2) C-index con todos los orígenes (también censurados), uno por hora
         c = d[d["k"] % cc["submuestra_pasos"] == 0]
         bloque["origenes_cindex"] = int(len(c))
@@ -246,6 +250,10 @@ def evaluar_autonomia(df, u, cal):
             if len(v):
                 r["error_h"] = ev.evaluar_regresion(v[f"verdad_h_u{u}"].values, v[f"aut_{p}"].values,
                                                     n_boot=bs["n_boot"], grupos=v["episodio"].values)
+                if k_ep < EVAL["min_episodios_ic"]:  # pocos episodios: el bootstrap por episodio no informa
+                    r["error_h"]["MAE"]["ic95_calculado"] = r["error_h"]["MAE"]["ic95"]
+                    r["error_h"]["MAE"]["ic95"] = [None, None]
+                    r["error_h"]["ic_nota"] = f"no informativo: {k_ep} episodios (< {EVAL['min_episodios_ic']})"
                 r["sin_descenso_previsto"] = float((v[f"aut_{p}"] >= tope).mean())
             r["cindex"] = ev.evaluar_concordancia(c[f"t_obs_u{u}"].values, c[f"evento_u{u}"].values,
                                                   c[f"aut_{p}"].values, grupos=c["episodio"].values,
@@ -279,21 +287,43 @@ def f(mt, dec=2):
 
 def tablas_md(res, d21):
     L = [f"# Resultados D2 {res['meta']['version']} (con d2.1 lado a lado), {res['meta']['fecha']}", ""]
+    L += ["## Autonomía: evidencia por umbral (conjunto final)", "",
+          f"Evidencia suficiente: al menos {EVAL['min_episodios_evidencia']} episodios no censurados. IC 95 % del MAE "
+          f"por bootstrap de episodios; con menos de {EVAL['min_episodios_ic']} episodios se marca como no informativo.",
+          "", "| Umbral | Nivel | Episodios | No censurados: episodios (orígenes) | Censurados: episodios | Evidencia | "
+          "Mejor MAE h | Banda calibrada: cobertura antes → después |", "|---|---|---|---|---|---|---|---|"]
+    for u, r in res["autonomia"].items():
+        for nivel, b in r.items():
+            if b.get("estado") == "pendiente":
+                L.append(f"| {u} % | {nivel} | — | — | — | pendiente | | |")
+                continue
+            maes = {p: x["error_h"]["MAE"]["valor"] for p, x in b["predictores"].items() if "error_h" in x}
+            mejor = min(maes, key=maes.get) if maes else None
+            banda = b.get("banda_p10_p90")
+            bt = (f"{banda['antes']['cobertura']:.0%} → {banda['despues']['cobertura']:.0%}" if banda else "—")
+            L.append(f"| {u} % | {nivel} | {b['episodios']} | {b['episodios_no_censurados_evaluados']} "
+                     f"({b['origenes_no_censurados']}) | {b['censurados']} | **{b['evidencia']}** | "
+                     f"{f'{mejor}: {maes[mejor]:.1f}' if mejor else '—'} | {bt} |")
+    L.append("")
     for u, r in res["autonomia"].items():
         L += [f"## Horas de autonomía hasta {u} % (conjunto final)", "",
-              "| Nivel | Predictor | Versión / rol | MAE h, no censurados [IC 95 %] | C-index global [IC 95 %] | C-index por tanque [IC 95 %] | Sin descenso previsto |",
+              "| Nivel | Predictor | Versión / rol | MAE h [IC 95 % por episodio] | C-index global [IC 95 %] | C-index por tanque [IC 95 %] | Sin descenso previsto |",
               "|---|---|---|---|---|---|---|"]
         for nivel, b in r.items():
             if b.get("estado") == "pendiente":
                 L.append(f"| {nivel} | — | pendiente | {b['razon']} | | | |")
                 continue
-            L.append(f"| **{nivel}** | casos | episodios {b['episodios']} (llegan {b['llegan_al_umbral']}, censurados "
-                     f"{b['censurados']}) | no censurados: {b['origenes_no_censurados']} orígenes de "
-                     f"{b['episodios_no_censurados_evaluados']} episodios | C-index: {b['origenes_cindex']} orígenes "
-                     f"({b['cindex_no_censurados']} no censurados, {b['cindex_censurados']} censurados) | | |")
+            L.append(f"| **{nivel}** | evidencia **{b['evidencia']}** | episodios {b['episodios']}: "
+                     f"{b['episodios_no_censurados_evaluados']} no censurados ({b['origenes_no_censurados']} orígenes), "
+                     f"{b['censurados']} censurados | C-index: {b['origenes_cindex']} orígenes "
+                     f"({b['cindex_no_censurados']} no censurados, {b['cindex_censurados']} censurados) | | | |")
             for p, x in b["predictores"].items():
                 sd = f"{x['sin_descenso_previsto']:.0%}" if "sin_descenso_previsto" in x else "—"
-                L.append(f"| {nivel} | {p} | {x['rol']} | {f(x.get('error_h', {}).get('MAE'), 1)} | "
+                eh = x.get("error_h", {})
+                mae = f(eh.get("MAE"), 1)
+                if eh.get("ic_nota"):
+                    mae = f"{eh['MAE']['valor']:.1f} (IC {eh['ic_nota']})"
+                L.append(f"| {nivel} | {p} | {x['rol']} | {mae} | "
                          f"{f(x['cindex'].get('C'), 3)} | {f(x['cindex_por_tanque'].get('C'), 3)} | {sd} |")
             if "banda_p10_p90" in b:
                 bb = b["banda_p10_p90"]
@@ -327,7 +357,7 @@ def main():
 
     d2 = ev.leer_oro("d2_autonomia").dropna(subset=["nivel_pct"])
     d2["runId"] = d2["runId"].fillna("")
-    df = m.preparar(d2).sort_values(m.SERIE + ["ts"]).reset_index(drop=True)
+    df = m.preparar(d2, UMBRALES).sort_values(m.SERIE + ["ts"]).reset_index(drop=True)
     df["fila"] = np.arange(len(df))
     perfiles = aprender_perfiles(df)
     cal = calibrar_banda(df)
@@ -339,7 +369,7 @@ def main():
            "perfiles": {"|".join(k): p.nivel_detalle | {"consumo_medio_pct_h": round(p.consumo_medio_h(), 4)}
                         for k, p in perfiles.items()},
            "calibracion_banda": cal, "autonomia": {}, "nivel": {}}
-    for u in [CFG["umbral_pct"], *CFG["umbrales_sensibilidad"]]:
+    for u in UMBRALES:
         res["autonomia"][str(u)] = evaluar_autonomia(df, u, cal)
         log(status="autonomia", umbral=u)
     for minutos in CFG["horizontes_min"]:

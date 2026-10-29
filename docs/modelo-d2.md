@@ -155,6 +155,9 @@ completas, con RMSE y MAPE, en `docs/evidencias/f6-d2/tablas_d2.md`.
 
 ### Horas de autonomía hasta el 10 % (MAE en horas; solo casos no censurados)
 
+> Los IC de esta tabla se calcularon por episodio, pero con 2-3 episodios no informan. Ver sección 12,
+> *Evidencia por umbral*: la cifra al 10 % es indicativa.
+
 | Nivel | Episodios | Llegan al 10 % | Censurados | Predictor | MAE h | Sin descenso previsto |
 |---|---|---|---|---|---|---|
 | Consistencia | 83 | **3** | 80 | persistencia | 13.8 [8.1, 15.8] | 20 % |
@@ -342,20 +345,23 @@ Casos de la evaluación final:
 | ThingSpeak real | 137 (2 llegan, 135 censurados) | 138 orígenes de 2 episodios | 304: 12 no censurados y 292 censurados |
 | ESP32 real | **pendiente** | | |
 
+**Esta tabla es indicativa** (ver *Evidencia por umbral*, más abajo): con 2-3 episodios no censurados, el IC del
+error en horas, que se calcula por episodio, no informa, y se omite.
+
 | Nivel | Predictor | Versión | MAE h, no censurados [IC 95 %] | C-index global [IC 95 %] | **C-index por tanque** [IC 95 %] | Sin descenso previsto |
 |---|---|---|---|---|---|---|
-| Consistencia | **perfil P50** | **d2.2 principal** | 7.3 [5.1, 12.5] | 0.989 [0.978, 0.999] | 0.958 [0.928, 0.992] | 0 % |
-| | **consumo medio** | base d2.2 | **5.5 [4.7, 9.4]** | **0.994 [0.989, 1.000]** | **0.984 [0.955, 1.000]** | 0 % |
-| | Holt | d2.1 principal | 12.4 [8.7, 15.2] | 0.969 [0.945, 0.986] | 0.923 [0.879, 0.970] | 22 % |
-| | persistencia de la velocidad | d2.1 base | 13.8 [8.1, 15.8] | 0.912 [0.875, 0.962] | 0.844 [0.791, 0.914] | 20 % |
-| | tendencia | d2.1 base | 14.0 [8.3, 16.5] | 0.906 [0.867, 0.960] | 0.842 [0.785, 0.908] | 20 % |
-| | GBT | d2.1 | 23.6 [16.1, 25.6] | 0.775 [0.699, 0.928] | 0.708 [0.638, 0.872] | 37 % |
-| ThingSpeak real | **perfil P50** | **d2.2 principal** | 4.5 [3.7, 5.9] | **0.991 [0.972, 1.000]** | **0.955 [0.807, 1.000]** | 0 % |
-| | **consumo medio** | base d2.2 | **2.4 [1.9, 3.1]** | 0.987 [0.960, 1.000] | 0.935 [0.719, 1.000] | 0 % |
-| | Holt | d2.1 principal | 35.6 [26.6, 50.9] | 0.779 [0.699, 0.837] | 0.677 [0.533, 0.863] | 46 % |
-| | persistencia de la velocidad | d2.1 base | 29.6 [24.4, 38.5] | 0.926 [0.860, 0.985] | 0.822 [0.600, 0.907] | 38 % |
-| | tendencia | d2.1 base | 29.4 [25.3, 36.5] | 0.870 [0.727, 0.986] | 0.776 [0.496, 0.938] | 39 % |
-| | GBT | d2.1 | 46.6 [38.8, 59.9] | 0.671 [0.474, 0.839] | 0.605 [0.325, 0.795] | 62 % |
+| Consistencia | **perfil P50** | **d2.2 principal** | 7.3 (IC no informativo: 3 episodios) | 0.989 [0.978, 0.999] | 0.958 [0.928, 0.992] | 0 % |
+| | **consumo medio** | base d2.2 | **5.5** (IC no inf.) | **0.994 [0.989, 1.000]** | **0.984 [0.955, 1.000]** | 0 % |
+| | Holt | d2.1 principal | 12.4 (IC no inf.) | 0.969 [0.945, 0.986] | 0.923 [0.879, 0.970] | 22 % |
+| | persistencia de la velocidad | d2.1 base | 13.8 (IC no inf.) | 0.912 [0.875, 0.962] | 0.844 [0.791, 0.914] | 20 % |
+| | tendencia | d2.1 base | 14.0 (IC no inf.) | 0.906 [0.867, 0.960] | 0.842 [0.785, 0.908] | 20 % |
+| | GBT | d2.1 | 23.6 (IC no inf.) | 0.775 [0.699, 0.928] | 0.708 [0.638, 0.872] | 37 % |
+| ThingSpeak real | **perfil P50** | **d2.2 principal** | 4.5 (IC no informativo: 2 episodios) | **0.991 [0.972, 1.000]** | **0.955 [0.807, 1.000]** | 0 % |
+| | **consumo medio** | base d2.2 | **2.4** (IC no inf.) | 0.987 [0.960, 1.000] | 0.935 [0.719, 1.000] | 0 % |
+| | Holt | d2.1 principal | 35.6 (IC no inf.) | 0.779 [0.699, 0.837] | 0.677 [0.533, 0.863] | 46 % |
+| | persistencia de la velocidad | d2.1 base | 29.6 (IC no inf.) | 0.926 [0.860, 0.985] | 0.822 [0.600, 0.907] | 38 % |
+| | tendencia | d2.1 base | 29.4 (IC no inf.) | 0.870 [0.727, 0.986] | 0.776 [0.496, 0.938] | 39 % |
+| | GBT | d2.1 | 46.6 (IC no inf.) | 0.671 [0.474, 0.839] | 0.605 [0.325, 0.795] | 62 % |
 
 **Banda P10-P90 del perfil y su calibración conforme.**
 
@@ -401,6 +407,56 @@ solo el 59 %: era demasiado estrecha. Se calibró con **predicción conforme** s
 Las cifras de ThingSpeak no coinciden con las de la sección 6 porque aquí falta el canal **480876**. Solo tiene ~5.5
 días de datos, que caen enteros en la prueba y el embargo: no tiene entrenamiento, así que no tiene perfil y queda
 fuera para que todos los predictores se comparen en las mismas filas.
+
+### Evidencia por umbral (10, 25 y 50 %)
+
+**La cifra al 10 % es indicativa, no una medición firme.** En los datos casi no hay vaciados reales hasta el 10 %:
+los tanques se rellenan antes. Para ver si otro umbral tiene más evidencia, la autonomía se evaluó también al 25 % y
+al 50 %, con los mismos modelos (configurable en `batch/modelo_d2_perfil.yml` → `evaluacion`).
+
+- **Evidencia suficiente:** al menos **10 episodios no censurados**.
+- **IC del MAE:** por bootstrap de **episodios**. Con menos de 5 episodios se marca como **no informativo**, porque
+  con 2-3 episodios el remuestreo solo puede combinar esos mismos episodios.
+
+| Umbral | Nivel | Episodios | No censurados: episodios (orígenes) | Censurados | Evidencia | Menor MAE | Banda calibrada: cobertura |
+|---|---|---|---|---|---|---|---|
+| 10 % | Consistencia | 83 | 3 (1,368) | 80 | indicativa | consumo medio 5.5 h | 89 % → 91 % |
+| 10 % | ThingSpeak real | 137 | 2 (138) | 135 | indicativa | consumo medio 2.4 h | 59 % → 77 % |
+| 25 % | Consistencia | 83 | 3 (1,183) | 80 | indicativa | consumo medio 11.9 h | 34 % → 35 % |
+| 25 % | ThingSpeak real | 133 | 0 | 133 | sin casos | — | — |
+| 50 % | Consistencia | 83 | **5** (1,182) | 78 | indicativa | consumo medio 25.9 h [20.7, 30.0] | 0 % → 0 % |
+| 50 % | ThingSpeak real | 130 | 4 (39) | 126 | indicativa | persistencia de la velocidad 57.7 h (IC no inf.) | 0 % → 0 % |
+| todos | ESP32 real | — | — | — | pendiente | | |
+
+**Ningún umbral tiene evidencia suficiente todavía.** El que más se acerca es el **50 % en la flota**, con 5
+episodios: es el único con un IC por episodio calculable, y aun así está por debajo de los 10. Mientras no haya más
+vaciados reales, la evidencia más sólida sobre el **orden** de los modelos es el **C-index por tanque al 10 %**:
+- usa 1,463 orígenes en la flota y 304 en ThingSpeak, contando los censurados;
+- y confirma consumo medio ≈ perfil ≫ Holt d2.1.
+
+**Por qué al 50 % todos fallan, y fallan para el mismo lado.** Los casos no censurados al 50 % son los que **se
+vaciaron rápido**:
+
+| Nivel | Autonomía real (mediana) | Consumo medio predice | Perfil predice |
+|---|---|---|---|
+| Flota | 10 h | ~37 h | ~38 h |
+| ThingSpeak | 1 h | ~61 h | 72 h |
+
+Es un **sesgo de selección por la censura**. Los episodios de consumo lento casi siempre se interrumpen por un
+llenado antes de llegar al umbral, así que entre los que sí llegan sobran los de vaciado rápido. Medir solo los no
+censurados castiga a cualquier modelo basado en el consumo típico: en esos casos todos parecen optimistas.
+
+Por eso:
+- **El MAE en no censurados no basta.** El C-index, que usa los censurados, es el complemento necesario.
+- **La banda no cubre ningún caso al 50 %.** Está centrada en el consumo típico, y estos casos son los atípicamente
+  rápidos.
+
+**Qué haría falta para tener evidencia suficiente:**
+- **Más semanas de datos reales:** ThingSpeak ya trae ~2 meses por canal y aun así tiene pocos vaciados.
+- **El ESP32 con geometría medida** y sesiones con consumo y llenados.
+- **Un umbral alto, como el 50 %, como cifra de control:** se cruza más seguido, aunque con el sesgo descrito.
+
+Hasta entonces, la autonomía de F7 se muestra como **estimación con su banda**, no como un número garantizado.
 
 ### Cómo leer d2.2
 
@@ -478,6 +534,12 @@ Mide si el modelo **ordena** bien: si un momento se vació antes que otro, ¿le 
 casos censurados (sabemos que aguantaron al menos hasta el llenado). Con muy pocos tanques vaciándose de verdad,
 nos deja aprovechar todos los datos y no solo los dos episodios no censurados de ThingSpeak. Reportamos dos: el global, que es optimista porque comparar tanques distintos es fácil, y el **por tanque**, que
 solo compara momentos del mismo tanque. Este último es el que mide la dificultad real.
+
+**10. "¿Con qué umbral tienen evidencia de verdad?"**
+Con ninguno, todavía, y lo decimos. Al 10 % hay 2-3 vaciados reales en las pruebas, y al 50 %, 4-5. Nuestra regla
+pide al menos 10. Por eso el error en horas es indicativo, y nos apoyamos en el C-index por tanque, que usa también
+los casos censurados. Además encontramos un sesgo: los tanques que llegan al umbral sin rellenarse son los que se
+vacían rápido, y eso hace que cualquier modelo de consumo típico parezca optimista en esos casos.
 
 **9. "¿Cómo saben que la banda de horas es confiable?"**
 La calibramos con predicción conforme sobre el conjunto de ajuste, nunca con la prueba. En ThingSpeak pasó de

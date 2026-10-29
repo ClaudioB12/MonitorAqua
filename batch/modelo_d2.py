@@ -75,10 +75,10 @@ def llenados(ym, subida, quieto):
     return out
 
 
-def preparar(d2):
+def preparar(d2, umbrales=None):
     """Una fila por paso observado, con la rejilla de su serie: objetivos, variables GBT, episodio y verdad."""
     ll = CFG["llenado"]
-    umbrales = [CFG["umbral_pct"], *CFG["umbrales_sensibilidad"]]
+    umbrales = umbrales or [CFG["umbral_pct"], *CFG["umbrales_sensibilidad"]]
     filas = []
     for clave, g in d2.groupby(SERIE, sort=False):
         g = g.sort_values("ts").reset_index(drop=True)

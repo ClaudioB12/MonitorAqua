@@ -161,6 +161,10 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
     **F7:** cifra principal = consumo medio; rango = banda P10-P90 del perfil calibrada por predicción conforme
     (conjunto de ajuste de p6.1; factor 1.03 flota, 1.80 ThingSpeak/ESP32). Se reportan C-index global y por
     tanque (el global es optimista).
+    **Evidencia por umbral** (10/25/50 %, `evaluacion` en `modelo_d2_perfil.yml`): suficiente = ≥ 10 episodios no
+    censurados; IC del MAE por episodio, "no informativo" con < 5. Hoy **ningún umbral es suficiente** (máx. 5
+    episodios al 50 % en la flota): la cifra al 10 % es indicativa; hay sesgo de selección por censura (los no
+    censurados son los vaciados rápidos).
   - Detalle y sustentación en `docs/modelo-d2.md`; evidencia en `docs/evidencias/f6-d2/`.
 
 ## Contrato del evento

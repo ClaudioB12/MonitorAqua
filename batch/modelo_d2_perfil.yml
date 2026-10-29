@@ -19,3 +19,10 @@ cindex:
 conforme:
   alfa: 0.20                 # banda nominal del 80 % (P10-P90)
   horas_minimas: 0.25        # piso para el logaritmo (una autonomía de 0 h no tiene logaritmo)
+
+# Evaluación de la autonomía por umbral (no cambia los modelos ni la calibración de la banda, que sigue usando los
+# umbrales de modelo_d2.yml: 10 y 25 %)
+evaluacion:
+  umbrales: [10, 25, 50]
+  min_episodios_ic: 5          # con menos episodios no censurados el IC por episodio no informa: se marca así
+  min_episodios_evidencia: 10  # episodios no censurados para considerar suficiente la evidencia de un umbral
