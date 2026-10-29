@@ -287,8 +287,16 @@ def generar(cfg, perfil, run_id):
         # Temperatura en la cámara de aire: el ciclo exterior amortiguado, más la helada atípica si la hay
         t_cam = t_media + med["amortiguacion_camara"] * (t_ext - t_media) - prog["frio_extra"][t] \
             + rng.normal(0, 0.3)
-        # El firmware convierte tiempo de vuelo con c a 20 °C: con aire más frío la distancia sale mayor
-        dist = dist_real * c_ref / velocidad_sonido(t_cam) + rng.normal(0, pp["ruido_sigma_cm"], n)
+        fw = med.get("compensacion_en_firmware")
+        if fw:
+            # f2b.3, como el ESP32 real (firmware/esp32): el firmware convierte el tiempo de vuelo con c(T) de la
+            # temperatura del DHT11, que tiene su propio error (sesgo fijo del sensor, ±error_dht_c) y su resolución
+            t_dht = np.round((t_cam + rng.uniform(-fw["error_dht_c"], fw["error_dht_c"])
+                              + rng.normal(0, fw["ruido_dht_c"], n)) / fw["resolucion_c"]) * fw["resolucion_c"]
+            dist = dist_real * velocidad_sonido(t_dht) / velocidad_sonido(t_cam) + rng.normal(0, pp["ruido_sigma_cm"], n)
+        else:
+            # f2b.1/f2b.2: sensor que convierte el tiempo de vuelo con c a 20 °C: con aire más frío la distancia sale mayor
+            dist = dist_real * c_ref / velocidad_sonido(t_cam) + rng.normal(0, pp["ruido_sigma_cm"], n)
         saltos = rng.random(n) < pp["saltos_tasa"]
         dist[saltos] += rng.choice([-1, 1], saltos.sum()) * rng.uniform(*med["saltos_cm"], saltos.sum())
         dist = np.maximum(2.0, np.round(dist / med["resolucion_cm"]) * med["resolucion_cm"])
@@ -297,7 +305,7 @@ def generar(cfg, perfil, run_id):
         dist[modo == 1] = -1
         imposibles = modo == 2
         dist[imposibles] = np.round(off + alt + rng.uniform(50, 150, imposibles.sum()), 1)  # más allá del fondo
-        temp = np.round(t_cam + rng.normal(0, 0.2, n), 1)
+        temp = t_dht if fw else np.round(t_cam + rng.normal(0, 0.2, n), 1)
         humedad = np.round(np.clip(hum + rng.normal(0, 2.0, n), 5, 100), 0)
         # -1 sueltos con la tasa real del ESP32 (falla_sensor puntual, sin episodio)
         sueltos_d = (rng.random(n) < med["falla_distancia_tasa"]) & (etiqueta < 0)

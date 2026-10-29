@@ -1,0 +1,3471 @@
+{
+ "versiones": [
+  "f4.3",
+  "f4.4"
+ ],
+ "ref_vieja": "main",
+ "semillas": [
+  2026,
+  7,
+  11
+ ],
+ "historial_diseno": {
+  "esp32-tanque-real-01": {
+   "lecturas": 15711,
+   "f4.3": [
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-01 23:10",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-01 23:10",
+     "valor": 167.167,
+     "criterio": null,
+     "referencia": "inicio_del_flujo"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-08 22:33",
+     "valor": 9.169,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-08 22:42",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-08 22:33",
+     "valor": 166.224,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "autonomia_baja",
+     "inicioLima": "10-15 20:46",
+     "valor": 12.3,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-15 20:48",
+     "valor": 10.4,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-15 20:48",
+     "valor": 166.921,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-22 19:44",
+     "valor": 13.416,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-22 19:46",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-22 19:44",
+     "valor": 140.021,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 15:45",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 16:13",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-28 17:21",
+     "valor": 10.1,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 17:24",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 17:41",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-28 18:44",
+     "valor": 7.611,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 21:07",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-28 21:46",
+     "valor": 6.57,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 21:55",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 22:13",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-28 23:08",
+     "valor": 7.388,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 23:12",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-28 23:55",
+     "valor": 9.789,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 00:00",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-29 00:27",
+     "valor": 7.38,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-29 00:44",
+     "valor": 6.198,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "autonomia_baja",
+     "inicioLima": "10-29 00:53",
+     "valor": 18.03,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 00:55",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 01:08",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-29 01:12",
+     "valor": 6.193,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 01:44",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-29 01:46",
+     "valor": 31.75,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-29 09:23",
+     "valor": 71.396,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 09:39",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "autonomia_baja",
+     "inicioLima": "10-29 10:35",
+     "valor": 1.445,
+     "criterio": null,
+     "referencia": null
+    }
+   ],
+   "f4.4": [
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-01 23:10",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-08 22:42",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-22 19:46",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 15:45",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 16:13",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 17:24",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 17:41",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 21:07",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 21:55",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 22:13",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 23:12",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 00:00",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 00:55",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 01:08",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 01:44",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 09:39",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    }
+   ]
+  },
+  "thingspeak-1233810": {
+   "lecturas": 8000,
+   "f4.3": [
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "08-31 16:56",
+     "valor": 30.021,
+     "criterio": null,
+     "referencia": "inicio_del_flujo"
+    },
+    {
+     "tipo": "autonomia_baja",
+     "inicioLima": "09-26 16:01",
+     "valor": 18.982,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "autonomia_baja",
+     "inicioLima": "10-04 16:51",
+     "valor": 18.81,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "autonomia_baja",
+     "inicioLima": "10-11 19:49",
+     "valor": 19.954,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "autonomia_baja",
+     "inicioLima": "10-19 17:30",
+     "valor": 19.367,
+     "criterio": null,
+     "referencia": null
+    }
+   ],
+   "f4.4": [
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "08-31 16:56",
+     "valor": 30.021,
+     "criterio": null,
+     "referencia": "inicio_del_flujo"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-02 18:49",
+     "valor": 11.944,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-03 11:09",
+     "valor": 30.111,
+     "criterio": null,
+     "referencia": "reanudacion"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-03 17:23",
+     "valor": 10.448,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-03 17:23",
+     "valor": 32.133,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-07 16:58",
+     "valor": 11.221,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-07 16:58",
+     "valor": 30.123,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-09 17:06",
+     "valor": 11.314,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-09 17:06",
+     "valor": 30.114,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-10 17:09",
+     "valor": 11.899,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-10 17:09",
+     "valor": 30.113,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-12 16:46",
+     "valor": 10.599,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-12 16:46",
+     "valor": 32.839,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-18 16:35",
+     "valor": 12.234,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-18 16:35",
+     "valor": 30.146,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-19 16:50",
+     "valor": 10.558,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-19 16:50",
+     "valor": 30.149,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-21 17:01",
+     "valor": 10.729,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-21 17:01",
+     "valor": 30.014,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-22 16:37",
+     "valor": 11.618,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-23 18:13",
+     "valor": 30.099,
+     "criterio": null,
+     "referencia": "reanudacion"
+    },
+    {
+     "tipo": "autonomia_baja",
+     "inicioLima": "09-26 16:01",
+     "valor": 18.982,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-26 16:31",
+     "valor": 10.301,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-26 16:31",
+     "valor": 30.112,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-27 16:44",
+     "valor": 11.109,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-27 16:44",
+     "valor": 30.106,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-30 16:54",
+     "valor": 18.084,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "autonomia_baja",
+     "inicioLima": "10-04 16:51",
+     "valor": 18.81,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-05 00:56",
+     "valor": 10.327,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-06 16:12",
+     "valor": 10.478,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-07 16:58",
+     "valor": 11.698,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-07 16:58",
+     "valor": 30.142,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-11 00:48",
+     "valor": 10.621,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "autonomia_baja",
+     "inicioLima": "10-11 19:49",
+     "valor": 19.954,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-11 00:48",
+     "valor": 30.136,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-12 23:36",
+     "valor": 11.199,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-13 16:46",
+     "valor": 10.884,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-13 19:38",
+     "valor": 10.463,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-14 19:22",
+     "valor": 10.165,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-15 18:37",
+     "valor": 11.178,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-15 18:37",
+     "valor": 30.307,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-16 18:51",
+     "valor": 11.284,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-18 23:27",
+     "valor": 10.169,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "autonomia_baja",
+     "inicioLima": "10-19 17:30",
+     "valor": 19.367,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-19 23:54",
+     "valor": 10.385,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-20 23:18",
+     "valor": 11.981,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-21 16:49",
+     "valor": 10.364,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-21 16:49",
+     "valor": 30.147,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-22 16:24",
+     "valor": 12.731,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-22 16:24",
+     "valor": 30.121,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-24 14:35",
+     "valor": 11.113,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-24 21:09",
+     "valor": 10.403,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-27 02:00",
+     "valor": 30.111,
+     "criterio": null,
+     "referencia": "reanudacion"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-28 23:25",
+     "valor": 14.076,
+     "criterio": "sostenida",
+     "referencia": null
+    }
+   ]
+  },
+  "thingspeak-1233815": {
+   "lecturas": 8000,
+   "f4.3": [
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "08-29 20:59",
+     "valor": 30.003,
+     "criterio": null,
+     "referencia": "inicio_del_flujo"
+    }
+   ],
+   "f4.4": [
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-01 20:31",
+     "valor": 30.117,
+     "criterio": null,
+     "referencia": "reanudacion"
+    }
+   ]
+  },
+  "thingspeak-283977": {
+   "lecturas": 8000,
+   "f4.3": [
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-01 04:21",
+     "valor": 30.002,
+     "criterio": null,
+     "referencia": "inicio_del_flujo"
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-21 07:24",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    }
+   ],
+   "f4.4": [
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-01 04:21",
+     "valor": 30.002,
+     "criterio": null,
+     "referencia": "inicio_del_flujo"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-15 07:11",
+     "valor": 10.2,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-15 07:11",
+     "valor": 75.328,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-18 10:36",
+     "valor": 10.05,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-18 17:17",
+     "valor": 10.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-18 17:17",
+     "valor": 30.084,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-21 07:24",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    }
+   ]
+  },
+  "thingspeak-3418755": {
+   "lecturas": 20211,
+   "f4.3": [
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "08-20 16:58",
+     "valor": 30.024,
+     "criterio": null,
+     "referencia": "inicio_del_flujo"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-25 09:17",
+     "valor": 9.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-25 10:08",
+     "valor": 9.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-25 13:05",
+     "valor": 6.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-25 14:23",
+     "valor": 6.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-25 19:11",
+     "valor": 11.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-25 20:30",
+     "valor": 12.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-26 00:17",
+     "valor": 11.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-27 04:51",
+     "valor": 6.0,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-27 14:40",
+     "valor": 8.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "08-27 14:40",
+     "valor": 30.004,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-29 19:42",
+     "valor": 10.0,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-30 02:07",
+     "valor": 22.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-30 12:34",
+     "valor": 14.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "08-30 12:34",
+     "valor": 30.075,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-03 17:32",
+     "valor": 6.0,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "autonomia_baja",
+     "inicioLima": "09-03 19:42",
+     "valor": 13.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-03 20:42",
+     "valor": 50.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-03 21:15",
+     "valor": 7.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-03 21:15",
+     "valor": 30.057,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-07 15:22",
+     "valor": 6.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-07 15:22",
+     "valor": 30.046,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-10 15:59",
+     "valor": 6.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-10 15:59",
+     "valor": 71.306,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-14 21:27",
+     "valor": 5.0,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-15 00:01",
+     "valor": 8.0,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-15 13:42",
+     "valor": 7.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-16 06:39",
+     "valor": 7.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-16 22:57",
+     "valor": 7.0,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-16 22:57",
+     "valor": 30.031,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-25 02:57",
+     "valor": 29.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-25 02:57",
+     "valor": 30.065,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-27 10:25",
+     "valor": 41.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-27 11:16",
+     "valor": 27.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-27 14:28",
+     "valor": 14.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-27 17:02",
+     "valor": 42.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-27 21:13",
+     "valor": 43.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-27 21:13",
+     "valor": 30.041,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-30 01:26",
+     "valor": 51.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-30 18:38",
+     "valor": 5.0,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-30 18:38",
+     "valor": 30.011,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-02 19:05",
+     "valor": 47.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-02 19:05",
+     "valor": 30.018,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-06 13:21",
+     "valor": 12.0,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-06 13:21",
+     "valor": 30.067,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-08 13:35",
+     "valor": 35.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-08 18:13",
+     "valor": 7.0,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-08 18:13",
+     "valor": 30.057,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-12 20:53",
+     "valor": 8.0,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-12 20:53",
+     "valor": 30.025,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-15 14:50",
+     "valor": 6.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-15 14:50",
+     "valor": 30.066,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-22 20:06",
+     "valor": 7.0,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-22 23:54",
+     "valor": 9.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-23 01:29",
+     "valor": 8.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-23 03:32",
+     "valor": 7.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-24 08:55",
+     "valor": 8.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-24 12:57",
+     "valor": 9.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-24 19:11",
+     "valor": 6.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-25 16:46",
+     "valor": 8.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-26 05:31",
+     "valor": 6.0,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-26 10:50",
+     "valor": 10.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-26 11:22",
+     "valor": 11.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-26 15:51",
+     "valor": 14.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-26 16:41",
+     "valor": 7.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-26 16:41",
+     "valor": 30.064,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    }
+   ],
+   "f4.4": [
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "08-20 16:58",
+     "valor": 30.024,
+     "criterio": null,
+     "referencia": "inicio_del_flujo"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-25 09:17",
+     "valor": 9.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-25 10:08",
+     "valor": 9.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-25 13:05",
+     "valor": 6.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-25 14:23",
+     "valor": 6.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-25 18:48",
+     "valor": 10.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-25 20:16",
+     "valor": 15.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-25 23:45",
+     "valor": 14.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-27 04:51",
+     "valor": 6.0,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-27 07:28",
+     "valor": 12.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-28 05:26",
+     "valor": 14.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "08-28 05:26",
+     "valor": 30.154,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-29 19:00",
+     "valor": 10.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-30 01:30",
+     "valor": 17.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "08-30 08:51",
+     "valor": 11.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "08-30 08:51",
+     "valor": 30.074,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-03 06:22",
+     "valor": 14.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "autonomia_baja",
+     "inicioLima": "09-03 19:42",
+     "valor": 13.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-03 20:38",
+     "valor": 28.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-03 21:15",
+     "valor": 7.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-03 21:15",
+     "valor": 30.057,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-07 15:22",
+     "valor": 6.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-08 13:16",
+     "valor": 30.008,
+     "criterio": null,
+     "referencia": "reanudacion"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-10 15:59",
+     "valor": 6.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-13 15:17",
+     "valor": 30.008,
+     "criterio": null,
+     "referencia": "reanudacion"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-14 21:27",
+     "valor": 5.0,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-15 00:01",
+     "valor": 8.0,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-15 11:03",
+     "valor": 11.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-15 13:42",
+     "valor": 7.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-16 22:57",
+     "valor": 7.0,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-16 22:57",
+     "valor": 30.031,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-18 09:19",
+     "valor": 10.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-18 18:37",
+     "valor": 12.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-18 18:37",
+     "valor": 30.01,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-24 07:41",
+     "valor": 14.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-24 07:41",
+     "valor": 30.061,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-27 07:56",
+     "valor": 21.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-27 10:52",
+     "valor": 33.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-27 13:55",
+     "valor": 21.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-27 15:24",
+     "valor": 42.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-27 16:57",
+     "valor": 43.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-27 20:18",
+     "valor": 14.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-27 20:46",
+     "valor": 21.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-27 21:09",
+     "valor": 21.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-27 22:23",
+     "valor": 14.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-27 22:56",
+     "valor": 22.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-28 05:36",
+     "valor": 30.035,
+     "criterio": null,
+     "referencia": "reanudacion"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-29 22:33",
+     "valor": 51.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-29 23:53",
+     "valor": 25.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "09-30 02:31",
+     "valor": 10.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "09-30 02:31",
+     "valor": 30.046,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-02 16:55",
+     "valor": 23.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-02 16:55",
+     "valor": 30.02,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-04 06:45",
+     "valor": 11.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-04 06:45",
+     "valor": 56.156,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-06 14:59",
+     "valor": 18.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-06 14:59",
+     "valor": 46.903,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-08 13:58",
+     "valor": 16.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-08 16:10",
+     "valor": 10.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-08 19:35",
+     "valor": 10.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-09 04:00",
+     "valor": 11.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-09 04:00",
+     "valor": 30.077,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-12 20:53",
+     "valor": 8.0,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-12 20:53",
+     "valor": 30.025,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-15 13:19",
+     "valor": 11.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-15 13:19",
+     "valor": 30.061,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-19 23:05",
+     "valor": 10.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-19 23:05",
+     "valor": 30.061,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-20 06:36",
+     "valor": 10.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-20 06:36",
+     "valor": 30.016,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-21 12:09",
+     "valor": 10.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-21 12:09",
+     "valor": 30.051,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-22 03:12",
+     "valor": 11.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-22 23:54",
+     "valor": 9.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-23 01:29",
+     "valor": 8.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-23 03:32",
+     "valor": 7.0,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-24 08:41",
+     "valor": 11.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-24 12:43",
+     "valor": 11.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-24 19:07",
+     "valor": 12.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-25 14:34",
+     "valor": 10.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-25 16:37",
+     "valor": 11.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-26 05:18",
+     "valor": 10.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-26 10:41",
+     "valor": 11.5,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-26 11:13",
+     "valor": 11.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-26 15:28",
+     "valor": 11.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-26 16:32",
+     "valor": 13.0,
+     "criterio": "sostenida",
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-26 16:32",
+     "valor": 30.064,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    }
+   ]
+  },
+  "thingspeak-480876": {
+   "lecturas": 8000,
+   "f4.3": [
+    {
+     "tipo": "umbral_termico",
+     "inicioLima": "10-24 00:47",
+     "valor": 25.014,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-24 22:39",
+     "valor": 5.15,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-25 06:10",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-25 06:51",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-25 11:34",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-25 12:07",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-25 17:58",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-26 02:39",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-24 22:39",
+     "valor": 30.015,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-26 07:04",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-26 07:55",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-26 08:58",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-26 10:14",
+     "valor": 16.4,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-26 19:43",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-26 20:56",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-27 02:42",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-27 06:26",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-27 07:19",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-27 09:08",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-27 12:41",
+     "valor": 17.3,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-27 19:38",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-27 21:20",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 03:00",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-27 12:41",
+     "valor": 30.006,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 20:29",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 00:45",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 02:57",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 07:19",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 08:11",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 10:18",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    }
+   ],
+   "f4.4": [
+    {
+     "tipo": "umbral_termico",
+     "inicioLima": "10-24 00:47",
+     "valor": 25.014,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-24 22:39",
+     "valor": 5.15,
+     "criterio": "lento",
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-25 06:10",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-25 06:51",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-25 11:34",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-25 12:07",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-25 17:58",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-26 02:39",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-24 22:39",
+     "valor": 30.015,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-26 07:04",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-26 07:55",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-26 08:58",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-26 10:14",
+     "valor": 16.4,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-26 19:43",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-26 20:56",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-27 02:42",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-27 06:26",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-27 07:19",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-27 09:08",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "llegada_agua",
+     "inicioLima": "10-27 12:41",
+     "valor": 17.3,
+     "criterio": "rapido",
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-27 19:38",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-27 21:20",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 03:00",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "corte_prolongado",
+     "inicioLima": "10-27 12:41",
+     "valor": 30.006,
+     "criterio": null,
+     "referencia": "ultima_llegada"
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-28 20:29",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 00:45",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 02:57",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 07:19",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 08:11",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    },
+    {
+     "tipo": "falla_sensor",
+     "inicioLima": "10-29 10:18",
+     "valor": 5.0,
+     "criterio": null,
+     "referencia": null
+    }
+   ]
+  }
+ },
+ "consistencia": {
+  "base": {
+   "f4.3": {
+    "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+    "metricas": [
+     {
+      "anomalia": "fuga_lenta",
+      "evento": "alerta_fuga",
+      "episodios": 13,
+      "eventos": 6,
+      "consistencia_precision": 0.5,
+      "consistencia_precision_ic95": [
+       0.188,
+       0.812
+      ],
+      "consistencia_recall": 0.231,
+      "consistencia_recall_ic95": [
+       0.082,
+       0.503
+      ]
+     },
+     {
+      "anomalia": "corte_prolongado",
+      "evento": "corte_prolongado",
+      "episodios": 3,
+      "eventos": 37,
+      "consistencia_precision": 0.108,
+      "consistencia_precision_ic95": [
+       0.043,
+       0.247
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.438,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "llegada_atipica",
+      "evento": "llegada_agua (fueraDeFranja)",
+      "episodios": 12,
+      "eventos": 12,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.757,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.757,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "falla_sensor",
+      "evento": "falla_sensor",
+      "episodios": 76,
+      "eventos": 76,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.952,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.952,
+       1.0
+      ]
+     }
+    ],
+    "deriva_termica": {
+     "episodios": 9,
+     "con_alerta_fuga_falsa": 0,
+     "ic95": [
+      0.0,
+      0.299
+     ]
+    },
+    "eventos_por_tipo": null,
+    "llegadas_efectivas": {
+     "llegadas": 333,
+     "detectadas": 331,
+     "recall": 0.994,
+     "recall_ic95": [
+      0.978,
+      0.998
+     ],
+     "eventos_llegada_agua": 331
+    }
+   },
+   "f4.4": {
+    "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+    "metricas": [
+     {
+      "anomalia": "fuga_lenta",
+      "evento": "alerta_fuga",
+      "episodios": 13,
+      "eventos": 4,
+      "consistencia_precision": 0.75,
+      "consistencia_precision_ic95": [
+       0.301,
+       0.954
+      ],
+      "consistencia_recall": 0.231,
+      "consistencia_recall_ic95": [
+       0.082,
+       0.503
+      ]
+     },
+     {
+      "anomalia": "corte_prolongado",
+      "evento": "corte_prolongado",
+      "episodios": 3,
+      "eventos": 37,
+      "consistencia_precision": 0.108,
+      "consistencia_precision_ic95": [
+       0.043,
+       0.247
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.438,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "llegada_atipica",
+      "evento": "llegada_agua (fueraDeFranja)",
+      "episodios": 12,
+      "eventos": 13,
+      "consistencia_precision": 0.923,
+      "consistencia_precision_ic95": [
+       0.667,
+       0.986
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.757,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "falla_sensor",
+      "evento": "falla_sensor",
+      "episodios": 76,
+      "eventos": 76,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.952,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.952,
+       1.0
+      ]
+     }
+    ],
+    "deriva_termica": {
+     "episodios": 9,
+     "con_alerta_fuga_falsa": 0,
+     "ic95": [
+      0.0,
+      0.299
+     ]
+    },
+    "eventos_por_tipo": null,
+    "llegadas_efectivas": {
+     "llegadas": 333,
+     "detectadas": 331,
+     "recall": 0.994,
+     "recall_ic95": [
+      0.978,
+      0.998
+     ],
+     "eventos_llegada_agua": 332
+    }
+   }
+  },
+  "ruido_x2": {
+   "f4.3": {
+    "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+    "metricas": [
+     {
+      "anomalia": "fuga_lenta",
+      "evento": "alerta_fuga",
+      "episodios": 13,
+      "eventos": 9,
+      "consistencia_precision": 0.333,
+      "consistencia_precision_ic95": [
+       0.121,
+       0.646
+      ],
+      "consistencia_recall": 0.231,
+      "consistencia_recall_ic95": [
+       0.082,
+       0.503
+      ]
+     },
+     {
+      "anomalia": "corte_prolongado",
+      "evento": "corte_prolongado",
+      "episodios": 3,
+      "eventos": 36,
+      "consistencia_precision": 0.111,
+      "consistencia_precision_ic95": [
+       0.044,
+       0.253
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.438,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "llegada_atipica",
+      "evento": "llegada_agua (fueraDeFranja)",
+      "episodios": 12,
+      "eventos": 13,
+      "consistencia_precision": 0.923,
+      "consistencia_precision_ic95": [
+       0.667,
+       0.986
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.757,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "falla_sensor",
+      "evento": "falla_sensor",
+      "episodios": 76,
+      "eventos": 76,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.952,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.952,
+       1.0
+      ]
+     }
+    ],
+    "deriva_termica": {
+     "episodios": 9,
+     "con_alerta_fuga_falsa": 0,
+     "ic95": [
+      0.0,
+      0.299
+     ]
+    },
+    "eventos_por_tipo": null,
+    "llegadas_efectivas": {
+     "llegadas": 333,
+     "detectadas": 331,
+     "recall": 0.994,
+     "recall_ic95": [
+      0.978,
+      0.998
+     ],
+     "eventos_llegada_agua": 332
+    }
+   },
+   "f4.4": {
+    "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+    "metricas": [
+     {
+      "anomalia": "fuga_lenta",
+      "evento": "alerta_fuga",
+      "episodios": 13,
+      "eventos": 5,
+      "consistencia_precision": 0.6,
+      "consistencia_precision_ic95": [
+       0.231,
+       0.882
+      ],
+      "consistencia_recall": 0.231,
+      "consistencia_recall_ic95": [
+       0.082,
+       0.503
+      ]
+     },
+     {
+      "anomalia": "corte_prolongado",
+      "evento": "corte_prolongado",
+      "episodios": 3,
+      "eventos": 36,
+      "consistencia_precision": 0.111,
+      "consistencia_precision_ic95": [
+       0.044,
+       0.253
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.438,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "llegada_atipica",
+      "evento": "llegada_agua (fueraDeFranja)",
+      "episodios": 12,
+      "eventos": 13,
+      "consistencia_precision": 0.923,
+      "consistencia_precision_ic95": [
+       0.667,
+       0.986
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.757,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "falla_sensor",
+      "evento": "falla_sensor",
+      "episodios": 76,
+      "eventos": 76,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.952,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.952,
+       1.0
+      ]
+     }
+    ],
+    "deriva_termica": {
+     "episodios": 9,
+     "con_alerta_fuga_falsa": 0,
+     "ic95": [
+      0.0,
+      0.299
+     ]
+    },
+    "eventos_por_tipo": null,
+    "llegadas_efectivas": {
+     "llegadas": 333,
+     "detectadas": 331,
+     "recall": 0.994,
+     "recall_ic95": [
+      0.978,
+      0.998
+     ],
+     "eventos_llegada_agua": 333
+    }
+   }
+  },
+  "ruido_x3": {
+   "f4.3": {
+    "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+    "metricas": [
+     {
+      "anomalia": "fuga_lenta",
+      "evento": "alerta_fuga",
+      "episodios": 13,
+      "eventos": 18,
+      "consistencia_precision": 0.167,
+      "consistencia_precision_ic95": [
+       0.058,
+       0.392
+      ],
+      "consistencia_recall": 0.231,
+      "consistencia_recall_ic95": [
+       0.082,
+       0.503
+      ]
+     },
+     {
+      "anomalia": "corte_prolongado",
+      "evento": "corte_prolongado",
+      "episodios": 3,
+      "eventos": 36,
+      "consistencia_precision": 0.111,
+      "consistencia_precision_ic95": [
+       0.044,
+       0.253
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.438,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "llegada_atipica",
+      "evento": "llegada_agua (fueraDeFranja)",
+      "episodios": 12,
+      "eventos": 12,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.757,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.757,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "falla_sensor",
+      "evento": "falla_sensor",
+      "episodios": 76,
+      "eventos": 76,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.952,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.952,
+       1.0
+      ]
+     }
+    ],
+    "deriva_termica": {
+     "episodios": 9,
+     "con_alerta_fuga_falsa": 0,
+     "ic95": [
+      0.0,
+      0.299
+     ]
+    },
+    "eventos_por_tipo": null,
+    "llegadas_efectivas": {
+     "llegadas": 333,
+     "detectadas": 331,
+     "recall": 0.994,
+     "recall_ic95": [
+      0.978,
+      0.998
+     ],
+     "eventos_llegada_agua": 331
+    }
+   },
+   "f4.4": {
+    "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+    "metricas": [
+     {
+      "anomalia": "fuga_lenta",
+      "evento": "alerta_fuga",
+      "episodios": 13,
+      "eventos": 6,
+      "consistencia_precision": 0.333,
+      "consistencia_precision_ic95": [
+       0.097,
+       0.7
+      ],
+      "consistencia_recall": 0.154,
+      "consistencia_recall_ic95": [
+       0.043,
+       0.422
+      ]
+     },
+     {
+      "anomalia": "corte_prolongado",
+      "evento": "corte_prolongado",
+      "episodios": 3,
+      "eventos": 40,
+      "consistencia_precision": 0.1,
+      "consistencia_precision_ic95": [
+       0.04,
+       0.231
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.438,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "llegada_atipica",
+      "evento": "llegada_agua (fueraDeFranja)",
+      "episodios": 12,
+      "eventos": 14,
+      "consistencia_precision": 0.857,
+      "consistencia_precision_ic95": [
+       0.601,
+       0.96
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.757,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "falla_sensor",
+      "evento": "falla_sensor",
+      "episodios": 76,
+      "eventos": 76,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.952,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.952,
+       1.0
+      ]
+     }
+    ],
+    "deriva_termica": {
+     "episodios": 9,
+     "con_alerta_fuga_falsa": 0,
+     "ic95": [
+      0.0,
+      0.299
+     ]
+    },
+    "eventos_por_tipo": null,
+    "llegadas_efectivas": {
+     "llegadas": 333,
+     "detectadas": 326,
+     "recall": 0.979,
+     "recall_ic95": [
+      0.957,
+      0.99
+     ],
+     "eventos_llegada_agua": 329
+    }
+   }
+  },
+  "llenado_umbral": {
+   "f4.3": {
+    "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+    "metricas": [
+     {
+      "anomalia": "fuga_lenta",
+      "evento": "alerta_fuga",
+      "episodios": 13,
+      "eventos": 6,
+      "consistencia_precision": 0.5,
+      "consistencia_precision_ic95": [
+       0.188,
+       0.812
+      ],
+      "consistencia_recall": 0.231,
+      "consistencia_recall_ic95": [
+       0.082,
+       0.503
+      ]
+     },
+     {
+      "anomalia": "corte_prolongado",
+      "evento": "corte_prolongado",
+      "episodios": 3,
+      "eventos": 35,
+      "consistencia_precision": 0.114,
+      "consistencia_precision_ic95": [
+       0.045,
+       0.26
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.438,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "llegada_atipica",
+      "evento": "llegada_agua (fueraDeFranja)",
+      "episodios": 12,
+      "eventos": 12,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.757,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.757,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "falla_sensor",
+      "evento": "falla_sensor",
+      "episodios": 76,
+      "eventos": 76,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.952,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.952,
+       1.0
+      ]
+     }
+    ],
+    "deriva_termica": {
+     "episodios": 9,
+     "con_alerta_fuga_falsa": 0,
+     "ic95": [
+      0.0,
+      0.299
+     ]
+    },
+    "eventos_por_tipo": null,
+    "llegadas_efectivas": {
+     "llegadas": 333,
+     "detectadas": 333,
+     "recall": 1.0,
+     "recall_ic95": [
+      0.989,
+      1.0
+     ],
+     "eventos_llegada_agua": 333
+    }
+   },
+   "f4.4": {
+    "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+    "metricas": [
+     {
+      "anomalia": "fuga_lenta",
+      "evento": "alerta_fuga",
+      "episodios": 13,
+      "eventos": 4,
+      "consistencia_precision": 0.75,
+      "consistencia_precision_ic95": [
+       0.301,
+       0.954
+      ],
+      "consistencia_recall": 0.231,
+      "consistencia_recall_ic95": [
+       0.082,
+       0.503
+      ]
+     },
+     {
+      "anomalia": "corte_prolongado",
+      "evento": "corte_prolongado",
+      "episodios": 3,
+      "eventos": 36,
+      "consistencia_precision": 0.111,
+      "consistencia_precision_ic95": [
+       0.044,
+       0.253
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.438,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "llegada_atipica",
+      "evento": "llegada_agua (fueraDeFranja)",
+      "episodios": 12,
+      "eventos": 13,
+      "consistencia_precision": 0.923,
+      "consistencia_precision_ic95": [
+       0.667,
+       0.986
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.757,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "falla_sensor",
+      "evento": "falla_sensor",
+      "episodios": 76,
+      "eventos": 76,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.952,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.952,
+       1.0
+      ]
+     }
+    ],
+    "deriva_termica": {
+     "episodios": 9,
+     "con_alerta_fuga_falsa": 0,
+     "ic95": [
+      0.0,
+      0.299
+     ]
+    },
+    "eventos_por_tipo": null,
+    "llegadas_efectivas": {
+     "llegadas": 333,
+     "detectadas": 332,
+     "recall": 0.997,
+     "recall_ic95": [
+      0.983,
+      0.999
+     ],
+     "eventos_llegada_agua": 333
+    }
+   }
+  },
+  "borde_franja": {
+   "f4.3": {
+    "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+    "metricas": [
+     {
+      "anomalia": "fuga_lenta",
+      "evento": "alerta_fuga",
+      "episodios": 13,
+      "eventos": 6,
+      "consistencia_precision": 0.5,
+      "consistencia_precision_ic95": [
+       0.188,
+       0.812
+      ],
+      "consistencia_recall": 0.231,
+      "consistencia_recall_ic95": [
+       0.082,
+       0.503
+      ]
+     },
+     {
+      "anomalia": "corte_prolongado",
+      "evento": "corte_prolongado",
+      "episodios": 3,
+      "eventos": 25,
+      "consistencia_precision": 0.16,
+      "consistencia_precision_ic95": [
+       0.064,
+       0.347
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.438,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "llegada_atipica",
+      "evento": "llegada_agua (fueraDeFranja)",
+      "episodios": 12,
+      "eventos": 9,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.701,
+       1.0
+      ],
+      "consistencia_recall": 0.75,
+      "consistencia_recall_ic95": [
+       0.468,
+       0.911
+      ]
+     },
+     {
+      "anomalia": "falla_sensor",
+      "evento": "falla_sensor",
+      "episodios": 76,
+      "eventos": 76,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.952,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.952,
+       1.0
+      ]
+     }
+    ],
+    "deriva_termica": {
+     "episodios": 9,
+     "con_alerta_fuga_falsa": 0,
+     "ic95": [
+      0.0,
+      0.299
+     ]
+    },
+    "eventos_por_tipo": null,
+    "llegadas_efectivas": {
+     "llegadas": 333,
+     "detectadas": 332,
+     "recall": 0.997,
+     "recall_ic95": [
+      0.983,
+      0.999
+     ],
+     "eventos_llegada_agua": 332
+    }
+   },
+   "f4.4": {
+    "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+    "metricas": [
+     {
+      "anomalia": "fuga_lenta",
+      "evento": "alerta_fuga",
+      "episodios": 13,
+      "eventos": 4,
+      "consistencia_precision": 0.75,
+      "consistencia_precision_ic95": [
+       0.301,
+       0.954
+      ],
+      "consistencia_recall": 0.231,
+      "consistencia_recall_ic95": [
+       0.082,
+       0.503
+      ]
+     },
+     {
+      "anomalia": "corte_prolongado",
+      "evento": "corte_prolongado",
+      "episodios": 3,
+      "eventos": 25,
+      "consistencia_precision": 0.16,
+      "consistencia_precision_ic95": [
+       0.064,
+       0.347
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.438,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "llegada_atipica",
+      "evento": "llegada_agua (fueraDeFranja)",
+      "episodios": 12,
+      "eventos": 10,
+      "consistencia_precision": 0.9,
+      "consistencia_precision_ic95": [
+       0.596,
+       0.982
+      ],
+      "consistencia_recall": 0.75,
+      "consistencia_recall_ic95": [
+       0.468,
+       0.911
+      ]
+     },
+     {
+      "anomalia": "falla_sensor",
+      "evento": "falla_sensor",
+      "episodios": 76,
+      "eventos": 76,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.952,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.952,
+       1.0
+      ]
+     }
+    ],
+    "deriva_termica": {
+     "episodios": 9,
+     "con_alerta_fuga_falsa": 0,
+     "ic95": [
+      0.0,
+      0.299
+     ]
+    },
+    "eventos_por_tipo": null,
+    "llegadas_efectivas": {
+     "llegadas": 333,
+     "detectadas": 332,
+     "recall": 0.997,
+     "recall_ic95": [
+      0.983,
+      0.999
+     ],
+     "eventos_llegada_agua": 333
+    }
+   }
+  },
+  "f2b2": {
+   "f4.3": {
+    "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+    "metricas": [
+     {
+      "anomalia": "fuga_lenta",
+      "evento": "alerta_fuga",
+      "episodios": 12,
+      "eventos": 10,
+      "consistencia_precision": 0.8,
+      "consistencia_precision_ic95": [
+       0.49,
+       0.943
+      ],
+      "consistencia_recall": 0.333,
+      "consistencia_recall_ic95": [
+       0.138,
+       0.609
+      ]
+     },
+     {
+      "anomalia": "corte_prolongado",
+      "evento": "corte_prolongado",
+      "episodios": 19,
+      "eventos": 29,
+      "consistencia_precision": 0.724,
+      "consistencia_precision_ic95": [
+       0.543,
+       0.853
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.832,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "llegada_atipica",
+      "evento": "llegada_agua (fueraDeFranja)",
+      "episodios": 12,
+      "eventos": 12,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.757,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.757,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "falla_sensor",
+      "evento": "falla_sensor",
+      "episodios": 80,
+      "eventos": 80,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.954,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.954,
+       1.0
+      ]
+     }
+    ],
+    "deriva_termica": {
+     "episodios": 9,
+     "con_alerta_fuga_falsa": 0,
+     "ic95": [
+      0.0,
+      0.299
+     ]
+    },
+    "eventos_por_tipo": null,
+    "llegadas_efectivas": {
+     "llegadas": 337,
+     "detectadas": 337,
+     "recall": 1.0,
+     "recall_ic95": [
+      0.989,
+      1.0
+     ],
+     "eventos_llegada_agua": 337
+    }
+   },
+   "f4.4": {
+    "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+    "metricas": [
+     {
+      "anomalia": "fuga_lenta",
+      "evento": "alerta_fuga",
+      "episodios": 12,
+      "eventos": 10,
+      "consistencia_precision": 0.9,
+      "consistencia_precision_ic95": [
+       0.596,
+       0.982
+      ],
+      "consistencia_recall": 0.417,
+      "consistencia_recall_ic95": [
+       0.193,
+       0.68
+      ]
+     },
+     {
+      "anomalia": "corte_prolongado",
+      "evento": "corte_prolongado",
+      "episodios": 19,
+      "eventos": 29,
+      "consistencia_precision": 0.69,
+      "consistencia_precision_ic95": [
+       0.508,
+       0.827
+      ],
+      "consistencia_recall": 0.947,
+      "consistencia_recall_ic95": [
+       0.754,
+       0.991
+      ]
+     },
+     {
+      "anomalia": "llegada_atipica",
+      "evento": "llegada_agua (fueraDeFranja)",
+      "episodios": 12,
+      "eventos": 13,
+      "consistencia_precision": 0.923,
+      "consistencia_precision_ic95": [
+       0.667,
+       0.986
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.757,
+       1.0
+      ]
+     },
+     {
+      "anomalia": "falla_sensor",
+      "evento": "falla_sensor",
+      "episodios": 80,
+      "eventos": 80,
+      "consistencia_precision": 1.0,
+      "consistencia_precision_ic95": [
+       0.954,
+       1.0
+      ],
+      "consistencia_recall": 1.0,
+      "consistencia_recall_ic95": [
+       0.954,
+       1.0
+      ]
+     }
+    ],
+    "deriva_termica": {
+     "episodios": 9,
+     "con_alerta_fuga_falsa": 0,
+     "ic95": [
+      0.0,
+      0.299
+     ]
+    },
+    "eventos_por_tipo": null,
+    "llegadas_efectivas": {
+     "llegadas": 337,
+     "detectadas": 336,
+     "recall": 0.997,
+     "recall_ic95": [
+      0.983,
+      0.999
+     ],
+     "eventos_llegada_agua": 337
+    }
+   }
+  }
+ }
+}

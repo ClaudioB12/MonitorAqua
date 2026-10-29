@@ -39,7 +39,11 @@ VARIANTES = {
     "borde_franja": {"franja_atipica": (8.0, 9.5)},
     # Modelo f2b.2 del generador: fugas persistentes (1-4 días) y toda llegada omitida etiquetada como corte
     "f2b2": {"config": str(RAIZ / "ingesta" / "generador_f2b2.yml")},
+    # Modelo f2b.3: f2b.2 con la compensación térmica en el firmware, como el ESP32 real (DHT11 ±2 °C, redondeado).
+    # Para el detector, los tanques de la flota se declaran con compensacion_en_firmware (solo en memoria)
+    "f2b3": {"config": str(RAIZ / "ingesta" / "generador_f2b3.yml"), "firmware_compensa": True},
 }
+FIRMWARE_DESDE = {"desde": "2000-01-01T00:00:00-05:00"}
 
 
 def llegadas_efectivas(fila, tiempos):
@@ -58,9 +62,21 @@ def correr(variante, semilla, detector):
                      semilla=semilla, anomalias=None, factor_ruido=None, caudal_llenado=None, franja_atipica=None,
                      **{k: None for k in ()})
     for k, v in VARIANTES[variante].items():
-        setattr(args, k, v)  # "config" cambia el YAML del generador (modelo f2b.2)
+        if k != "firmware_compensa":
+            setattr(args, k, v)  # "config" cambia el YAML del generador (modelos f2b.2 y f2b.3)
     cfg, perfil, run_id = generador.cargar_config(args)
     tiempos, filas, episodios = generador.generar(cfg, perfil, run_id)
+    tanques_archivo = detector.cfg.refrescar().tanques
+    if VARIANTES[variante].get("firmware_compensa"):
+        detector.cfg.tanques = {sid: ({**g, "compensacion_en_firmware": FIRMWARE_DESDE} if sid.startswith("flota-") else g)
+                                for sid, g in tanques_archivo.items()}
+    try:
+        return _detectar(detector, cfg, run_id, tiempos, filas, episodios)
+    finally:
+        detector.cfg.tanques = tanques_archivo
+
+
+def _detectar(detector, cfg, run_id, tiempos, filas, episodios):
     eventos, llegadas, llegadas_vistas = [], 0, 0
     ahora = int(time.time() * 1000)
     for f in filas:
@@ -87,7 +103,7 @@ def correr(variante, semilla, detector):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--semillas", type=int, nargs="+", default=[2026, 7, 11])
-    ap.add_argument("--variantes", nargs="+", default=[v for v in VARIANTES if v != "f2b2"])
+    ap.add_argument("--variantes", nargs="+", default=[v for v in VARIANTES if v not in ("f2b2", "f2b3")])
     ap.add_argument("--json")
     a = ap.parse_args()
     detector = Detector(Configuracion(str(RAIZ / "streaming" / "reglas_servicio.yml"), str(RAIZ / "ingesta" / "tanques.yml")))

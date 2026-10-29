@@ -7,6 +7,7 @@
 #   zona                 franja de llegada en reglas_servicio.yml -> zonas
 #   por_medir: true      valores provisionales; reemplazar con las medidas reales
 #   geometria_desde      fecha y hora en que la geometría pasó a ser la real (ver esp32-tanque-real-01)
+#   compensacion_en_firmware {desde}  el firmware ya compensa la distancia por temperatura desde esa fecha (f4.4)
 #
 # Tanques de ThingSpeak: se usa nivelPct o nivelM tal como llegan (modo), sin distancia.
 
@@ -21,6 +22,17 @@ tanques:
     # de este sensor se calcula solo desde la más tardía entre esta hora y el congelamiento de reglas
     # (streaming/comparar_bitacora.py). Mientras sea null, no hay periodo de rendimiento real para este sensor.
     geometria_desde: null
+    # f4.4: el firmware (firmware/esp32/MonitorAqua_esp32.ino) ya compensa la distancia con el DHT11
+    # (vSonido = 331.3 + 0.606 · T; 20 °C si el DHT11 falla). Desde "desde", el detector NO la compensa otra vez;
+    # antes, la compensación es "desconocida" y D6 excluye esas lecturas.
+    compensacion_en_firmware:
+      desde: "2026-10-01T00:00:00-05:00"      # SUPUESTO documentado: desde el inicio del historial (1-oct)
+      confirmado_desde: "2026-10-28T15:45:00-05:00"   # versión del firmware confirmada por el equipo
+      nota: >-
+        Antes del 28-oct no hay registro de la versión del firmware. Se adopta "desde el inicio" porque no cambia
+        ningún resultado: en las sesiones con cambios de temperatura (15 y 22-oct, 4-17 cm) el efecto de compensar o
+        no es <= 0.1 cm, menor que la resolución; en las de 137-215 cm (1 y 8-oct) la temperatura casi no varía, así
+        que solo habría un desfase constante. Los datos no permiten distinguirlo (docs/eventos-servicio.md).
 
   # Flota extrapolada: misma geometría que ingesta/generador.yml (sensor_al_fondo = sensor_sobre_lleno + altura)
   flota-zonaA-01: {zona: zonaA, altura_interior_cm: 100, capacidad_l: 1100, sensor_al_fondo_cm: 104}

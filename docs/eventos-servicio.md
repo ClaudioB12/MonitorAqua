@@ -61,14 +61,14 @@ Antes de evaluar se descartan:
 - las distancias más allá del fondo;
 - los sensores de prueba (`ingesta/sensores_prueba.yml`).
 
-| Evento | Regla | Umbral (f4.3, congelado) |
+| Evento | Regla | Umbral (f4.4) |
 |---|---|---|
-| `llegada_agua` | La mediana móvil de 5 lecturas sube más de X % de la capacidad dentro de la ventana, y la subida se sostiene en 3 medianas seguidas (f4.2). Tras una falla del sensor la ventana se reinicia: el nivel de antes de la falla no sirve de referencia (f4.2). **Llenado lento (f4.3):** también hay llegada si la tendencia de 60 min (mediana de los primeros 10 min contra la de los últimos 5) sube 5 % o más, confirmada en 5 lecturas. **Caudal de llenado estimado** = subida × capacidad / Δt (L/min), fórmula de la adecuación de D4. `fueraDeFranja` si empieza fuera de la franja de la zona (± 1 h) | 6 % en 15 min, o 5 % en 60 min (lento) |
-| `corte_prolongado` | Horas desde la última `llegada_agua` (o desde el inicio del flujo). `detalle.posibleHuecoDeDatos` avisa si la lectura que dispara la regla llegó después de ≥ 1 h sin datos | 30 h (intervalo típico ~24 h × 1.25); crítica desde 48 h |
-| `alerta_fuga` | Cada noche (00:00-03:30 Lima, antes de la franja de llegada) sin llenado. El descenso de la distancia compensada debe superar dos cosas: (a) 3 × la incertidumbre del DHT11 (±0.36 % de la distancia, es decir ±0.18 cm a 50 cm) y un mínimo absoluto; (b) la tasa nocturna habitual del tanque más un margen. La tasa habitual es la media exponencial de las noches sin alerta | 0.8 cm; base + 0.25 cm/h |
+| `llegada_agua` | La mediana móvil de 5 lecturas sube más de X % de la capacidad dentro de la ventana, y la subida se sostiene en 3 medianas seguidas (f4.2). Tras una falla del sensor la ventana se reinicia: el nivel de antes de la falla no sirve de referencia (f4.2). **Llenado lento (f4.3):** también hay llegada si la tendencia de 60 min (mediana de los primeros 10 min contra la de los últimos 5) sube 5 % o más, confirmada en 5 lecturas. **Caudal de llenado estimado** = subida × capacidad / Δt (L/min), fórmula de la adecuación de D4. `fueraDeFranja` si empieza fuera de la franja de la zona (± 1 h). **Subida sostenida (f4.4)**, solo en canales que informan nivel en % o m (ThingSpeak): la mediana de los últimos 15 min (por tiempo) supera en 10 pp su mínimo desde el último llenado, con al menos 2 lecturas; es el criterio de la adecuación de D4. **Sin llegadas** mientras el sensor está inestable o en la gracia tras una reconexión (f4.4) | 6 % en 15 min, o 5 % en 60 min (lento), o 10 pp sostenidos en 15 min (canales de nivel) |
+| `corte_prolongado` | Horas desde la última `llegada_agua` (o desde el inicio del flujo). `detalle.posibleHuecoDeDatos` avisa si la lectura que dispara la regla llegó después de ≥ 1 h sin datos. **Reanudación (f4.4):** tras un hueco de más de 30 min se reinician las referencias y el reloj vuelve a contar desde la reconexión (`detalle.referencia = reanudacion`), salvo que ya hubiera un corte avisado, que sigue vigente | 30 h (intervalo típico ~24 h × 1.25); crítica desde 48 h |
+| `alerta_fuga` | Cada noche (00:00-03:30 Lima, antes de la franja de llegada) sin llenado. El descenso de la distancia compensada debe superar dos cosas: (a) 3 × la incertidumbre del DHT11 (±0.36 % de la distancia, es decir ±0.18 cm a 50 cm) y un mínimo absoluto; (b) la tasa nocturna habitual del tanque más un margen. La tasa habitual es la media exponencial de las noches sin alerta. **No se evalúan (f4.4)** las noches con el sensor inestable o con una reconexión dentro de la ventana | 0.8 cm; base + 0.25 cm/h |
 | `autonomia_baja` | El nivel cae bajo el umbral; se rearma al subir del nivel de rearme. La proyección en horas llega en F7 | 20 % (crítica bajo 10 %); rearme 30 % |
 | `umbral_termico` | Temperatura del agua estimada con inercia de primer orden desde el aire de la cámara (τ = 25.2 h). Se proyecta 6 h con el ciclo horario de Juliaca más la anomalía actual del aire y se avisa si cruza un umbral. **`versionRegla = provisional`** hasta el modelo de F6 | 4 °C y 25 °C |
-| `falla_sensor` | N lecturas de nivel inválidas seguidas (`-1`, fuera de rango o más allá del fondo). **Histéresis (f4.2):** no se rearma hasta tener 2 min de lecturas válidas seguidas, así un sensor intermitente es un solo episodio | 5 lecturas; rearme tras 2 min |
+| `falla_sensor` | N lecturas de nivel inválidas seguidas (`-1`, fuera de rango o más allá del fondo). **Histéresis (f4.2):** no se rearma hasta tener 2 min de lecturas válidas seguidas, así un sensor intermitente es un solo episodio. **Intermitencia (f4.4)**, solo sensores de distancia: 4 lecturas inválidas o saltos de más de 3 cm entre lecturas seguidas en 5 min marcan el sensor **inestable** hasta 10 min de calma; mientras tanto no hay `llegada_agua` ni `autonomia_baja`, y al calmarse se reinician las referencias. Un llenado real cambia la distancia ~0.1 cm cada 5 s | 5 lecturas; rearme tras 2 min; inestable: 4 en 5 min, calma 10 min |
 
 ### Por qué τ = 25.2 h en `umbral_termico`
 
@@ -135,6 +135,7 @@ Historia de versiones:
 | f4.1 | reglas iniciales | — |
 | f4.2 | `falla_sensor` con histéresis (rearme tras 2 min válidos); `llegada_agua` confirmada en 3 medianas y con ventana reiniciada tras una falla | la falla intermitente real del 28-oct (conjunto de diseño): tormenta de `falla_sensor` y llegada falsa al recuperarse el sensor |
 | **f4.3** | `llegada_agua` también por **llenado lento**: tendencia de 60 min (mediana de los primeros 10 min contra la de los últimos 5) mayor o igual a 5 %, confirmada en 5 lecturas | en Juliaca, con baja presión de red, los llenados lentos son lo común; con f4.2 un tanque de 2500 L a 5 L/min no llegaba al 6 % en 15 min y se perdía |
+| **f4.4** | (1) `llegada_agua` por **subida sostenida** en canales de nivel (%/m); (2) **intermitencia** del HC-SR04: sensor inestable, sin llegadas ni autonomía baja; (3) **reanudación** tras huecos de datos: referencias y reloj del corte reiniciados, 15 min de gracia sin llegadas; y noches perturbadas fuera de `alerta_fuga` | las tres limitaciones conocidas de f4.3: llenados no vistos en ThingSpeak 1233810 (publica cada ~10 min, en %), llegadas falsas por ecos alternos (23:55 y 00:27 del 28-29 oct) y llegadas y cortes falsos al reconectarse el ESP32 tras días apagado |
 
 f4.3 compara medianas, no el mínimo de la ventana. Una primera versión usaba el mínimo de 60 medianas como base, y con
 ruido ×2 la precisión de `llegada_atipica` bajaba de 0.92 a 0.75, porque el mínimo de una serie ruidosa es un extremo
@@ -234,6 +235,48 @@ sobre **todas** las llegadas que subieron el tanque al menos 3 cm, normales y at
 - **`falla_sensor` no se mueve en ninguna variante.** No es robustez: el generador escribe el mismo `-1` que el
   detector busca.
 
+### 2b. f4.4 frente a f4.3 (`streaming/comparar_versiones.py`, mismos datos, 6 variantes × 3 semillas)
+
+Tablas completas en `docs/evidencias/f4/f4.4/tablas_f44.md`. Lo que cambia (lo demás queda igual):
+
+| Variante | Métrica | f4.3 | f4.4 |
+|---|---|---|---|
+| base | `alerta_fuga` precisión | 0.50 [0.19-0.81] | **0.75 [0.30-0.95]** |
+| base | `llegada_atipica` precisión | 1.00 [0.76-1.00] | 0.92 [0.67-0.99] |
+| ruido ×2 | `alerta_fuga` precisión | 0.33 [0.12-0.65] | **0.60 [0.23-0.88]** |
+| ruido ×3 | llegadas (todas), recall | 0.99 [0.98-1.00] | 0.98 [0.96-0.99] |
+| ruido ×3 | `llegada_atipica` precisión | 1.00 [0.76-1.00] | 0.86 [0.60-0.96] |
+| ruido ×3 | `alerta_fuga` precisión / recall | 0.17 / 0.23 | 0.33 / 0.15 |
+| f2b.2 | `alerta_fuga` precisión / recall | 0.80 / 0.33 | **0.90 / 0.42** |
+| f2b.2 | `corte_prolongado` recall | 1.00 [0.83-1.00] | 0.95 [0.75-0.99] |
+
+- **El costo:** ~1 llegada atípica falsa más y, con ruido ×3, el 1-2 % de las llegadas que la intermitencia
+  confunde con ecos. Todos los IC se solapan con los de f4.3.
+- **La ganancia en `alerta_fuga`:** viene de no evaluar noches perturbadas.
+- **`deriva_termica` → alerta falsa:** 0 en las dos versiones.
+- **Por qué 4 eventos en la regla de intermitencia y no 3:** con 3, el recall de llegadas con ruido ×3 caía a
+  0.92 [0.89-0.95] y la precisión de atípicas a 0.71. Con 4 el historial real queda igual de limpio.
+
+**Historial real (conjunto de DISEÑO: con él se diseñó f4.4, no es rendimiento):**
+
+| Tanque | f4.3 | f4.4 |
+|---|---|---|
+| ESP32 | 13 `llegada_agua`, 4 `corte_prolongado`, 3 `autonomia_baja`, 16 `falla_sensor` | **solo los 16 `falla_sensor`** |
+| ThingSpeak 1233810 (nivel en %) | 0 llegadas, 1 corte | 31 llegadas (subida sostenida, ~1 cada 2 días y casi siempre 16:30-17:00), 19 cortes |
+| ThingSpeak 283977 | 0 llegadas, 1 corte | 3 llegadas, 3 cortes |
+| ThingSpeak 3418755 (lluvia) | 49 llegadas, 16 cortes | 65 llegadas, 21 cortes |
+| 1233815 y 480876 | — | sin cambios |
+
+- **Desaparecen los falsos positivos conocidos del ESP32:** las llegadas de las 23:55 y las 00:27 (ecos alternos de
+  7 ↔ 17 cm) y las de 00:44, 01:12, 01:46 y 09:23.
+- **Desaparecen también las de reconexión:** 08-oct 22:33, 15-oct 20:48 y 22-oct 19:44, con sus cortes de 140-167 h.
+- **Las de las 17:21 y 18:44 del 28-oct:** eran el sensor manipulado (146 cm, fuera del recipiente, y luego
+  recolocado); suprimirlas es correcto.
+- **Las de las 21:46 y 23:08 (`no_verificable` en la bitácora):** también desaparecen, porque llegan en plena
+  inestabilidad: la recolocación desde 144 cm, y el regreso tras 10 min de `-1`, con lecturas de 4 a 18 cm alternadas
+  con `-1`. Es coherente con los datos, pero siguen sin verificar y no se cuentan como aciertos.
+- **1233810:** sus 31 llegadas usan el mismo criterio de llenado de D2 (`batch/modelo_d2.yml` → `llenado`).
+
 ### 3. Rendimiento real: bitácora de pruebas con el ESP32
 
 **Bitácora:** `docs/evidencias/f4/bitacora_real.csv` tiene una fila por acción sobre el tanque real:
@@ -305,7 +348,8 @@ Al cambiar `ingesta/tanques.yml` (por ejemplo, con las medidas reales del tanque
 
 ## Limitaciones conocidas
 
-- **`llegada_agua` falsas por el sensor intermitente, después del congelamiento.** Con las reglas f4.3 ya
+- **Corregida en f4.4 (se conserva como historia de f4.3).** `llegada_agua` falsas por el sensor intermitente,
+  después del congelamiento de f4.3. Con las reglas f4.3 ya
   congeladas, el HC-SR04 intermitente del ESP32 (lecturas válidas muy ruidosas alternadas con `-1`) produjo dos
   `llegada_agua` falsas: 28-oct **23:55:04** (subida 9.8 %) y 29-oct **00:27:14** (subida 7.4 %), las dos por el
   criterio rápido, más un `falla_sensor` a las 00:00:39.
@@ -317,6 +361,14 @@ Al cambiar `ingesta/tanques.yml` (por ejemplo, con las medidas reales del tanque
   - **Efecto en el rendimiento real:** ninguno por ahora. Mientras la geometría del ESP32 sea provisional
     (`por_medir`), no hay periodo de rendimiento real para ese sensor. Cuando lo haya, eventos como estos se
     cuentan como falsos positivos si la bitácora no registra una acción a esa hora.
+
+- **f4.4: llenado durante la inestabilidad.** Si el HC-SR04 queda inestable justo mientras el tanque se llena,
+  ese llenado no se detecta: al calmarse, las referencias se reinician con el tanque ya lleno. Con ruido ×3 son el
+  1-2 % de las llegadas.
+- **f4.4: tras un hueco de datos no se sabe qué pasó.** Una llegada ocurrida con el ESP32 apagado no se reporta: el
+  corte cuenta desde la reconexión (`referencia = reanudacion`), y no desde la última llegada vista.
+- **f4.4: subida sostenida en el tanque de lluvia.** En 3418755 las llegadas pasan de 49 a 65, y son lluvias. Está
+  fuera del alcance de D4 (`batch/modelo_d4.yml` → `fuera_de_alcance`).
 
 ## Pendientes
 

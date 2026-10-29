@@ -8,17 +8,28 @@ datos aumentados reusa exactamente la misma clase.
 Reglas (umbrales en streaming/reglas_servicio.yml, geometría en ingesta/tanques.yml; ambos se releen al cambiar):
   falla_sensor      N lecturas de nivel inválidas seguidas (-1, fuera de rango o más allá del fondo)
   llegada_agua      el nivel sube más de X % de la capacidad dentro de la ventana; caudal = subida × capacidad / Δt
-  corte_prolongado  más de N horas sin llegada_agua
+                    f4.4: también "subida sostenida" (mediana de 15 min por TIEMPO > 10 pp sobre el mínimo desde el
+                    último llenado) en los canales que informan nivel en % o m, donde los criterios por cantidad de
+                    lecturas no ven los llenados (ThingSpeak 1233810 publica cada ~10 min)
+  corte_prolongado  más de N horas sin llegada_agua, contadas solo con tiempo OBSERVADO (f4.4: tras un hueco de
+                    datos el reloj vuelve a empezar en la reconexión)
+  f4.4 intermitencia: un HC-SR04 que alterna ecos (p. ej. 7 y 17 cm) o da -1 varias veces en pocos minutos queda
+                    "inestable"; mientras tanto no se detectan llegadas ni autonomía baja, y al calmarse se reinician
+                    las referencias
+  f4.4 reanudación: tras un hueco de datos se reinician las referencias y no se detectan llegadas durante una gracia
   autonomia_baja    el nivel cae bajo un umbral (%), con rearme
   alerta_fuga       descenso nocturno (sin llenado) sobre la distancia compensada con el DHT11, mayor que la
                     incertidumbre del DHT11 y que la tasa nocturna habitual del tanque
   umbral_termico    proyección de la temperatura del agua (inercia de primer orden desde el aire de la cámara)
                     que cruza el umbral en las próximas horas; versionRegla "provisional"
+  f4.4 compensación: si el tanque declara compensacion_en_firmware (ingesta/tanques.yml), su distancia ya llega
+                    compensada (ESP32 real) y no se compensa otra vez
 """
 import math
 import os
 import statistics as st
 from datetime import datetime, timedelta, timezone
+from functools import lru_cache
 
 import yaml
 
@@ -49,6 +60,22 @@ class Configuracion:
         return self
 
 
+@lru_cache(maxsize=None)
+def _iso_ms(iso):
+    return int(datetime.fromisoformat(iso).timestamp() * 1000)
+
+
+def origen_compensacion(lec, geom):
+    """f4.4: quién compensa la distancia por temperatura. "firmware" si el tanque declara compensacion_en_firmware en
+    ingesta/tanques.yml y la lectura es posterior a su "desde"; "desconocida" si es anterior (D6 la excluye);
+    "detector" en los demás tanques de distancia (Detector.nivel la compensa con el DHT11)."""
+    fw = geom.get("compensacion_en_firmware")
+    if not fw:
+        return "detector"
+    ts = lec.get("timestamp")
+    return "firmware" if ts is not None and ts >= _iso_ms(str(fw["desde"])) else "desconocida"
+
+
 def hora_lima(ts_ms):
     d = datetime.fromtimestamp(ts_ms / 1000, LIMA)
     return d, d.hour + d.minute / 60 + d.second / 3600
@@ -68,11 +95,16 @@ class Detector:
             fondo, alto = geom["sensor_al_fondo_cm"], geom["altura_interior_cm"]
             if d is None or d == -1 or not 2 <= d <= 450 or d > fondo + reglas["falla_sensor"]["margen_fondo_cm"]:
                 return (False,) + (None,) * 5
-            t = lec.get("temperaturaC")
-            comp = reglas["compensacion_termica"]
-            lo, hi = comp["temp_valida_c"]
-            compensada = bool(comp["activa"] and t is not None and t != -1 and lo <= t <= hi)
-            dc = d * (331.3 + 0.606 * t) / C20 if compensada else d
+            origen = origen_compensacion(lec, geom)
+            if origen in ("firmware", "desconocida"):
+                # f4.4: la distancia ya llega compensada por el firmware (o no se sabe): no se compensa otra vez
+                compensada, dc = origen == "firmware", d
+            else:
+                t = lec.get("temperaturaC")
+                comp = reglas["compensacion_termica"]
+                lo, hi = comp["temp_valida_c"]
+                compensada = bool(comp["activa"] and t is not None and t != -1 and lo <= t <= hi)
+                dc = d * (331.3 + 0.606 * t) / C20 if compensada else d
             nivel_cm = fondo - dc
             pct = nivel_cm / alto * 100
             return True, pct, nivel_cm, (pct / 100 * cap if cap else None), dc, compensada
@@ -118,10 +150,18 @@ class Detector:
             if ts is None or ts <= e["ult_ts"]:
                 continue  # repetida o fuera de orden respecto del estado
             e["hueco_h"] = (ts - e["ult_ts"]) / 3_600_000 if e["ult_ts"] else 0.0
+            # f4.4 reanudación: un hueco de datos puede esconder llegadas o cortes que no se observaron
+            rr = reglas.get("reanudacion")
+            if rr and e["ult_ts"] and e["hueco_h"] * 60 > rr["hueco_min"]:
+                e.update(buf=[], ult3=[], buf_largo=[], conf=0, conf_largo=0, llenando=False, sost_buf=[],
+                         sost_min=None, ult_dist=None, inest=[], reanudacion_hasta=ts + rr["gracia_min"] * 60000)
+                if not e["corte_alertado"]:  # un corte ya avisado sigue vigente: el hueco no lo re-arma
+                    e.update(ultima_llegada_ts=None, primera_ts=ts, ref_reanudacion=True)
             e["ult_ts"] = ts
             if e["primera_ts"] is None:
                 e["primera_ts"] = ts
             valida, pct, nivel_cm, litros, dist, compensada = self.nivel(lec, geom, reglas)
+            self._intermitencia(e, ts, lec, valida, geom, reglas)
 
             # falla_sensor: N lecturas de nivel inválidas seguidas
             fs = reglas["falla_sensor"]
@@ -144,15 +184,23 @@ class Detector:
             if e["falla_alertada"] and ts - e["validas_desde"] >= fs.get("rearme_validas_min", 0) * 60000:
                 e["falla_alertada"] = False
             if e.get("post_falla"):
-                e.update(post_falla=False, buf=[], ult3=[], conf=0, buf_largo=[], conf_largo=0)
+                e.update(post_falla=False, buf=[], ult3=[], conf=0, buf_largo=[], conf_largo=0, sost_buf=[],
+                         sost_min=None)
             if pct is None:
                 continue  # sensor sin geometría: solo falla_sensor
+            inestable = ts < e.get("inestable_hasta", 0)
+            if not inestable and e.get("post_inestable"):  # al calmarse, lo leído durante la inestabilidad no sirve
+                e.update(post_inestable=False, buf=[], ult3=[], conf=0, buf_largo=[], conf_largo=0, sost_buf=[],
+                         sost_min=None)
+            en_gracia = ts < e.get("reanudacion_hasta", 0)
 
-            self._llegada(e, ts, pct, litros, geom, zona, reglas, emitir)
+            if not inestable and not en_gracia:
+                self._llegada(e, ts, pct, litros, geom, zona, reglas, emitir)
             self._corte(e, ts, reglas, emitir)
-            self._autonomia(e, ts, pct, litros, reglas, emitir)
+            if not inestable:
+                self._autonomia(e, ts, pct, litros, reglas, emitir)
             if nivel_cm is not None:
-                self._fuga(e, ts, nivel_cm, dist, compensada, geom, reglas, emitir)
+                self._fuga(e, ts, nivel_cm, dist, compensada, geom, reglas, emitir, inestable or en_gracia)
             t_aire = lec.get("temperaturaC")
             lo, hi = reglas["compensacion_termica"]["temp_valida_c"]
             if t_aire is not None and t_aire != -1 and lo <= t_aire <= hi:
@@ -160,6 +208,24 @@ class Detector:
         return eventos, e
 
     # --- reglas -----------------------------------------------------------------------------
+    def _intermitencia(self, e, ts, lec, valida, geom, reglas):
+        """f4.4: lecturas inválidas o saltos grandes entre lecturas seguidas (ecos alternos del HC-SR04) en pocos
+        minutos marcan el sensor como inestable hasta que pase un rato en calma. Solo tanques medidos por distancia:
+        un llenado real cambia la distancia ~0.1 cm cada 5 s, muy lejos del umbral de salto."""
+        it = reglas["falla_sensor"].get("intermitencia")
+        modo = geom.get("modo", "distancia" if "sensor_al_fondo_cm" in geom else "sin_nivel")
+        if not it or modo != "distancia":
+            return
+        d = lec.get("distanciaCm")
+        salto = valida and e.get("ult_dist") is not None and abs(d - e["ult_dist"]) > it["salto_cm"]
+        if valida:
+            e["ult_dist"] = d
+        if not valida or salto:
+            e["inest"] = [t for t in e.get("inest", []) if ts - t <= it["ventana_min"] * 60000] + [ts]
+            if len(e["inest"]) >= it["eventos_min"]:
+                e["inestable_hasta"] = ts + it["calma_min"] * 60000
+                e["post_inestable"] = True
+
     def _llegada(self, e, ts, pct, litros, geom, zona, reglas, emitir):
         r = reglas["llegada_agua"]
         e["ult3"] = (e["ult3"] + [pct])[-r.get("mediana_n", 3):]
@@ -189,7 +255,21 @@ class Detector:
             e["conf_largo"] = e.get("conf_largo", 0) + 1 if subida_l >= lento["subida_min_pct"] else 0
             if e["conf"] < r.get("confirmacion_n", 1) and e["conf_largo"] >= lento["confirmacion_n"]:
                 criterio, umbral, base_ts, subida = "lento", lento["subida_min_pct"], base_l_ts, subida_l
-        if not e["llenando"] and (e["conf"] >= r.get("confirmacion_n", 1) or criterio == "lento"):
+        # f4.4: subida sostenida por TIEMPO en los canales de nivel (% o m): mediana de los últimos 15 min contra el
+        # mínimo de esa mediana desde el último llenado (criterio de la adecuación de D4, el mismo de D2)
+        so = r.get("sostenida")
+        modo = geom.get("modo", "distancia" if "sensor_al_fondo_cm" in geom else "sin_nivel")
+        if so and modo in so["modos"]:
+            sb = [p for p in e.get("sost_buf", []) if ts - p[0] <= so["mediana_min"] * 60000] + [[ts, pct]]
+            e["sost_buf"] = sb
+            med15 = st.median(p[1] for p in sb)
+            if e.get("sost_min") is None or med15 < e["sost_min"][1]:
+                e["sost_min"] = [ts, med15]
+            subida_s = med15 - e["sost_min"][1]
+            if (criterio == "rapido" and e["conf"] < r.get("confirmacion_n", 1) and len(sb) >= so["lecturas_min"]
+                    and subida_s > so["subida_pp"]):
+                criterio, umbral, base_ts, subida = "sostenida", so["subida_pp"], e["sost_min"][0], subida_s
+        if not e["llenando"] and (e["conf"] >= r.get("confirmacion_n", 1) or criterio in ("lento", "sostenida")):
             minutos = max(1.0, (ts - base_ts) / 60000)
             cap = geom.get("capacidad_l")
             franja = reglas["zonas"].get(zona)
@@ -208,7 +288,7 @@ class Detector:
                 e["llen_max"], e["llen_ult_subida"] = med3, ts
             elif ts - e["llen_ult_subida"] > r["fin_sin_subida_min"] * 60000:
                 e.update(llenando=False, ultimo_llenado_fin_ts=ts, buf=[[ts, med3]], buf_largo=[[ts, med3]],
-                         conf=0, conf_largo=0)
+                         conf=0, conf_largo=0, sost_min=None)
 
     def _corte(self, e, ts, reglas, emitir):
         r = reglas["corte_prolongado"]
@@ -217,7 +297,8 @@ class Detector:
         if horas > r["horas_sin_llegada"] and not e["corte_alertado"] and not e["llenando"]:
             emitir("corte_prolongado", "critica" if horas >= r["critica_desde_h"] else "advertencia", ref, ts,
                    horas, r["horas_sin_llegada"], "h",
-                   {"referencia": "ultima_llegada" if e["ultima_llegada_ts"] else "inicio_del_flujo",
+                   {"referencia": "ultima_llegada" if e["ultima_llegada_ts"] else
+                                ("reanudacion" if e.get("ref_reanudacion") else "inicio_del_flujo"),
                     # Si el sensor estuvo sin datos, el "corte" puede ser un hueco de lecturas y no falta de agua
                     "huecoDeDatosH": round(e.get("hueco_h", 0.0), 2),
                     "posibleHuecoDeDatos": e.get("hueco_h", 0.0) >= 1.0})
@@ -233,7 +314,7 @@ class Detector:
         elif pct > r["rearme_pct"]:
             e["autonomia_alertada"] = False
 
-    def _fuga(self, e, ts, nivel_cm, dist, compensada, geom, reglas, emitir):
+    def _fuga(self, e, ts, nivel_cm, dist, compensada, geom, reglas, emitir, perturbada=False):
         r = reglas["alerta_fuga"]
         d, h = hora_lima(ts)
         ini_h, fin_h = r["noche_lima_h"]
@@ -251,6 +332,8 @@ class Detector:
                                   "n": 0, "n_comp": 0, "llenado": False}
         if e["llenando"]:
             noche["llenado"] = True
+        if perturbada:  # f4.4: sensor intermitente o reconexión durante la noche: el descenso no es confiable
+            noche["perturbada"] = True
         noche["n"] += 1
         noche["n_comp"] += int(bool(compensada))
         minuto = ts // 60000
@@ -269,7 +352,7 @@ class Detector:
         ini_h, fin_h = r["noche_lima_h"]
         minutos_ventana = (fin_h - ini_h) * 60
         previo = e.get("ultimo_llenado_fin_ts")
-        if (len(pts) < 0.6 * minutos_ventana or noche["llenado"] or
+        if (len(pts) < 0.6 * minutos_ventana or noche["llenado"] or noche.get("perturbada") or
                 (previo and noche["inicio"] - previo < r["sin_llenado_previo_h"] * 3_600_000)):
             return  # cobertura insuficiente o hubo llenado: la noche no se evalúa
         primeros = [p for p in pts if p[0] - pts[0][0] < 15 * 60000]

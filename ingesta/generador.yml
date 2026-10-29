@@ -17,7 +17,9 @@ medicion:
   saltos_tasa_desde_perfil: true        # [perfil] saltos > 2 cm entre lecturas consecutivas (1.9 %)
   saltos_cm: [2, 6]                     # [supuesto] magnitud de esos saltos
   resolucion_cm: 0.1                    # [perfil] el ESP32 reporta 1 decimal
-  temperatura_referencia_c: 20.0        # [supuesto] el firmware usa c = 343.4 m/s (aire a 20 °C)
+  temperatura_referencia_c: 20.0        # [supuesto f2b.1/f2b.2] sensor SIN compensación: c = 343.4 m/s (aire a 20 °C).
+                                        # El firmware real del ESP32 SÍ compensa con el DHT11 (firmware/esp32);
+                                        # eso lo imita f2b.3 (generador_f2b3.yml)
   amortiguacion_camara: 0.6             # [supuesto] la cámara de aire del tanque amortigua el ciclo exterior
   falla_distancia_tasa: 0.008           # [perfil] -1 del HC-SR04 en operación continua (28-oct: 25/3138)
   falla_dht_tasa: 0.0078                # [perfil] -1 del DHT11 (57/7349)
