@@ -79,7 +79,33 @@ services:
     networks:
       - lambda26-kafka-net
 
+  # --- Speed layer (F3): Spark Structured Streaming sobre aqua-eventos-real --------------
+  aqua-streaming:
+    build:
+      context: ..
+      dockerfile: streaming/Dockerfile
+    image: monitoraqua-streaming:latest
+    container_name: lambda26-aqua-streaming
+    restart: unless-stopped
+    env_file: ../.env
+    environment:
+      KAFKA_BOOTSTRAP: kafka:9092
+      INFLUX_URL_INTERNA: http://influxdb:8086
+      CHECKPOINT_DIR: /checkpoints
+      BRONCE_DIR: /datos/bronce
+    ports:
+      - "4043:4040"   # Spark UI del job (4042 es la de lambda26-pyspark)
+    volumes:
+      - monitoraqua_spark_checkpoints:/checkpoints
+      - ../data/local/bronce:/datos/bronce
+      - ../ingesta/sensores_prueba.yml:/app/config/sensores_prueba.yml:ro   # lista única de sensores de prueba
+    depends_on:
+      - influxdb
+    networks:
+      - lambda26-kafka-net
+
 volumes:
+  monitoraqua_spark_checkpoints:
   monitoraqua_ingesta_estado:
   monitoraqua_influxdb_data:
   monitoraqua_influxdb_config:

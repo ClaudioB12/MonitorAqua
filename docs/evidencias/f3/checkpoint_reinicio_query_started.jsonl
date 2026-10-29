@@ -1,0 +1,8 @@
+{"service": "aqua-streaming", "ts": 1793244300299, "status": "query_started", "consulta": "rapidas_agg", "id": "90e9da13-eeb7-44a7-ae65-07a0745766f3", "runId": "c0e2f2b0-221f-4207-9301-8b090beb065a"}
+{"service": "aqua-streaming", "ts": 1793244300521, "status": "query_started", "consulta": "lentas_agg", "id": "eb55e2eb-00e8-4f92-8914-14b3f202cd17", "runId": "ba00d4c8-79bf-4e2e-890b-3f7e2d8d5653"}
+{"service": "aqua-streaming", "ts": 1793244300585, "status": "query_started", "consulta": "esp32_detalle", "id": "7895a005-5882-4b83-871f-49d244a37fa7", "runId": "06e81ae0-8fc6-49eb-ae3b-c3ef156744fc"}
+{"service": "aqua-streaming", "ts": 1793244300681, "status": "query_started", "consulta": "bronce", "id": "67dac576-f1ec-44c1-93b3-f8d58c84a326", "runId": "02506a92-8c0d-47af-b864-cc10dbe6b8b8"}
+{"service": "aqua-streaming", "ts": 1793244440474, "status": "query_started", "consulta": "rapidas_agg", "id": "90e9da13-eeb7-44a7-ae65-07a0745766f3", "runId": "b4735823-c09f-4978-a2d5-e6fd468ee5fb"}
+{"service": "aqua-streaming", "ts": 1793244440658, "status": "query_started", "consulta": "lentas_agg", "id": "eb55e2eb-00e8-4f92-8914-14b3f202cd17", "runId": "461ed10b-f54a-4e1d-a26d-eb867b3197dd"}
+{"service": "aqua-streaming", "ts": 1793244440708, "status": "query_started", "consulta": "esp32_detalle", "id": "7895a005-5882-4b83-871f-49d244a37fa7", "runId": "2f74819a-b131-498c-a3a5-1fe3eebcfbff"}
+{"service": "aqua-streaming", "ts": 1793244440762, "status": "query_started", "consulta": "bronce", "id": "67dac576-f1ec-44c1-93b3-f8d58c84a326", "runId": "68624159-149f-4403-8018-e4f31a94b078"}

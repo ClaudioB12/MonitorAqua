@@ -12,7 +12,7 @@ Ninguno duplica Kafka ni Prometheus.
 |---|---|---|
 | `lambda26/kafka/compose.yml` | `lambda26-kafka` | Kafka, kafka-exporter, Kafbat UI |
 | `lambda26/obs/compose.yml` | `lambda26-obs` | **solo Prometheus** (su servicio `grafana` ya no se usa, ver abajo) |
-| `MonitorAqua/infra/compose.yml` | `monitoraqua-infra` | InfluxDB 2, Grafana, puente Firebase → Kafka, colector de APIs |
+| `MonitorAqua/infra/compose.yml` | `monitoraqua-infra` | InfluxDB 2, Grafana, puente Firebase → Kafka, colector de APIs, Spark Structured Streaming |
 
 Otros contenedores de lambda26:
 
@@ -44,6 +44,7 @@ Todos están en la red Docker **`lambda26-kafka-net`**.
 | `lambda26-pyspark` | build local (Python 3.10, Java 21, PySpark 4.2.0) | `4488 → 8888` (Jupyter), `4042 → 4040` (Spark UI) | — |
 | `lambda26-aqua-puente` | `monitoraqua-ingesta` (build de `ingesta/Dockerfile`) | — | — |
 | `lambda26-aqua-colector` | `monitoraqua-ingesta` | — | — |
+| `lambda26-aqua-streaming` | `monitoraqua-streaming` (build de `streaming/Dockerfile`, PySpark 4.2.0) | `4043 → 4040` (Spark UI) | — |
 
 ## Kafka
 
@@ -144,7 +145,7 @@ Los chequeos de datasources usan `GRAFANA_ADMIN_USER` y `GRAFANA_ADMIN_PASSWORD`
 
 ```bash
 docker start lambda26-kafka lambda26-kafka-exporter lambda26-kafka-ui lambda26-prometheus   # existentes
-docker compose -f infra/compose.yml --env-file .env up -d   # InfluxDB, Grafana, puente y colector
+docker compose -f infra/compose.yml --env-file .env up -d   # InfluxDB, Grafana, puente, colector y Spark streaming
 docker start lambda26-pyspark                                                                 # si se usa Spark
 ```
 

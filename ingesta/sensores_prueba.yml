@@ -1,0 +1,11 @@
+# Lista única de sensores de prueba. Sus eventos quedaron en aqua-eventos-real (y en el Parquet bronce) porque
+# Kafka no permite borrar mensajes sueltos. Todo consumidor de datos reales los excluye desde aquí:
+#   - Spark (streaming/procesar_stream.py): rapidas_agg, lentas_agg, esp32_detalle; bronce los conserva crudos.
+#   - Eventos de servicio (F4) y capa batch (F6): filtrar sensorId en esta lista al leer Kafka o bronce.
+# Si se agrega un sensor de prueba, se agrega aquí y se reinicia el job de Spark.
+
+sensores:
+  - sensorId: esp32-prueba-f3
+    motivo: pruebas de watermark y deduplicación de F3 (2026-10-29)
+    eventId_prefijo: prueba-f3-
+    mensajes: 3   # aqua-eventos-real, partición 1, offsets 230-232
