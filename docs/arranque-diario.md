@@ -3,8 +3,14 @@
 Checklist para cuando se enciende la PC después de tenerla apagada (por ejemplo, de noche).
 
 Con la PC apagada siguen funcionando el **ESP32**, que escribe directo a Firebase por Wi-Fi, y el **colector de
-GitHub Actions**, cada 30 min (`docs/ingesta.md` → *Colector en la nube*). Todo lo demás está detenido: Kafka, el
-puente, Spark, InfluxDB y Grafana. Al encender, el puente pasa a Kafka lo acumulado en Firebase y Spark lo procesa.
+GitHub Actions** como respaldo, cada 30 min si GitHub lo ejecuta (`docs/ingesta.md` → *Colector en la nube*). Todo
+lo demás está detenido: Kafka, el puente, Spark, InfluxDB y Grafana.
+
+Al encender:
+- el **colector local recarga** de cada API lo que falte desde la última lectura en Firebase
+  (`docs/ingesta.md` → *Recarga al arranque*), sin depender del cron de GitHub;
+- el puente pasa a Kafka lo acumulado en Firebase;
+- Spark lo procesa.
 
 ## Referencia del último apagado
 
@@ -104,16 +110,24 @@ ls data/local/bronce/origen=esp32-fisico/
       noche**. El bronce sí las guarda, y la capa batch (`batch/capas.py`) las recupera. Es lo esperado en la
       arquitectura Lambda, no una pérdida.
 
-### 4. Las ejecuciones nocturnas de GitHub Actions
+### 4. El colector local recargó la noche; GitHub Actions como respaldo
 
-GitHub → MonitorAqua → **Actions** → `colector-apis` → filtro `event:schedule`.
+```bash
+docker logs lambda26-aqua-colector 2>&1 | grep -E '"status": "(recarga_arranque|recarga_error)"'
+```
 
-- [ ] Hay ejecuciones de la noche (minutos 7 y 37), en verde. **GitHub no garantiza el cron:** la primera noche no
-      disparó ninguna entre 02:07 y 08:07 (ver `docs/ingesta.md`).
-- [ ] Si falta alguna o llegó atrasada, no hay problema mientras dos ejecuciones verdes seguidas estén a menos de 6 h
-      (la ventana de cada pasada). Si hay un salto de más de 6 h, ese tramo de las APIs quedó sin cubrir: se recupera
-      con una recarga como la del 2026-10-29 (`docs/ingesta.md` → *Recarga puntual*), antes de que el puente se
-      reconecte.
+- [ ] Aparece **una línea `recarga_arranque`** al inicio. Por origen muestra:
+  - `desde`: el primer hueco o la última lectura;
+  - `leidas`: lo que devolvió la API;
+  - `nuevas`: las claves que faltaban y se escribieron.
+
+  Es normal que `nuevas` sea grande en EA UK después de una noche apagada.
+- [ ] Ningún origen tiene `error`. Si una API falló, la recarga de ese origen se puede repetir a mano con
+      `docker exec lambda26-aqua-colector python colector_apis.py --solo-recarga`.
+- [ ] **Respaldo,** en GitHub → MonitorAqua → **Actions** → `colector-apis` → filtro `event:schedule`: mira si
+      hubo ejecuciones de la noche y si están en verde. **GitHub no garantiza el cron:** el 2026-10-29 no ejecutó
+      nada entre 02:07 y 08:07, ni entre las 08:40 y las 13:48. Con la recarga al arranque, un hueco de GitHub ya
+      no deja huecos en los datos.
 - [ ] Si alguna está en rojo, abre su log:
   - `login rechazado` → revisa los secrets.
   - `fuente_error` de una sola fuente → esa API estuvo caída; la siguiente ventana la cubre.
@@ -131,8 +145,8 @@ MSYS_NO_PATHCONV=1 docker run --rm --env-file .env -v "$PWD:/repo" -w /repo/inge
       nada en toda la noche.
 - [ ] **ESP32:** sin huecos de más de 2 min si estuvo encendido toda la noche. Cada hueco es un corte de energía o de
       Wi-Fi: anótalo con su hora. En este apagado el ESP32 ya no escribía desde las 01:13.
-- [ ] **APIs (ThingSpeak, EA UK, Open-Meteo):** sin huecos. Si hay alguno, cruza con el paso 4: ¿hubo más de 6 h sin
-      ejecución verde?
+- [ ] **APIs (ThingSpeak, EA UK, Open-Meteo):** sin huecos, después de la recarga del paso 4. Si queda alguno,
+      ¿falló la recarga de ese origen o pasó del tope de días de su API (`recarga_max_dias`)?
 - [ ] **USGS:** su último tramo siempre aparece como hueco final de ~60-75 min, porque USGS publica con ~1 h de atraso.
       No es una falla; solo cuentan los huecos internos.
 

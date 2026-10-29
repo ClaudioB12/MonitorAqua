@@ -1,5 +1,8 @@
 # Estaciones del colector de APIs (F2). Verificadas el 2026-10-28; ver docs/ingesta.md.
 # intervalo_s: cada cuánto se consulta la fuente. Cada fuente corre aislada en su hilo.
+# recarga_max_dias: hasta cuántos días atrás recarga el colector al arrancar (colector_apis.py), según el
+#   historial que da cada API: ThingSpeak corta en 8,000 lecturas (~5.5 días en los canales de 1/min);
+#   EA UK y USGS guardan semanas; Open-Meteo minutely_15 da al menos 7 días.
 
 fuentes:
 
@@ -8,6 +11,7 @@ fuentes:
   thingspeak:
     habilitada: true
     intervalo_s: 300
+    recarga_max_dias: 5
     # 7 de 22 canales activos (<24 h) entre 212 candidatos; los otros 15 no son tanques o
     # tienen datos inválidos (lista completa en docs/ingesta.md). escalas: factor de conversión.
     canales:
@@ -25,6 +29,7 @@ fuentes:
   ea_uk:
     habilitada: true
     intervalo_s: 900
+    recarga_max_dias: 7
     cuenca: Thames from Hurley to Teddington
     estaciones:
       - {ref: "2497TH", nombre: Hurley Lock, rio: River Thames, lat: 51.55135, lon: -0.808421}
@@ -57,6 +62,7 @@ fuentes:
   usgs:
     habilitada: true
     intervalo_s: 900
+    recarga_max_dias: 7
     estaciones:
       - {id: USGS-01433500, nombre: "Mongaup River near Mongaup NY", lat: 41.4612, lon: -74.7588}
       - {id: USGS-01438500, nombre: "Delaware River at Montague NJ", lat: 41.3092, lon: -74.7953}
@@ -73,5 +79,6 @@ fuentes:
   open_meteo:
     habilitada: true
     intervalo_s: 900
+    recarga_max_dias: 7
     ubicaciones:
       - {id: juliaca, lat: -15.49, lon: -70.13}

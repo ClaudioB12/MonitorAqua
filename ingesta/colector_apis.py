@@ -12,6 +12,15 @@ Uso:
   python colector_apis.py              corre todas las fuentes habilitadas
   python colector_apis.py --una-vez    una sola pasada por fuente (prueba)
   python colector_apis.py --seco       no escribe en Firebase, solo muestra los eventos
+  python colector_apis.py --solo-recarga [--seco]
+                                       solo la recarga de arranque (abajo) y termina; para probarla
+
+Recarga al arranque (modo en vivo, el contenedor local): antes del bucle, revisa las últimas RECARGA_REVISAR_H
+horas de Firebase (24 por defecto) y, por origen, recarga desde su primer hueco interno de más de RECARGA_HUECO_MIN
+minutos (45) o, si no hay, desde su última lectura, hasta ahora. Si un origen no tiene nada en esa revisión, busca
+su última lectura dentro del tope de su API (recarga_max_dias en estaciones.yml). Escribe SOLO claves que no
+existen en Firebase: las que existen pueden estar ya en Kafka y el puente las repetiría. Se desactiva con
+RECARGA_ARRANQUE=0. Así una noche con la PC apagada no depende del cron de GitHub (que queda de respaldo).
   EDAD_MAX_H=7 python colector_apis.py --una-vez --ventana-min 360
                                        modo nube (GitHub Actions, .github/workflows/colector_apis.yml): pide
                                        TODAS las lecturas de los últimos N minutos, no solo la última, y las
@@ -21,9 +30,11 @@ Uso:
                                        Sale con código 1 si alguna fuente falló (la ejecución queda en rojo).
 """
 import argparse
+import math
 import os
 import sys
 import threading
+from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 import time
 from datetime import datetime, timedelta, timezone
@@ -42,6 +53,11 @@ CONFIG_PATH = Path(os.getenv("ESTACIONES_PATH", Path(__file__).with_name("estaci
 # alcanza a ver una lectura de más de 3 h y queda solo en Firebase)
 EDAD_MAX_MS = int(float(os.getenv("EDAD_MAX_H", os.getenv("VENTANA_H", "3"))) * 3600 * 1000)
 USGS_API_KEY = os.getenv("USGS_API_KEY", "")
+RECARGA_ARRANQUE = os.getenv("RECARGA_ARRANQUE", "1") != "0"
+RECARGA_REVISAR_H = float(os.getenv("RECARGA_REVISAR_H", "24"))
+RECARGA_HUECO_MIN = float(os.getenv("RECARGA_HUECO_MIN", "45"))
+RECARGA_MARGEN_MIN = 30  # se recarga desde un poco antes del hueco: EA y USGS publican con ~1 h de atraso
+MIN_MS, H_MS, DIA_MS = 60_000, 3_600_000, 86_400_000
 HTTP = requests.Session()
 HTTP.headers["User-Agent"] = "MonitorAqua/1.0 (UPeU Big Data, equipo Horeb)"
 
@@ -127,7 +143,9 @@ def leer_ea_uk(cfg, ventana_min=None):
 
     def estacion(est):
         try:
-            params = {"since": desde_iso(ventana_min), "_sorted": ""} if ventana_min else {"latest": ""}
+            # Sin _limit la API corta en 500 lecturas (~2.5 días de una estación con nivel y caudal)
+            params = ({"since": desde_iso(ventana_min), "_sorted": "", "_limit": 10000} if ventana_min
+                      else {"latest": ""})
             items = HTTP.get(f"{base}/id/stations/{est['ref']}/readings", params=params,
                              timeout=30).json().get("items", [])
             # Una lectura por instante: nivel (stage aguas arriba) y caudal en el mismo evento
@@ -161,11 +179,16 @@ def leer_usgs(cfg, ventana_min=None):
     if ventana_min:
         # Serie completa de la ventana (colección continuous), no solo el último valor
         params.update(limit=10000, time=f"{desde_iso(ventana_min)}/{desde_iso(0)}")
-        r = HTTP.get("https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items",
-                     params=params, headers=headers, timeout=60)
-        r.raise_for_status()
+        features, url = [], "https://api.waterdata.usgs.gov/ogcapi/v1/collections/continuous/items"
+        while url:  # varios días de 10 estaciones superan el límite de 10,000 por página: se sigue el enlace "next"
+            r = HTTP.get(url, params=params, headers=headers, timeout=60)
+            r.raise_for_status()
+            d = r.json()
+            features += d.get("features", [])
+            url = next((l["href"] for l in d.get("links", []) if l.get("rel") == "next"), None)
+            params = None  # el enlace "next" ya trae los parámetros
         por_evento = {}
-        for f in r.json().get("features", []):
+        for f in features:
             p = f["properties"]
             valor = a_float(p.get("value"))
             if valor is None or p["parameter_code"] not in USGS_PARAMETROS:
@@ -274,11 +297,11 @@ class Colector:
         self.contar("escritas")
         log(SERVICIO, status="written", fuente=fuente, eventId=ev["eventId"], sensorId=ev["sensorId"])
 
-    def escribir_lote(self, eventos, fuente):
+    def escribir_lote(self, eventos, fuente, edad_max_ms=None):
         """Modo ventana: valida todo y escribe con UN PATCH multi-ruta (mismo efecto que un PUT por clave)."""
         lote = {}
         for ev in eventos:
-            if ahora_ms() - ev["timestamp"] > EDAD_MAX_MS:
+            if ahora_ms() - ev["timestamp"] > (edad_max_ms or EDAD_MAX_MS):
                 self.contar("antiguas")
                 continue
             errores = errores_contrato(self.validador, ev)
@@ -330,12 +353,67 @@ class Colector:
             time.sleep(intervalo)
 
 
+# --- Recarga al arranque ---------------------------------------------------------
+
+ORIGEN_DE_FUENTE = {"thingspeak": "thingspeak", "ea_uk": "ea-uk", "usgs": "usgs", "open_meteo": "open-meteo"}
+
+
+def lecturas_api_firebase(sesion, desde_ms):
+    """{clave: lectura} de las APIs (las que traen "origen") con timestamp >= desde_ms."""
+    r = HTTP.get(URL_HISTORIAL + ".json", timeout=300, params={
+        "auth": sesion.token(), "orderBy": '"timestamp"', "startAt": desde_ms})
+    r.raise_for_status()
+    return {k: v for k, v in (r.json() or {}).items() if isinstance(v, dict) and v.get("origen")}
+
+
+def inicio_recarga(ts, hueco_ms):
+    """El comienzo del primer hueco interno mayor que hueco_ms o, si no hay, la última lectura."""
+    ts = sorted(ts)
+    return next((a for a, b in zip(ts, ts[1:]) if b - a > hueco_ms), ts[-1])
+
+
+def recarga_al_arranque(colector, activas):
+    ahora = ahora_ms()
+    sesion = colector.sesion or SesionFirebase(SERVICIO)  # en --seco también se lee Firebase
+    revisar_ms = int(RECARGA_REVISAR_H * H_MS)
+    vistas = lecturas_api_firebase(sesion, ahora - revisar_ms)
+    ampliada = False
+    resumen = {}
+    for fuente, cfg in activas.items():
+        tope_ms = int(cfg.get("recarga_max_dias", 0) * DIA_MS)
+        if not tope_ms:
+            continue
+        origen = ORIGEN_DE_FUENTE[fuente]
+        ts = [v["timestamp"] for v in vistas.values() if v["origen"] == origen]
+        if not ts and tope_ms > revisar_ms:
+            if not ampliada:  # una sola lectura ampliada, hasta el tope más largo
+                tope_max = int(max(c.get("recarga_max_dias", 0) for c in activas.values()) * DIA_MS)
+                vistas.update(lecturas_api_firebase(sesion, ahora - tope_max))
+                ampliada = True
+            ts = [v["timestamp"] for v in vistas.values() if v["origen"] == origen]
+        desde = inicio_recarga(ts, RECARGA_HUECO_MIN * MIN_MS) if ts else ahora - tope_ms
+        desde = max(desde - RECARGA_MARGEN_MIN * MIN_MS, ahora - tope_ms)
+        ventana_min = math.ceil((ahora - desde) / MIN_MS)
+        try:
+            leidas = [e for e in LECTORES[fuente](cfg, ventana_min) if e["timestamp"] >= desde]
+            nuevas = sorted((e for e in leidas if e["eventId"] not in vistas), key=lambda e: e["timestamp"])
+            colector.escribir_lote(nuevas, fuente, edad_max_ms=tope_ms + H_MS)
+            resumen[origen] = {"desde": desde, "ventanaMin": ventana_min, "leidas": len(leidas), "nuevas": len(nuevas)}
+        except Exception as ex:  # noqa: BLE001 - una API caída no impide arrancar: la recarga es un extra
+            colector.contar("errores")
+            resumen[origen] = {"error": describir_error(ex)}
+    log(SERVICIO, status="recarga_arranque", revisadasH=RECARGA_REVISAR_H, ampliada=ampliada,
+        lecturasRevisadas=len(vistas), origenes=resumen)
+    return resumen
+
+
 def main():
     parser = argparse.ArgumentParser(description="Colector de APIs públicas -> Firebase (MonitorAqua)")
     parser.add_argument("--una-vez", action="store_true", help="una pasada por fuente y termina")
     parser.add_argument("--seco", action="store_true", help="no escribe en Firebase")
     parser.add_argument("--fuente", choices=sorted(LECTORES), help="solo esta fuente")
     parser.add_argument("--ventana-min", type=int, help="pide todas las lecturas de los últimos N min (modo nube)")
+    parser.add_argument("--solo-recarga", action="store_true", help="solo la recarga de arranque y termina")
     args = parser.parse_args()
     if args.ventana_min and args.ventana_min * 60_000 >= EDAD_MAX_MS:
         parser.error(f"--ventana-min debe ser menor que la edad máxima ({EDAD_MAX_MS // 60_000} min, EDAD_MAX_H o "
@@ -350,6 +428,13 @@ def main():
         seco=args.seco, ventanaH=EDAD_MAX_MS / 3_600_000, ventanaMin=args.ventana_min)
 
     colector = Colector(args.seco, args.ventana_min)
+    if args.solo_recarga or (RECARGA_ARRANQUE and not args.una_vez and not args.ventana_min):
+        try:
+            recarga_al_arranque(colector, activas)
+        except Exception as ex:  # noqa: BLE001 - Firebase caído al arrancar: se sigue con el bucle normal
+            log(SERVICIO, status="recarga_error", error=describir_error(ex))
+        if args.solo_recarga:
+            return
     hilos = [threading.Thread(target=colector.bucle, args=(f, c, args.una_vez), name=f, daemon=True)
              for f, c in activas.items()]
     for h in hilos:
