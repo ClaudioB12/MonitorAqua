@@ -1,9 +1,12 @@
 # Colector de APIs públicas en la nube (MonitorAqua). Corre aunque la PC del equipo esté apagada.
 #
 # Cada 30 min hace UNA pasada de ingesta/colector_apis.py en modo ventana: pide todas las lecturas de las últimas
-# 2 h de ThingSpeak, EA UK, USGS y Open-Meteo y las escribe en Firebase (/board1/lecturas/historial), la misma
-# entrada del ESP32. Las ventanas se solapan y la clave es determinística: un cron atrasado (GitHub los atrasa en
-# horas punta) no deja huecos ni duplica. Al encender la PC, el puente Firebase -> Kafka se pone al día solo.
+# 6 h de ThingSpeak, EA UK, USGS y Open-Meteo y las escribe en Firebase (/board1/lecturas/historial), la misma
+# entrada del ESP32. Las ventanas se solapan y la clave es determinística: reescribir no duplica.
+#
+# GitHub NO garantiza el cron: puede atrasar o saltarse ejecuciones (la primera noche, 2026-10-29, no disparó
+# ninguna entre 01:45 y 08:40, y después faltaron las de 09:07, 09:37 y 10:07). La ventana de 6 h es la protección: basta
+# una pasada verde cada menos de 6 h para que no quede ningún hueco. Al encender la PC, el puente se pone al día.
 #
 # Requisitos (Settings -> Secrets and variables -> Actions):
 #   Secrets:   FIREBASE_API_KEY, FIREBASE_DB_URL, FIREBASE_EMAIL, FIREBASE_PASSWORD (los mismos de .env);
@@ -11,7 +14,7 @@
 #   Variable:  COLECTOR_REF = u2-colector-nube, rama con el código del colector. TEMPORAL: solo mientras main no
 #              tenga las fases U2; al fusionarlas en main se elimina y se usa la rama del workflow
 #   Con la PC encendida corre a la vez que el colector local, sin duplicados (misma clave fija).
-#   Si los minutos no alcanzan: cron "7 * * * *" (una vez por hora), sin perder datos gracias a la ventana de 2 h.
+#   Si los minutos no alcanzan: cron "7 * * * *" (una vez por hora), sin perder datos gracias a la ventana de 6 h.
 # GitHub solo dispara los "schedule" desde la rama por defecto (main): este archivo tiene que estar en main.
 #
 # Costo: ~45 s por ejecución (1 min facturado) x 48 al día = ~1,440 min/mes, dentro de los 2,000 min/mes gratis de
@@ -47,7 +50,7 @@ jobs:
 
       - run: pip install -r ingesta/requirements.txt
 
-      - name: Pasada con ventana de 2 h
+      - name: Pasada con ventana de 6 h
         working-directory: ingesta
         env:
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
@@ -56,5 +59,5 @@ jobs:
           FIREBASE_PASSWORD: ${{ secrets.FIREBASE_PASSWORD }}
           USGS_API_KEY: ${{ secrets.USGS_API_KEY }}
           FIREBASE_PATH: /board1/lecturas/historial
-          VENTANA_H: "3"                  # igual que el puente: la ventana del colector debe ser menor
-        run: python colector_apis.py --una-vez --ventana-min 120
+          EDAD_MAX_H: "7"                 # edad máxima de una lectura escrita: mayor que la ventana de 6 h
+        run: python colector_apis.py --una-vez --ventana-min 360
