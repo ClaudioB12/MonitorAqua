@@ -127,13 +127,13 @@ El estado no usa timeouts: el corte se evalúa con cada lectura.
 (2026-10-29 22:53:25 UTC).** Ese es el momento en que `lambda26-aqua-streaming` arrancó con f4.4, y queda registrado
 en `streaming/reglas_servicio.yml` → `congelamiento`.
 
-**Commit de congelamiento: COMMIT_F44** (rama `u2-f44`). Fija `streaming/reglas_servicio.yml` (f4.4),
+**Commit de congelamiento: [`0cfb9b10b73878993d7260eae2cc09a031f05ef4`](https://github.com/ClaudioB12/MonitorAqua/commit/0cfb9b10b73878993d7260eae2cc09a031f05ef4)** (rama `u2-f44`). Fija `streaming/reglas_servicio.yml` (f4.4),
 `streaming/detector_servicio.py` e `ingesta/tanques.yml` (`compensacion_en_firmware`) antes de cualquier prueba con
 medidas reales. El hash no puede ir dentro de su propio commit, porque escribirlo cambiaría el contenido; por eso se
 registra en un commit posterior que solo agrega estas líneas. Para verificarlo:
 
 ```bash
-git diff COMMIT_CORTO -- streaming/reglas_servicio.yml streaming/detector_servicio.py
+git diff 0cfb9b1 -- streaming/reglas_servicio.yml streaming/detector_servicio.py
 # solo debe mostrar la línea commit del bloque congelamiento; ninguna regla ni código del detector
 ```
 
