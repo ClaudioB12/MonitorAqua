@@ -1,3 +1,25 @@
-".ipynb_checkpoints/"
-"*.pyc"
+# Secretos y credenciales
+.env
+credenciales/
+*-firebase-adminsdk-*.json
+*serviceAccount*.json
+
+# Estado de Spark Streaming y datos locales
+checkpoints/
+**/chk*/
+data/local/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Jupyter (estado del contenedor de U1)
+.ipynb_checkpoints/
+pyspark/.local/
+pyspark/.ipython/
+pyspark/.jupyter/
+pyspark/.npm/
+
+# MkDocs
 site/

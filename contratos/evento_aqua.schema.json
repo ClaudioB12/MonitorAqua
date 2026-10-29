@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ClaudioB12/MonitorAqua/contratos/evento_aqua.schema.json",
+  "title": "Evento de lectura MonitorAqua",
+  "description": "Contrato único de las lecturas que entran por Firebase y viajan por el tópico Kafka aqua-eventos-real. Este contrato valida la FORMA del evento, no su plausibilidad física: el -1 que el ESP32 envía cuando falla un sensor es válido aquí y se filtra como regla de calidad en Spark (F3).",
+  "type": "object",
+  "required": ["tipoEvento", "eventId", "sensorId", "origen", "timestamp"],
+  "additionalProperties": true,
+  "properties": {
+    "tipoEvento": {
+      "type": "string",
+      "enum": ["aqua.tanque.lectura", "aqua.red.lectura", "aqua.calidad.lectura", "aqua.clima.lectura"]
+    },
+    "eventId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identificador único del evento (la key de Firebase push). Clave de deduplicación en Spark."
+    },
+    "sensorId": { "type": "string", "minLength": 1 },
+    "origen": {
+      "type": "string",
+      "enum": ["esp32-fisico", "thingspeak", "ea-uk", "usgs", "open-meteo"]
+    },
+    "fuenteTipo": {
+      "type": "string",
+      "enum": ["iot-propio", "api-publica"],
+      "description": "Opcional en la entrada: el ESP32 no lo envía; el puente lo completa a partir de origen (F2)."
+    },
+    "timestamp": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Epoch en milisegundos del momento de la medición (tiempo de evento)."
+    },
+    "ingestaTs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Epoch en milisegundos del momento de ingesta. Opcional en la entrada: lo agrega el puente (F2)."
+    },
+    "distanciaCm": { "type": ["number", "null"], "description": "Distancia del ultrasónico a la superficie del agua (cm)." },
+    "nivelPct": { "type": ["number", "null"], "description": "Nivel del tanque en porcentaje." },
+    "nivelM": { "type": ["number", "null"], "description": "Nivel del agua en metros (estación de río/red)." },
+    "caudalM3s": { "type": ["number", "null"], "description": "Caudal en m3/s." },
+    "temperaturaC": { "type": ["number", "null"], "description": "Temperatura del aire (°C)." },
+    "humedadPct": { "type": ["number", "null"], "description": "Humedad relativa del aire (%)." },
+    "tempAguaC": { "type": ["number", "null"], "description": "Temperatura del agua (°C)." },
+    "ph": { "type": ["number", "null"] },
+    "oxigenoMgL": { "type": ["number", "null"], "description": "Oxígeno disuelto (mg/L)." },
+    "lat": { "type": ["number", "null"] },
+    "lon": { "type": ["number", "null"] }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "origen": { "const": "esp32-fisico" } }, "required": ["origen"] },
+      "then": { "properties": { "fuenteTipo": { "const": "iot-propio" }, "tipoEvento": { "const": "aqua.tanque.lectura" } } }
+    },
+    {
+      "if": { "properties": { "origen": { "const": "thingspeak" } }, "required": ["origen"] },
+      "then": { "properties": { "fuenteTipo": { "const": "api-publica" }, "tipoEvento": { "const": "aqua.tanque.lectura" } } }
+    },
+    {
+      "if": { "properties": { "origen": { "const": "ea-uk" } }, "required": ["origen"] },
+      "then": { "properties": { "fuenteTipo": { "const": "api-publica" }, "tipoEvento": { "const": "aqua.red.lectura" } } }
+    },
+    {
+      "if": { "properties": { "origen": { "const": "usgs" } }, "required": ["origen"] },
+      "then": { "properties": { "fuenteTipo": { "const": "api-publica" }, "tipoEvento": { "const": "aqua.calidad.lectura" } } }
+    },
+    {
+      "if": { "properties": { "origen": { "const": "open-meteo" } }, "required": ["origen"] },
+      "then": { "properties": { "fuenteTipo": { "const": "api-publica" }, "tipoEvento": { "const": "aqua.clima.lectura" } } }
+    }
+  ]
+}
