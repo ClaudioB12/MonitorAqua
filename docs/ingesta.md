@@ -165,6 +165,177 @@ lectura más reciente con valor de cada parámetro.
 **Open-Meteo:** Juliaca (lat -15.49, lon -70.13), `temperature_2m` → `temperaturaC` y `relative_humidity_2m` →
 `humedadPct`.
 
+## Recarga al arranque del colector local (principal)
+
+El colector local (`lambda26-aqua-colector`) solo corre con la PC encendida, y en vivo pide **la última** lectura de
+cada estación. Para que una noche con la PC apagada no dependa del cron de GitHub, el colector **recarga al
+arrancar**, antes de su bucle normal:
+
+1. **Lee de Firebase las lecturas de APIs de las últimas `RECARGA_REVISAR_H` horas** (24 por defecto). Es una sola
+   consulta de ~5 MB.
+2. **Elige desde dónde recargar cada origen** (ThingSpeak, EA UK, USGS y Open-Meteo):
+   - desde su **primer hueco interno** de más de `RECARGA_HUECO_MIN` minutos (45);
+   - si no tiene huecos, desde su **última lectura**;
+   - en ambos casos, con 30 min de margen hacia atrás, porque EA UK y USGS publican con ~1 h de atraso.
+
+   Así se cubren las noches en que GitHub escribió solo un pedazo, como la del 2026-10-29, con datos de 06:30 a
+   08:40 y un hueco de 02:00 a 06:30.
+3. **Si un origen no tiene nada en esas 24 h,** busca su última lectura hacia atrás, hasta el tope de su API.
+4. **Pide a cada API todo lo que falta,** en modo ventana, sin pasar del **tope de días** de esa API
+   (`recarga_max_dias` en `ingesta/estaciones.yml`):
+
+   | API | Tope | Por qué |
+   |---|---|---|
+   | ThingSpeak | 5 días | Corta en 8,000 lecturas, ~5.5 días en los canales de 1 por minuto |
+   | EA UK | 7 días | Guarda al menos 30 días |
+   | USGS | 7 días | Guarda semanas; se pagina, porque 10 estaciones × varios días superan las 10,000 lecturas por página |
+   | Open-Meteo | 7 días | `minutely_15` da al menos 7 días hacia atrás |
+
+5. **Escribe solo las claves que no existen en Firebase.** Las que existen pueden estar ya en Kafka y el puente las
+   repetiría, porque su memoria de claves (`vistas`) solo cubre 3 h. La clave es la misma de siempre
+   (`origen_estacion_timestamp`).
+
+**Qué llega a Kafka:**
+- Al encender la PC, el puente escucha desde su cursor del apagado menos 3 h. Toda lectura recargada con
+  `timestamp` posterior llega a Kafka y al bronce, que es el caso normal: recargar la noche.
+- Si la recarga encuentra un hueco más viejo, por ejemplo de un día anterior, esas lecturas quedan **solo en
+  Firebase**.
+
+**Configuración y prueba:**
+- Se desactiva con `RECARGA_ARRANQUE=0`.
+- Para probarla: `python colector_apis.py --solo-recarga --seco`.
+- Si una API falla durante la recarga, se registra y el colector sigue con su bucle normal.
+
+**Primera recarga real** (2026-10-29, 15:05 Lima, al desplegarla): revisó 4,525 lecturas de las últimas 24 h y
+escribió 597 claves nuevas.
+
+| Origen | Claves nuevas | Qué se rellenó |
+|---|---|---|
+| EA UK | 536 | Huecos que deja el modo en vivo, porque EA publica por tandas y en vivo solo se pide la última lectura |
+| ThingSpeak | 49 | |
+| Open-Meteo | 10 | Incluye los pasos del corte de internet de 10:17 a 10:28 |
+| USGS | 2 | |
+
+`auditar_ingesta.py` dio 0 `eventId` repetidos en Kafka.
+
+**Arreglos de la misma revisión,** que también afectan a las pasadas de la nube:
+- **EA UK:** sin `_limit` devolvía como máximo 500 lecturas por estación. Ahora pide `_limit=10000`.
+- **USGS:** sigue el enlace `next` cuando hay más de una página.
+
+## Colector en la nube (GitHub Actions, respaldo)
+
+Con la recarga al arranque, GitHub Actions queda como **respaldo**: mantiene Firebase al día mientras la PC está
+apagada, y si no corre, la recarga lo cubre al encender. El workflow `.github/workflows/colector_apis.yml` corre el
+mismo colector en GitHub cada 30 min, en **modo ventana**:
+
+```bash
+EDAD_MAX_H=7 python colector_apis.py --una-vez --ventana-min 360
+```
+
+| Fuente | Cómo pide la ventana |
+|---|---|
+| ThingSpeak | `feeds.json?minutes=360` |
+| EA UK | `readings?since=<hace 6 h>&_limit=10000`; las 23 estaciones en paralelo (8 hilos), porque la API tarda ~4 s por estación |
+| USGS | colección `continuous` con `time=<desde>/<hasta>`, siguiendo el enlace `next` (en vivo se usa `latest-continuous`) |
+| Open-Meteo | `minutely_15` con `past_minutely_15=24`: los mismos instantes de 15 min que `current` |
+
+- **GitHub no garantiza el cron.** Puede atrasar una ejecución o no dispararla. Ver la tabla de abajo.
+- **La protección es la ventana de 6 h.** Cada pasada pide las últimas 6 h, doce veces el intervalo del cron. Basta
+  una pasada verde cada menos de 6 h para que no quede ningún hueco: una pasada tardía rellena lo que dejaron las
+  que faltaron.
+- **Sin duplicados:** la clave determinística `origen_estacion_timestamp` hace que las lecturas que se repiten entre
+  pasadas se sobrescriban en Firebase en vez de agregarse.
+- **Escritura:** un `PATCH` multi-ruta por fuente sobre `/board1/lecturas/historial`. Tiene el mismo efecto que un
+  PUT por clave y es una sola petición. Verificado contra las reglas de Firebase el 2026-10-29.
+- **Edad máxima:** el colector descarta lecturas más viejas que `EDAD_MAX_H`. Si no se define, vale `VENTANA_H`
+  (3 h). El workflow la sube a 7 h, por encima de la ventana, y el colector rechaza una ventana mayor que la edad
+  máxima.
+- **Con la PC apagada:** las lecturas quedan en Firebase. Al encender, el puente lee desde su cursor menos 3 h hasta
+  el presente y pasa a Kafka todo lo acumulado: se recupera la noche entera.
+- **Con la PC encendida:** el puente escucha en vivo las lecturas con `timestamp` posterior a su cursor menos 3 h.
+  Puede pasar que GitHub se salte más de 3 h y una pasada tardía escriba lecturas nuevas de hace 3-6 h. Esas
+  lecturas quedan **solo en Firebase**: no llegan a Kafka ni al bronce.
+  - ThingSpeak y Open-Meteo no se pierden para los modelos: la capa batch las baja directo de sus APIs
+    (`batch/descargar_fuentes.py`).
+  - EA UK y USGS no alimentan ninguna dimensión.
+  - Si hiciera falta, se recuperan con una recarga como la del 2026-10-29 (abajo).
+- **Los dos colectores a la vez:** con la PC encendida corren el local (`lambda26-aqua-colector`) y el de GitHub. No
+  hay duplicados: los dos escriben la misma clave fija, y el puente publica cada clave una sola vez en Kafka
+  (`vistas`). El local da frescura de 5 min para la demo y el de GitHub cubre las horas con la PC apagada.
+- **Fallas:** si una fuente falla, la ejecución sale con código 1 y GitHub avisa por correo. Una estación suelta
+  caída solo queda en el log, porque la próxima ventana la cubre.
+- **Medición** (2026-10-29, en seco):
+
+  | Ventana | Lecturas | Duración | Detalle |
+  |---|---|---|---|
+  | 2 h | 537 | ~20 s | ThingSpeak 2 s, USGS 2 s, Open-Meteo 1 s, EA UK 20 s |
+  | 6 h | 1,739 | 25 s | EA UK 24 s |
+  | 6 h, con `_limit` de EA | 1,652 | ~35 s | EA UK 31 s (otra hora: el número de lecturas cambia con la hora) |
+
+  0 rechazadas en ambas.
+
+### Lo que hizo el cron la primera noche (2026-10-29)
+
+| Hora (Lima) | Ejecución | Qué se vio en Firebase |
+|---|---|---|
+| ~01:31 y ~01:36 | #1 manual y su re-run | Pasadas de 515 y 538 lecturas (evidencia en `docs/evidencias/colector-nube/`) |
+| 02:07 a 08:07 | Ninguna | **GitHub no disparó el cron.** No hay lecturas de APIs entre las 02:00 y las 06:30 |
+| 08:40 | #2, la **primera programada** ("Triggered via schedule", 43 s, verde): la de las 08:37, 3 min tarde | 543 lecturas, con la ventana de 2 h de entonces |
+| 09:07 a 13:37 | Ninguna | **GitHub no ejecutó el cron entre las 08:40 y las 13:48** (según la pestaña Actions) |
+| 13:48 | La siguiente programada (Actions) | No se distingue en Firebase: la pasada de las 14:34, con ventana de 6 h, reescribió las mismas claves |
+| 14:34 | Pasada de la nube, ya con la ventana de 6 h | 495 claves con esta `ingestaTs` (las demás se reescribieron después) |
+
+GitHub suele tardar en activar el cron de un workflow recién agregado, y en horas de carga atrasa o descarta
+ejecuciones. Esa noche y esa mañana estuvo **5 h sin ejecutar nada**. Por eso:
+- la ventana pasó de 2 h a 6 h el mismo día;
+- y, sobre todo, el colector local recarga al arrancar (sección anterior), así que la continuidad ya no depende
+  de GitHub.
+
+### Recarga puntual del hueco nocturno (2026-10-29)
+
+El hueco de las APIs de esa noche (01:48 → 09:15) se recargó a mano con el colector en modo ventana, filtrado a ese
+rango y **solo con las claves que todavía no existían en Firebase**. Las que ya existían pueden estar publicadas en
+Kafka y el puente las repetiría, porque su memoria de claves (`vistas`) solo cubre 3 h. El script y su salida están
+en `docs/evidencias/colector-nube/`.
+
+| | ThingSpeak | EA UK | USGS | Open-Meteo |
+|---|---|---|---|---|
+| Lecturas nuevas escritas en Firebase | 871 | 513 | 236 | 21 |
+| Publicadas por el puente en Kafka | 871 | 513 | 236 | 21 |
+| En el bronce, 01:48-06:30 (únicas) | 748 | 414 | 187 | 18 |
+
+- **Sin duplicados:** `auditar_ingesta.py` dio 0 `eventId` repetidos y 0 lecturas en Firebase sin su copia en Kafka.
+- **Por qué el puente las vio:** su conexión de esa mañana había arrancado con `desdeTs` = el cursor del apagado
+  menos 3 h. Por eso escuchaba todo lo de la noche. Una recarga hecha después de su siguiente reconexión (cada
+  ~50 min) solo quedaría en Firebase.
+- **Fuera del watermark:** estas lecturas llegaron con horas de atraso, más que el watermark de las consultas
+  agregadas (7 min las rápidas y 90 min las lentas). Por eso **no aparecen en los agregados en vivo de Grafana**
+  (`lecturas_agg`) ni generan eventos de servicio, porque el detector descarta lo que llega fuera de orden. Sí
+  quedan en el **bronce**, que guarda todo sin watermark, y de ahí en la **capa batch** (`batch/capas.py`). Es el
+  reparto de trabajo de la arquitectura Lambda: la capa rápida prioriza lo reciente y la batch completa la historia.
+
+### Configuración (una sola vez, en GitHub → Settings → Secrets and variables → Actions)
+
+1. **Secrets:** `FIREBASE_API_KEY`, `FIREBASE_DB_URL`, `FIREBASE_EMAIL` y `FIREBASE_PASSWORD`, con los mismos valores
+   de `.env`. `USGS_API_KEY` es opcional. Nunca se escriben en el repo.
+2. **Variable:** `COLECTOR_REF` = `u2-colector-nube`, la rama con este código. **Es temporal:** existe solo porque
+   `main` todavía no tiene las fases U2. Cuando las ramas U2 se fusionen en `main`, la variable **se elimina** y el
+   workflow pasa a usar el código de `main`.
+3. **El workflow tiene que estar en `main`:** GitHub solo dispara los `schedule` desde la rama por defecto. Cambiar
+   la ventana o el cron exige un commit en `main`.
+4. **Prueba:** Actions → colector-apis → *Run workflow*.
+
+### Costo
+
+- **Actions:** el repo es privado y el plan Free incluye 2,000 min/mes. Cada ejecución tarda ~45 s y se factura
+  1 min. A 48 ejecuciones por día son ~1,440 min/mes.
+- **Si los minutos no alcanzan,** el cron pasa a una vez por hora (`"7 * * * *"`), unos 720 min/mes, **sin perder
+  datos**. La ventana de 6 h cubre seis horas de ejecuciones perdidas. Solo cambia la frescura: las lecturas llegan
+  a Firebase hasta con una hora de atraso.
+- **Firebase:** las reescrituras no aumentan el almacenamiento (misma clave). Con la PC encendida, cada PATCH de
+  6 h (~650 KB) llega por el stream del puente: ~31 MB/día de descarga extra, ~0.9 GB/mes, dentro de los 10 GB/mes
+  del plan.
+
 ## Volumen frente al plan gratuito de Firebase (Spark)
 
 | Fuente | Lecturas nuevas/día | Bytes/lectura | Almacenamiento/día |
