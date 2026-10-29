@@ -1,0 +1,42 @@
+# Configuración del modelo D2 (horas de autonomía). La lee batch/modelo_d2.py. La partición NO se define aquí:
+# viene de batch/particion_modelos.yml (p6.1) a través de la columna "particion" de la tabla oro.
+version: "d2.1"
+
+# Autonomía = horas hasta que el nivel llegue a este umbral, según la tendencia de consumo reciente.
+umbral_pct: 10
+umbrales_sensibilidad: [25]     # se reportan también, porque el 10 % casi nunca se alcanza en los datos
+tope_horas: 72                   # una autonomía mayor se trata como "más de 3 días" (predicción y verdad se comparan
+                                 # solo cuando la verdad es <= tope)
+
+# Pronóstico de nivel
+horizontes_min: [15, 60]
+tendencia_k: 12                  # pasos de 5 min de la línea base de tendencia (1 h), igual que evaluacion.demo_d2
+
+# Llenado: corta los episodios de descenso y censura la autonomía. Se detecta sobre la mediana móvil de 3 pasos
+# (15 min): dispara cuando el nivel sube más de subida_pp sobre su mínimo desde el último llenado y termina cuando
+# deja de subir (2 pasos seguidos sin subir más de quieto_pp). Con 10 pp coincide con las llegadas del detector
+# congelado f4.3 en la flota (27-29 por tanque en 30 días) y con el ritmo de ThingSpeak 1233810 (~1 por día).
+llenado:
+  subida_pp: 10
+  quieto_pp: 0.2
+  suavizado_pasos: 3
+
+# Ajuste de hiperparámetros: solo con la partición "entrenamiento" de p6.1. Su último 20 % (por sensor y corrida)
+# se separa como conjunto de AJUSTE para elegir; después se reentrena con todo el entrenamiento.
+frac_ajuste: 0.2
+
+# Grillas ampliadas tras la primera corrida: los elegidos caían en los bordes (Holt alpha 0.9 / beta 0.01 y 0.4;
+# GBT siempre con la menor profundidad y la menor cantidad de árboles)
+holt:
+  alpha: [0.1, 0.2, 0.3, 0.5, 0.7, 0.8, 0.9, 0.95, 1.0]
+  beta: [0.0, 0.003, 0.01, 0.03, 0.1, 0.2, 0.4, 0.6]
+
+gbt:
+  maxDepth: [2, 3, 5]
+  maxIter: [30, 60]
+  stepSize: 0.1
+  semilla: 2026
+
+bootstrap:
+  n_boot: 1000
+  largo_bloque: 12               # 1 h de pasos de 5 min (pronóstico); la autonomía remuestrea episodios completos

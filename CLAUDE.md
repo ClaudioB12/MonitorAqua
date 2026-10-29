@@ -118,6 +118,24 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
     real). Los modelos D2, D4, D6 y D8 se evalúan solo con este módulo.
   - **SUNASS, INEI y SENAMHI:** no se usan (ninguna dimensión U2 los necesita).
   - Calidad y diccionario de datos en `docs/dataset-modelos.md`; evidencia en `docs/evidencias/f6/`.
+- **Modelo D2, horas de autonomía (F6-D2, plantilla para D4, D6 y D8):** `batch/modelo_d2.py` + `batch/modelo_d2.yml`,
+  corre con `spark-submit` en la imagen `monitoraqua-streaming` (~12 min).
+  - **Principal:** Holt (nivel + tendencia) en `batch/holt.py`, sin dependencias, para reutilizarlo tal cual en el
+    streaming de F7, **ajustado por el error de autonomía** (ajustado por el nivel a 15-60 min, en ThingSpeak se
+    vuelve persistencia y no proyecta bajadas; queda como `holt_pronostico`, solo comparación). **Comparación:**
+    `GBTRegressor` de Spark MLlib (cambio de nivel a 15 y 60 min).
+  - **Resultado d2.1:** en datos reales ningún modelo supera a la persistencia (nivel) ni a las líneas base
+    (autonomía, 2 episodios no censurados); el consumo intermitente es la limitación principal. ESP32 pendiente.
+  - **Autonomía** = horas hasta el umbral (`umbral_pct`, 10 %) con la pendiente reciente. Un llenado (subida > 10 pp
+    sostenida, sobre la mediana de 15 min) antes del umbral **censura** el caso: solo se evalúa lo no censurado y se
+    informan episodios y censurados.
+  - **Ajuste** solo con la partición `entrenamiento` de p6.1 (su último 20 % es el conjunto de ajuste);
+    prueba/consistencia solo al final. `evaluacion.py` ganó el bootstrap por grupos (`grupos=`), un grupo por episodio.
+  - **Modelos** en `batch/modelos/d2/<version>-<fecha>/`: `holt.json` y `manifiesto.json` se versionan; los GBT de
+    Spark (`gbt_*/`) no (`.gitignore`), se regeneran con el script.
+  - **Snapshot de datos:** re-descargar las fuentes mueve la ventana de prueba de ThingSpeak (últimos 7 días de cada
+    canal); los resultados de D2 valen para el snapshot de `docs/evidencias/f6-d2/manifiesto_fuentes_d2.json`.
+  - Detalle y sustentación en `docs/modelo-d2.md`; evidencia en `docs/evidencias/f6-d2/`.
 
 ## Contrato del evento
 
@@ -168,7 +186,7 @@ para pasar de cm a litros.
 | F3 | Spark Streaming: watermark, dedup, ventanas, checkpoint (`streaming/`) | 3 |
 | F4 | Eventos de servicio derivados → `servicio-eventos` | 1 (eventos empresariales) |
 | F5 | Grafana BI y observabilidad (`dashboards/`, alertas por provisioning) — hecha | 4 y 6 |
-| F6 | Batch y modelos MLlib (`batch/`). Parte común hecha (capas, partición, evaluación); siguen F6-D2 (plantilla), D4, D6 y D8 | 7 (entrenamiento) |
+| F6 | Batch y modelos MLlib (`batch/`). Parte común hecha (capas, partición, evaluación) y F6-D2 (autonomía, plantilla); siguen D4, D6 y D8 | 7 (entrenamiento) |
 | F7 | Inferencia en vivo de series de tiempo | 7 (validada e integrada al BI) |
 | F8 | Costos, MkDocs y ensayo de demo | 5 y 8 (sustentación) |
 

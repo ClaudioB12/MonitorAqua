@@ -26,3 +26,6 @@ site/
 
 # Datos generados o descargados por la capa batch (Parquet aumentado, fuentes)
 batch/datos/
+# Modelos GBT de Spark MLlib (binarios, se regeneran con batch/modelo_d2.py); se versionan holt.json y
+# manifiesto.json de cada versión, que no contienen datos
+batch/modelos/**/gbt_*/

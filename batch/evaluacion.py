@@ -117,12 +117,27 @@ def _bloques(n, largo, rng):
     return np.concatenate([np.arange(s, s + largo) for s in inicios])[:n]
 
 
-def _ic(fn, arrays, largo, n_boot, semilla):
+def _por_grupos(grupos, rng):
+    """Índices de un remuestreo por grupos completos (bootstrap de conglomerados): p. ej. todos los orígenes de un
+    mismo episodio de descenso entran o salen juntos, porque entre sí no son independientes."""
+    unicos = list(grupos)
+    elegidos = rng.choice(len(unicos), size=len(unicos), replace=True)
+    return np.concatenate([unicos[i] for i in elegidos])
+
+
+def _ic(fn, arrays, largo, n_boot, semilla, grupos=None):
     rng = np.random.default_rng(semilla)
     n = len(arrays[0])
-    if n < 2 * largo:  # con menos de dos bloques todos los remuestreos son la misma serie: el IC sería engañoso
+    if grupos is not None:
+        indices = [np.flatnonzero(grupos == g) for g in np.unique(grupos)]
+        if len(indices) < 2:  # con un solo grupo todos los remuestreos son el mismo: el IC sería engañoso
+            return [None, None]
+        muestras = (_por_grupos(indices, rng) for _ in range(n_boot))
+    elif n < 2 * largo:  # con menos de dos bloques todos los remuestreos son la misma serie: el IC sería engañoso
         return [None, None]
-    vals = [fn(*(a[ix] for a in arrays)) for ix in (_bloques(n, largo, rng) for _ in range(n_boot))]
+    else:
+        muestras = (_bloques(n, largo, rng) for _ in range(n_boot))
+    vals = [fn(*(a[ix] for a in arrays)) for ix in muestras]
     vals = [v for v in vals if v is not None and np.isfinite(v)]
     return [float(np.percentile(vals, 2.5)), float(np.percentile(vals, 97.5))] if vals else [None, None]
 
@@ -140,16 +155,20 @@ def _mape(y, p, minimo):
     return float(np.mean(np.abs((y[m] - p[m]) / y[m])) * 100) if m.any() else None
 
 
-def evaluar_regresion(y, pred, largo_bloque=12, n_boot=1000, semilla=2026, mape_minimo=1.0):
+def evaluar_regresion(y, pred, largo_bloque=12, n_boot=1000, semilla=2026, mape_minimo=1.0, grupos=None):
+    """grupos (opcional): etiqueta de conglomerado por fila; si se da, el IC remuestrea grupos completos en vez de
+    bloques móviles (lo usa D2 para la autonomía, con un grupo por episodio de descenso)."""
     y, pred = np.asarray(y, float), np.asarray(pred, float)
     ok = ~(np.isnan(y) | np.isnan(pred))
     y, pred = y[ok], pred[ok]
+    g = np.asarray(grupos)[ok] if grupos is not None else None
     if len(y) == 0:
         return {"n": 0}
     mape = lambda a, b: _mape(a, b, mape_minimo)
+    remuestreo = {"n_grupos": int(len(np.unique(g)))} if g is not None else {"largo_bloque": largo_bloque}
     return {"n": int(len(y)), "n_mape": int((np.abs(y) >= mape_minimo).sum()), "mape_minimo": mape_minimo,
-            "largo_bloque": largo_bloque, "n_boot": n_boot,
-            **{nombre: {"valor": fn(y, pred), "ic95": _ic(fn, (y, pred), largo_bloque, n_boot, semilla)}
+            **remuestreo, "n_boot": n_boot,
+            **{nombre: {"valor": fn(y, pred), "ic95": _ic(fn, (y, pred), largo_bloque, n_boot, semilla, g)}
                for nombre, fn in (("MAE", _mae), ("RMSE", _rmse), ("MAPE", mape))}}
 
 
