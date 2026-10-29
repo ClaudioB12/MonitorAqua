@@ -4,6 +4,7 @@ Uso (desde la raíz del repo):  .venv\\Scripts\\python infra\\verificar_stack.py
 Lee .env de la raíz. Sale con código 1 si algún chequeo falla.
 """
 import base64
+from datetime import datetime
 import json
 import sys
 import time
@@ -99,6 +100,29 @@ def chequear_influx():
         yield False, f"Bucket {bucket}", "no existe o el token no tiene acceso"
 
 
+def chequear_spark(max_s=180):
+    """Speed layer viva: cada consulta escribió su progreso (spark_progreso) en InfluxDB hace menos de max_s."""
+    flux = ('from(bucket:"%s") |> range(start:-1h) |> filter(fn:(r)=> r._measurement=="spark_progreso" '
+            'and r._field=="numInputRows") |> group(columns:["consulta"]) |> last()') % ENV.get("INFLUX_BUCKET", "monitoraqua")
+    req = urllib.request.Request(f"{INFLUX}/api/v2/query?org={ENV.get('INFLUX_ORG', 'horeb')}", data=flux.encode(),
+                                 method="POST", headers={"Authorization": f"Token {ENV.get('INFLUX_TOKEN', '')}",
+                                                         "Content-Type": "application/vnd.flux", "Accept": "application/csv"})
+    with urllib.request.urlopen(req, timeout=15) as r:
+        filas = [l.split(",") for l in r.read().decode().splitlines() if l and not l.startswith(",result")]
+    ultimas = {}
+    for f in filas:
+        if len(f) > 8 and f[5] and f[-1].strip():  # _time en la columna 5, consulta en la última
+            ultimas[f[-1].strip()] = f[5]
+    if not ultimas:
+        yield False, "Spark streaming (spark_progreso)", "sin progreso en la última hora"
+        return
+    for consulta in ("rapidas_agg", "lentas_agg", "esp32_detalle", "bronce"):
+        t = ultimas.get(consulta)
+        edad = time.time() - datetime.fromisoformat(t.replace("Z", "+00:00")).timestamp() if t else None
+        yield (edad is not None and edad < max_s, f"Spark consulta {consulta}",
+               f"último lote hace {edad:.0f} s" if edad is not None else "sin progreso")
+
+
 def chequear_grafana():
     _, cuerpo = http(f"{GRAFANA}/api/health")
     salud = json.loads(cuerpo)
@@ -132,7 +156,7 @@ def main() -> int:
     print(f"{'':2} {'componente':<44} detalle")
     print("-" * 90)
     for nombre, chequeo in [("Kafka", chequear_kafka), ("InfluxDB", chequear_influx),
-                            ("Grafana", chequear_grafana), ("Prometheus", chequear_prometheus),
+                            ("Spark", chequear_spark), ("Grafana", chequear_grafana), ("Prometheus", chequear_prometheus),
                             ("kafka-exporter", chequear_exporter)]:
         try:
             for ok, componente, detalle in chequeo():

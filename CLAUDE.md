@@ -44,6 +44,22 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
   - **Puente viejo:** `lambda26-aqua-bridge` queda detenido y con `restart=no`. **Nunca correrlo junto al nuevo**, porque
     cada lectura llegaría dos veces a Kafka.
   - **El -1 del ESP32** (fallo del sensor) viaja tal cual a Kafka; se filtra en Spark (F3).
+- **Speed layer (F3):** `lambda26-aqua-streaming` (`streaming/procesar_stream.py`, Spark UI en `localhost:4043`)
+  corre cuatro consultas sobre `aqua-eventos-real`, cada una con su checkpoint en el volumen
+  `monitoraqua_spark_checkpoints`. Detalle y verificación en `docs/streaming.md`.
+
+  | Consulta | Fuentes | Watermark | Ventana | Sumidero |
+  |---|---|---|---|---|
+  | `rapidas_agg` | ESP32, ThingSpeak | 7 min | 1 min / 30 s | InfluxDB `lecturas_agg` |
+  | `lentas_agg` | EA, USGS, Open-Meteo | 90 min | 15 min | InfluxDB `lecturas_agg` |
+  | `esp32_detalle` | ESP32 | — | — | InfluxDB `lecturas_esp32` |
+  | `bronce` | todas | — | — | Parquet `data/local/bronce/origen=…/fecha=…` |
+
+  - **Deduplicación** por `eventId` con `dropDuplicatesWithinWatermark`.
+  - **Lecturas inválidas** (`motivo_invalidez`): se cuentan pero no entran a los agregados.
+  - **Progreso por lote** en InfluxDB, measurement `spark_progreso`.
+  - **Eventos de prueba:** `sensorId = esp32-prueba-f3` marca 3 eventos que quedaron en el tópico real; hay que
+    excluirlos en los análisis.
 - **Datos aumentados (F2b):** la **flota extrapolada** (`ingesta/generador.py` + `generador.yml`, perfil en
   `batch/perfiles/perfil_real.json`) publica en **`aqua-eventos-aumentados`** (3 particiones, clave `sensorId`) y
   guarda Parquet en `batch/datos/aumentados/` (no versionado).
