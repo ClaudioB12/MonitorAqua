@@ -13,7 +13,7 @@ from pathlib import Path
 from kafka import KafkaConsumer, TopicPartition
 
 RAIZ = Path(__file__).resolve().parents[1]
-TOPICOS = {"aqua-eventos-real": 3, "servicio-eventos": 3}
+TOPICOS = {"aqua-eventos-real": 3, "servicio-eventos": 3, "aqua-eventos-aumentados": 3}
 
 
 def leer_env(ruta: Path) -> dict:

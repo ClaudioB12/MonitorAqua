@@ -44,6 +44,15 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
   - **Puente viejo:** `lambda26-aqua-bridge` queda detenido y con `restart=no`. **Nunca correrlo junto al nuevo**, porque
     cada lectura llegaría dos veces a Kafka.
   - **El -1 del ESP32** (fallo del sensor) viaja tal cual a Kafka; se filtra en Spark (F3).
+- **Datos aumentados (F2b):** la **flota extrapolada** (`ingesta/generador.py` + `generador.yml`, perfil en
+  `batch/perfiles/perfil_real.json`) publica en **`aqua-eventos-aumentados`** (3 particiones, clave `sensorId`) y
+  guarda Parquet en `batch/datos/aumentados/` (no versionado).
+  - **Identificación:** `origen = flota-extrapolada`, `fuenteTipo = aumentado`, más `runId`, `esAnomalia`,
+    `tipoAnomalia`, `episodioId` y `distanciaRealCm`.
+  - **Separación:** nunca van a Firebase ni a `aqua-eventos-real`.
+  - **Uso:** sirven para volumen y para evaluar modelos. La demo en vivo y la métrica final de cada modelo usan solo
+    datos reales. Detalle en `docs/datos-aumentados.md`.
+  - **Terminología:** se dice "datos aumentados" y "flota extrapolada", nunca "sintéticos".
 
 ## Contrato del evento
 
@@ -66,12 +75,22 @@ Si cambia el contrato, se actualizan en el mismo cambio el schema, `validar.py` 
 
 ## Dimensiones U2 (cada integrante sustenta la suya)
 
-| Dim. | Integrante | Indicador en vivo | Señal de entrada |
-|---|---|---|---|
-| D2 | Claudio Bustinza Inofuente | Horas de autonomía del tanque según la tendencia del nivel | `distanciaCm` / `nivelPct` |
-| D4 | Wilbert Alex Mayta Arotaype | Hora estimada de la próxima llegada de agua | Subida brusca de nivel (caudalímetro YF-S201 por confirmar) |
-| D6 | Joel Huillca Lima | Pérdida proyectada por fuga (nivel esperado vs. observado) | Nivel compensado |
-| D8 | Josué Gabriel Ochoa Mamani | Cruce del umbral térmico del agua y tiempo de residencia | `tempAguaC` (sonda DS18B20 por confirmar) |
+Hardware real: **solo HC-SR04 (distancia) y DHT11 (aire de la cámara, ±2 °C, ±5 % HR)**. No hay caudalímetro,
+presión, DS18B20 ni ORP. Por eso las dimensiones U2 se adecuaron en `docs/adecuacion-dimensiones-u2.md`, que
+complementa el Brief S2 sin modificarlo.
+
+| Dim. | Integrante | Indicador U2 | Señal / método | Fuentes | Fuera de alcance |
+|---|---|---|---|---|---|
+| D2 | Claudio Bustinza Inofuente | Horas de autonomía proyectadas | Tendencia del nivel (sin cambios) | ESP32 · ThingSpeak · flota extrapolada | — |
+| D4 | Wilbert Alex Mayta Arotaype | Hora estimada de la próxima llegada | Llenados detectados en la serie de nivel + caudal de llenado estimado (L/min = velocidad de subida × capacidad / altura útil) | ESP32 · ThingSpeak · flota extrapolada | Presión de línea |
+| D6 | Joel Huillca Lima | Pérdida proyectada por fuga | Nivel esperado vs. observado sobre distancia compensada con el DHT11 (sin cambios) | ESP32 · ThingSpeak · flota extrapolada | — |
+| D8 | Josué Gabriel Ochoa Mamani | Temperatura del agua estimada, cruce del umbral, residencia | Agua estimada desde el aire de la cámara (DHT11) + Open-Meteo Juliaca, validada con ThingSpeak 3418755 (70 días de aire en tanque + agua, el agua sigue al aire con 5-7 h de atraso); residencia desde los llenados del ESP32 | ESP32 · Open-Meteo · ThingSpeak 3418755 · flota extrapolada | ORP |
+
+Environment Agency y USGS no sostienen ninguna dimensión: aportan volumen real, demuestran el watermark de fuentes
+lentas y muestran el escalado.
+
+**Pendiente común:** la geometría real del tanque del ESP32 (altura útil y capacidad), que necesitan D2, D4 y D6
+para pasar de cm a litros.
 
 ## Fases y mapa a la rúbrica U2
 
@@ -80,6 +99,7 @@ Si cambia el contrato, se actualizan en el mismo cambio el schema, `validar.py` 
 | F0 | Preparación: estructura, contrato, `.env.example`, inventario del stack | — |
 | F1 | Infraestructura: completar el stack con InfluxDB y Grafana (`infra/`) | Apoyo a 3, 4 y 6 |
 | F2 | Ingesta unificada: colector de APIs y puente revisado (`ingesta/`) | 2 (IoT/sensores) |
+| F2b | Datos aumentados: perfil real, flota extrapolada con anomalías etiquetadas, tópico aparte y Parquet | Apoyo a 3 y 7 (volumen, evaluación) |
 | F3 | Spark Streaming: watermark, dedup, ventanas, checkpoint (`streaming/`) | 3 |
 | F4 | Eventos de servicio derivados → `servicio-eventos` | 1 (eventos empresariales) |
 | F5 | Grafana BI y observabilidad (`dashboards/`) | 4 y 6 |

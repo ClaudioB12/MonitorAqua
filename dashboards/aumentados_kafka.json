@@ -1,0 +1,81 @@
+{
+  "uid": "monitoraqua-aumentados-kafka",
+  "title": "F2b - Datos aumentados en Kafka (flota extrapolada)",
+  "description": "Métricas a nivel Kafka (kafka-exporter -> Prometheus). Los paneles de contenido (nivel, anomalías por tipo, episodios) llegan en F3/F5, alimentados por Spark.",
+  "tags": ["monitoraqua", "f2b", "datos-aumentados"],
+  "timezone": "America/Lima",
+  "schemaVersion": 39,
+  "version": 1,
+  "editable": true,
+  "refresh": "15s",
+  "time": {"from": "now-1h", "to": "now"},
+  "templating": {
+    "list": [
+      {
+        "name": "topico",
+        "label": "Tópico (real / aumentado)",
+        "type": "custom",
+        "query": "aqua-eventos-aumentados,aqua-eventos-real",
+        "multi": true,
+        "includeAll": false,
+        "current": {"selected": true, "text": ["aqua-eventos-aumentados"], "value": ["aqua-eventos-aumentados"]},
+        "options": [
+          {"selected": true, "text": "aqua-eventos-aumentados", "value": "aqua-eventos-aumentados"},
+          {"selected": false, "text": "aqua-eventos-real", "value": "aqua-eventos-real"}
+        ]
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1, "type": "text", "title": "",
+      "gridPos": {"h": 3, "w": 24, "x": 0, "y": 0},
+      "options": {"mode": "markdown", "content": "**Datos aumentados**: flota extrapolada (`origen = flota-extrapolada`, `fuenteTipo = aumentado`), tópico `aqua-eventos-aumentados`. Se usan para volumen y para evaluar modelos; la demo en vivo y la métrica final de cada modelo usan solo **datos reales** (`aqua-eventos-real`). Ver `docs/datos-aumentados.md`."}
+    },
+    {
+      "id": 2, "type": "stat", "title": "Eventos retenidos por tópico",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 6, "w": 8, "x": 0, "y": 3},
+      "targets": [{"refId": "A", "legendFormat": "{{topic}}",
+                   "expr": "sum by (topic) (kafka_topic_partition_current_offset{topic=~\"$topico\"}) - sum by (topic) (kafka_topic_partition_oldest_offset{topic=~\"$topico\"})"}],
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"]}, "colorMode": "value", "graphMode": "area", "textMode": "value_and_name"},
+      "fieldConfig": {"defaults": {"unit": "short", "decimals": 0}, "overrides": []}
+    },
+    {
+      "id": 3, "type": "timeseries", "title": "Eventos por segundo (publicación)",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 6, "w": 16, "x": 8, "y": 3},
+      "targets": [{"refId": "A", "legendFormat": "{{topic}}",
+                   "expr": "sum by (topic) (rate(kafka_topic_partition_current_offset{topic=~\"$topico\"}[1m]))"}],
+      "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 15}}, "overrides": []}
+    },
+    {
+      "id": 4, "type": "bargauge", "title": "Distribución por partición (clave sensorId)",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 7, "w": 12, "x": 0, "y": 9},
+      "targets": [{"refId": "A", "legendFormat": "{{topic}} · p{{partition}}",
+                   "expr": "kafka_topic_partition_current_offset{topic=~\"$topico\"} - kafka_topic_partition_oldest_offset{topic=~\"$topico\"}"}],
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"]}, "orientation": "horizontal", "displayMode": "gradient", "showUnfilled": true},
+      "fieldConfig": {"defaults": {"unit": "short", "decimals": 0}, "overrides": []}
+    },
+    {
+      "id": 5, "type": "timeseries", "title": "Eventos por segundo por partición",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 7, "w": 12, "x": 12, "y": 9},
+      "targets": [{"refId": "A", "legendFormat": "{{topic}} · p{{partition}}",
+                   "expr": "rate(kafka_topic_partition_current_offset{topic=~\"$topico\"}[1m])"}],
+      "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "fillOpacity": 0}}, "overrides": []}
+    },
+    {
+      "id": 6, "type": "stat", "title": "Particiones y réplicas en sincronía",
+      "datasource": {"type": "prometheus", "uid": "prometheus"},
+      "gridPos": {"h": 4, "w": 24, "x": 0, "y": 16},
+      "targets": [
+        {"refId": "A", "legendFormat": "{{topic}} particiones", "expr": "kafka_topic_partitions{topic=~\"$topico\"}"},
+        {"refId": "B", "legendFormat": "{{topic}} réplicas sub-replicadas", "expr": "sum by (topic) (kafka_topic_partition_under_replicated_partition{topic=~\"$topico\"})"}
+      ],
+      "options": {"reduceOptions": {"calcs": ["lastNotNull"]}, "textMode": "value_and_name"},
+      "fieldConfig": {"defaults": {"unit": "short", "decimals": 0}, "overrides": []}
+    }
+  ]
+}

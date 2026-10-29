@@ -22,6 +22,13 @@ ESP32_CRUDO = {"distanciaCm": 5.3, "humedadPct": 53.0, "sensorId": "esp32-tanque
                "temperaturaC": 20.7, "timestamp": 1793226881208}
 ESP32_FALLO = {**ESP32_CRUDO, "distanciaCm": -1}
 
+# Evento normal de la flota extrapolada (datos aumentados, F2b)
+AUMENTADO = {"tipoEvento": "aqua.tanque.lectura", "eventId": "aum-r1-flota-zonaA-01-1793000000000",
+             "sensorId": "flota-zonaA-01", "origen": "flota-extrapolada", "fuenteTipo": "aumentado",
+             "timestamp": 1793000000000, "ingestaTs": 1793000000000, "runId": "r1",
+             "distanciaCm": 18.4, "distanciaRealCm": 18.1, "nivelPct": 84.7, "temperaturaC": 2.1,
+             "humedadPct": 71.0, "esAnomalia": False, "tipoAnomalia": None, "episodioId": None}
+
 # (nombre, evento, debe_ser_valido)
 EJEMPLOS = [
     # Ejemplo literal que hoy publica el ESP32 (sin fuenteTipo ni ingestaTs)
@@ -67,6 +74,22 @@ EJEMPLOS = [
         "tipoEvento": "aqua.tanque.lectura", "eventId": "usgs-x", "sensorId": "usgs-01646500",
         "origen": "usgs", "fuenteTipo": "api-publica", "timestamp": 1792121100000,
     }, False),
+    # Datos aumentados (flota extrapolada, F2b)
+    ("aumentado normal", {**AUMENTADO}, True),
+    ("aumentado con anomalía", {**AUMENTADO, "esAnomalia": True, "tipoAnomalia": "fuga_lenta",
+                                "episodioId": "r1-fuga_lenta-0001"}, True),
+    ("aumentado falla_sensor con -1", {**AUMENTADO, "distanciaCm": -1, "esAnomalia": True,
+                                       "tipoAnomalia": "falla_sensor", "episodioId": "r1-falla_sensor-0001"}, True),
+    ("NEG: aumentado sin runId", {k: v for k, v in AUMENTADO.items() if k != "runId"}, False),
+    ("NEG: aumentado sin etiqueta esAnomalia", {k: v for k, v in AUMENTADO.items() if k != "esAnomalia"}, False),
+    ("NEG: esAnomalia true y tipoAnomalia null", {**AUMENTADO, "esAnomalia": True}, False),
+    ("NEG: esAnomalia false con tipoAnomalia", {**AUMENTADO, "tipoAnomalia": "fuga_lenta"}, False),
+    ("NEG: esAnomalia false con episodioId", {**AUMENTADO, "episodioId": "r1-x"}, False),
+    ("NEG: tipoAnomalia fuera del catálogo", {**AUMENTADO, "esAnomalia": True, "tipoAnomalia": "inundacion"}, False),
+    ("NEG: flota-extrapolada con fuenteTipo real", {**AUMENTADO, "fuenteTipo": "iot-propio"}, False),
+    ("NEG: esp32 marcado como aumentado", {**Puente.a_evento(ESP32_PUSH_KEY, ESP32_CRUDO),
+                                           "fuenteTipo": "aumentado"}, False),
+    ("NEG: esAnomalia no booleano", {**AUMENTADO, "esAnomalia": "no"}, False),
 ]
 
 
