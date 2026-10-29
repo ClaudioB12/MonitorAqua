@@ -1,0 +1,56 @@
+# Generador de datos aumentados: flota extrapolada (F2b). Ver docs/datos-aumentados.md.
+# Cada parámetro indica su origen: [perfil] = batch/perfiles/perfil_real.json, [supuesto] = declarado y
+# configurable porque los datos reales no permiten estimarlo.
+
+corrida:
+  semilla: 2026
+  dias: 30
+  intervalo_s: 60                       # 1 lectura por minuto (el ESP32 real mide cada 5 s)
+  inicio: "2026-09-28T00:00:00-05:00"   # mismo periodo que el perfil térmico de Open-Meteo
+  proporcion_anomalias: 0.05            # objetivo; la proporción real se reporta al terminar
+  minimo_eventos: 100000                # si la configuración produce menos, el generador se detiene
+
+perfil: batch/perfiles/perfil_real.json
+
+medicion:
+  intervalo_ruido_desde_perfil: true    # [perfil] σ del ruido = desv. de deltas <= 2 cm del ESP32 (0.29 cm)
+  saltos_tasa_desde_perfil: true        # [perfil] saltos > 2 cm entre lecturas consecutivas (1.9 %)
+  saltos_cm: [2, 6]                     # [supuesto] magnitud de esos saltos
+  resolucion_cm: 0.1                    # [perfil] el ESP32 reporta 1 decimal
+  temperatura_referencia_c: 20.0        # [supuesto] el firmware usa c = 343.4 m/s (aire a 20 °C)
+  amortiguacion_camara: 0.6             # [supuesto] la cámara de aire del tanque amortigua el ciclo exterior
+  falla_distancia_tasa: 0.008           # [perfil] -1 del HC-SR04 en operación continua (28-oct: 25/3138)
+  falla_dht_tasa: 0.0078                # [perfil] -1 del DHT11 (57/7349)
+
+suministro:
+  # [supuesto declarado] franja de llegada desde la continuidad que SUNASS reporta para Seda Juliaca
+  # (servicio de pocas horas al día, de madrugada). Se reemplaza con el dato del Benchmarking en F6.
+  horas_servicio: 3                     # [supuesto] horas de agua por día en la red
+  probabilidad_llegada_diaria: 0.92     # [supuesto] algunos días no llega agua (sin ser anomalía)
+  caudal_llenado_lpm: 12                # [supuesto] baja presión; ThingSpeak 1233810 llena ~27 L/min (referencia)
+  zonas:
+    zonaA: {franja: [4, 7]}             # hora de Lima en que puede empezar la llegada
+    zonaB: {franja: [5, 8]}
+
+consumo:
+  litros_persona_dia: 100               # [supuesto] consumo doméstico per cápita
+  # [supuesto] reparto horario del consumo (pesos relativos, hora de Lima): picos de mañana y de noche
+  pesos_hora: [0.2, 0.1, 0.1, 0.1, 0.3, 0.8, 1.8, 2.2, 1.6, 1.0, 0.9, 1.0,
+               1.3, 1.2, 0.9, 0.8, 0.9, 1.2, 1.6, 1.9, 1.7, 1.2, 0.7, 0.4]
+  variabilidad_horaria_sigma: 0.5       # [perfil] lognormal; la dispersión del consumo en ThingSpeak es alta (p95/p50 ≈ 5)
+
+tanques:
+  - {sensorId: flota-zonaA-01, zona: zonaA, capacidad_l: 1100, altura_util_cm: 100, sensor_sobre_lleno_cm: 4, nivel_inicial_pct: 85, personas: 4}
+  - {sensorId: flota-zonaA-02, zona: zonaA, capacidad_l: 600,  altura_util_cm: 80,  sensor_sobre_lleno_cm: 4, nivel_inicial_pct: 70, personas: 3}
+  - {sensorId: flota-zonaB-01, zona: zonaB, capacidad_l: 1100, altura_util_cm: 100, sensor_sobre_lleno_cm: 5, nivel_inicial_pct: 90, personas: 4}
+  - {sensorId: flota-zonaB-02, zona: zonaB, capacidad_l: 2500, altura_util_cm: 130, sensor_sobre_lleno_cm: 5, nivel_inicial_pct: 60, personas: 6}
+
+anomalias:
+  # Reparto del presupuesto de eventos anómalos entre los tipos de episodio (falla_sensor también recibe
+  # los -1 sueltos de la tasa real). Duraciones en horas.
+  reparto: {fuga_lenta: 0.25, corte_prolongado: 0.25, deriva_termica: 0.2, llegada_atipica: 0.15, falla_sensor: 0.15}
+  fuga_lenta: {duracion_h: [4, 10], litros_hora: [4, 10]}
+  corte_prolongado: {dias_sin_llegada: [1, 2]}    # la llegada esperada no ocurre; se etiqueta hasta la siguiente
+  deriva_termica: {inicio_h: 20, duracion_h: [6, 8], descenso_extra_c: [5, 8]}    # helada atípica nocturna, termina antes de la franja de llegada
+  llegada_atipica: {franja: [12, 18], margen_post_llenado_min: 30}
+  falla_sensor: {duracion_min: [10, 60], modos: [menos1, salto_imposible]}

@@ -23,3 +23,6 @@ pyspark/.npm/
 
 # MkDocs
 site/
+
+# Datos generados o descargados por la capa batch (Parquet aumentado, fuentes)
+batch/datos/

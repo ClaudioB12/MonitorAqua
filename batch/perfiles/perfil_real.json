@@ -1,0 +1,797 @@
+{
+  "generado_utc": "2026-10-29T01:56:45+00:00",
+  "esp32": {
+    "fuente": "Firebase /board1/lecturas/historial (entradas del firmware, sin 'origen')",
+    "sensores": [
+      "esp32-tanque-real-01"
+    ],
+    "periodo_utc": [
+      "2026-10-02T04:10:29.075000+00:00",
+      "2026-10-29T01:09:24.195000+00:00"
+    ],
+    "lecturas_totales": 7349,
+    "lecturas_por_dia_lima": {
+      "2026-10-01": 370,
+      "2026-10-02": 34,
+      "2026-10-08": 696,
+      "2026-10-15": 1751,
+      "2026-10-22": 1360,
+      "2026-10-28": 3138
+    },
+    "invalidas": {
+      "distanciaCm_-1": 225,
+      "distanciaCm_-1_tasa": 0.03062,
+      "distanciaCm_mayor_120cm_sensor_fuera_del_tanque": 2027,
+      "temperatura_o_humedad_-1": {
+        "temperaturaC": 57,
+        "humedadPct": 57
+      },
+      "campos_nulos": {}
+    },
+    "distanciaCm_validas": {
+      "n": 5090,
+      "min": 2.0,
+      "max": 91.7,
+      "media": 8.2509,
+      "mediana": 6.6,
+      "desv_std": 5.0978,
+      "mad": 2.5,
+      "p01": 3.3,
+      "p05": 3.9,
+      "p25": 4.1,
+      "p75": 8.9,
+      "p95": 16.3,
+      "p99": 17.1
+    },
+    "intervalo_entre_lecturas_s": {
+      "n": 7348,
+      "min": 4.932,
+      "max": 598647.791,
+      "media": 315.9955,
+      "mediana": 5.0,
+      "desv_std": 13349.5788,
+      "mad": 0.0,
+      "p01": 4.998,
+      "p05": 5.0,
+      "p25": 5.0,
+      "p75": 5.0,
+      "p95": 5.0,
+      "p99": 5.0265,
+      "timestamps_duplicados": 0,
+      "huecos_mayores_60s": 6,
+      "hueco_max_s": 598647.8
+    },
+    "delta_distanciaCm_lecturas_consecutivas_le_7s": {
+      "todas": {
+        "n": 4992,
+        "min": -39.8,
+        "max": 40.9,
+        "media": 0.001,
+        "mediana": 0.0,
+        "desv_std": 1.4208,
+        "mad": 0.0,
+        "p01": -1.7,
+        "p05": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "p95": 0.0,
+        "p99": 1.809
+      },
+      "ruido_abs_le_2cm": {
+        "n": 4895,
+        "min": -1.9,
+        "max": 1.9,
+        "media": -0.0003,
+        "mediana": 0.0,
+        "desv_std": 0.2935,
+        "mad": 0.0,
+        "p01": -1.4,
+        "p05": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "p95": 0.0,
+        "p99": 1.4
+      },
+      "saltos_abs_gt_2cm": {
+        "n": 97,
+        "tasa": 0.01943
+      }
+    },
+    "ciclo_diario_hora_lima": {
+      "0": {
+        "n": 0,
+        "temperaturaC_media": null,
+        "humedadPct_media": null
+      },
+      "1": {
+        "n": 0,
+        "temperaturaC_media": null,
+        "humedadPct_media": null
+      },
+      "2": {
+        "n": 0,
+        "temperaturaC_media": null,
+        "humedadPct_media": null
+      },
+      "3": {
+        "n": 0,
+        "temperaturaC_media": null,
+        "humedadPct_media": null
+      },
+      "4": {
+        "n": 0,
+        "temperaturaC_media": null,
+        "humedadPct_media": null
+      },
+      "5": {
+        "n": 0,
+        "temperaturaC_media": null,
+        "humedadPct_media": null
+      },
+      "6": {
+        "n": 0,
+        "temperaturaC_media": null,
+        "humedadPct_media": null
+      },
+      "7": {
+        "n": 0,
+        "temperaturaC_media": null,
+        "humedadPct_media": null
+      },
+      "8": {
+        "n": 0,
+        "temperaturaC_media": null,
+        "humedadPct_media": null
+      },
+      "9": {
+        "n": 0,
+        "temperaturaC_media": null,
+        "humedadPct_media": null
+      },
+      "10": {
+        "n": 0,
+        "temperaturaC_media": null,
+        "humedadPct_media": null
+      },
+      "11": {
+        "n": 0,
+        "temperaturaC_media": null,
+        "humedadPct_media": null
+      },
+      "12": {
+        "n": 0,
+        "temperaturaC_media": null,
+        "humedadPct_media": null
+      },
+      "13": {
+        "n": 0,
+        "temperaturaC_media": null,
+        "humedadPct_media": null
+      },
+      "14": {
+        "n": 0,
+        "temperaturaC_media": null,
+        "humedadPct_media": null
+      },
+      "15": {
+        "n": 2,
+        "temperaturaC_media": 20.45,
+        "humedadPct_media": 53.5
+      },
+      "16": {
+        "n": 546,
+        "temperaturaC_media": 20.87,
+        "humedadPct_media": 50.81
+      },
+      "17": {
+        "n": 408,
+        "temperaturaC_media": 20.3,
+        "humedadPct_media": 52.57
+      },
+      "18": {
+        "n": 192,
+        "temperaturaC_media": 20.77,
+        "humedadPct_media": 51.25
+      },
+      "19": {
+        "n": 824,
+        "temperaturaC_media": 19.98,
+        "humedadPct_media": 52.79
+      },
+      "20": {
+        "n": 941,
+        "temperaturaC_media": 25.54,
+        "humedadPct_media": 38.99
+      },
+      "21": {
+        "n": 1100,
+        "temperaturaC_media": 23.39,
+        "humedadPct_media": 38.97
+      },
+      "22": {
+        "n": 806,
+        "temperaturaC_media": 22.67,
+        "humedadPct_media": 39.65
+      },
+      "23": {
+        "n": 240,
+        "temperaturaC_media": 23.44,
+        "humedadPct_media": 37.49
+      }
+    },
+    "ciclo_diario_horas_cubiertas": 9,
+    "subidas_de_nivel_gt_5cm_entre_bloques_10min": 1
+  },
+  "thingspeak_tanques": {
+    "283977": {
+      "nombre": "House Water Tank Reporting",
+      "n": 6335,
+      "periodo_utc": [
+        "2026-09-30T19:41:59+00:00",
+        "2026-10-29T01:54:33+00:00"
+      ],
+      "intervalo_min": {
+        "n": 6334,
+        "min": 3.3833,
+        "max": 8474.7,
+        "media": 6.4245,
+        "mediana": 5.0833,
+        "desv_std": 106.4128,
+        "mad": 0.0333,
+        "p01": 3.85,
+        "p05": 4.2833,
+        "p25": 5.05,
+        "p75": 5.1167,
+        "p95": 5.9,
+        "p99": 6.3445
+      },
+      "nivelPct": {
+        "n": 6335,
+        "min": 57.1,
+        "max": 99.9,
+        "media": 70.1874,
+        "mediana": 65.7,
+        "desv_std": 12.8248,
+        "mad": 3.0,
+        "p01": 57.6,
+        "p05": 58.5,
+        "p25": 62.7,
+        "p75": 68.6,
+        "p95": 98.9,
+        "p99": 99.5
+      },
+      "llenados": 4,
+      "llenado_duracion_min": {
+        "n": 4,
+        "min": 1321.7833,
+        "max": 5724.3667,
+        "media": 3164.7667,
+        "mediana": 2806.4583,
+        "desv_std": 1599.2198,
+        "mad": 798.3583,
+        "p01": 1362.9623,
+        "p05": 1527.6783,
+        "p25": 2351.2583,
+        "p75": 3619.9667,
+        "p95": 5303.4867,
+        "p99": 5640.1907
+      },
+      "llenado_subida_pp": {
+        "n": 4,
+        "min": 5.1,
+        "max": 31.4,
+        "media": 11.9,
+        "mediana": 5.55,
+        "desv_std": 11.2643,
+        "mad": 0.45,
+        "p01": 5.1,
+        "p05": 5.1,
+        "p25": 5.1,
+        "p75": 12.35,
+        "p95": 27.59,
+        "p99": 30.638
+      },
+      "horas_entre_llenados": {
+        "n": 3,
+        "min": 0.0844,
+        "max": 181.8458,
+        "media": 61.6035,
+        "mediana": 2.8803,
+        "desv_std": 85.0318,
+        "mad": 2.7958,
+        "p01": 0.1404,
+        "p05": 0.364,
+        "p25": 1.4824,
+        "p75": 92.3631,
+        "p95": 163.9493,
+        "p99": 178.2665
+      },
+      "hora_inicio_llenado_utc": {
+        "0": 1,
+        "10": 1,
+        "11": 1,
+        "14": 1
+      },
+      "consumo_pp_por_hora": {
+        "n": 1086,
+        "min": 0.8824,
+        "max": 4.186,
+        "media": 1.4342,
+        "mediana": 1.1842,
+        "desv_std": 0.5538,
+        "mad": 0.0116,
+        "p01": 0.9658,
+        "p05": 1.0503,
+        "p25": 1.1765,
+        "p75": 1.3284,
+        "p95": 2.4141,
+        "p99": 3.541
+      }
+    },
+    "480876": {
+      "nombre": "Water Tank Levels & Temp/Humidity",
+      "n": 6428,
+      "periodo_utc": [
+        "2026-10-23T09:50:08+00:00",
+        "2026-10-29T01:37:29+00:00"
+      ],
+      "intervalo_min": {
+        "n": 6427,
+        "min": 1.0,
+        "max": 262.4667,
+        "media": 1.2677,
+        "mediana": 1.0,
+        "desv_std": 4.5331,
+        "mad": 0.0,
+        "p01": 1.0,
+        "p05": 1.0,
+        "p25": 1.0,
+        "p75": 1.0167,
+        "p95": 1.0333,
+        "p99": 4.0167
+      },
+      "nivelPct": {
+        "n": 6428,
+        "min": 63.9,
+        "max": 100.0,
+        "media": 95.2258,
+        "mediana": 99.5,
+        "desv_std": 6.4155,
+        "mad": 0.5,
+        "p01": 64.8,
+        "p05": 87.5,
+        "p25": 90.3,
+        "p75": 99.8,
+        "p95": 100.0,
+        "p99": 100.0
+      },
+      "llenados": 15,
+      "llenado_duracion_min": {
+        "n": 15,
+        "min": 1.0333,
+        "max": 72.1333,
+        "media": 9.5122,
+        "mediana": 3.8333,
+        "desv_std": 17.2465,
+        "mad": 1.2667,
+        "p01": 1.0333,
+        "p05": 1.0333,
+        "p25": 3.0417,
+        "p75": 5.65,
+        "p95": 33.7733,
+        "p99": 64.4613
+      },
+      "llenado_subida_pp": {
+        "n": 15,
+        "min": 16.6,
+        "max": 29.0,
+        "media": 23.2067,
+        "mediana": 26.7,
+        "desv_std": 4.9008,
+        "mad": 0.5,
+        "p01": 16.614,
+        "p05": 16.67,
+        "p25": 17.25,
+        "p75": 27.05,
+        "p95": 27.74,
+        "p99": 28.748
+      },
+      "horas_entre_llenados": {
+        "n": 14,
+        "min": 0.0167,
+        "max": 65.5319,
+        "media": 6.5947,
+        "mediana": 0.0317,
+        "desv_std": 17.3866,
+        "mad": 0.0147,
+        "p01": 0.0167,
+        "p05": 0.0168,
+        "p25": 0.0169,
+        "p75": 1.1726,
+        "p95": 38.0597,
+        "p99": 60.0375
+      },
+      "hora_inicio_llenado_utc": {
+        "15": 4,
+        "17": 2,
+        "19": 8,
+        "21": 1
+      },
+      "consumo_pp_por_hora": {
+        "n": 1472,
+        "min": 0.9945,
+        "max": 1599.3443,
+        "media": 21.4922,
+        "mediana": 6.0,
+        "desv_std": 131.3044,
+        "mad": 0.0984,
+        "p01": 2.2727,
+        "p05": 5.9016,
+        "p25": 5.9016,
+        "p75": 6.0,
+        "p95": 29.5082,
+        "p99": 36.0
+      }
+    },
+    "1233810": {
+      "nombre": "House Water Tank (24k L)",
+      "n": 8000,
+      "periodo_utc": [
+        "2026-08-31T08:47:48+00:00",
+        "2026-10-29T01:54:00+00:00"
+      ],
+      "intervalo_min": {
+        "n": 7999,
+        "min": 10.0667,
+        "max": 284.7,
+        "media": 10.5696,
+        "mediana": 10.0833,
+        "desv_std": 4.0139,
+        "mad": 0.0167,
+        "p01": 10.0667,
+        "p05": 10.0667,
+        "p25": 10.0833,
+        "p75": 10.1167,
+        "p95": 10.1833,
+        "p99": 20.3333
+      },
+      "nivelPct": {
+        "n": 8000,
+        "min": 7.066,
+        "max": 62.0784,
+        "media": 35.2107,
+        "mediana": 33.9179,
+        "desv_std": 13.1241,
+        "mad": 11.1562,
+        "p01": 10.4519,
+        "p05": 15.3155,
+        "p25": 24.5497,
+        "p75": 48.0553,
+        "p95": 55.384,
+        "p99": 58.2474
+      },
+      "llenados": 67,
+      "llenado_duracion_min": {
+        "n": 67,
+        "min": 20.1667,
+        "max": 1423.1,
+        "media": 95.1405,
+        "mediana": 70.65,
+        "desv_std": 168.3063,
+        "mad": 20.2667,
+        "p01": 26.8547,
+        "p05": 33.5267,
+        "p25": 50.425,
+        "p75": 90.95,
+        "p95": 168.6133,
+        "p99": 630.715
+      },
+      "llenado_subida_pp": {
+        "n": 67,
+        "min": 5.049,
+        "max": 33.1145,
+        "media": 8.7498,
+        "mediana": 7.9428,
+        "desv_std": 4.4297,
+        "mad": 1.6197,
+        "p01": 5.0718,
+        "p05": 5.2235,
+        "p25": 6.267,
+        "p75": 9.3206,
+        "p95": 14.9091,
+        "p99": 28.0917
+      },
+      "horas_entre_llenados": {
+        "n": 66,
+        "min": 0.1681,
+        "max": 93.2736,
+        "media": 18.7857,
+        "mediana": 22.1481,
+        "desv_std": 14.541,
+        "mad": 5.2257,
+        "p01": 0.2782,
+        "p05": 1.0936,
+        "p25": 5.3049,
+        "p75": 23.2228,
+        "p95": 44.9635,
+        "p99": 63.1656
+      },
+      "hora_inicio_llenado_utc": {
+        "1": 1,
+        "3": 5,
+        "4": 12,
+        "5": 30,
+        "6": 6,
+        "19": 1,
+        "20": 1,
+        "21": 5,
+        "22": 2,
+        "23": 4
+      },
+      "consumo_pp_por_hora": {
+        "n": 4305,
+        "min": 0.0256,
+        "max": 29.2183,
+        "media": 2.1116,
+        "mediana": 1.3298,
+        "desv_std": 2.5721,
+        "mad": 0.8804,
+        "p01": 0.0257,
+        "p05": 0.1285,
+        "p25": 0.5921,
+        "p75": 2.57,
+        "p95": 6.8757,
+        "p99": 12.6469
+      }
+    },
+    "1233815": {
+      "nombre": "Veggie Water Tank (24k L)",
+      "n": 8000,
+      "periodo_utc": [
+        "2026-08-29T14:22:20+00:00",
+        "2026-10-29T01:55:06+00:00"
+      ],
+      "intervalo_min": {
+        "n": 7999,
+        "min": 10.0667,
+        "max": 264.5667,
+        "media": 10.888,
+        "mediana": 10.0833,
+        "desv_std": 6.1915,
+        "mad": 0.0167,
+        "p01": 10.0667,
+        "p05": 10.0667,
+        "p25": 10.0833,
+        "p75": 10.1167,
+        "p95": 10.2,
+        "p99": 30.4833
+      },
+      "nivelPct": {
+        "n": 8000,
+        "min": 63.8981,
+        "max": 64.8452,
+        "media": 64.2771,
+        "mediana": 64.2735,
+        "desv_std": 0.1158,
+        "mad": 0.0683,
+        "p01": 64.0176,
+        "p05": 64.0901,
+        "p25": 64.2053,
+        "p75": 64.3418,
+        "p95": 64.474,
+        "p99": 64.5935
+      },
+      "llenados": 0,
+      "llenado_duracion_min": {
+        "n": 0
+      },
+      "llenado_subida_pp": {
+        "n": 0
+      },
+      "horas_entre_llenados": {
+        "n": 0
+      },
+      "hora_inicio_llenado_utc": {},
+      "consumo_pp_por_hora": {
+        "n": 3936,
+        "min": 0.0084,
+        "max": 2.2732,
+        "media": 0.49,
+        "mediana": 0.3811,
+        "desv_std": 0.3951,
+        "mad": 0.252,
+        "p01": 0.0253,
+        "p05": 0.0507,
+        "p25": 0.1777,
+        "p75": 0.7096,
+        "p95": 1.2438,
+        "p99": 1.7388
+      }
+    }
+  },
+  "juliaca_clima_open_meteo": {
+    "fuente": "Open-Meteo forecast API, past_days=30, Juliaca (-15.49, -70.13), hora de Lima",
+    "periodo": [
+      "2026-09-28T00:00",
+      "2026-10-27T23:00"
+    ],
+    "temperaturaC": {
+      "n": 720,
+      "min": -3.0,
+      "max": 21.8,
+      "media": 10.2789,
+      "mediana": 9.55,
+      "desv_std": 5.8536,
+      "mad": 4.55,
+      "p01": -1.3,
+      "p05": 1.0,
+      "p25": 5.875,
+      "p75": 15.3,
+      "p95": 19.6,
+      "p99": 21.081
+    },
+    "minima_diaria_C": {
+      "n": 30,
+      "min": -3.0,
+      "max": 6.1,
+      "media": 1.8167,
+      "mediana": 1.3,
+      "desv_std": 2.46,
+      "mad": 1.45,
+      "p01": -2.971,
+      "p05": -2.225,
+      "p25": 0.2,
+      "p75": 4.475,
+      "p95": 5.365,
+      "p99": 5.926
+    },
+    "maxima_diaria_C": {
+      "n": 30,
+      "min": 14.9,
+      "max": 21.8,
+      "media": 19.0933,
+      "mediana": 19.4,
+      "desv_std": 1.8781,
+      "mad": 1.35,
+      "p01": 15.161,
+      "p05": 15.935,
+      "p25": 18.075,
+      "p75": 20.575,
+      "p95": 21.61,
+      "p99": 21.771
+    },
+    "ciclo_hora_lima": {
+      "0": {
+        "temperaturaC_media": 6.37,
+        "temperaturaC_desv": 1.25,
+        "humedadPct_media": 42.97
+      },
+      "1": {
+        "temperaturaC_media": 5.24,
+        "temperaturaC_desv": 1.52,
+        "humedadPct_media": 42.27
+      },
+      "2": {
+        "temperaturaC_media": 4.32,
+        "temperaturaC_desv": 1.73,
+        "humedadPct_media": 44.07
+      },
+      "3": {
+        "temperaturaC_media": 3.5,
+        "temperaturaC_desv": 2.03,
+        "humedadPct_media": 46.67
+      },
+      "4": {
+        "temperaturaC_media": 2.68,
+        "temperaturaC_desv": 2.3,
+        "humedadPct_media": 49.43
+      },
+      "5": {
+        "temperaturaC_media": 1.92,
+        "temperaturaC_desv": 2.48,
+        "humedadPct_media": 53.97
+      },
+      "6": {
+        "temperaturaC_media": 2.44,
+        "temperaturaC_desv": 2.7,
+        "humedadPct_media": 55.23
+      },
+      "7": {
+        "temperaturaC_media": 5.9,
+        "temperaturaC_desv": 1.92,
+        "humedadPct_media": 40.6
+      },
+      "8": {
+        "temperaturaC_media": 9.71,
+        "temperaturaC_desv": 1.46,
+        "humedadPct_media": 30.07
+      },
+      "9": {
+        "temperaturaC_media": 12.58,
+        "temperaturaC_desv": 1.41,
+        "humedadPct_media": 24.63
+      },
+      "10": {
+        "temperaturaC_media": 14.86,
+        "temperaturaC_desv": 1.41,
+        "humedadPct_media": 20.07
+      },
+      "11": {
+        "temperaturaC_media": 16.51,
+        "temperaturaC_desv": 1.54,
+        "humedadPct_media": 17.07
+      },
+      "12": {
+        "temperaturaC_media": 17.8,
+        "temperaturaC_desv": 1.47,
+        "humedadPct_media": 15.13
+      },
+      "13": {
+        "temperaturaC_media": 18.18,
+        "temperaturaC_desv": 1.63,
+        "humedadPct_media": 14.03
+      },
+      "14": {
+        "temperaturaC_media": 18.54,
+        "temperaturaC_desv": 2.31,
+        "humedadPct_media": 14.3
+      },
+      "15": {
+        "temperaturaC_media": 17.81,
+        "temperaturaC_desv": 3.19,
+        "humedadPct_media": 17.13
+      },
+      "16": {
+        "temperaturaC_media": 16.48,
+        "temperaturaC_desv": 3.52,
+        "humedadPct_media": 21.3
+      },
+      "17": {
+        "temperaturaC_media": 14.5,
+        "temperaturaC_desv": 3.37,
+        "humedadPct_media": 26.73
+      },
+      "18": {
+        "temperaturaC_media": 12.2,
+        "temperaturaC_desv": 2.58,
+        "humedadPct_media": 34.4
+      },
+      "19": {
+        "temperaturaC_media": 11.3,
+        "temperaturaC_desv": 1.97,
+        "humedadPct_media": 33.1
+      },
+      "20": {
+        "temperaturaC_media": 9.99,
+        "temperaturaC_desv": 1.62,
+        "humedadPct_media": 34.87
+      },
+      "21": {
+        "temperaturaC_media": 8.85,
+        "temperaturaC_desv": 1.33,
+        "humedadPct_media": 39.23
+      },
+      "22": {
+        "temperaturaC_media": 7.9,
+        "temperaturaC_desv": 1.23,
+        "humedadPct_media": 40.6
+      },
+      "23": {
+        "temperaturaC_media": 7.11,
+        "temperaturaC_desv": 1.23,
+        "humedadPct_media": 41.77
+      }
+    }
+  },
+  "problemas_de_acceso": [],
+  "limitaciones": [
+    "Un solo ESP32 (esp32-tanque-real-01): no hay perfiles por zona ni por tanque propios.",
+    "El ESP32 mide distancia, no nivel: la altura útil y la capacidad del tanque no se observan; en el generador son supuestos configurables.",
+    "temperaturaC y humedadPct del ESP32 son del aire (DHT11), no del agua, y solo cubren de 15 a 23 h (hora de Lima) a 20-25 °C: el ciclo térmico nocturno de Juliaca se toma de Open-Meteo (30 días).",
+    "Open-Meteo es un modelo meteorológico (no una estación): sirve de referencia climática, no de medición dentro del tanque.",
+    "Antes del 28-oct el ESP32 midió en tandas (1, 2, 8, 15 y 22-oct); el 1-2 de oct el sensor estaba fuera del tanque (distancia > 120 cm), excluido de la distribución.",
+    "El tanque del ESP32 casi no muestra llenados ni consumo: suministro, llenado y consumo se estiman con los tanques de ThingSpeak, que son de otros países y climas.",
+    "Las horas de ThingSpeak están en UTC y la zona horaria local de cada canal no se conoce.",
+    "La franja de llegada de agua en Juliaca no se observa: se toma como supuesto declarado desde la continuidad reportada por SUNASS para Seda Juliaca."
+  ]
+}

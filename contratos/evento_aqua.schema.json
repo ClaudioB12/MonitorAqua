@@ -19,12 +19,35 @@
     "sensorId": { "type": "string", "minLength": 1 },
     "origen": {
       "type": "string",
-      "enum": ["esp32-fisico", "thingspeak", "ea-uk", "usgs", "open-meteo"]
+      "enum": ["esp32-fisico", "thingspeak", "ea-uk", "usgs", "open-meteo", "flota-extrapolada"],
+      "description": "flota-extrapolada: datos aumentados del generador (F2b), solo en el tópico aqua-eventos-aumentados."
     },
     "fuenteTipo": {
       "type": "string",
-      "enum": ["iot-propio", "api-publica"],
-      "description": "Opcional en la entrada: el ESP32 no lo envía; el puente lo completa a partir de origen (F2)."
+      "enum": ["iot-propio", "api-publica", "aumentado"],
+      "description": "Opcional en la entrada: el ESP32 no lo envía; el puente lo completa a partir de origen (F2). iot-propio y api-publica son datos reales; aumentado son datos de la flota extrapolada."
+    },
+    "esAnomalia": {
+      "type": "boolean",
+      "description": "Datos aumentados: true si el evento pertenece a un episodio de anomalía inyectada."
+    },
+    "tipoAnomalia": {
+      "type": ["string", "null"],
+      "enum": ["fuga_lenta", "corte_prolongado", "falla_sensor", "deriva_termica", "llegada_atipica", null],
+      "description": "Tipo de anomalía inyectada; null si el evento es normal."
+    },
+    "episodioId": {
+      "type": ["string", "null"],
+      "description": "Agrupa los eventos de un mismo episodio de anomalía; null si el evento es normal."
+    },
+    "runId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Ejecución del generador que produjo el evento (datos aumentados)."
+    },
+    "distanciaRealCm": {
+      "type": ["number", "null"],
+      "description": "Datos aumentados: distancia verdadera al agua, sin ruido ni deriva térmica ni fallas del sensor. Referencia para medir falsos positivos."
     },
     "timestamp": {
       "type": "integer",
@@ -68,6 +91,28 @@
     {
       "if": { "properties": { "origen": { "const": "open-meteo" } }, "required": ["origen"] },
       "then": { "properties": { "fuenteTipo": { "const": "api-publica" }, "tipoEvento": { "const": "aqua.clima.lectura" } } }
+    },
+    {
+      "description": "Datos aumentados: flota-extrapolada es siempre fuenteTipo aumentado, lleva runId y etiqueta de anomalía.",
+      "if": { "properties": { "origen": { "const": "flota-extrapolada" } }, "required": ["origen"] },
+      "then": {
+        "required": ["fuenteTipo", "runId", "esAnomalia", "tipoAnomalia"],
+        "properties": { "fuenteTipo": { "const": "aumentado" }, "tipoEvento": { "const": "aqua.tanque.lectura" } }
+      }
+    },
+    {
+      "description": "fuenteTipo aumentado solo puede venir de la flota extrapolada.",
+      "if": { "properties": { "fuenteTipo": { "const": "aumentado" } }, "required": ["fuenteTipo"] },
+      "then": { "properties": { "origen": { "const": "flota-extrapolada" } } }
+    },
+    {
+      "description": "Coherencia: esAnomalia true exige un tipoAnomalia del catálogo; false exige tipoAnomalia y episodioId null.",
+      "if": { "properties": { "esAnomalia": { "const": true } }, "required": ["esAnomalia"] },
+      "then": { "required": ["tipoAnomalia"], "properties": { "tipoAnomalia": { "type": "string" } } }
+    },
+    {
+      "if": { "properties": { "esAnomalia": { "const": false } }, "required": ["esAnomalia"] },
+      "then": { "properties": { "tipoAnomalia": { "const": null }, "episodioId": { "const": null } } }
     }
   ]
 }

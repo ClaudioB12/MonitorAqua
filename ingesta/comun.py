@@ -25,6 +25,8 @@ ORIGENES = {
     "ea-uk": ("api-publica", "aqua.red.lectura"),
     "usgs": ("api-publica", "aqua.calidad.lectura"),
     "open-meteo": ("api-publica", "aqua.clima.lectura"),
+    # Datos aumentados (F2b): solo en el tópico aqua-eventos-aumentados, nunca en Firebase ni en aqua-eventos-real
+    "flota-extrapolada": ("aumentado", "aqua.tanque.lectura"),
 }
 
 # El idToken dura 1 hora: se renueva 10 minutos antes de que venza.
