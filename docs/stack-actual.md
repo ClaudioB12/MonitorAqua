@@ -44,6 +44,7 @@ Todos están en la red Docker **`lambda26-kafka-net`**.
 | `lambda26-pyspark` | build local (Python 3.10, Java 21, PySpark 4.2.0) | `4488 → 8888` (Jupyter), `4042 → 4040` (Spark UI) | — |
 | `lambda26-aqua-puente` | `monitoraqua-ingesta` (build de `ingesta/Dockerfile`) | — | — |
 | `lambda26-aqua-colector` | `monitoraqua-ingesta` | — | — |
+| `lambda26-aqua-consumidor-eventos` | `monitoraqua-ingesta` (consumidor de `servicio-eventos`, grupo `aqua-servicio-consumidor`) | — | — |
 | `lambda26-aqua-streaming` | `monitoraqua-streaming` (build de `streaming/Dockerfile`, PySpark 4.2.0) | `4043 → 4040` (Spark UI) | — |
 
 ## Kafka
@@ -56,7 +57,7 @@ Todos están en la red Docker **`lambda26-kafka-net`**.
 | Tópico | Particiones | Retención | Mensajes (28-oct) | Key | Uso |
 |---|---|---|---|---|---|
 | `aqua-eventos-real` | 3 | 7 días (`retention.ms=604800000`) | 4,228 al cierre de F2: 2,649 del puente de la S08 (offsets 0–2648, partición 0) y el resto del puente nuevo | `sensorId` | lecturas de todas las fuentes |
-| `servicio-eventos` | 3 | 7 días (`retention.ms=604800000`) | 0 (creado en F1) | `sensorId` | eventos de negocio derivados por Spark (F4) |
+| `servicio-eventos` | 3 | 7 días (`retention.ms=604800000`) | 51 al arrancar F4 (historial real) | `sensorId` | eventos de negocio derivados por Spark (F4; contrato en `docs/eventos-servicio.md`) |
 | `aqua-eventos-aumentados` | 3 | 7 días (`retention.ms=604800000`, `CreateTime`) | 172,800 (corrida `r2026-45facae2`, F2b) | `sensorId` | datos aumentados de la flota extrapolada; nunca se mezclan con el real (`docs/datos-aumentados.md`) |
 
 Con 42 sensores (ESP32 + 41 de API) la clave `sensorId` ya reparte entre las 3 particiones. El ESP32 sigue en la

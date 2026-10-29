@@ -1,0 +1,196 @@
+{
+ "base": {
+  "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+  "metricas": [
+   {
+    "anomalia": "fuga_lenta",
+    "evento": "alerta_fuga",
+    "episodios": 4,
+    "eventos": 2,
+    "consistencia_precision": 0.5,
+    "consistencia_precision_ic95": [
+     0.095,
+     0.905
+    ],
+    "consistencia_recall": 0.25,
+    "consistencia_recall_ic95": [
+     0.046,
+     0.699
+    ]
+   },
+   {
+    "anomalia": "corte_prolongado",
+    "evento": "corte_prolongado",
+    "episodios": 1,
+    "eventos": 16,
+    "consistencia_precision": 0.062,
+    "consistencia_precision_ic95": [
+     0.011,
+     0.283
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.207,
+     1.0
+    ]
+   },
+   {
+    "anomalia": "llegada_atipica",
+    "evento": "llegada_agua (fueraDeFranja)",
+    "episodios": 4,
+    "eventos": 4,
+    "consistencia_precision": 1.0,
+    "consistencia_precision_ic95": [
+     0.51,
+     1.0
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.51,
+     1.0
+    ]
+   },
+   {
+    "anomalia": "falla_sensor",
+    "evento": "falla_sensor",
+    "episodios": 26,
+    "eventos": 26,
+    "consistencia_precision": 1.0,
+    "consistencia_precision_ic95": [
+     0.871,
+     1.0
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.871,
+     1.0
+    ]
+   }
+  ],
+  "deriva_termica": {
+   "episodios": 3,
+   "con_alerta_fuga_falsa": 0,
+   "ic95": [
+    0.0,
+    0.562
+   ]
+  },
+  "eventos_por_tipo": null,
+  "llegadas_efectivas": {
+   "llegadas": 108,
+   "detectadas": 106,
+   "recall": 0.981,
+   "recall_ic95": [
+    0.935,
+    0.995
+   ],
+   "eventos_llegada_agua": 106
+  },
+  "semillas": [
+   7
+  ],
+  "runIds": [
+   "r7-48fedbe6"
+  ],
+  "variante": {},
+  "llegadas_omitidas_sin_etiqueta": 0
+ },
+ "f2b2": {
+  "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+  "metricas": [
+   {
+    "anomalia": "fuga_lenta",
+    "evento": "alerta_fuga",
+    "episodios": 4,
+    "eventos": 7,
+    "consistencia_precision": 0.857,
+    "consistencia_precision_ic95": [
+     0.487,
+     0.974
+    ],
+    "consistencia_recall": 0.75,
+    "consistencia_recall_ic95": [
+     0.301,
+     0.954
+    ]
+   },
+   {
+    "anomalia": "corte_prolongado",
+    "evento": "corte_prolongado",
+    "episodios": 7,
+    "eventos": 12,
+    "consistencia_precision": 0.583,
+    "consistencia_precision_ic95": [
+     0.32,
+     0.807
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.646,
+     1.0
+    ]
+   },
+   {
+    "anomalia": "llegada_atipica",
+    "evento": "llegada_agua (fueraDeFranja)",
+    "episodios": 4,
+    "eventos": 4,
+    "consistencia_precision": 1.0,
+    "consistencia_precision_ic95": [
+     0.51,
+     1.0
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.51,
+     1.0
+    ]
+   },
+   {
+    "anomalia": "falla_sensor",
+    "evento": "falla_sensor",
+    "episodios": 27,
+    "eventos": 27,
+    "consistencia_precision": 1.0,
+    "consistencia_precision_ic95": [
+     0.875,
+     1.0
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.875,
+     1.0
+    ]
+   }
+  ],
+  "deriva_termica": {
+   "episodios": 3,
+   "con_alerta_fuga_falsa": 0,
+   "ic95": [
+    0.0,
+    0.562
+   ]
+  },
+  "eventos_por_tipo": null,
+  "llegadas_efectivas": {
+   "llegadas": 110,
+   "detectadas": 110,
+   "recall": 1.0,
+   "recall_ic95": [
+    0.966,
+    1.0
+   ],
+   "eventos_llegada_agua": 110
+  },
+  "semillas": [
+   7
+  ],
+  "runIds": [
+   "r7-79a6b935"
+  ],
+  "variante": {
+   "config": "C:\\upeu\\Big Data\\MonitorAqua\\ingesta\\generador_f2b2.yml"
+  },
+  "llegadas_omitidas_sin_etiqueta": 2
+ }
+}

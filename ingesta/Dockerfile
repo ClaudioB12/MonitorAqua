@@ -10,7 +10,7 @@ WORKDIR /app/ingesta
 COPY ingesta/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY contratos/evento_aqua.schema.json /app/contratos/
+COPY contratos/*.schema.json /app/contratos/
 COPY ingesta/*.py ingesta/estaciones.yml ./
 
 CMD ["python", "puente_firebase_kafka.py"]

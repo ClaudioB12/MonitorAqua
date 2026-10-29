@@ -221,6 +221,29 @@ docker run --rm --env-file .env -v "$PWD:/repo" -w /repo/batch monitoraqua-inges
 Si la configuración produce menos de `minimo_eventos` (100,000), el generador se detiene y lo dice, salvo que se
 pase `--permitir-menos`. Firebase no tiene integración: está fuera de esta fase por decisión del equipo.
 
+## Modelo f2b.2 (`ingesta/generador_f2b2.yml`)
+
+Mismo modelo físico que f2b.1; cambian dos supuestos que hacían que la validación de F4 castigara al detector por
+diferencias de definición, no por errores:
+
+| | f2b.1 (`generador.yml`, corrida de referencia) | f2b.2 (`generador_f2b2.yml`) |
+|---|---|---|
+| Fuga lenta | 4-10 h, 4-10 L/h, a cualquier hora, nunca encima de un llenado | **1-4 días, 1.5-4 L/h** (un flotador o un goteo), cruza las noches y convive con los llenados; al menos 4 episodios por corrida |
+| Llegadas que no ocurren | el 8 % de los días sin agua **no** se etiqueta; solo los cortes inyectados | **toda** llegada omitida es `corte_prolongado`, desde el inicio de la franja de ese día hasta la siguiente llegada |
+| Eventos anómalos (semilla 7) | 5.7 % | 16.2 % (los episodios largos ocupan más tiempo) |
+
+- **Activación:** f2b.2 se activa con `version_modelo: f2b.2` en su YAML. Sin esa clave el generador produce
+  exactamente f2b.1: la corrida de referencia `r2026-45facae2` conserva su huella `c67c485ac9253935`.
+- **Superposición con fugas:** en f2b.2 los cortes se etiquetan después de las fugas. Una llegada omitida que cae
+  dentro de una fuga larga queda sin etiquetar (los episodios no se superponen) y se cuenta
+  (`omitidas_sin_etiqueta`: 2 en la semilla 7).
+- **Efecto en la consistencia:** la tabla f2b.1 frente a f2b.2 de la validación está en `docs/eventos-servicio.md`.
+- **Uso:**
+
+  ```bash
+  .venv/Scripts/python ingesta/generador.py --config ingesta/generador_f2b2.yml --semilla 7 --seco
+  ```
+
 ## Pendientes y límites
 
 - **Republicar duplica en el tópico:** volver a publicar la misma corrida con `--kafka` sin `--desde` repite los

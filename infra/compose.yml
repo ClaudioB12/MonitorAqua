@@ -79,6 +79,18 @@ services:
     networks:
       - lambda26-kafka-net
 
+  # --- Eventos de servicio (F4): consumidor en vivo de servicio-eventos -------------------
+  aqua-consumidor-eventos:
+    image: monitoraqua-ingesta:latest
+    container_name: lambda26-aqua-consumidor-eventos
+    restart: unless-stopped
+    command: ["python", "consumidor_eventos.py"]
+    environment:
+      KAFKA_BOOTSTRAP: kafka:9092
+      PYTHONUNBUFFERED: "1"
+    networks:
+      - lambda26-kafka-net
+
   # --- Speed layer (F3): Spark Structured Streaming sobre aqua-eventos-real --------------
   aqua-streaming:
     build:
@@ -93,12 +105,19 @@ services:
       INFLUX_URL_INTERNA: http://influxdb:8086
       CHECKPOINT_DIR: /checkpoints
       BRONCE_DIR: /datos/bronce
+      SENSORES_PRUEBA_PATH: /app/config/ingesta/sensores_prueba.yml
+      TANQUES_PATH: /app/config/ingesta/tanques.yml
+      REGLAS_SERVICIO_PATH: /app/config/streaming/reglas_servicio.yml
     ports:
       - "4043:4040"   # Spark UI del job (4042 es la de lambda26-pyspark)
     volumes:
       - monitoraqua_spark_checkpoints:/checkpoints
       - ../data/local/bronce:/datos/bronce
-      - ../ingesta/sensores_prueba.yml:/app/config/sensores_prueba.yml:ro   # lista única de sensores de prueba
+      # Carpetas (no archivos sueltos): así el contenedor ve los cambios de sensores_prueba.yml, tanques.yml y
+      # reglas_servicio.yml aunque el editor reemplace el archivo
+      - ../ingesta:/app/config/ingesta:ro
+      - ../streaming:/app/config/streaming:ro
+      - ../data/local/validacion:/datos/validacion                          # salida de validar_detector.py
     depends_on:
       - influxdb
     networks:

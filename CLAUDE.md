@@ -60,6 +60,25 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
   - **Progreso por lote** en InfluxDB, measurement `spark_progreso`.
   - **Eventos de prueba:** `sensorId = esp32-prueba-f3` marca 3 eventos que quedaron en el tópico real; hay que
     excluirlos en los análisis.
+- **Eventos de servicio (F4):** 5.ª consulta del job, `eventos_servicio`.
+  - **Funcionamiento:** detector con estado por `sensorId` (`streaming/detector_servicio.py` dentro de
+    `applyInPandasWithState`). Publica en **`servicio-eventos`** (clave `sensorId`) y en InfluxDB `eventos_servicio`.
+  - **Contrato:** `contratos/servicio_evento.schema.json`; `eventoId = tipo-sensorId-inicioTs` es determinístico.
+  - **Configuración:** umbrales en `streaming/reglas_servicio.yml` y geometría en `ingesta/tanques.yml`; el detector
+    relee los dos al cambiar. El tanque del ESP32 tiene medidas **provisionales** (`por_medir: true`).
+  - **Consumidor:** `lambda26-aqua-consumidor-eventos`, grupo `aqua-servicio-consumidor`, con su lag en Prometheus.
+  - **Validación:** `streaming/validar_detector.py` sobre `aqua-eventos-aumentados`, con un tópico de prueba que se
+    borra al terminar.
+  - **Reglas CONGELADAS en f4.3 desde 2026-10-28 23:37:40 (Lima)**, registrado en `reglas_servicio.yml` →
+    `congelamiento`. Lo real anterior es el conjunto de diseño y nunca se reporta como rendimiento. El rendimiento
+    real sale solo de lecturas y bitácora posteriores (`streaming/comparar_bitacora.py`). Un cambio de reglas exige
+    versión y congelamiento nuevos.
+  - **Tres niveles de validación que no se mezclan:**
+    - **Consistencia detector-generador** (`evaluar_detector.py`): mide definiciones compartidas, **no** rendimiento.
+    - **Sensibilidad:** `sensibilidad.py`.
+    - **Rendimiento real:** bitácora `docs/evidencias/f4/bitacora_real.csv`.
+    Todas las proporciones llevan su IC 95 % de Wilson.
+  - Detalle en `docs/eventos-servicio.md`.
 - **Datos aumentados (F2b):** la **flota extrapolada** (`ingesta/generador.py` + `generador.yml`, perfil en
   `batch/perfiles/perfil_real.json`) publica en **`aqua-eventos-aumentados`** (3 particiones, clave `sensorId`) y
   guarda Parquet en `batch/datos/aumentados/` (no versionado).
@@ -69,6 +88,8 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
   - **Uso:** sirven para volumen y para evaluar modelos. La demo en vivo y la métrica final de cada modelo usan solo
     datos reales. Detalle en `docs/datos-aumentados.md`.
   - **Terminología:** se dice "datos aumentados" y "flota extrapolada", nunca "sintéticos".
+  - **Dos modelos del generador:** f2b.1 (`generador.yml`, corrida de referencia `r2026-45facae2`) y f2b.2
+    (`generador_f2b2.yml`: fugas persistentes de 1-4 días y toda llegada omitida etiquetada como corte).
 
 ## Contrato del evento
 

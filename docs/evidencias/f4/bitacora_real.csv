@@ -1,0 +1,4 @@
+timestamp,accion,sensorId,timestamp_fin,observador,nota
+2026-10-28T22:50:29-05:00,falla,esp32-tanque-real-01,,sistema,"HC-SR04 envía -1 sin pausa desde las 22:50:29 (hora de Lima); DHT11 sigue midiendo. Registrada a posteriori desde los datos: no es una observación independiente. Causa por confirmar."
+2026-10-28T21:46:09-05:00,no_verificable,esp32-tanque-real-01,,equipo,"llegada_agua detectada (21:46). Decisión del equipo: queda como no verificable, fuera del cálculo. Conjunto de diseño."
+2026-10-28T23:08:09-05:00,no_verificable,esp32-tanque-real-01,,equipo,"llegada_agua detectada al recuperarse el HC-SR04 (23:08). Decisión del equipo: queda como no verificable, fuera del cálculo. Conjunto de diseño."

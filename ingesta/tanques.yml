@@ -1,0 +1,39 @@
+# Geometría de los tanques por sensorId (F4). El detector de eventos de servicio relee este archivo cuando
+# cambia (no hace falta reiniciar Spark).
+#
+#   altura_interior_cm   altura útil del agua (fondo -> nivel de rebose)
+#   capacidad_l          litros a altura_interior_cm
+#   sensor_al_fondo_cm   distancia del HC-SR04 al fondo: nivel_cm = sensor_al_fondo_cm - distancia
+#   zona                 franja de llegada en reglas_servicio.yml -> zonas
+#   por_medir: true      valores provisionales; reemplazar con las medidas reales
+#   geometria_desde      fecha y hora en que la geometría pasó a ser la real (ver esp32-tanque-real-01)
+#
+# Tanques de ThingSpeak: se usa nivelPct o nivelM tal como llegan (modo), sin distancia.
+
+tanques:
+  esp32-tanque-real-01:
+    zona: Juliaca-A
+    altura_interior_cm: 100     # PROVISIONAL
+    capacidad_l: 1100           # PROVISIONAL (tanque doméstico típico)
+    sensor_al_fondo_cm: 104     # PROVISIONAL (sensor ~4 cm sobre el rebose, como en la mediana real de 6.6 cm)
+    por_medir: true
+    # Fecha y hora ISO (con zona) en que se cargan las medidas reales y se pone por_medir: false. El rendimiento real
+    # de este sensor se calcula solo desde la más tardía entre esta hora y el congelamiento de reglas
+    # (streaming/comparar_bitacora.py). Mientras sea null, no hay periodo de rendimiento real para este sensor.
+    geometria_desde: null
+
+  # Flota extrapolada: misma geometría que ingesta/generador.yml (sensor_al_fondo = sensor_sobre_lleno + altura)
+  flota-zonaA-01: {zona: zonaA, altura_interior_cm: 100, capacidad_l: 1100, sensor_al_fondo_cm: 104}
+  flota-zonaA-02: {zona: zonaA, altura_interior_cm: 80,  capacidad_l: 600,  sensor_al_fondo_cm: 84}
+  flota-zonaB-01: {zona: zonaB, altura_interior_cm: 100, capacidad_l: 1100, sensor_al_fondo_cm: 105}
+  flota-zonaB-02: {zona: zonaB, altura_interior_cm: 130, capacidad_l: 2500, sensor_al_fondo_cm: 135}
+
+  # ThingSpeak: nivel tal como llega; la capacidad solo sirve para pasar a litros (null = desconocida)
+  thingspeak-283977:  {zona: thingspeak, modo: nivelPct, capacidad_l: null}
+  thingspeak-480876:  {zona: thingspeak, modo: nivelPct, capacidad_l: null}
+  thingspeak-1233810: {zona: thingspeak, modo: nivelPct, capacidad_l: 24000}
+  thingspeak-1233815: {zona: thingspeak, modo: nivelPct, capacidad_l: 24000}
+  thingspeak-3418755: {zona: thingspeak, modo: nivelM, altura_interior_cm: 100, capacidad_l: null}
+  # 1272968 y 3019316 miden distancia sin geometría conocida: solo aplica falla_sensor
+  thingspeak-1272968: {zona: thingspeak, modo: sin_nivel}
+  thingspeak-3019316: {zona: thingspeak, modo: sin_nivel}

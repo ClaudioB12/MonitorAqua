@@ -67,6 +67,25 @@ def errores_contrato(validador, evento):
             for e in sorted(validador.iter_errors(evento), key=lambda e: list(e.path))]
 
 
+def cargar_validador_servicio():
+    ruta = SCHEMA_PATH.with_name("servicio_evento.schema.json")
+    schema = json.loads(ruta.read_text(encoding="utf-8"))
+    Draft202012Validator.check_schema(schema)
+    return Draft202012Validator(schema)
+
+
+def errores_servicio(validador, evento):
+    """Contrato de servicio-eventos: schema más las dos reglas que JSON Schema no expresa."""
+    errores = errores_contrato(validador, evento)
+    if not errores:
+        esperado = f"{evento['tipo']}-{evento['sensorId']}-{evento['inicioTs']}"
+        if evento["eventoId"] != esperado:
+            errores.append(f"eventoId: debe ser {esperado}")
+        if evento["finTs"] < evento["inicioTs"]:
+            errores.append("finTs: anterior a inicioTs")
+    return errores
+
+
 def clave_firebase(texto):
     """Firebase no admite . $ # [ ] / en las claves."""
     return re.sub(r"[.$#\[\]/\s]", "-", texto)

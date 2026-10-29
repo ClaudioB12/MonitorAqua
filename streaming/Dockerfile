@@ -11,7 +11,7 @@ ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 \
     PATH="/usr/lib/jvm/java-21-openjdk-amd64/bin:${PATH}" \
     PYTHONUNBUFFERED=1
 
-RUN pip install --no-cache-dir pyspark==4.2.0 PyYAML==6.0.2
+RUN pip install --no-cache-dir pyspark==4.2.0 PyYAML==6.0.2 pandas==2.3.3 pyarrow==19.0.1
 
 # Descarga el conector Kafka al caché de Ivy durante el build: el arranque no depende de Maven Central.
 RUN python -c "from pyspark.sql import SparkSession as S; \

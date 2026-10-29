@@ -116,7 +116,7 @@ def chequear_spark(max_s=180):
     if not ultimas:
         yield False, "Spark streaming (spark_progreso)", "sin progreso en la última hora"
         return
-    for consulta in ("rapidas_agg", "lentas_agg", "esp32_detalle", "bronce"):
+    for consulta in ("rapidas_agg", "lentas_agg", "esp32_detalle", "bronce", "eventos_servicio"):
         t = ultimas.get(consulta)
         edad = time.time() - datetime.fromisoformat(t.replace("Z", "+00:00")).timestamp() if t else None
         yield (edad is not None and edad < max_s, f"Spark consulta {consulta}",
@@ -149,6 +149,10 @@ def chequear_exporter():
     _, cuerpo = http(f"{EXPORTER}/metrics")
     brokers = next((l.split()[-1] for l in cuerpo.splitlines() if l.startswith("kafka_brokers ")), None)
     yield brokers not in (None, "0"), f"kafka-exporter {EXPORTER}", f"kafka_brokers={brokers}"
+    lag = [l for l in cuerpo.splitlines()
+           if l.startswith("kafka_consumergroup_lag{") and 'consumergroup="aqua-servicio-consumidor"' in l]
+    total = sum(float(l.split()[-1]) for l in lag)
+    yield bool(lag), "Consumidor servicio-eventos (lag)", f"{total:.0f} mensajes" if lag else "grupo sin offsets"
 
 
 def main() -> int:
