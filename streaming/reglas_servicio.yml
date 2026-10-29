@@ -11,6 +11,9 @@ version: "f4.3"   # f4.2: histéresis de falla_sensor y llegada_agua tras falla/
 congelamiento:
   version: "f4.3"
   desde: "2026-10-28T23:37:40-05:00"   # arranque de lambda26-aqua-streaming con f4.3 (2026-10-29 04:37:40 UTC)
+  commit: "b400e7d480363274665ece065db5ea07c66390db"   # commit que fija estas reglas (u2-fase4)
+  # Verificación: las reglas y el detector no cambiaron desde ese commit si este comando no muestra diferencias
+  # fuera de este bloque:  git diff b400e7d -- streaming/reglas_servicio.yml streaming/detector_servicio.py
 
 compensacion_termica:
   activa: true                 # distancia × c(T)/c(20 °C) con la temperatura del DHT11 (adecuación D6)

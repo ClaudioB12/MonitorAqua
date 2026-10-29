@@ -103,6 +103,17 @@ El estado no usa timeouts: el corte se evalúa con cada lectura.
 (2026-10-29 04:37:40 UTC).** Ese es el momento en que `lambda26-aqua-streaming` arrancó con f4.3, y queda registrado
 en `streaming/reglas_servicio.yml` → `congelamiento`.
 
+**Commit de congelamiento: [`b400e7d480363274665ece065db5ea07c66390db`](https://github.com/ClaudioB12/MonitorAqua/commit/b400e7d480363274665ece065db5ea07c66390db)** (rama `u2-fase4`). Es la
+prueba de que las reglas no cambiaron después de ver los datos reales. Fija `streaming/reglas_servicio.yml` (f4.3) y
+`streaming/detector_servicio.py` antes de cualquier prueba con medidas reales. El hash no puede ir dentro de su propio
+commit, porque escribirlo cambiaría el contenido; por eso se registra en un commit posterior que solo agrega estas
+líneas. Para verificarlo:
+
+```bash
+git diff b400e7d -- streaming/reglas_servicio.yml streaming/detector_servicio.py
+# solo debe mostrar las líneas commit/verificación del bloque congelamiento; ninguna regla ni código del detector
+```
+
 - **Conjunto de diseño.** Todo lo real anterior a ese momento se usó para diseñar las reglas: el historial del ESP32
   del 2 al 28 de octubre, la falla intermitente del HC-SR04 de esa noche y las llegadas de las 21:46 y las 23:08. Con
   eso se hicieron f4.2 y f4.3, así que **no se usa para reportar rendimiento real**. Se muestra aparte, como diseño.
