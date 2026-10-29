@@ -1,0 +1,38 @@
+# Separación de datos para TODOS los modelos de F6 (D2, D4, D6, D8). Se define una sola vez aquí; batch/capas.py la
+# aplica (columna "particion" en las tablas oro) y batch/evaluacion.py la lee. Ningún modelo define la suya.
+#
+# Principios:
+#   - Siempre temporal, nunca aleatoria: en series de tiempo, mezclar al azar deja que el modelo "vea el futuro".
+#   - Entre entrenamiento y prueba hay un embargo: se descarta un margen para que las variables con rezago o las
+#     ventanas móviles calculadas al final del entrenamiento no usen datos del periodo de prueba.
+#   - La prueba real del ESP32 es intocable hasta la evaluación final.
+
+version: "p6.1"
+
+esp32:
+  sensores: [esp32-tanque-real-01]
+  # Diseño y entrenamiento: todo lo anterior a la más tardía entre el congelamiento de reglas de F4 y el cambio a
+  # geometría real (ingesta/tanques.yml -> geometria_desde). Prueba real: desde esa hora.
+  # Mientras geometria_desde sea null (geometría provisional), NO hay periodo de prueba real para el ESP32.
+  congelamiento_reglas: "2026-10-28T23:37:40-05:00"   # streaming/reglas_servicio.yml -> congelamiento.desde
+  geometria_desde: desde_tanques_yml                   # se lee de ingesta/tanques.yml en cada corrida
+  embargo_h: 0                                         # la prueba empieza en un instante fijo, posterior a todo el diseño
+  intocable: true                                      # ningún modelo mira la prueba antes de la evaluación final
+
+thingspeak:
+  # Por canal: entrenamiento con los primeros días, prueba con los últimos N días de ese canal.
+  prueba_ultimos_dias: 7
+  embargo_h: 24
+  canales: [283977, 480876, 1233810, 1233815, 1272968, 3418755, 3019316]
+
+aumentados:
+  # Solo para entrenar y para medir CONSISTENCIA detector/modelo-generador. Nunca se reportan como métrica final.
+  # Dentro de cada corrida también se separa en el tiempo: los primeros 21 días para entrenar, los últimos 9 para la
+  # consistencia, con 1 día de embargo.
+  corridas:
+    r2026-45facae2: {modelo_generador: f2b.1, semilla: 2026}
+    r7-79a6b935: {modelo_generador: f2b.2, semilla: 7}
+  entrenamiento_dias: 21
+  embargo_h: 24
+  uso: [entrenamiento, consistencia]
+  nunca: [metrica_final]

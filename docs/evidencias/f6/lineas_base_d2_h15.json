@@ -1,0 +1,211 @@
+{
+ "generado_utc": "2026-10-29T05:59:22+00:00",
+ "tabla": "d2_autonomia",
+ "objetivo": "nivel_pct a 15 min",
+ "conjunto": "diseño (último 20 % del entrenamiento; consistencia para los aumentados)",
+ "k_tendencia": 12,
+ "particion": "p6.1",
+ "niveles": {
+  "consistencia": {
+   "n": 18021,
+   "sensores": [
+    "flota-zonaA-01",
+    "flota-zonaA-02",
+    "flota-zonaB-01",
+    "flota-zonaB-02"
+   ],
+   "predictores": {
+    "pred_persistencia": {
+     "n": 18021,
+     "n_mape": 17965,
+     "mape_minimo": 1.0,
+     "largo_bloque": 12,
+     "n_boot": 500,
+     "MAE": {
+      "valor": 0.7255607018654358,
+      "ic95": [
+       0.650395115520419,
+       0.807074676338766
+      ]
+     },
+     "RMSE": {
+      "valor": 2.296182475037167,
+      "ic95": [
+       1.9595399286374962,
+       2.617347150963051
+      ]
+     },
+     "MAPE": {
+      "valor": 1.0284091821420844,
+      "ic95": [
+       0.9077264170748174,
+       1.1464693512677284
+      ]
+     }
+    },
+    "pred_tendencia": {
+     "n": 18021,
+     "n_mape": 17965,
+     "mape_minimo": 1.0,
+     "largo_bloque": 12,
+     "n_boot": 500,
+     "MAE": {
+      "valor": 0.9956778221319841,
+      "ic95": [
+       0.853644869880684,
+       1.1392908958926868
+      ]
+     },
+     "RMSE": {
+      "valor": 3.5141026119060768,
+      "ic95": [
+       3.0846422897557173,
+       3.9545869675288157
+      ]
+     },
+     "MAPE": {
+      "valor": 1.2309244244457411,
+      "ic95": [
+       1.071773535189725,
+       1.401708880901998
+      ]
+     }
+    }
+   },
+   "uso": "consistencia (nunca métrica final)"
+  },
+  "thingspeak_real": {
+   "n": 4281,
+   "sensores": [
+    "thingspeak-1233810",
+    "thingspeak-1233815",
+    "thingspeak-283977",
+    "thingspeak-3418755"
+   ],
+   "predictores": {
+    "pred_persistencia": {
+     "n": 4281,
+     "n_mape": 4281,
+     "mape_minimo": 1.0,
+     "largo_bloque": 12,
+     "n_boot": 500,
+     "MAE": {
+      "valor": 0.22622584442887164,
+      "ic95": [
+       0.1823129647278672,
+       0.28221705296659644
+      ]
+     },
+     "RMSE": {
+      "valor": 0.9695030302919359,
+      "ic95": [
+       0.509394888164031,
+       1.5000552997942374
+      ]
+     },
+     "MAPE": {
+      "valor": 0.31979390720346834,
+      "ic95": [
+       0.25308885497803735,
+       0.400325612972372
+      ]
+     }
+    },
+    "pred_tendencia": {
+     "n": 4281,
+     "n_mape": 4281,
+     "mape_minimo": 1.0,
+     "largo_bloque": 12,
+     "n_boot": 500,
+     "MAE": {
+      "valor": 0.3222075253500337,
+      "ic95": [
+       0.2631700040851219,
+       0.3932876223890432
+      ]
+     },
+     "RMSE": {
+      "valor": 0.960958271565345,
+      "ic95": [
+       0.5849875312999382,
+       1.4010568626460222
+      ]
+     },
+     "MAPE": {
+      "valor": 0.44977198818269265,
+      "ic95": [
+       0.3641737667503794,
+       0.5441366210647595
+      ]
+     }
+    }
+   },
+   "uso": "real"
+  },
+  "esp32_real": {
+   "n": 9,
+   "sensores": [
+    "esp32-tanque-real-01"
+   ],
+   "predictores": {
+    "pred_persistencia": {
+     "n": 9,
+     "n_mape": 9,
+     "mape_minimo": 1.0,
+     "largo_bloque": 12,
+     "n_boot": 500,
+     "MAE": {
+      "valor": 0.8813991290224487,
+      "ic95": [
+       null,
+       null
+      ]
+     },
+     "RMSE": {
+      "valor": 1.1266358917226917,
+      "ic95": [
+       null,
+       null
+      ]
+     },
+     "MAPE": {
+      "valor": 0.9364613374414817,
+      "ic95": [
+       null,
+       null
+      ]
+     }
+    },
+    "pred_tendencia": {
+     "n": 9,
+     "n_mape": 9,
+     "mape_minimo": 1.0,
+     "largo_bloque": 12,
+     "n_boot": 500,
+     "MAE": {
+      "valor": 3.0864950016464467,
+      "ic95": [
+       null,
+       null
+      ]
+     },
+     "RMSE": {
+      "valor": 3.2351608846600035,
+      "ic95": [
+       null,
+       null
+      ]
+     },
+     "MAPE": {
+      "valor": 3.2966097562602097,
+      "ic95": [
+       null,
+       null
+      ]
+     }
+    }
+   },
+   "uso": "real"
+  }
+ }
+}

@@ -103,6 +103,21 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
   - **Terminología:** se dice "datos aumentados" y "flota extrapolada", nunca "sintéticos".
   - **Dos modelos del generador:** f2b.1 (`generador.yml`, corrida de referencia `r2026-45facae2`) y f2b.2
     (`generador_f2b2.yml`: fugas persistentes de 1-4 días y toda llegada omitida etiquetada como corte).
+- **Capa batch y dataset de modelos (F6 común):** Spark en batch (`batch/capas.py` + `batch/oro.py`, imagen
+  `monitoraqua-streaming`, `local[4]`). Fuentes en `batch/datos/fuentes/` (`batch/descargar_fuentes.py`).
+  - **Plata** (`batch/datos/plata/`): deduplicado por `eventId`, sin sensores de prueba, inválidas **marcadas** y
+    nivel con `Detector.nivel` (guarda `geometria_version`).
+  - **Oro** (`batch/datos/oro/`): `d2_autonomia`, `d4_llegadas`, `d6_noches` y `d8_termica`, por tramos continuos y
+    sin interpolar huecos. Los eventos salen del detector congelado f4.3. En `d4_llegadas`,
+    `artefacto_reanudacion = true` marca la reconexión del ESP32, que no es servicio real.
+  - **Partición única:** `batch/particion_modelos.yml` (`p6.1`), columna `particion` en cada tabla oro. Es temporal.
+    La prueba del ESP32 es intocable y no existe mientras la geometría sea provisional. Ningún modelo define su
+    propia partición.
+  - **Evaluación común:** `batch/evaluacion.py`. Métricas con IC por bootstrap de bloques; líneas base de
+    persistencia y de tendencia, obligatorias; reporte separado por nivel (consistencia, ThingSpeak real, ESP32
+    real). Los modelos D2, D4, D6 y D8 se evalúan solo con este módulo.
+  - **SUNASS, INEI y SENAMHI:** no se usan (ninguna dimensión U2 los necesita).
+  - Calidad y diccionario de datos en `docs/dataset-modelos.md`; evidencia en `docs/evidencias/f6/`.
 
 ## Contrato del evento
 
@@ -153,7 +168,7 @@ para pasar de cm a litros.
 | F3 | Spark Streaming: watermark, dedup, ventanas, checkpoint (`streaming/`) | 3 |
 | F4 | Eventos de servicio derivados → `servicio-eventos` | 1 (eventos empresariales) |
 | F5 | Grafana BI y observabilidad (`dashboards/`, alertas por provisioning) — hecha | 4 y 6 |
-| F6 | Batch y modelos MLlib (`batch/`) | 7 (entrenamiento) |
+| F6 | Batch y modelos MLlib (`batch/`). Parte común hecha (capas, partición, evaluación); siguen F6-D2 (plantilla), D4, D6 y D8 | 7 (entrenamiento) |
 | F7 | Inferencia en vivo de series de tiempo | 7 (validada e integrada al BI) |
 | F8 | Costos, MkDocs y ensayo de demo | 5 y 8 (sustentación) |
 
