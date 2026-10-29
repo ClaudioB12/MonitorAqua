@@ -165,6 +165,10 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
     censurados; IC del MAE por episodio, "no informativo" con < 5. Hoy **ningún umbral es suficiente** (máx. 5
     episodios al 50 % en la flota): la cifra al 10 % es indicativa; hay sesgo de selección por censura (los no
     censurados son los vaciados rápidos).
+    **Evidencia principal = consumo previsto** (6/12/24 h vs consumo real, pasos de llenado excluidos, IC por bloques
+    por tanque, sesgo): el perfil es el mejor en la flota y empata o gana por poco en ThingSpeak; la autonomía al 10 %
+    es indicativa. **Pendiente prueba en vivo del ESP32:** vaciados controlados registrados en la bitácora (episodios
+    reales de autonomía, sin censura ni sesgo de selección).
   - Detalle y sustentación en `docs/modelo-d2.md`; evidencia en `docs/evidencias/f6-d2/`.
 
 ## Contrato del evento

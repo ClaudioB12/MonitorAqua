@@ -211,6 +211,10 @@ evita el "sin descenso" nocturno. No se implementó en esta fase.
 - **Para cerrar la métrica:**
   - Medir el tanque y fijar `geometria_desde`.
   - Acumular sesiones del ESP32 con consumo y llenados.
+  - **Vaciados controlados registrados en la bitácora** (`docs/evidencias/f4/bitacora_real.csv`) durante la
+    prueba en vivo. Por ejemplo, abrir la salida y anotar la hora de inicio y la de llegada al umbral, sin rellenar
+    en medio. Cada uno aporta un **episodio real de autonomía, no censurado y sin sesgo de selección**, que es justo
+    lo que hoy falta para pasar la autonomía de "indicativa" a "medida".
   - Volver a correr `batch/modelo_d2.py` para obtener la métrica final.
 
 ## 8. Limitaciones
@@ -408,6 +412,61 @@ Las cifras de ThingSpeak no coinciden con las de la sección 6 porque aquí falt
 días de datos, que caen enteros en la prueba y el embargo: no tiene entrenamiento, así que no tiene perfil y queda
 fuera para que todos los predictores se comparen en las mismas filas.
 
+### La evidencia principal: el consumo previsto
+
+**La autonomía directa casi nunca se observa.** Para medirla, el tanque tendría que bajar hasta el umbral sin que
+llegue agua, y eso casi no pasa: los rellenos la censuran en el 95-98 % de los episodios. Además, los pocos casos
+que sí llegan están sesgados hacia los vaciados rápidos (ver *Evidencia por umbral*).
+
+Lo que **sí se observa siempre** es el ingrediente de la autonomía: **cuánto se consume**. Si un modelo acierta el
+consumo de las próximas horas, acierta la autonomía, que es el nivel disponible dividido entre ese consumo. Por eso
+**la evidencia principal de D2 es el pronóstico del consumo, y la autonomía al 10 % queda como cifra indicativa**.
+
+**Cómo se mide:**
+- Desde cada hora del conjunto final se compara el consumo previsto para las próximas 6, 12 y 24 h con lo que bajó
+  de verdad el nivel.
+- El consumo durante un llenado no se observa, porque lo tapa el agua que entra. Esos pasos se excluyen del real y
+  del previsto por igual, y la ventana queda marcada "con llenado".
+- Se exige que al menos el 80 % de la ventana tenga lecturas válidas.
+- **IC 95 %:** por bootstrap de bloques dentro de cada tanque.
+- **Sesgo** = previsto − real. Positivo significa que sobreestima el consumo, y por lo tanto subestima la autonomía
+  (prudente). Negativo significa que es optimista.
+
+| Nivel | Horizonte | Ventanas (con llenado; tanques) | Consumo real medio | Consumo medio: MAE % cap. · sesgo | **Perfil P50**: MAE % cap. · sesgo | Holt d2.1: MAE % cap. · sesgo |
+|---|---|---|---|---|---|---|
+| Consistencia | 6 h | 1,367 (331; 8) | 6.8 % (71 L) | 5.7 [5.2, 6.1] · +1.9 | **3.8 [3.4, 4.1]** · +1.3 | 8.0 [7.7, 8.5] · −0.6 |
+| | 12 h | 1,245 (588; 8) | 13.6 % (142 L) | 8.5 [7.9, 9.1] · +3.8 | **5.9 [5.4, 6.3]** · +2.5 | 14.3 [13.7, 15.1] · −1.7 |
+| | 24 h | 1,028 (953; 8) | 26.6 % (272 L) | 9.9 [9.1, 11.0] · +8.6 | **8.0 [7.0, 8.6]** · +5.2 | 18.6 [17.7, 19.8] · −1.0 |
+| ThingSpeak real | 6 h | 278 (57; 4) | 2.3 % | 4.2 [2.9, 5.8] · −0.1 | **3.8 [2.3, 5.7]** · −1.4 | 4.4 [3.1, 5.8] · −0.3 |
+| | 12 h | 245 (90; 4) | 6.0 % | 7.9 [5.5, 12.0] · −1.4 | **7.4 [4.3, 12.2]** · −4.2 | 8.8 [6.3, 12.7] · −1.4 |
+| | 24 h | 170 (92; 4) | 14.5 % | **15.7 [12.6, 24.2]** · −5.2 | **15.7 [12.7, 27.0]** · −10.5 | 19.5 [16.9, 28.8] · −3.8 |
+| ESP32 real | — | — | — | **pendiente** | | |
+
+En litros (solo los tanques con capacidad conocida: la flota y ThingSpeak 1233810 y 1233815, de 24,000 L), a 12 h:
+consumo medio 103 L y perfil **74 L** de error en la flota; 1,279 L y **1,060 L** en ThingSpeak. Tablas completas
+en `docs/evidencias/f6-d2/d2.2/tablas_d2.2.md`.
+
+**Cómo leerlo:**
+1. **Con la evidencia que sí se observa, el perfil es el mejor pronóstico del consumo:**
+   - En la flota gana con claridad en los tres horizontes.
+   - En ThingSpeak queda primero a 6 y 12 h, pero con intervalos que se solapan con el consumo medio, y empata a
+     24 h.
+   - Holt d2.1 es el peor en todos los casos.
+2. **Esto matiza la tabla de autonomía, donde ganaba el consumo medio.** Esa tabla descansa en 2-3 episodios con
+   sesgo de selección. La del consumo descansa en cientos de ventanas en 8 y 4 tanques.
+   - **La decisión de F7 se mantiene** (cifra principal = consumo medio; rango = banda calibrada).
+   - **Pero la evidencia observable apoya al perfil como estimador del consumo.** El equipo puede reconsiderarlo
+     cuando el ESP32 tenga datos propios.
+3. **Los modelos se equivocan en sentidos opuestos según el nivel:**
+   - En la flota, perfil y consumo medio **sobreestiman** el consumo, así que dan una autonomía prudente.
+   - En ThingSpeak lo **subestiman**, así que dan una autonomía optimista. En el perfil eso es significativo a 12 y
+     24 h.
+   - Para el tablero conviene mostrar el rango, no solo la cifra.
+4. **A 24 h, en ThingSpeak, el error (~16 %) es tan grande como el propio consumo (14.5 %).** Más allá de medio día,
+   el consumo de estos tanques es poco predecible.
+5. **El consumo negativo de ThingSpeak a 6 h en litros (−61 L)** sale de rellenos chicos, por debajo de la regla de
+   10 puntos, que cuentan como consumo negativo. Es una limitación del criterio de llenado, no un error de cálculo.
+
 ### Evidencia por umbral (10, 25 y 50 %)
 
 **La cifra al 10 % es indicativa, no una medición firme.** En los datos casi no hay vaciados reales hasta el 10 %:
@@ -540,6 +599,16 @@ Con ninguno, todavía, y lo decimos. Al 10 % hay 2-3 vaciados reales en las prue
 pide al menos 10. Por eso el error en horas es indicativo, y nos apoyamos en el C-index por tanque, que usa también
 los casos censurados. Además encontramos un sesgo: los tanques que llegan al umbral sin rellenarse son los que se
 vacían rápido, y eso hace que cualquier modelo de consumo típico parezca optimista en esos casos.
+
+**11. "¿Qué es el sesgo de selección en su evaluación y cómo lo manejan?"**
+Para medir la autonomía real, el tanque tiene que vaciarse hasta el umbral sin que llegue agua. Casi siempre llega
+agua antes, y los episodios que sí llegan son los de **vaciado rápido**: los de consumo lento quedan cortados por un
+relleno. Si evaluáramos solo esos casos, cualquier modelo de consumo típico parecería optimista. Por eso:
+- la autonomía se usa como cifra indicativa;
+- la evidencia principal es el **pronóstico del consumo**, que se observa en cientos de ventanas de varios tanques;
+- usamos el **C-index**, que incluye los casos censurados;
+- y para el ESP32 planeamos **vaciados controlados** registrados en la bitácora, que dan episodios reales sin ese
+  sesgo.
 
 **9. "¿Cómo saben que la banda de horas es confiable?"**
 La calibramos con predicción conforme sobre el conjunto de ajuste, nunca con la prueba. En ThingSpeak pasó de

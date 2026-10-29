@@ -125,10 +125,21 @@ def _por_grupos(grupos, rng):
     return np.concatenate([unicos[i] for i in elegidos])
 
 
-def _ic(fn, arrays, largo, n_boot, semilla, grupos=None):
+def _bloques_estratificados(indices, largo, rng):
+    """Bloques móviles dentro de cada estrato (p. ej. cada tanque), concatenados: conserva la autocorrelación de
+    cada serie y no mezcla tanques en un mismo bloque."""
+    return np.concatenate([idx[_bloques(len(idx), largo, rng)] for idx in indices])
+
+
+def _ic(fn, arrays, largo, n_boot, semilla, grupos=None, estratos=None):
     rng = np.random.default_rng(semilla)
     n = len(arrays[0])
-    if grupos is not None:
+    if estratos is not None and grupos is None:
+        if n < 2 * largo:
+            return [None, None]
+        indices = [np.flatnonzero(estratos == x) for x in np.unique(estratos)]
+        muestras = (_bloques_estratificados(indices, largo, rng) for _ in range(n_boot))
+    elif grupos is not None:
         indices = [np.flatnonzero(grupos == g) for g in np.unique(grupos)]
         if len(indices) < 2:  # con un solo grupo todos los remuestreos son el mismo: el IC sería engañoso
             return [None, None]
@@ -150,26 +161,35 @@ def _rmse(y, p):
     return float(np.sqrt(np.mean((y - p) ** 2)))
 
 
+def _sesgo(y, p):
+    """Error medio con signo (predicho - real): > 0 sobreestima, < 0 subestima."""
+    return float(np.mean(p - y))
+
+
 def _mape(y, p, minimo):
     m = np.abs(y) >= minimo  # el MAPE explota cerca de cero: se excluyen |y| < minimo y se informa cuántas quedan
     return float(np.mean(np.abs((y[m] - p[m]) / y[m])) * 100) if m.any() else None
 
 
-def evaluar_regresion(y, pred, largo_bloque=12, n_boot=1000, semilla=2026, mape_minimo=1.0, grupos=None):
+def evaluar_regresion(y, pred, largo_bloque=12, n_boot=1000, semilla=2026, mape_minimo=1.0, grupos=None,
+                      estratos=None):
     """grupos (opcional): etiqueta de conglomerado por fila; si se da, el IC remuestrea grupos completos en vez de
-    bloques móviles (lo usa D2 para la autonomía, con un grupo por episodio de descenso)."""
+    bloques móviles (lo usa D2 para la autonomía, con un grupo por episodio de descenso). estratos (opcional):
+    bootstrap de bloques móviles dentro de cada estrato (p. ej. por tanque). SESGO = media de (predicho - real)."""
     y, pred = np.asarray(y, float), np.asarray(pred, float)
     ok = ~(np.isnan(y) | np.isnan(pred))
     y, pred = y[ok], pred[ok]
     g = np.asarray(grupos)[ok] if grupos is not None else None
+    st = np.asarray(estratos)[ok] if estratos is not None else None
     if len(y) == 0:
         return {"n": 0}
     mape = lambda a, b: _mape(a, b, mape_minimo)
-    remuestreo = {"n_grupos": int(len(np.unique(g)))} if g is not None else {"largo_bloque": largo_bloque}
+    remuestreo = ({"n_grupos": int(len(np.unique(g)))} if g is not None else
+                  {"largo_bloque": largo_bloque, **({"estratos": int(len(np.unique(st)))} if st is not None else {})})
     return {"n": int(len(y)), "n_mape": int((np.abs(y) >= mape_minimo).sum()), "mape_minimo": mape_minimo,
             **remuestreo, "n_boot": n_boot,
-            **{nombre: {"valor": fn(y, pred), "ic95": _ic(fn, (y, pred), largo_bloque, n_boot, semilla, g)}
-               for nombre, fn in (("MAE", _mae), ("RMSE", _rmse), ("MAPE", mape))}}
+            **{nombre: {"valor": fn(y, pred), "ic95": _ic(fn, (y, pred), largo_bloque, n_boot, semilla, g, st)}
+               for nombre, fn in (("MAE", _mae), ("RMSE", _rmse), ("MAPE", mape), ("SESGO", _sesgo))}}
 
 
 def _clas(y, p):

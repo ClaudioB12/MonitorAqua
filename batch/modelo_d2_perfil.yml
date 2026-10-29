@@ -26,3 +26,9 @@ evaluacion:
   umbrales: [10, 25, 50]
   min_episodios_ic: 5          # con menos episodios no censurados el IC por episodio no informa: se marca así
   min_episodios_evidencia: 10  # episodios no censurados para considerar suficiente la evidencia de un umbral
+
+# Consumo previsto vs consumo real (la evidencia que sí se observa siempre), sin cambiar los modelos
+consumo:
+  horizontes_h: [6, 12, 24]
+  cobertura_min: 0.8           # fracción de pasos válidos (observados y fuera de llenado) en la ventana
+  submuestra_pasos: 12         # un origen por hora

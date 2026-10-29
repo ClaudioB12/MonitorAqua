@@ -34,7 +34,7 @@ sys.path.insert(0, str(RAIZ / "batch"))
 import evaluacion as ev  # noqa: E402
 import modelo_d2 as m  # noqa: E402
 from holt import PASOS_POR_HORA  # noqa: E402
-from perfil_consumo import LIMA_MS, PerfilConsumo  # noqa: E402
+from perfil_consumo import LIMA_MS, PASOS_SEMANA, PerfilConsumo, paso_semana  # noqa: E402
 
 CFG = m.CFG
 CFG2 = yaml.safe_load((RAIZ / "batch" / "modelo_d2_perfil.yml").read_text(encoding="utf-8"))
@@ -275,6 +275,91 @@ def evaluar_autonomia(df, u, cal):
     return res
 
 
+# --- Consumo previsto vs real ------------------------------------------------------------------------------------
+
+def capacidades():
+    tq = yaml.safe_load((RAIZ / "ingesta" / "tanques.yml").read_text(encoding="utf-8"))["tanques"]
+    return {sid: g.get("capacidad_l") for sid, g in tq.items()}
+
+
+def evaluar_consumo(df, perfiles):
+    """Cuánto se consumirá en las próximas H horas, comparado con lo que bajó de verdad el nivel. A diferencia de la
+    autonomía, el consumo se observa siempre: solo se excluyen los pasos dentro de un llenado detectado (ahí el
+    consumo queda tapado por el agua que entra) y la ventana se marca "con llenado". Real y previsto se suman sobre
+    los MISMOS pasos válidos (observados y fuera de llenado)."""
+    cc = CFG2["consumo"]
+    bs = CFG["bootstrap"]
+    cap = capacidades()
+    filas = []
+    for clave, g in df.groupby(m.SERIE, sort=False):
+        tanque = tuple(clave[:3])
+        perfil = perfiles.get(tanque)
+        if perfil is None:
+            continue
+        g = g.sort_values("k")
+        n = int(g["k"].max()) + 1
+        k = g["k"].values
+        ym = np.full(n, np.nan)
+        ym[k] = g["ym"].values
+        obs = np.zeros(n, bool)
+        obs[k] = True
+        llen = np.zeros(n, bool)
+        llen[k] = g["en_llenado"].values
+        ts = g["ts"].iloc[0] + np.arange(n) * m.PASO_MS
+        # Bajada entre lecturas CONSECUTIVAS (hasta 3 pasos = 15 min: ThingSpeak 1233810/1233815 publican cada
+        # ~10 min), repartida en los pasos intermedios; el par no cuenta si alguna punta está dentro de un llenado
+        valido = np.zeros(n - 1, bool)
+        bajada = np.zeros(n - 1)
+        for a, b in zip(k[:-1], k[1:]):
+            if b - a <= 3 and not llen[a] and not llen[b]:
+                valido[a:b] = True
+                bajada[a:b] = (ym[a] - ym[b]) / (b - a)
+        por_paso = np.diff(perfil._cum["p50"])[:PASOS_SEMANA]
+        perfil_paso = np.where(valido, por_paso[paso_semana(ts[:-1])], 0.0)
+        acum = lambda x: np.concatenate([[0.0], np.cumsum(x)])  # noqa: E731
+        cb, cv, cp, cl = acum(bajada), acum(valido.astype(float)), acum(perfil_paso), acum(llen[:-1].astype(float))
+        media_paso = perfil.consumo_medio_h() / PASOS_POR_HORA
+        nivel = g["nivel"].iloc[0]
+        part = dict(FINAL)[nivel]
+        o = g[(g["k"] % cc["submuestra_pasos"] == 0) & ~g["en_llenado"] & (g["particion"] == part)]
+        for horas in cc["horizontes_h"]:
+            pasos = horas * PASOS_POR_HORA
+            k0 = o["k"].values
+            k1 = k0 + pasos
+            dentro = k1 <= n - 1
+            k0, k1, tend = k0[dentro], k1[dentro], o["holt_tend"].values[dentro]
+            nval = cv[k1] - cv[k0]
+            ok = nval >= cc["cobertura_min"] * pasos
+            for i in np.flatnonzero(ok):
+                a, b = k0[i], k1[i]
+                filas.append({"nivel": nivel, "tanque": "|".join(tanque), "sensorId": tanque[1], "horas": horas,
+                              "ts": int(ts[a]), "real": cb[b] - cb[a], "consumo_medio": media_paso * nval[i],
+                              "perfil_p50": cp[b] - cp[a], "holt_d21": max(0.0, -tend[i]) * nval[i],
+                              "con_llenado": bool(cl[b] - cl[a] > 0), "capacidad_l": cap.get(tanque[1])})
+    t = pd.DataFrame(filas)
+    res = {}
+    for (nivel, horas), d in t.groupby(["nivel", "horas"]):
+        d = d.sort_values(["tanque", "ts"])
+        bloque = {"ventanas": int(len(d)), "con_llenado": int(d["con_llenado"].sum()), "tanques": int(d["tanque"].nunique()),
+                  "consumo_real_medio_pct": float(d["real"].mean()), "predictores": {}}
+        con_cap = d[d["capacidad_l"].notna()]
+        bloque["ventanas_con_capacidad"] = int(len(con_cap))
+        if len(con_cap):
+            bloque["consumo_real_medio_l"] = float((con_cap["real"] * con_cap["capacidad_l"] / 100).mean())
+        for pnom in ("consumo_medio", "perfil_p50", "holt_d21"):
+            r = {"pct": ev.evaluar_regresion(d["real"].values, d[pnom].values, largo_bloque=horas,
+                                             n_boot=bs["n_boot"], estratos=d["tanque"].values)}
+            if len(con_cap):
+                litros = con_cap["capacidad_l"].values / 100
+                r["litros"] = ev.evaluar_regresion(con_cap["real"].values * litros, con_cap[pnom].values * litros,
+                                                   largo_bloque=horas, n_boot=bs["n_boot"],
+                                                   estratos=con_cap["tanque"].values)
+            bloque["predictores"][pnom] = r
+        res.setdefault(nivel, {})[str(horas)] = bloque
+    res["esp32_real"] = {"estado": "pendiente", "razon": m.ESP32_PENDIENTE}
+    return res
+
+
 # --- Tablas -------------------------------------------------------------------------------------------------------
 
 def f(mt, dec=2):
@@ -287,6 +372,24 @@ def f(mt, dec=2):
 
 def tablas_md(res, d21):
     L = [f"# Resultados D2 {res['meta']['version']} (con d2.1 lado a lado), {res['meta']['fecha']}", ""]
+    L += ["## Consumo previsto vs real (evidencia principal; conjunto final)", "",
+          "Ventanas desde un origen por hora; pasos dentro de un llenado excluidos (real y previsto sobre los mismos "
+          "pasos). IC 95 % por bootstrap de bloques por tanque. Sesgo = previsto - real (> 0 sobreestima el consumo, "
+          "es decir, subestima la autonomía).", "",
+          "| Nivel | Horizonte | Ventanas (con llenado; tanques) | Consumo real medio | Predictor | MAE % cap. [IC 95 %] | "
+          "MAE litros [IC 95 %] | Sesgo % cap. [IC 95 %] |", "|---|---|---|---|---|---|---|---|"]
+    for nivel, por_h in res["consumo"].items():
+        if por_h.get("estado") == "pendiente":
+            L.append(f"| {nivel} | — | — | — | pendiente | | | |")
+            continue
+        for horas, b in por_h.items():
+            litros = f", {b['consumo_real_medio_l']:.0f} L" if "consumo_real_medio_l" in b else ""
+            for pnom, x in b["predictores"].items():
+                ml = f(x["litros"]["MAE"], 0) if "litros" in x else "— (sin capacidad)"
+                L.append(f"| {nivel} | {horas} h | {b['ventanas']} ({b['con_llenado']}; {b['tanques']}) | "
+                         f"{b['consumo_real_medio_pct']:.1f} %{litros} | {pnom} | {f(x['pct']['MAE'], 1)} | {ml} | "
+                         f"{f(x['pct']['SESGO'], 1)} |")
+    L.append("")
     L += ["## Autonomía: evidencia por umbral (conjunto final)", "",
           f"Evidencia suficiente: al menos {EVAL['min_episodios_evidencia']} episodios no censurados. IC 95 % del MAE "
           f"por bootstrap de episodios; con menos de {EVAL['min_episodios_ic']} episodios se marca como no informativo.",
@@ -368,10 +471,12 @@ def main():
                     "particion": str(d2["particion_version"].iloc[0]), "config_d22": CFG2, "config_comun": CFG},
            "perfiles": {"|".join(k): p.nivel_detalle | {"consumo_medio_pct_h": round(p.consumo_medio_h(), 4)}
                         for k, p in perfiles.items()},
-           "calibracion_banda": cal, "autonomia": {}, "nivel": {}}
+           "calibracion_banda": cal, "consumo": {}, "autonomia": {}, "nivel": {}}
     for u in UMBRALES:
         res["autonomia"][str(u)] = evaluar_autonomia(df, u, cal)
         log(status="autonomia", umbral=u)
+    res["consumo"] = evaluar_consumo(df, perfiles)
+    log(status="consumo")
     for minutos in CFG["horizontes_min"]:
         res["nivel"][str(minutos)] = evaluar_nivel(df, d2, minutos)
         log(status="nivel", minutos=minutos)

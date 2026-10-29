@@ -33,6 +33,15 @@
    ],
    "min_episodios_ic": 5,
    "min_episodios_evidencia": 10
+  },
+  "consumo": {
+   "horizontes_h": [
+    6,
+    12,
+    24
+   ],
+   "cobertura_min": 0.8,
+   "submuestra_pasos": 12
   }
  }
 }

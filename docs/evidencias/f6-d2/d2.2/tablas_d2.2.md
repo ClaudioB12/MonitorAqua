@@ -1,5 +1,31 @@
 # Resultados D2 d2.2 (con d2.1 lado a lado), 20261029
 
+## Consumo previsto vs real (evidencia principal; conjunto final)
+
+Ventanas desde un origen por hora; pasos dentro de un llenado excluidos (real y previsto sobre los mismos pasos). IC 95 % por bootstrap de bloques por tanque. Sesgo = previsto - real (> 0 sobreestima el consumo, es decir, subestima la autonomía).
+
+| Nivel | Horizonte | Ventanas (con llenado; tanques) | Consumo real medio | Predictor | MAE % cap. [IC 95 %] | MAE litros [IC 95 %] | Sesgo % cap. [IC 95 %] |
+|---|---|---|---|---|---|---|---|
+| consistencia | 6 h | 1367 (331; 8) | 6.8 %, 71 L | consumo_medio | 5.7 [5.2, 6.1] | 68 [62, 74] | 1.9 [1.2, 2.7] |
+| consistencia | 6 h | 1367 (331; 8) | 6.8 %, 71 L | perfil_p50 | 3.8 [3.4, 4.1] | 47 [42, 51] | 1.3 [0.8, 1.8] |
+| consistencia | 6 h | 1367 (331; 8) | 6.8 %, 71 L | holt_d21 | 8.0 [7.7, 8.5] | 95 [91, 100] | -0.6 [-1.6, 0.4] |
+| consistencia | 12 h | 1245 (588; 8) | 13.6 %, 142 L | consumo_medio | 8.5 [7.9, 9.1] | 103 [95, 112] | 3.8 [3.0, 5.3] |
+| consistencia | 12 h | 1245 (588; 8) | 13.6 %, 142 L | perfil_p50 | 5.9 [5.4, 6.3] | 74 [67, 80] | 2.5 [1.8, 3.5] |
+| consistencia | 12 h | 1245 (588; 8) | 13.6 %, 142 L | holt_d21 | 14.3 [13.7, 15.1] | 165 [160, 174] | -1.7 [-3.2, 0.9] |
+| consistencia | 24 h | 1028 (953; 8) | 26.6 %, 272 L | consumo_medio | 9.9 [9.1, 11.0] | 126 [118, 138] | 8.6 [8.1, 10.4] |
+| consistencia | 24 h | 1028 (953; 8) | 26.6 %, 272 L | perfil_p50 | 8.0 [7.0, 8.6] | 99 [90, 107] | 5.2 [4.6, 7.2] |
+| consistencia | 24 h | 1028 (953; 8) | 26.6 %, 272 L | holt_d21 | 18.6 [17.7, 19.8] | 201 [193, 215] | -1.0 [-2.1, 1.1] |
+| thingspeak_real | 6 h | 278 (57; 4) | 2.3 %, -61 L | consumo_medio | 4.2 [2.9, 5.8] | 786 [597, 1029] | -0.1 [-2.3, 1.4] |
+| thingspeak_real | 6 h | 278 (57; 4) | 2.3 %, -61 L | perfil_p50 | 3.8 [2.3, 5.7] | 695 [512, 1004] | -1.4 [-3.5, 0.1] |
+| thingspeak_real | 6 h | 278 (57; 4) | 2.3 %, -61 L | holt_d21 | 4.4 [3.1, 5.8] | 852 [618, 1099] | -0.3 [-1.9, 1.2] |
+| thingspeak_real | 12 h | 245 (90; 4) | 6.0 %, 194 L | consumo_medio | 7.9 [5.5, 12.0] | 1279 [1036, 1599] | -1.4 [-6.6, 1.9] |
+| thingspeak_real | 12 h | 245 (90; 4) | 6.0 %, 194 L | perfil_p50 | 7.4 [4.3, 12.2] | 1060 [863, 1436] | -4.2 [-9.2, -0.9] |
+| thingspeak_real | 12 h | 245 (90; 4) | 6.0 %, 194 L | holt_d21 | 8.8 [6.3, 12.7] | 1486 [1172, 1897] | -1.4 [-5.4, 1.8] |
+| thingspeak_real | 24 h | 170 (92; 4) | 14.5 %, 232 L | consumo_medio | 15.7 [12.6, 24.2] | 2710 [2550, 3296] | -5.2 [-16.1, -1.9] |
+| thingspeak_real | 24 h | 170 (92; 4) | 14.5 %, 232 L | perfil_p50 | 15.7 [12.7, 27.0] | 1886 [1835, 2693] | -10.5 [-21.2, -6.4] |
+| thingspeak_real | 24 h | 170 (92; 4) | 14.5 %, 232 L | holt_d21 | 19.5 [16.9, 28.8] | 2580 [2329, 3590] | -3.8 [-14.3, 1.5] |
+| esp32_real | — | — | — | pendiente | | | |
+
 ## Autonomía: evidencia por umbral (conjunto final)
 
 Evidencia suficiente: al menos 10 episodios no censurados. IC 95 % del MAE por bootstrap de episodios; con menos de 5 episodios se marca como no informativo.
