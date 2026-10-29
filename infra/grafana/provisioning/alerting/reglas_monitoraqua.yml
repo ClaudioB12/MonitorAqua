@@ -1,0 +1,166 @@
+# Reglas de alerta de MonitorAqua (F5), por provisioning. Justificación de cada umbral en docs/tableros.md.
+# Sin contact point configurado: las alertas se ven en Grafana -> Alerting (estado Normal / Pending / Firing).
+apiVersion: 1
+groups:
+  - orgId: 1
+    name: monitoraqua-f5
+    folder: MonitorAqua
+    interval: 1m
+    rules:
+      # 1. El ESP32 publica cada 5 s: 60 lecturas esperadas en 5 min. Cero = sensor, Wi-Fi, Firebase o puente caídos
+      #    (o la PC suspendida). Sin datos también es alerta.
+      - uid: ma-esp32-sin-datos
+        title: ESP32 sin datos por más de 5 min
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange: {from: 300, to: 0}
+            datasourceUid: influxdb
+            model:
+              refId: A
+              query: |
+                from(bucket: "monitoraqua")
+                  |> range(start: -5m)
+                  |> filter(fn: (r) => r._measurement == "latencia_ingesta" and r.origen == "esp32-fisico" and r._field == "s")
+                  |> group()
+                  |> count()
+          - refId: B
+            datasourceUid: __expr__
+            model: {refId: B, type: reduce, expression: A, reducer: last, settings: {mode: replaceNN, replaceWithValue: 0}}
+          - refId: C
+            datasourceUid: __expr__
+            model: {refId: C, type: threshold, expression: B, conditions: [{evaluator: {type: lt, params: [1]}}]}
+        noDataState: Alerting
+        execErrState: Error
+        for: 0s
+        labels: {severidad: critica, criterio: "4"}
+        annotations:
+          summary: "El ESP32 no publicó ninguna lectura en los últimos 5 minutos"
+          description: "Revisar alimentación y Wi-Fi del ESP32, Firebase, lambda26-aqua-puente y si la PC se suspendió."
+
+      # 2. servicio-eventos recibe pocos eventos por hora y el consumidor los lee al instante: un lag mayor que 10
+      #    sostenido 5 min significa que el consumidor está caído o atascado.
+      - uid: ma-lag-consumidor
+        title: Lag del consumidor de servicio-eventos sobre 10 mensajes
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange: {from: 300, to: 0}
+            datasourceUid: prometheus
+            model: {refId: A, expr: 'sum(kafka_consumergroup_lag{consumergroup="aqua-servicio-consumidor"})', instant: true}
+          - refId: B
+            datasourceUid: __expr__
+            model: {refId: B, type: reduce, expression: A, reducer: last}
+          - refId: C
+            datasourceUid: __expr__
+            model: {refId: C, type: threshold, expression: B, conditions: [{evaluator: {type: gt, params: [10]}}]}
+        noDataState: Alerting
+        execErrState: Error
+        for: 5m
+        labels: {severidad: advertencia, criterio: "4"}
+        annotations:
+          summary: "aqua-servicio-consumidor acumula más de 10 eventos sin leer"
+          description: "Sin datos también alerta: el grupo desapareció (consumidor detenido). Ver lambda26-aqua-consumidor-eventos."
+
+      # 3. Si un lote dura más que el intervalo de su trigger, la consulta se atrasa lote tras lote (el lag de Spark
+      #    crece). Se mide el máximo en 10 min de batchDurationMs / trigger, por consulta.
+      - uid: ma-lote-sobre-trigger
+        title: Lote de Spark más largo que su trigger
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange: {from: 600, to: 0}
+            datasourceUid: influxdb
+            model:
+              refId: A
+              query: |
+                from(bucket: "monitoraqua")
+                  |> range(start: -10m)
+                  |> filter(fn: (r) => r._measurement == "spark_progreso" and r._field == "batchDurationMs")
+                  |> map(fn: (r) => ({r with _value: float(v: r._value) / (if r.consulta == "rapidas_agg" or r.consulta == "latencias" then 30000.0 else if r.consulta == "lentas_agg" or r.consulta == "bronce" then 60000.0 else 10000.0) * 100.0}))
+                  |> group(columns: ["consulta"])
+                  |> max()
+                  |> map(fn: (r) => ({_time: now(), _value: r._value, consulta: r.consulta}))
+          - refId: B
+            datasourceUid: __expr__
+            model: {refId: B, type: reduce, expression: A, reducer: last}
+          - refId: C
+            datasourceUid: __expr__
+            model: {refId: C, type: threshold, expression: B, conditions: [{evaluator: {type: gt, params: [100]}}]}
+        noDataState: Alerting
+        execErrState: Error
+        for: 5m
+        labels: {severidad: advertencia, criterio: "4"}
+        annotations:
+          summary: "La consulta {{ $labels.consulta }} tarda más que su trigger ({{ $values.B }} %)"
+          description: "Sin datos también alerta: Spark no registra progreso (lambda26-aqua-streaming detenido)."
+
+      # 4. El watermark de las fuentes rápidas es 7 min (420 s). Si el p95 de la latencia de ingesta de una fuente
+      #    rápida lo supera, una parte de sus lecturas empieza a descartarse por tardía.
+      - uid: ma-latencia-sobre-watermark
+        title: Latencia p95 de una fuente rápida sobre el watermark (420 s)
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange: {from: 1800, to: 0}
+            datasourceUid: influxdb
+            model:
+              refId: A
+              query: |
+                from(bucket: "monitoraqua")
+                  |> range(start: -30m)
+                  |> filter(fn: (r) => r._measurement == "latencia_ingesta" and r._field == "s")
+                  |> filter(fn: (r) => r.origen == "esp32-fisico" or r.origen == "thingspeak")
+                  |> group(columns: ["origen"])
+                  |> quantile(q: 0.95)
+                  |> map(fn: (r) => ({_time: now(), _value: r._value, origen: r.origen}))
+          - refId: B
+            datasourceUid: __expr__
+            model: {refId: B, type: reduce, expression: A, reducer: last}
+          - refId: C
+            datasourceUid: __expr__
+            model: {refId: C, type: threshold, expression: B, conditions: [{evaluator: {type: gt, params: [420]}}]}
+        noDataState: OK
+        execErrState: Error
+        for: 0s
+        labels: {severidad: advertencia, criterio: "4"}
+        annotations:
+          summary: "p95 de latencia de {{ $labels.origen }} = {{ $values.B }} s, sobre el watermark de 420 s"
+
+      # 5. falla_sensor activa: más de la mitad de las lecturas del ESP32 de los últimos 5 min son inválidas (-1 o
+      #    fuera de rango). Es el mismo síntoma que dispara el evento falla_sensor de F4, medido en vivo.
+      - uid: ma-falla-sensor-activa
+        title: Falla de sensor activa en el ESP32
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange: {from: 300, to: 0}
+            datasourceUid: influxdb
+            model:
+              refId: A
+              query: |
+                import "date"
+                from(bucket: "monitoraqua")
+                  |> range(start: -5m)
+                  |> filter(fn: (r) => r._measurement == "lecturas_agg" and r.origen == "esp32-fisico")
+                  |> filter(fn: (r) => r._field == "n_total" or r._field == "n_invalidas")
+                  |> filter(fn: (r) => date.second(t: r._time) == 0)
+                  |> group(columns: ["_field"])
+                  |> sum()
+                  |> group()
+                  |> map(fn: (r) => ({r with k: 1}))
+                  |> pivot(rowKey: ["k"], columnKey: ["_field"], valueColumn: "_value")
+                  |> map(fn: (r) => ({_time: now(), _value: float(v: r.n_invalidas) / float(v: r.n_total)}))
+          - refId: B
+            datasourceUid: __expr__
+            model: {refId: B, type: reduce, expression: A, reducer: last}
+          - refId: C
+            datasourceUid: __expr__
+            model: {refId: C, type: threshold, expression: B, conditions: [{evaluator: {type: gt, params: [0.5]}}]}
+        noDataState: OK
+        execErrState: Error
+        for: 2m
+        labels: {severidad: advertencia, criterio: "4"}
+        annotations:
+          summary: "Más de la mitad de las lecturas del ESP32 son inválidas ({{ $values.B }})"
+          description: "HC-SR04 con -1 o lecturas fuera de rango. Si además no llega nada, salta 'ESP32 sin datos'."

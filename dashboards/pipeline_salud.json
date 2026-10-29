@@ -1,0 +1,881 @@
+{
+ "uid": "monitoraqua-pipeline",
+ "title": "Salud del pipeline",
+ "tags": [
+  "monitoraqua",
+  "f5",
+  "criterio-4"
+ ],
+ "timezone": "America/Lima",
+ "schemaVersion": 39,
+ "version": 1,
+ "editable": false,
+ "graphTooltip": 1,
+ "refresh": "30s",
+ "time": {
+  "from": "now-24h",
+  "to": "now"
+ },
+ "templating": {
+  "list": []
+ },
+ "annotations": {
+  "list": [
+   {
+    "name": "falla_sensor",
+    "datasource": {
+     "type": "influxdb",
+     "uid": "influxdb"
+    },
+    "enable": true,
+    "iconColor": "red",
+    "target": {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"eventos_servicio\" and r.tipo == \"falla_sensor\" and r._field == \"valor\")\n  |> map(fn: (r) => ({_time: r._time, text: \"falla_sensor · \" + r.sensorId + \" · \" + string(v: r._value), tags: r.severidad}))"
+    }
+   }
+  ]
+ },
+ "panels": [
+  {
+   "id": 1,
+   "type": "text",
+   "title": "",
+   "gridPos": {
+    "x": 0,
+    "y": 0,
+    "w": 24,
+    "h": 2
+   },
+   "options": {
+    "mode": "markdown",
+    "content": "**Salud del pipeline** (criterio 4): Kafka (Prometheus/kafka-exporter), Spark (`spark_progreso`), frescura y latencia por fuente, volumen por tópico y correlación en un mismo eje de tiempo. Los `falla_sensor` aparecen como anotaciones. Ver `docs/tableros.md`."
+   }
+  },
+  {
+   "id": 2,
+   "type": "row",
+   "title": "Kafka",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 2,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 3,
+   "type": "timeseries",
+   "title": "Mensajes por segundo por tópico",
+   "description": "Tasa de publicación por tópico (derivada del offset final de cada partición).",
+   "gridPos": {
+    "x": 0,
+    "y": 3,
+    "w": 12,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "prometheus"
+     },
+     "expr": "sum by (topic) (rate(kafka_topic_partition_current_offset{topic!~\"__.*\"}[2m]))",
+     "legendFormat": "{{topic}}"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prometheus"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 4,
+   "type": "timeseries",
+   "title": "Lag por grupo de consumidores",
+   "description": "Mensajes publicados que el grupo aún no confirmó. Spark no registra grupo (su avance está en la fila Spark). aqua-monitor-group (S09) se borró en F5 por estar abandonado.",
+   "gridPos": {
+    "x": 12,
+    "y": 3,
+    "w": 12,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "prometheus"
+     },
+     "expr": "sum by (consumergroup, topic) (kafka_consumergroup_lag)",
+     "legendFormat": "{{consumergroup}} · {{topic}}"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prometheus"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "red",
+        "value": 10
+       }
+      ]
+     },
+     "custom": {
+      "thresholdsStyle": {
+       "mode": "line"
+      }
+     }
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 5,
+   "type": "row",
+   "title": "Spark Structured Streaming (spark_progreso)",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 10,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 6,
+   "type": "timeseries",
+   "title": "Filas de entrada por segundo, por consulta",
+   "description": "inputRowsPerSecond de cada micro-lote.",
+   "gridPos": {
+    "x": 0,
+    "y": 11,
+    "w": 12,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"spark_progreso\" and r._field == \"inputRowsPerSecond\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "displayName": "${__field.labels.consulta}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 7,
+   "type": "timeseries",
+   "title": "Duración del lote frente al intervalo del trigger (%)",
+   "description": "batchDurationMs / trigger × 100. Sobre 100 % la consulta no alcanza a procesar un lote antes del siguiente. Triggers: rapidas_agg 30 s, lentas_agg 60 s, esp32_detalle 10 s, bronce 60 s, eventos_servicio 10 s, latencias 30 s.",
+   "gridPos": {
+    "x": 12,
+    "y": 11,
+    "w": 12,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"spark_progreso\" and r._field == \"batchDurationMs\")\n  |> map(fn: (r) => ({r with _value: float(v: r._value) / (if r.consulta == \"rapidas_agg\" or r.consulta == \"latencias\" then 30000.0 else if r.consulta == \"lentas_agg\" or r.consulta == \"bronce\" then 60000.0 else 10000.0) * 100.0}))\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percent",
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "red",
+        "value": 100
+       }
+      ]
+     },
+     "custom": {
+      "thresholdsStyle": {
+       "mode": "line"
+      }
+     },
+     "displayName": "${__field.labels.consulta}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 8,
+   "type": "timeseries",
+   "title": "Filas descartadas por watermark",
+   "description": "Lecturas que llegaron más tarde que el watermark (7 min rápidas, 90 min lentas) y se descartaron.",
+   "gridPos": {
+    "x": 0,
+    "y": 18,
+    "w": 12,
+    "h": 6
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"spark_progreso\" and r._field == \"numRowsDroppedByWatermark\")\n  |> aggregateWindow(every: v.windowPeriod, fn: sum, createEmpty: false)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "custom": {
+      "drawStyle": "bars"
+     },
+     "displayName": "${__field.labels.consulta}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 9,
+   "type": "timeseries",
+   "title": "Duplicados descartados (eventId)",
+   "description": "dropDuplicatesWithinWatermark(eventId).",
+   "gridPos": {
+    "x": 12,
+    "y": 18,
+    "w": 12,
+    "h": 6
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"spark_progreso\" and r._field == \"numDroppedDuplicateRows\")\n  |> aggregateWindow(every: v.windowPeriod, fn: sum, createEmpty: false)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "custom": {
+      "drawStyle": "bars"
+     },
+     "displayName": "${__field.labels.consulta}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 10,
+   "type": "row",
+   "title": "Frescura y latencia por fuente",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 24,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 11,
+   "type": "bargauge",
+   "title": "Minutos desde la última lectura, por origen",
+   "description": "Ahora menos el tiempo de medición de la última lectura procesada de cada origen. Incluye el atraso propio de cada fuente (EA y USGS publican con 25-54 min de atraso).",
+   "gridPos": {
+    "x": 0,
+    "y": 25,
+    "w": 8,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: -7d)\n  |> filter(fn: (r) => r._measurement == \"latencia_ingesta\" and r._field == \"s\")\n  |> group(columns: [\"origen\"])\n  |> last()\n  |> map(fn: (r) => ({origen: r.origen, _value: float(v: int(v: now()) - int(v: r._time)) / 60000000000.0}))"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "m",
+     "displayName": "${__field.labels.origen}",
+     "decimals": 1,
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 10
+       },
+       {
+        "color": "red",
+        "value": 90
+       }
+      ]
+     }
+    },
+    "overrides": []
+   },
+   "options": {
+    "orientation": "horizontal",
+    "displayMode": "gradient",
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    }
+   }
+  },
+  {
+   "id": 12,
+   "type": "table",
+   "title": "Latencia de ingesta por origen: p50 y p95 (s)",
+   "description": "latencia_ingesta_s = ingestaTs − timestamp, por lectura (consulta latencias). Watermark de las rápidas: 420 s.",
+   "gridPos": {
+    "x": 8,
+    "y": 25,
+    "w": 7,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"latencia_ingesta\" and r._field == \"s\")\n  |> group(columns: [\"origen\"])\n  |> quantile(q: 0.5)\n  |> map(fn: (r) => ({origen: r.origen, p50: r._value}))\n  |> group()"
+    },
+    {
+     "refId": "B",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"latencia_ingesta\" and r._field == \"s\")\n  |> group(columns: [\"origen\"])\n  |> quantile(q: 0.95)\n  |> map(fn: (r) => ({origen: r.origen, p95: r._value}))\n  |> group()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "s",
+     "decimals": 1
+    },
+    "overrides": []
+   },
+   "options": {
+    "showHeader": true
+   },
+   "transformations": [
+    {
+     "id": "merge",
+     "options": {}
+    }
+   ]
+  },
+  {
+   "id": 13,
+   "type": "timeseries",
+   "title": "Latencia p95 por origen (ventanas de 30 min)",
+   "description": "p95 de la latencia de ingesta por origen. Línea roja: watermark de las fuentes rápidas (420 s).",
+   "gridPos": {
+    "x": 15,
+    "y": 25,
+    "w": 9,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"latencia_ingesta\" and r._field == \"s\")\n  |> group(columns: [\"origen\"])\n  |> aggregateWindow(every: 30m, fn: (column, tables=<-) => tables |> quantile(q: 0.95, column: column), createEmpty: false)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "s",
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "red",
+        "value": 420
+       }
+      ]
+     },
+     "custom": {
+      "thresholdsStyle": {
+       "mode": "line"
+      }
+     },
+     "displayName": "${__field.labels.origen}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 14,
+   "type": "row",
+   "title": "Volumen por tópico (para los costos de F8)",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 33,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 15,
+   "type": "timeseries",
+   "title": "Mensajes por día por tópico",
+   "description": "Mensajes publicados por día (Prometheus, kafka-exporter).",
+   "gridPos": {
+    "x": 0,
+    "y": 34,
+    "w": 8,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "prometheus"
+     },
+     "expr": "sum by (topic) (increase(kafka_topic_partition_current_offset{topic!~\"__.*\"}[1d]))",
+     "legendFormat": "{{topic}}",
+     "interval": "1d"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prometheus"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "custom": {
+      "drawStyle": "bars",
+      "fillOpacity": 60
+     }
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 16,
+   "type": "timeseries",
+   "title": "Bytes por día por tópico",
+   "description": "Variación diaria del tamaño en disco (describe_log_dirs, servicio aqua-volumen). Con retención de 7 días el tamaño se estabiliza: el crecimiento diario es lo que entra; la retención borra segmentos viejos.",
+   "gridPos": {
+    "x": 8,
+    "y": 34,
+    "w": 8,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"kafka_volumen\" and r._field == \"bytes\")\n  |> aggregateWindow(every: 1d, fn: last, createEmpty: false)\n  |> difference(nonNegative: false)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "decbytes",
+     "custom": {
+      "drawStyle": "bars",
+      "fillOpacity": 60
+     },
+     "noValue": "Hacen falta 2 días de mediciones de aqua-volumen (empezó el 2026-10-29)",
+     "displayName": "${__field.labels.topico}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 17,
+   "type": "table",
+   "title": "Tamaño actual por tópico",
+   "description": "Último registro de aqua-volumen: bytes en disco, mensajes retenidos y bytes por mensaje.",
+   "gridPos": {
+    "x": 16,
+    "y": 34,
+    "w": 8,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r._measurement == \"kafka_volumen\")\n  |> last()\n  |> pivot(rowKey: [\"topico\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n  |> group()\n  |> map(fn: (r) => ({topico: r.topico, bytes: r.bytes, mensajes_retenidos: r.mensajes_retenidos,\n                      bytes_por_mensaje: if r.mensajes_retenidos > 0 then float(v: r.bytes) / float(v: r.mensajes_retenidos) else 0.0}))"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
+   "options": {
+    "showHeader": true
+   }
+  },
+  {
+   "id": 18,
+   "type": "row",
+   "title": "Correlación (mismo eje de tiempo; anotaciones: falla_sensor)",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 41,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 19,
+   "type": "timeseries",
+   "title": "Entrada de Spark (filas/s)",
+   "description": "",
+   "gridPos": {
+    "x": 0,
+    "y": 42,
+    "w": 24,
+    "h": 5
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"spark_progreso\" and r._field == \"inputRowsPerSecond\")\n  |> filter(fn: (r) => r.consulta == \"rapidas_agg\" or r.consulta == \"eventos_servicio\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "displayName": "${__field.labels.consulta}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "right"
+    }
+   }
+  },
+  {
+   "id": 20,
+   "type": "timeseries",
+   "title": "Duración del lote (ms)",
+   "description": "",
+   "gridPos": {
+    "x": 0,
+    "y": 47,
+    "w": 24,
+    "h": 5
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"spark_progreso\" and r._field == \"batchDurationMs\")\n  |> filter(fn: (r) => r.consulta == \"rapidas_agg\" or r.consulta == \"eventos_servicio\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ms",
+     "displayName": "${__field.labels.consulta}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "right"
+    }
+   }
+  },
+  {
+   "id": 21,
+   "type": "timeseries",
+   "title": "Lag y mensajes/s del tópico real",
+   "description": "",
+   "gridPos": {
+    "x": 0,
+    "y": 52,
+    "w": 24,
+    "h": 5
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "prometheus"
+     },
+     "expr": "sum by (consumergroup) (kafka_consumergroup_lag)",
+     "legendFormat": "lag {{consumergroup}}"
+    },
+    {
+     "refId": "B",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "prometheus"
+     },
+     "expr": "sum(rate(kafka_topic_partition_current_offset{topic=\"aqua-eventos-real\"}[2m]))",
+     "legendFormat": "aqua-eventos-real msg/s"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prometheus"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "right"
+    }
+   }
+  },
+  {
+   "id": 22,
+   "type": "timeseries",
+   "title": "Lecturas del ESP32 por minuto (huecos = sin datos)",
+   "description": "Debería rondar 12/min (una cada 5 s). Un hueco a cero es el ESP32 o la PC sin datos (p. ej. una suspensión); al volver, la ingesta se pone al día con un pico.",
+   "gridPos": {
+    "x": 0,
+    "y": 57,
+    "w": 24,
+    "h": 5
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"latencia_ingesta\" and r.origen == \"esp32-fisico\" and r._field == \"s\")\n  |> aggregateWindow(every: 1m, fn: count, createEmpty: true)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "displayName": "lecturas del ESP32 por minuto"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "right"
+    }
+   }
+  }
+ ]
+}

@@ -37,10 +37,10 @@ def linea(measurement, tags, campos, ts_ms):
     return f"{_tag(measurement)}{',' + t if t else ''} {c} {int(ts_ms)}"
 
 
-def escribir(lineas):
+def escribir(lineas, bucket=None):
     lineas = [l for l in lineas if l]
     url = f"{INFLUX_URL}/api/v2/write?" + urllib.parse.urlencode(
-        {"org": INFLUX_ORG, "bucket": INFLUX_BUCKET, "precision": "ms"})
+        {"org": INFLUX_ORG, "bucket": bucket or INFLUX_BUCKET, "precision": "ms"})
     for i in range(0, len(lineas), LOTE):
         req = urllib.request.Request(url, data="\n".join(lineas[i:i + LOTE]).encode("utf-8"), method="POST",
                                      headers={"Authorization": f"Token {INFLUX_TOKEN}",

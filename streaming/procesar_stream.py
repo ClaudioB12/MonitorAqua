@@ -156,15 +156,42 @@ def a_influx_agg(etiqueta_ventana):
     return escribir_lote
 
 
+_DETECTOR_NIVEL = None
+
+
+def _detector_nivel():
+    """Detector congelado de F4, solo para Detector.nivel() (geometría + compensación); no se modifica."""
+    global _DETECTOR_NIVEL
+    if _DETECTOR_NIVEL is None:
+        from servicio_spark import REGLAS_PATH, TANQUES_PATH
+        from detector_servicio import Configuracion, Detector
+        _DETECTOR_NIVEL = Detector(Configuracion(REGLAS_PATH, TANQUES_PATH))
+    return _DETECTOR_NIVEL
+
+
 def a_influx_esp32(df, batch_id):
+    import tablero
     filas = df.select("sensorId", "timestamp", "eventId", "distanciaCm", "temperaturaC", "humedadPct",
                       "latencia_ingesta_s").collect()
     lineas = [influx.linea("lecturas_esp32", {"sensorId": r.sensorId},
                            {"distanciaCm": r.distanciaCm, "temperaturaC": r.temperaturaC,
                             "humedadPct": r.humedadPct, "latencia_ingesta_s": r.latencia_ingesta_s,
                             "eventId": r.eventId}, r.timestamp) for r in filas]
+    # F5: nivel en % y litros, distancia cruda vs compensada (tablero BI, D2 y D6)
+    det = _detector_nivel()
+    lineas += [tablero.linea_nivel(det, r.asDict(), r.sensorId, "real") for r in filas]
     n = influx.escribir(lineas) if lineas else 0
-    log(status="influx_write", measurement="lecturas_esp32", batchId=batch_id, puntos=n)
+    log(status="influx_write", measurement="lecturas_esp32+nivel_tanque", batchId=batch_id, puntos=n)
+
+
+def a_influx_latencias(df, batch_id):
+    """F5: latencia de ingesta por lectura y origen (p50/p95 en el tablero del pipeline). Sin estado."""
+    filas = df.select("origen", "sensorId", "timestamp", "latencia_ingesta_s", "eventId").collect()
+    lineas = [influx.linea("latencia_ingesta", {"origen": r.origen, "sensorId": r.sensorId},
+                           {"s": r.latencia_ingesta_s, "eventId": r.eventId}, r.timestamp)
+              for r in filas if r.latencia_ingesta_s is not None]
+    n = influx.escribir(lineas) if lineas else 0
+    log(status="influx_write", measurement="latencia_ingesta", batchId=batch_id, puntos=n)
 
 
 class Progreso(StreamingQueryListener):
@@ -243,6 +270,10 @@ def main():
         .partitionBy("origen", "fecha")
         .option("path", BRONCE_DIR).option("checkpointLocation", cp("bronce"))
         .trigger(processingTime="1 minute").start())
+
+    # F5: latencia de ingesta por lectura (todas las fuentes reales). Consulta sin estado, checkpoint propio.
+    (reales.writeStream.queryName("latencias").outputMode("append").foreachBatch(a_influx_latencias)
+        .option("checkpointLocation", cp("latencias")).trigger(processingTime="30 seconds").start())
 
     # F4: eventos de servicio. Mismo watermark y deduplicación que las rápidas; estado por sensor en el detector.
     from servicio_spark import a_servicio, eventos_servicio

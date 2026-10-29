@@ -303,6 +303,21 @@ docker exec -w /app/streaming lambda26-aqua-streaming spark-submit \
 Al cambiar `ingesta/tanques.yml` (por ejemplo, con las medidas reales del tanque del ESP32) o
 `streaming/reglas_servicio.yml`, el detector aplica los valores nuevos en el siguiente lote.
 
+## Limitaciones conocidas
+
+- **`llegada_agua` falsas por el sensor intermitente, después del congelamiento.** Con las reglas f4.3 ya
+  congeladas, el HC-SR04 intermitente del ESP32 (lecturas válidas muy ruidosas alternadas con `-1`) produjo dos
+  `llegada_agua` falsas: 28-oct **23:55:04** (subida 9.8 %) y 29-oct **00:27:14** (subida 7.4 %), las dos por el
+  criterio rápido, más un `falla_sensor` a las 00:00:39.
+  - **Por qué pasan:** la mediana de 5 y la confirmación de 3 medianas no alcanzan cuando el ruido del sensor
+    degradado es ~25 veces el del perfil real.
+  - **Las reglas congeladas no se cambian.** Si esto se corrige, será con una versión **f4.4**, un congelamiento
+    nuevo (fecha, hora y commit) y un periodo de evaluación nuevo que empieza en ese congelamiento. El rendimiento
+    de f4.3 se sigue reportando con las reglas f4.3.
+  - **Efecto en el rendimiento real:** ninguno por ahora. Mientras la geometría del ESP32 sea provisional
+    (`por_medir`), no hay periodo de rendimiento real para ese sensor. Cuando lo haya, eventos como estos se
+    cuentan como falsos positivos si la bitácora no registra una acción a esa hora.
+
 ## Pendientes
 
 - **Medidas reales del tanque del ESP32.** `tanques.yml` tiene valores provisionales (`por_medir: true`); los

@@ -19,8 +19,9 @@ Otros contenedores de lambda26:
 - **`lambda26-pyspark`** (Jupyter + Spark): lo sigue usando el proyecto.
 - **`lambda26-aqua-bridge`** (puente de la S08): reemplazado en F2 por `lambda26-aqua-puente`. Queda **detenido y con
   `restart=no`**, sin borrar. Nunca correrlo junto al nuevo, porque cada lectura llegaría dos veces a Kafka.
-- **`lambda26-aqua-consumer`** (grupo `aqua-monitor-group`): detenido. Se puede encender para que kafka-exporter mida
-  lag.
+- **`lambda26-aqua-consumer`** (S09): detenido. Su grupo `aqua-monitor-group` se **borró en F5** porque estaba
+  abandonado, con lag creciente. Si se vuelve a encender el contenedor, el grupo reaparece. El consumidor vigente es
+  `lambda26-aqua-consumidor-eventos` (grupo `aqua-servicio-consumidor`).
 
 !!! warning "Grafana ahora pertenece a `infra/compose.yml`"
     El contenedor `lambda26-grafana` se recreó desde este repo, con el mismo nombre, el mismo puerto 43000 y el mismo
@@ -45,6 +46,8 @@ Todos están en la red Docker **`lambda26-kafka-net`**.
 | `lambda26-aqua-puente` | `monitoraqua-ingesta` (build de `ingesta/Dockerfile`) | — | — |
 | `lambda26-aqua-colector` | `monitoraqua-ingesta` | — | — |
 | `lambda26-aqua-consumidor-eventos` | `monitoraqua-ingesta` (consumidor de `servicio-eventos`, grupo `aqua-servicio-consumidor`) | — | — |
+| `lambda26-aqua-volumen` | `monitoraqua-ingesta` (bytes y mensajes por tópico cada 5 min → InfluxDB `kafka_volumen`) | — | — |
+| `lambda26-grafana-renderer` | `grafana/grafana-image-renderer:3.11.0` (capturas de tableros, `/render`) | — | `renderer:8081` |
 | `lambda26-aqua-streaming` | `monitoraqua-streaming` (build de `streaming/Dockerfile`, PySpark 4.2.0) | `4043 → 4040` (Spark UI) | — |
 
 ## Kafka
@@ -94,6 +97,13 @@ Spark 4.2.0 · kafka:9092 · aqua-eventos-real · 2649 mensajes en el tópico
 
 - **Acceso:** http://localhost:48086, org `horeb`, bucket **`monitoraqua`** con retención de **30 días**. Treinta días cubren el ciclo de U2 y la demo de S12; el histórico largo va a Parquet en la capa batch (F6).
 - **Credenciales:** usuario, contraseña y token de administrador viven solo en `.env` (`INFLUX_*`). El setup inicial (`DOCKER_INFLUXDB_INIT_*`) solo se aplica la primera vez que se crea el volumen `monitoraqua_influxdb_data`.
+
+## InfluxDB: buckets (F5)
+
+| Bucket | Retención | Contenido |
+|---|---|---|
+| `monitoraqua` | 30 días | todo lo real en vivo (Spark, `aqua-volumen`) |
+| `monitoraqua_aumentados` | sin vencimiento | flota extrapolada (corrida `r2026-45facae2`, fechas simuladas 28-sep a 27-oct), cargada por `streaming/cargar_historico_influx.py` |
 
 ## Grafana
 

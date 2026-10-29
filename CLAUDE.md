@@ -79,6 +79,19 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
     - **Rendimiento real:** bitácora `docs/evidencias/f4/bitacora_real.csv`.
     Todas las proporciones llevan su IC 95 % de Wilson.
   - Detalle en `docs/eventos-servicio.md`.
+- **Tableros y alertas (F5):** todo por provisioning.
+  - **Tableros:** `dashboards/bi_salud_agua.json` (criterio 6) y `dashboards/pipeline_salud.json` (criterio 4), generados
+    por `dashboards/generar_tableros.py`. **Nunca se editan a mano**: se cambia el script y se regenera.
+  - **Alertas:** `infra/grafana/provisioning/alerting/reglas_monitoraqua.yml` (5 reglas).
+  - **Measurements nuevas:** `nivel_tanque`, `estado_tanque`, `latencia_ingesta` (consulta Spark `latencias`) y
+    `kafka_volumen` (servicio `aqua-volumen`).
+  - **Buckets:** los datos aumentados van al bucket **`monitoraqua_aumentados`** (sin vencimiento); lo real, a
+    `monitoraqua` (30 días). La variable `origenLecturas` del tablero BI elige el bucket. Historial:
+    `streaming/cargar_historico_influx.py`.
+  - **Verificación y capturas:** `infra/verificar_tableros.py`; capturas con `lambda26-grafana-renderer`.
+  - **Grupos de consumidores:** `aqua-monitor-group` (S09) y `aqua-servicio-consumidor-relectura` se borraron en F5
+    (abandonados).
+  - Detalle en `docs/tableros.md`.
 - **Datos aumentados (F2b):** la **flota extrapolada** (`ingesta/generador.py` + `generador.yml`, perfil en
   `batch/perfiles/perfil_real.json`) publica en **`aqua-eventos-aumentados`** (3 particiones, clave `sensorId`) y
   guarda Parquet en `batch/datos/aumentados/` (no versionado).
@@ -139,7 +152,7 @@ para pasar de cm a litros.
 | F2b | Datos aumentados: perfil real, flota extrapolada con anomalías etiquetadas, tópico aparte y Parquet | Apoyo a 3 y 7 (volumen, evaluación) |
 | F3 | Spark Streaming: watermark, dedup, ventanas, checkpoint (`streaming/`) | 3 |
 | F4 | Eventos de servicio derivados → `servicio-eventos` | 1 (eventos empresariales) |
-| F5 | Grafana BI y observabilidad (`dashboards/`) | 4 y 6 |
+| F5 | Grafana BI y observabilidad (`dashboards/`, alertas por provisioning) — hecha | 4 y 6 |
 | F6 | Batch y modelos MLlib (`batch/`) | 7 (entrenamiento) |
 | F7 | Inferencia en vivo de series de tiempo | 7 (validada e integrada al BI) |
 | F8 | Costos, MkDocs y ensayo de demo | 5 y 8 (sustentación) |
