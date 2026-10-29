@@ -1,0 +1,39 @@
+# Configuración del modelo D4 (próxima llegada de agua). La lee batch/modelo_d4.py. La partición viene de
+# batch/particion_modelos.yml (p6.1) a través de la columna "particion" de las tablas oro; no se define aquí.
+version: "d4.1"
+
+# Llegadas que NO se usan (se reportan aparte)
+excluir:
+  artefacto_reanudacion: true          # reconexión del ESP32 tras un hueco: no es servicio real
+  bitacora: [no_verificable]           # decisión del equipo (F4)
+
+# Tanques fuera del alcance de D4 (la dimensión es la llegada de agua de la RED): se evalúan y reportan aparte
+fuera_de_alcance:
+  thingspeak-3418755: "tanque de agua de lluvia: sus llegadas son lluvias, no servicio de la red"
+
+# Fuentes de llegadas
+fuentes:
+  detector_f43: true                   # tabla oro d4_llegadas (detector congelado f4.3): la principal
+  subida_sostenida: [thingspeak]       # complemento: llenados por subida sostenida > 10 pp (criterio de D2 y de la
+                                       # adecuación de D4); el detector f4.3 no los ve en los canales nivelPct
+
+modelo:
+  e_max_h: 72                          # horas desde la última llegada; más allá se agrupa en la cola
+  horizonte_h: 96                      # horizonte de la distribución predictiva
+  iteraciones_ipf: 100
+  min_llegadas_entrenamiento: 5        # tanques con menos llegadas en el entrenamiento no tienen modelo
+  weibull_min_intervalos: 10           # Weibull solo si hay al menos estos intervalos entre llegadas
+  agrupar_por_zona: [aumentado_f2b1, aumentado_f2b2]   # la flota se agrupa por zona (tanques.yml): ~18
+                                       # llegadas por tanque son pocas para 72 x 24 celdas; el resto, por tanque
+
+frac_ajuste: 0.2                       # último 20 % del entrenamiento de cada tanque: calibración conforme
+
+conforme:
+  alfa: 0.20                           # ventana nominal P10-P90 (80 %)
+  min_episodios: 5                     # con menos intervalos observados en el ajuste no se calibra
+
+evaluacion:
+  min_episodios_ic: 5                  # con menos intervalos evaluados el IC por episodio no informa
+  min_episodios_evidencia: 10          # intervalos no censurados para considerar suficiente la evidencia
+  horizontes_prob_h: [6, 12, 24]       # el ingrediente observable: ¿llega agua en las próximas H horas?
+  n_boot: 500

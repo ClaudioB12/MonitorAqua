@@ -172,6 +172,21 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
     es indicativa. **Pendiente prueba en vivo del ESP32:** vaciados controlados registrados en la bitácora (episodios
     reales de autonomía, sin censura ni sesgo de selección).
   - Detalle y sustentación en `docs/modelo-d2.md`; evidencia en `docs/evidencias/f6-d2/`.
+- **Modelo D4, próxima llegada de agua (F6-D4, d4.1):** `batch/modelo_d4.py` + `.yml` y `batch/llegadas.py` (sin
+  dependencias, para F7), ~2 min en `.venv`.
+  - **Llegadas:** `d4_llegadas` (detector f4.3) sin `artefacto_reanudacion` ni `no_verificable` (se reportan aparte).
+    **El detector f4.3 no ve los llenados de los canales nivelPct de ThingSpeak** (1233810 tiene 36 por subida
+    sostenida y 0 en el detector): complemento rotulado "subida sostenida" (> 10 pp, criterio de D2/adecuación).
+    Hallazgo para una f4.4; las reglas congeladas no se tocan.
+  - **Modelo:** supervivencia en tiempo discreto por hora: riesgo según horas desde la última llegada (Kaplan-Meier o
+    Weibull con censura si hay ≥ 10 intervalos) × hora del día, por IPF; la flota se agrupa por zona. Salidas: hora
+    más probable, ventana P10-P90 calibrada (conforme, ajuste de p6.1, ≥ 5 episodios) y probabilidad de llegada en
+    6/12/24 h (`evaluacion.evaluar_probabilidad`: Brier, skill, calibración).
+  - **Alcance:** la conclusión se apoya en la flota y en ThingSpeak **1233810** (red). **3418755 (agua de lluvia) está
+    fuera del alcance de D4** (`fuera_de_alcance` en `modelo_d4.yml`) y se reporta aparte.
+  - **Resultado:** flota: Weibull 1.6 h vs bases 2.1 h (IC solapados) y skill 0.64 vs 0.50 a 6 h; a 24 h gana la base
+    "misma hora" (cambio de ritmo 25 -> 23.3 h; mejora d4.2: más peso a intervalos recientes). 1233810: 5 episodios,
+    indicativo, ~20 h de error para todos, con sesgo de selección (29 % censurados). ESP32 pendiente. Detalle en `docs/modelo-d4.md`; evidencia en `docs/evidencias/f6-d4/`.
 
 ## Contrato del evento
 
@@ -222,7 +237,7 @@ para pasar de cm a litros.
 | F3 | Spark Streaming: watermark, dedup, ventanas, checkpoint (`streaming/`) | 3 |
 | F4 | Eventos de servicio derivados → `servicio-eventos` | 1 (eventos empresariales) |
 | F5 | Grafana BI y observabilidad (`dashboards/`, alertas por provisioning) — hecha | 4 y 6 |
-| F6 | Batch y modelos MLlib (`batch/`). Parte común hecha (capas, partición, evaluación) y F6-D2 (autonomía, plantilla); siguen D4, D6 y D8 | 7 (entrenamiento) |
+| F6 | Batch y modelos MLlib (`batch/`). Parte común hecha (capas, partición, evaluación), F6-D2 (autonomía, plantilla) y F6-D4 (próxima llegada); siguen D6 y D8 | 7 (entrenamiento) |
 | F7 | Inferencia en vivo de series de tiempo | 7 (validada e integrada al BI) |
 | F8 | Costos, MkDocs y ensayo de demo. **Pendiente:** traer la configuración de Prometheus (`lambda26/obs/`, hoy solo en el repo local del curso, commit `c536731` sin push) a `infra/` de MonitorAqua | 5 y 8 (sustentación) |
 

@@ -212,6 +212,39 @@ def evaluar_clasificacion(y, pred, largo_bloque=1, n_boot=1000, semilla=2026):
     return out
 
 
+# --- Probabilidad de un evento (D4: ¿llega agua en las próximas H horas?; sirve para D6) ------------------------
+
+def _brier(y, p):
+    return float(np.mean((p - y) ** 2))
+
+
+def evaluar_probabilidad(y, p, base=None, largo_bloque=1, n_boot=500, semilla=2026, estratos=None, cubos=10):
+    """y: 0/1 observado; p: probabilidad predicha; base (opcional): probabilidad de referencia por fila (p. ej. la
+    frecuencia del entrenamiento). Devuelve el Brier (menor es mejor) con IC por bootstrap de bloques (dentro de cada
+    estrato si se da), el Brier de la referencia y el skill = 1 - Brier / Brier_base (> 0: mejor que la referencia),
+    la calibración global (p media - frecuencia observada) y la tabla de calibración por deciles de p."""
+    y, p = np.asarray(y, float), np.asarray(p, float)
+    ok = ~(np.isnan(y) | np.isnan(p))
+    b = np.asarray(base, float)[ok] if base is not None else None
+    st = np.asarray(estratos)[ok] if estratos is not None else None
+    y, p = y[ok], p[ok]
+    out = {"n": int(len(y)), "eventos": int(y.sum()), "frecuencia": float(y.mean()) if len(y) else None,
+           "largo_bloque": largo_bloque, "n_boot": n_boot}
+    if len(y) == 0:
+        return out
+    out["brier"] = {"valor": _brier(y, p), "ic95": _ic(_brier, (y, p), largo_bloque, n_boot, semilla, None, st)}
+    out["calibracion_global"] = float(p.mean() - y.mean())
+    if b is not None:
+        out["brier_base"] = _brier(y, b)
+        skill = lambda yy, pp, bb: 1 - _brier(yy, pp) / _brier(yy, bb) if _brier(yy, bb) > 0 else None  # noqa: E731
+        out["skill"] = {"valor": skill(y, p, b), "ic95": _ic(skill, (y, p, b), largo_bloque, n_boot, semilla, None, st)}
+    cortes = np.unique(np.quantile(p, np.linspace(0, 1, cubos + 1)))
+    idx = np.clip(np.searchsorted(cortes, p, side="right") - 1, 0, max(len(cortes) - 2, 0))
+    out["tabla_calibracion"] = [{"p_media": float(p[idx == i].mean()), "frecuencia": float(y[idx == i].mean()),
+                                 "n": int((idx == i).sum())} for i in np.unique(idx)]
+    return out
+
+
 # --- Tiempo hasta un evento, con censura (D2 autonomía; sirve igual para D4 próxima llegada) ---------------------
 
 def _cindex(t, e, p, s=None):
