@@ -42,3 +42,16 @@ detenido (ejecución #2): así no queda duda de dónde vienen las escrituras.
 docker run --rm --env-file .env -v "$PWD:/repo" -v "$PWD/docs/evidencias/colector-nube/verificar_ingesta.py:/verificar.py:ro" \
   monitoraqua-ingesta:latest python /verificar.py 5
 ```
+
+## Recarga del hueco nocturno (2026-10-29, 10:06 Lima)
+
+La primera noche GitHub no disparó el cron entre las 02:07 y las 08:07, y las APIs quedaron sin lecturas en Firebase
+entre las 01:48 y las 06:30. Por eso se recargó ese hueco a mano.
+
+- **Script:** `recarga_hueco_2026-10-29.py`. Es el colector en modo ventana, filtrado a (01:47:58, 09:15] y solo con
+  las claves que aún no existían en Firebase.
+- **Salida:** `recarga_hueco_2026-10-29_salida.txt`.
+
+Resultado: 1,641 lecturas nuevas (ThingSpeak 871, EA UK 513, USGS 236, Open-Meteo 21). El puente las publicó todas
+en Kafka, sin duplicados, y el bronce las guardó. Fuera del watermark, no aparecen en los agregados en vivo. Detalle
+en `docs/ingesta.md` → *Recarga puntual del hueco nocturno*.

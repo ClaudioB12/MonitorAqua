@@ -12,11 +12,12 @@ Uso:
   python colector_apis.py              corre todas las fuentes habilitadas
   python colector_apis.py --una-vez    una sola pasada por fuente (prueba)
   python colector_apis.py --seco       no escribe en Firebase, solo muestra los eventos
-  python colector_apis.py --una-vez --ventana-min 120
+  EDAD_MAX_H=7 python colector_apis.py --una-vez --ventana-min 360
                                        modo nube (GitHub Actions, .github/workflows/colector_apis.yml): pide
                                        TODAS las lecturas de los últimos N minutos, no solo la última, y las
                                        escribe con un PATCH por fuente. Las ventanas se solapan entre pasadas y la
-                                       clave determinística evita duplicados; así un cron atrasado no deja huecos.
+                                       clave determinística evita duplicados. GitHub no garantiza el cron: con
+                                       6 h de ventana, una pasada tardía rellena lo que dejaron las que faltaron.
                                        Sale con código 1 si alguna fuente falló (la ejecución queda en rojo).
 """
 import argparse
@@ -36,8 +37,10 @@ from comun import (ORIGENES, URL_HISTORIAL, SesionFirebase, ahora_ms, cargar_val
 
 SERVICIO = "aqua-colector"
 CONFIG_PATH = Path(os.getenv("ESTACIONES_PATH", Path(__file__).with_name("estaciones.yml")))
-# Lecturas más viejas que esto no se escriben: el puente solo mira VENTANA_H hacia atrás
-EDAD_MAX_MS = int(float(os.getenv("VENTANA_H", "3")) * 3600 * 1000)
+# Lecturas más viejas que esto no se escriben. En vivo coincide con la ventana del puente (VENTANA_H, 3 h); el
+# workflow de la nube la sube con EDAD_MAX_H para su ventana de 6 h (docs/ingesta.md explica cuándo el puente no
+# alcanza a ver una lectura de más de 3 h y queda solo en Firebase)
+EDAD_MAX_MS = int(float(os.getenv("EDAD_MAX_H", os.getenv("VENTANA_H", "3"))) * 3600 * 1000)
 USGS_API_KEY = os.getenv("USGS_API_KEY", "")
 HTTP = requests.Session()
 HTTP.headers["User-Agent"] = "MonitorAqua/1.0 (UPeU Big Data, equipo Horeb)"
@@ -335,8 +338,8 @@ def main():
     parser.add_argument("--ventana-min", type=int, help="pide todas las lecturas de los últimos N min (modo nube)")
     args = parser.parse_args()
     if args.ventana_min and args.ventana_min * 60_000 >= EDAD_MAX_MS:
-        parser.error(f"--ventana-min debe ser menor que VENTANA_H ({EDAD_MAX_MS // 60_000} min): el puente no "
-                     "vería las lecturas más viejas")
+        parser.error(f"--ventana-min debe ser menor que la edad máxima ({EDAD_MAX_MS // 60_000} min, EDAD_MAX_H o "
+                     "VENTANA_H): las lecturas más viejas se descartarían")
 
     if not args.seco and faltan_variables_firebase():
         log(SERVICIO, status="config_error", faltan=faltan_variables_firebase(), ayuda="completa .env")

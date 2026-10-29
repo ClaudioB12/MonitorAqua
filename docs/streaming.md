@@ -51,6 +51,16 @@ docker logs -f lambda26-aqua-streaming | grep '"progress"'
   media de cada medida y el mínimo/máximo de distancia y nivel.
 - **Escritura en InfluxDB:** un punto con el mismo measurement, etiquetas y tiempo reemplaza al anterior. Por eso el
   modo `update`, que reescribe la ventana en cada lote, y el reproceso de un lote tras un reinicio no duplican datos.
+- **Reintentos hacia InfluxDB** (`streaming/influx.py`, desde el 2026-10-29):
+  - **Qué se reintenta:** las fallas transitorias (DNS, conexión rechazada, tiempo agotado, HTTP 5xx o 429). Hasta 5
+    reintentos, con esperas de 1, 2, 4, 8 y 16 s (~31 s en total). Cada reintento deja una línea
+    `"status": "influx_reintento"` en el log.
+  - **Qué no:** un 4xx (token o datos mal formados) falla de inmediato, porque reintentar no lo arregla.
+  - **Por qué:** la madrugada del 2026-10-29 (00:45 Lima), una falla de DNS al escribir detuvo la consulta
+    `eventos_servicio` y, con ella, todo el job. El contenedor se reinició solo y retomó desde el checkpoint, sin
+    pérdida. Con los reintentos, una caída breve ya no detiene el job.
+  - **Si la caída dura más de ~31 s,** el lote falla igual y el reinicio del contenedor lo recupera desde el
+    checkpoint, como antes.
 - **Métricas de cada lote:** un `StreamingQueryListener` las escribe en InfluxDB, measurement `spark_progreso`
   (filas, filas/s, duración, `numRowsDroppedByWatermark`, `numDroppedDuplicateRows`, filas en estado), para la
   observabilidad de F5.

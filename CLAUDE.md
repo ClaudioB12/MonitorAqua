@@ -37,11 +37,15 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
 - **Ingesta (F2):** `infra/compose.yml` levanta `lambda26-aqua-puente` y `lambda26-aqua-colector` (imagen
   `monitoraqua-ingesta`, código en `ingesta/`). Detalle y estaciones en `docs/ingesta.md`.
   - **Colector:** escribe en Firebase con la clave `origen_estacion_timestamp` (PUT, idempotente).
-  - **Colector en la nube:** `.github/workflows/colector_apis.yml` (GitHub Actions, cada 30 min, `--una-vez
-    --ventana-min 120`, un PATCH por fuente) sigue alimentando Firebase con la PC apagada; corre a la vez que el
-    local sin duplicar. El workflow vive en `main` y toma el código de la variable `COLECTOR_REF`
+  - **Colector en la nube:** `.github/workflows/colector_apis.yml` (GitHub Actions, cada 30 min, `EDAD_MAX_H=7
+    --una-vez --ventana-min 360`, un PATCH por fuente) sigue alimentando Firebase con la PC apagada; corre a la vez
+    que el local sin duplicar. **GitHub no garantiza el cron** (la primera noche no disparó entre 02:07 y 08:07): la
+    ventana de 6 h es la protección. El workflow vive en `main` y toma el código de la variable `COLECTOR_REF`
     (`u2-colector-nube`), que es **temporal**: se elimina al fusionar las ramas U2 en `main`. Credenciales solo
-    como Secrets de GitHub. Si cambia el colector, se prueba con `--seco --ventana-min 120` antes del push.
+    como Secrets de GitHub. Si cambia el colector, se prueba con `--seco --ventana-min 360` antes del push.
+  - **Arranque diario:** checklist en `docs/arranque-diario.md` (verificar_stack, puente sin duplicados, checkpoint
+    de Spark, ejecuciones nocturnas, huecos con `ingesta/auditar_huecos.py`). Un hueco de APIs se recarga con el
+    colector en modo ventana solo con claves nuevas (`docs/ingesta.md` → *Recarga puntual*).
   - **Puente:** lee `historial` con `orderBy="timestamp"` (necesita `.indexOn: "timestamp"` en las reglas), completa el
     contrato, valida, usa `sensorId` como clave de Kafka y guarda su estado (cursor, piso y claves vistas) en el volumen
     `monitoraqua_ingesta_estado`.
@@ -61,6 +65,9 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
   | `bronce` | todas | — | — | Parquet `data/local/bronce/origen=…/fecha=…` |
 
   - **Deduplicación** por `eventId` con `dropDuplicatesWithinWatermark`.
+  - **Escritura a InfluxDB con reintentos** (`streaming/influx.py`): 5 reintentos, 1-16 s, solo ante fallas
+    transitorias; un cambio en `streaming/*.py` exige reconstruir la imagen y recrear solo ese contenedor
+    (`docker compose -f infra/compose.yml --env-file .env up -d --build --no-deps aqua-streaming`).
   - **Lecturas inválidas** (`motivo_invalidez`): se cuentan pero no entran a los agregados.
   - **Progreso por lote** en InfluxDB, measurement `spark_progreso`.
   - **Eventos de prueba:** `sensorId = esp32-prueba-f3` marca 3 eventos que quedaron en el tópico real; hay que
