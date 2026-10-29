@@ -142,6 +142,11 @@ def preparar(d2):
             verdad = np.where((cruce >= 0) & (cruce < prox_inicio), (cruce - np.arange(n)) / PASOS_POR_HORA, np.nan)
             r[f"verdad_h_u{u}"] = verdad[k]
             r[f"arriba_u{u}"] = ym[k] > u
+            # Para el C-index (d2.2): tiempo observado = hasta el umbral si hubo evento; si no, hasta la censura
+            # (inicio del próximo llenado o fin del tramo), que es una cota inferior de la autonomía real
+            fin = np.minimum(prox_inicio, n - 1)
+            r[f"evento_u{u}"] = (~np.isnan(verdad))[k]
+            r[f"t_obs_u{u}"] = np.where(~np.isnan(verdad), verdad, (fin - np.arange(n)) / PASOS_POR_HORA)[k]
         filas.append(r)
     out = pd.concat(filas, ignore_index=True)
     out["nivel"] = out["fuente"].map(ev.nivel_de)

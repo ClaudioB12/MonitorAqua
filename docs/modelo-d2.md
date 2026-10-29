@@ -1,7 +1,14 @@
 # Modelo D2: horas de autonomía del tanque
 
-**Dimensión D2 (Claudio Bustinza).** Versión `d2.1`, entrenada el 2026-10-29 con la partición `p6.1`. Código:
-`batch/modelo_d2.py` (configuración en `batch/modelo_d2.yml`) y `batch/holt.py`. Evidencia: `docs/evidencias/f6-d2/`.
+**Dimensión D2 (Claudio Bustinza).** Dos versiones, las dos con la partición `p6.1`:
+
+| Versión | Modelo principal | Código | Evidencia |
+|---|---|---|---|
+| `d2.1` (commit `6f9bcae`) | Holt (nivel + tendencia) | `batch/modelo_d2.py`, `batch/holt.py` | `docs/evidencias/f6-d2/` |
+| **`d2.2`** (sección 12) | **Perfil de consumo por hora del día** | `batch/modelo_d2_perfil.py`, `batch/perfil_consumo.py` | `docs/evidencias/f6-d2/d2.2/` |
+
+Las secciones 1-11 describen d2.1, y casi todo vale también para d2.2: la pregunta, los datos, la censura y la
+partición. **La sección 12 resume qué cambió en d2.2 y compara las dos versiones sobre las mismas filas.**
 
 ## 1. Qué pregunta responde y qué decisión habilita
 
@@ -274,4 +281,217 @@ docker run --rm -v "$PWD:/repo" -w /repo -e PYTHONPATH=/repo/streaming:/repo/bat
 # Modelo D2 (~12 min)
 docker run --rm -v "$PWD:/repo" -w /repo -e PYTHONPATH=/repo/batch monitoraqua-streaming:latest \
     spark-submit --driver-memory 3g batch/modelo_d2.py
+```
+
+## 12. Versión d2.2: perfil de consumo por hora del día
+
+### Qué cambió y por qué
+
+d2.1 mostró que **el problema de la autonomía es el consumo intermitente**. De noche el tanque no baja, cualquier
+tendencia de las últimas horas dice "sin descenso", y el error se dispara.
+
+d2.2 deja de mirar solo la última hora y aprende **cómo consume cada tanque a lo largo del día**:
+
+1. **Aprender** (solo con la partición de entrenamiento de cada tanque):
+   - En cada bloque de una hora de reloj sin llenado, el consumo es cuánto bajó el nivel en esa hora (%/h).
+   - Con todos esos bloques se arma una tabla por **día de la semana y hora** (si hay al menos 14 días de historia
+     y 3 bloques por celda) o solo por **hora del día**.
+   - Por celda se guardan el P10, el P50 (la mediana) y el P90 del consumo.
+2. **Proyectar:**
+   - Desde el nivel actual se resta, paso a paso de 5 min, el consumo típico (P50) de cada hora que viene, hasta
+     llegar al umbral. Las horas que tarda son la autonomía.
+   - Así, si son las 22:00, el modelo "sabe" que de madrugada casi no se gasta y que a las 7:00 se gasta mucho.
+3. **Banda:**
+   - Proyectar con el P90 del consumo (se gasta más de lo normal) da la autonomía **pesimista**.
+   - Con el P10 (se gasta menos) da la **optimista**.
+   - La banda P10-P90 es el rango de horas que el tablero puede mostrar.
+
+**Líneas base de la autonomía en d2.2:**
+- **Consumo medio:** nivel disponible sobre el umbral dividido entre el consumo medio por hora del tanque. En % es
+  lo mismo que "litros disponibles / litros por hora", porque la capacidad es constante.
+- **Holt d2.1:** el modelo principal de la versión anterior, con sus parámetros guardados y sin reajustar.
+
+La persistencia sigue como línea base del **pronóstico de nivel** a 15 y 60 min.
+
+**Nueva métrica, el C-index (índice de concordancia).** El error en horas solo puede usar los casos no censurados,
+que son muy pocos. El C-index usa **todos**, también los censurados: entre dos momentos, si uno se vació antes,
+¿el modelo le dio menos horas? Para un caso censurado sabemos que aguantó *al menos* hasta el llenado, y eso basta
+para compararlo con los que se vaciaron antes.
+- 1 = siempre ordena bien; 0.5 = azar.
+- Se calcula con un origen por hora (los de cada 5 min del mismo episodio son casi iguales).
+- El IC remuestrea episodios completos.
+- **Global y por tanque.** El C-index **global** compara momentos de todos los tanques juntos, y eso lo infla:
+  ordenar un tanque casi lleno contra otro casi vacío es trivial, porque basta con mirar el nivel. El C-index **por
+  tanque** (estratificado) solo compara momentos del **mismo** tanque, que es lo difícil: saber si este tanque se
+  vacía antes esta noche o mañana. Se reportan los dos, y el que importa es el por tanque.
+- Está en `batch/evaluacion.py` (`evaluar_concordancia`) para que D4 lo use igual con el tiempo hasta la próxima
+  llegada.
+
+### Resultados: d2.1 y d2.2 lado a lado
+
+Mismas filas para todos los predictores. Los GBT y Holt de d2.1 se re-aplicaron sin reentrenar. Tablas completas en
+`docs/evidencias/f6-d2/d2.2/tablas_d2.2.md`.
+
+**Horas de autonomía hasta el 10 %**
+
+Casos de la evaluación final:
+
+| Nivel | Episodios | Error en horas: casos no censurados | C-index: orígenes (uno por hora) |
+|---|---|---|---|
+| Consistencia | 83 (3 llegan al 10 %, 80 censurados) | 1,368 orígenes de 3 episodios | 1,463: 114 no censurados y 1,349 censurados |
+| ThingSpeak real | 137 (2 llegan, 135 censurados) | 138 orígenes de 2 episodios | 304: 12 no censurados y 292 censurados |
+| ESP32 real | **pendiente** | | |
+
+| Nivel | Predictor | Versión | MAE h, no censurados [IC 95 %] | C-index global [IC 95 %] | **C-index por tanque** [IC 95 %] | Sin descenso previsto |
+|---|---|---|---|---|---|---|
+| Consistencia | **perfil P50** | **d2.2 principal** | 7.3 [5.1, 12.5] | 0.989 [0.978, 0.999] | 0.958 [0.928, 0.992] | 0 % |
+| | **consumo medio** | base d2.2 | **5.5 [4.7, 9.4]** | **0.994 [0.989, 1.000]** | **0.984 [0.955, 1.000]** | 0 % |
+| | Holt | d2.1 principal | 12.4 [8.7, 15.2] | 0.969 [0.945, 0.986] | 0.923 [0.879, 0.970] | 22 % |
+| | persistencia de la velocidad | d2.1 base | 13.8 [8.1, 15.8] | 0.912 [0.875, 0.962] | 0.844 [0.791, 0.914] | 20 % |
+| | tendencia | d2.1 base | 14.0 [8.3, 16.5] | 0.906 [0.867, 0.960] | 0.842 [0.785, 0.908] | 20 % |
+| | GBT | d2.1 | 23.6 [16.1, 25.6] | 0.775 [0.699, 0.928] | 0.708 [0.638, 0.872] | 37 % |
+| ThingSpeak real | **perfil P50** | **d2.2 principal** | 4.5 [3.7, 5.9] | **0.991 [0.972, 1.000]** | **0.955 [0.807, 1.000]** | 0 % |
+| | **consumo medio** | base d2.2 | **2.4 [1.9, 3.1]** | 0.987 [0.960, 1.000] | 0.935 [0.719, 1.000] | 0 % |
+| | Holt | d2.1 principal | 35.6 [26.6, 50.9] | 0.779 [0.699, 0.837] | 0.677 [0.533, 0.863] | 46 % |
+| | persistencia de la velocidad | d2.1 base | 29.6 [24.4, 38.5] | 0.926 [0.860, 0.985] | 0.822 [0.600, 0.907] | 38 % |
+| | tendencia | d2.1 base | 29.4 [25.3, 36.5] | 0.870 [0.727, 0.986] | 0.776 [0.496, 0.938] | 39 % |
+| | GBT | d2.1 | 46.6 [38.8, 59.9] | 0.671 [0.474, 0.839] | 0.605 [0.325, 0.795] | 62 % |
+
+**Banda P10-P90 del perfil y su calibración conforme.**
+
+La banda P10-P90 debería contener la autonomía real el 80 % de las veces. Sin calibrar, en ThingSpeak la contenía
+solo el 59 %: era demasiado estrecha. Se calibró con **predicción conforme** sobre el **conjunto de ajuste** de p6.1
+(el último 20 % del entrenamiento), nunca con la prueba:
+
+1. **Perfil de calibración:** se aprende con el 80 % inicial del entrenamiento, sin el ajuste. Así ningún dato se
+   usa dos veces.
+2. **Puntaje de cada caso no censurado del ajuste:** cuántas veces se quedó corta la banda, como razón
+   (`max(lo / y, y / hi)` en escala logarítmica). Al ser una razón, se pueden juntar los umbrales del 10 y del 25 %.
+3. **Factor:** el cuantil del 80 % de esos puntajes, con la corrección de muestra finita.
+4. **Banda calibrada:** `[autonomía P90 / factor, autonomía P10 × factor]`, con tope de 72 h.
+
+| Nivel | Factor | Casos (episodios) de calibración | Cobertura antes → después (umbral 10 %) | Ancho mediano antes → después |
+|---|---|---|---|---|
+| Consistencia | 1.03 | 747 (4) | 89 % → **91 %** | 25.7 h → 27.3 h |
+| ThingSpeak real | **1.80** | 200 (8) | 59 % → **77 %** | 24.5 h → 49.6 h |
+| ESP32 | 1.80 (el de ThingSpeak) | — | pendiente | |
+
+- **En ThingSpeak la calibración casi alcanza el 80 % nominal,** a cambio de una banda el doble de ancha.
+- **En la flota no cambia casi nada:** la banda ya estaba bien.
+- **Con umbral del 25 %, la flota sigue cubriendo solo el 35 %** (34 % antes). Lo mismo con el orden de los
+  predictores: consumo medio 11.9 h, perfil 14.1 h, Holt 17.7 h.
+- **Advertencia:** la calibración se sostiene en **4 y 8 episodios**. Los casos de un mismo episodio no son
+  independientes, así que la garantía de cobertura del método conforme se cumple solo de forma aproximada. Hay que
+  recalibrar cuando haya más episodios.
+- **En la prueba de ThingSpeak ningún episodio llega al 25 %.**
+
+**Pronóstico de nivel** (MAE en puntos de %; mismas filas)
+
+| Nivel | Predictor | 15 min | vs persistencia | 60 min | vs persistencia |
+|---|---|---|---|---|---|
+| Consistencia | persistencia | 0.72 [0.65, 0.80] | — | 2.66 [2.43, 2.94] | — |
+| | perfil (d2.2) | 0.60 [0.52, 0.68] | **+17 %** | 1.99 [1.75, 2.27] | **+25 %** |
+| | Holt (d2.1) | 0.81 [0.73, 0.88] | −12 % | 3.10 [2.84, 3.40] | −16 % |
+| | GBT (d2.1) | **0.41 [0.37, 0.45]** | **+43 %** | **1.84 [1.67, 2.06]** | **+31 %** |
+| ThingSpeak real | **persistencia** | **1.02 [0.76, 1.33]** | — | **1.30 [1.08, 1.56]** | — |
+| | perfil (d2.2) | 1.04 [0.77, 1.35] | −1 % (empate) | 1.35 [1.12, 1.60] | −4 % (empate) |
+| | Holt (d2.1) | 1.31 [1.03, 1.61] | −28 % | 1.77 [1.48, 2.09] | −36 % |
+| | GBT (d2.1) | 1.25 [0.95, 1.59] | −22 % | 1.43 [1.21, 1.68] | −10 % |
+
+Las cifras de ThingSpeak no coinciden con las de la sección 6 porque aquí falta el canal **480876**. Solo tiene ~5.5
+días de datos, que caen enteros en la prueba y el embargo: no tiene entrenamiento, así que no tiene perfil y queda
+fuera para que todos los predictores se comparen en las mismas filas.
+
+### Cómo leer d2.2
+
+1. **La autonomía mejora muchísimo:** de 30-35 h de error con los métodos de tendencia corta (d2.1) a 2-7 h. Mirar
+   el consumo de todo el día, en vez del de la última hora, resuelve el problema del consumo intermitente: ningún
+   modelo de d2.2 dice "sin descenso".
+2. **Pero el modelo principal (perfil) no supera a su línea base (consumo medio):** 7.3 h frente a 5.5 h en la
+   flota y 4.5 h frente a 2.4 h en ThingSpeak.
+   - En C-index están empatados, con intervalos que se solapan.
+   - **Se reporta tal cual.** La explicación probable es que el perfil reparte 2-3 semanas de historia en 168 celdas
+     (día × hora). Cada celda tiene pocas muestras y su mediana es ruidosa. El consumo medio usa todas las horas a
+     la vez y es más estable.
+   - Para horizontes de 1-2 días, que es lo que mide la autonomía, el orden de las horas pesa menos que el total.
+3. **La banda P10-P90 cruda es optimista en datos reales** (59 % en ThingSpeak). Calibrada con el conjunto de
+   ajuste, llega al 77 %, cerca del 80 % nominal, a cambio de ser el doble de ancha (~50 h).
+4. **El C-index global exagera.** Ordenar entre tanques distintos es trivial (basta el nivel). Por tanque, todos
+   bajan: en ThingSpeak el perfil queda en 0.955 y el consumo medio en 0.935, con intervalos muy anchos porque solo
+   hay 12 orígenes no censurados. El orden general se mantiene: d2.2 ≫ d2.1.
+5. **Todo descansa en pocos episodios no censurados:** 3 en la flota y 2 en ThingSpeak. El C-index, que usa también
+   los censurados, confirma el orden: d2.2 ≫ d2.1.
+
+**Decisión para F7** (tomada por el equipo el 2026-10-29):
+- **Cifra principal:** la autonomía del **consumo medio** de cada tanque, por ser la de menor error.
+- **Rango:** la **banda P10-P90 del perfil, calibrada** con el factor de su nivel.
+- **Mejora pendiente para una d2.3:** encoger cada celda del perfil hacia el consumo medio del tanque cuando tiene
+  pocas muestras, y recalibrar la banda cuando haya más episodios.
+
+### Por qué la persistencia gana en el nivel a 1 hora y no sirve para la autonomía
+
+- **El nivel a 1 hora:**
+  - En una hora el nivel de un tanque cambia poco: 1-3 puntos.
+  - Lo que más lo mueve es la llegada de agua, y nadie la anticipa con la tendencia.
+  - Por eso **el mejor pronóstico del nivel en una hora es el nivel de ahora** (el comportamiento de un "paseo
+    aleatorio"). Cualquier tendencia estimada agrega su propio ruido: en ThingSpeak real, Holt, GBT y la recta
+    pierden contra la persistencia, y el perfil solo empata.
+- **La autonomía:**
+  - Pregunta cuánto falta para vaciarse, y eso es **la suma del consumo de muchas horas**.
+  - La persistencia supone que el nivel no cambia, es decir, que **nadie consume**: su autonomía es siempre
+    "infinita" y no responde nada.
+  - Por eso en autonomía la línea base no es la persistencia sino el **consumo medio**. Un buen pronóstico de una
+    hora no garantiza una buena autonomía, ni al revés: son preguntas distintas y se evalúan con métricas distintas.
+
+### Limitaciones propias de d2.2
+
+- **Pocos episodios no censurados:** igual que en d2.1. El C-index ayuda porque usa todos los casos.
+- **ThingSpeak 480876 queda fuera:** no tiene historia de entrenamiento.
+- **El perfil del ESP32 no sirve todavía:** se aprendió con la geometría provisional y con muy pocas horas de
+  consumo real. Su consumo medio (1.85 %/h) sale de los saltos del sensor, no de gasto real. Hay que reaprenderlo
+  cuando la geometría esté medida y haya sesiones con consumo.
+- **El perfil no se actualiza solo en F7:** es una tabla fija. Para que siga los cambios de hábito hay que
+  reentrenarlo periódicamente (por ejemplo, cada semana) con `batch/modelo_d2_perfil.py`.
+
+### Uso en F7
+
+- **Modelo:** `batch/perfil_consumo.py` (`PerfilConsumo.desde_dict`, `horas_autonomia(nivel, ts, umbral,
+  cuantil)` y `pronostico`).
+- **Parámetros por tanque:** `batch/modelos/d2/d2.2-20261029/perfil.json`, con P10, P50, P90 y la media por día ×
+  hora.
+- **Entrada:** el nivel % suavizado (mediana móvil de 15 min) y la hora del dato.
+- **Cálculo en F7:**
+  - Cifra principal: `(nivel − umbral) / consumo_medio_pct_h` del tanque.
+  - Rango: `[horas_autonomia(..., "p90") / factor, horas_autonomia(..., "p10") × factor]`.
+  - El factor está en `perfil.json` → `calibracion_banda`: 1.03 en la flota y 1.80 en ThingSpeak y el ESP32.
+
+### Preguntas del jurado sobre d2.2
+
+**6. "Si el consumo medio gana, ¿para qué el perfil?"**
+Lo reportamos tal cual: en error de horas gana el consumo medio, y por eso es la cifra principal en F7. El
+perfil aporta lo que el promedio no tiene, la **banda P10-P90**, que convierte la respuesta en "entre X y Y horas".
+Su mediana es ruidosa porque reparte pocas semanas en 168 celdas. La siguiente versión lo acerca al promedio
+cuando una celda tiene pocos datos.
+
+**7. "¿Qué es el C-index y por qué lo usan?"**
+Mide si el modelo **ordena** bien: si un momento se vació antes que otro, ¿le dio menos horas? Usa también los
+casos censurados (sabemos que aguantaron al menos hasta el llenado). Con muy pocos tanques vaciándose de verdad,
+nos deja aprovechar todos los datos y no solo los dos episodios no censurados de ThingSpeak. Reportamos dos: el global, que es optimista porque comparar tanques distintos es fácil, y el **por tanque**, que
+solo compara momentos del mismo tanque. Este último es el que mide la dificultad real.
+
+**9. "¿Cómo saben que la banda de horas es confiable?"**
+La calibramos con predicción conforme sobre el conjunto de ajuste, nunca con la prueba. En ThingSpeak pasó de
+contener la autonomía real el 59 % de las veces al 77 %, cerca del 80 % prometido. Pero se apoya en solo 8
+episodios. Lo decimos así y la recalibramos cuando haya más datos.
+
+**8. "¿Por qué la persistencia gana en el nivel y no sirve para la autonomía?"**
+Ver el apartado anterior. A una hora el nivel casi no cambia y la persistencia es imbatible. Pero para la
+autonomía supone que nadie consume, así que su respuesta sería siempre "infinito". Son dos preguntas distintas, y
+por eso cada una tiene su propia línea base.
+
+### Reproducir d2.2
+
+```bash
+docker run --rm -v "$PWD:/repo" -w /repo -e PYTHONPATH=/repo/batch monitoraqua-streaming:latest \
+    spark-submit --driver-memory 3g batch/modelo_d2_perfil.py          # ~2 min; usa los modelos de d2.1
 ```

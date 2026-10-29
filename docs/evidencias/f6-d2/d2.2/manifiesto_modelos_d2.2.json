@@ -1,0 +1,29 @@
+{
+ "version": "d2.2",
+ "fecha": "20261029",
+ "particion": "p6.1",
+ "base_d21": "batch/modelos/d2/d2.1-20261029",
+ "archivos": [
+  "manifiesto.json",
+  "perfil.json"
+ ],
+ "config_d22": {
+  "version": "d2.2",
+  "base_d21": "batch/modelos/d2/d2.1-20261029",
+  "perfil": {
+   "min_muestras": 3,
+   "min_dias_semana": 14,
+   "min_pasos_bloque": 6,
+   "min_minutos_bloque": 30
+  },
+  "cindex": {
+   "submuestra_pasos": 12,
+   "max_n": 2500,
+   "n_boot": 200
+  },
+  "conforme": {
+   "alfa": 0.2,
+   "horas_minimas": 0.25
+  }
+ }
+}

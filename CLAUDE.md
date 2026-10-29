@@ -135,6 +135,15 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
     Spark (`gbt_*/`) no (`.gitignore`), se regeneran con el script.
   - **Snapshot de datos:** re-descargar las fuentes mueve la ventana de prueba de ThingSpeak (últimos 7 días de cada
     canal); los resultados de D2 valen para el snapshot de `docs/evidencias/f6-d2/manifiesto_fuentes_d2.json`.
+  - **d2.2** (`batch/modelo_d2_perfil.py` + `.yml`, `batch/perfil_consumo.py`, ~2 min): perfil de consumo por
+    día × hora (P10/P50/P90) aprendido del entrenamiento de cada tanque; autonomía proyectando el perfil, con
+    banda P10-P90. Bases: consumo medio y Holt d2.1 (re-aplicados sin reentrenar, mismas filas). Métricas: MAE
+    en horas (no censurados) + **C-index** (`evaluacion.evaluar_concordancia`, usa los censurados).
+    Resultado: autonomía de 30-35 h de error (d2.1) a 2-7 h; el **consumo medio** gana al perfil en MAE; en
+    nivel a 1 h la persistencia sigue imbatible en datos reales. Modelo F7: `batch/modelos/d2/d2.2-*/perfil.json`.
+    **F7:** cifra principal = consumo medio; rango = banda P10-P90 del perfil calibrada por predicción conforme
+    (conjunto de ajuste de p6.1; factor 1.03 flota, 1.80 ThingSpeak/ESP32). Se reportan C-index global y por
+    tanque (el global es optimista).
   - Detalle y sustentación en `docs/modelo-d2.md`; evidencia en `docs/evidencias/f6-d2/`.
 
 ## Contrato del evento

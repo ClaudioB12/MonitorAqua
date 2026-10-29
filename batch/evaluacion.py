@@ -192,6 +192,64 @@ def evaluar_clasificacion(y, pred, largo_bloque=1, n_boot=1000, semilla=2026):
     return out
 
 
+# --- Tiempo hasta un evento, con censura (D2 autonomía; sirve igual para D4 próxima llegada) ---------------------
+
+def _cindex(t, e, p, s=None):
+    """C de Harrell: entre los pares comparables (el de menor tiempo observado tuvo el evento), proporción en la que el
+    modelo predijo un tiempo menor para ese mismo. Empates de predicción cuentan 0.5. 0.5 = azar, 1 = orden perfecto.
+    s (opcional): estrato de cada fila; solo se comparan pares del mismo estrato (p. ej., el mismo tanque)."""
+    comparable = (t[:, None] < t[None, :]) & e[:, None]
+    if s is not None:
+        comparable &= s[:, None] == s[None, :]
+    n = comparable.sum()
+    if n == 0:
+        return None
+    menor = (p[:, None] < p[None, :]) & comparable
+    empate = (p[:, None] == p[None, :]) & comparable
+    return float((menor.sum() + 0.5 * empate.sum()) / n)
+
+
+def evaluar_concordancia(t_obs, evento, pred, grupos=None, n_boot=200, semilla=2026, max_n=2500, estratos=None):
+    """Índice de concordancia (C-index) para tiempos con censura: usa TODOS los casos, también los censurados (cuyo
+    tiempo observado es una cota inferior). t_obs: tiempo observado (hasta el evento o hasta la censura); evento:
+    True si se observó el evento; pred: tiempo predicho (mayor = más tiempo). Si hay más de max_n filas se toma una
+    submuestra regular (la matriz de pares es n×n). IC por bootstrap de grupos completos si se dan.
+    estratos (opcional): C estratificado, solo con pares del mismo estrato. Con varios tanques, el C global es
+    optimista: ordenar un tanque casi lleno contra otro casi vacío es trivial; el estratificado mide el orden dentro
+    de cada tanque, que es lo difícil."""
+    t, e, p = np.asarray(t_obs, float), np.asarray(evento, bool), np.asarray(pred, float)
+    ok = ~(np.isnan(t) | np.isnan(p))
+    t, e, p = t[ok], e[ok], p[ok]
+    g = np.asarray(grupos)[ok] if grupos is not None else None
+    s = np.asarray(estratos)[ok] if estratos is not None else None
+    if len(t) > max_n:
+        idx = np.linspace(0, len(t) - 1, max_n).astype(int)
+        t, e, p = t[idx], e[idx], p[idx]
+        g = g[idx] if g is not None else None
+        s = s[idx] if s is not None else None
+    out = {"n": int(len(t)), "eventos": int(e.sum()), "censurados": int((~e).sum()), "n_boot": n_boot,
+           "estratificado": s is not None}
+    if len(t) == 0:
+        return out
+    valor = _cindex(t, e, p, s)
+    ic = [None, None]
+    if valor is not None and g is not None:
+        indices = [np.flatnonzero(g == x) for x in np.unique(g)]
+        out["n_grupos"] = len(indices)
+        if len(indices) >= 2:
+            rng = np.random.default_rng(semilla)
+            vals = []
+            for _ in range(n_boot):
+                ix = _por_grupos(indices, rng)
+                v = _cindex(t[ix], e[ix], p[ix], s[ix] if s is not None else None)
+                if v is not None:
+                    vals.append(v)
+            if vals:
+                ic = [float(np.percentile(vals, 2.5)), float(np.percentile(vals, 97.5))]
+    out["C"] = {"valor": valor, "ic95": ic}
+    return out
+
+
 # --- Reporte -------------------------------------------------------------------------------------------------
 
 def reporte(por_nivel, modelos=(), col_y="y_real", **kw):

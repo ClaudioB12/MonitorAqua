@@ -1,0 +1,21 @@
+# Configuración de D2 versión d2.2 (perfil de consumo). La lee batch/modelo_d2_perfil.py.
+# Umbral, tope, horizontes y la regla de llenado se toman de batch/modelo_d2.yml (los mismos que d2.1), para que
+# d2.1 y d2.2 se comparen sobre exactamente las mismas filas y la misma verdad.
+version: "d2.2"
+base_d21: batch/modelos/d2/d2.1-20261029   # Holt (holt.json) y GBT de d2.1, sin reentrenar
+
+perfil:
+  min_muestras: 3            # bloques de 1 h por celda para usarla
+  min_dias_semana: 14        # días de historia de entrenamiento para distinguir el día de la semana
+  min_pasos_bloque: 6        # un bloque de 1 h cuenta si tiene al menos 6 pasos de 5 min
+  min_minutos_bloque: 30     # y al menos 30 min entre su primera y su última lectura
+
+cindex:
+  submuestra_pasos: 12       # un origen por hora: los orígenes cada 5 min del mismo episodio son casi iguales
+  max_n: 2500
+  n_boot: 200
+
+# Calibración conforme de la banda P10-P90 (split conformal, escala logarítmica), con el conjunto de AJUSTE de p6.1
+conforme:
+  alfa: 0.20                 # banda nominal del 80 % (P10-P90)
+  horas_minimas: 0.25        # piso para el logaritmo (una autonomía de 0 h no tiene logaritmo)
