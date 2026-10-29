@@ -1,6 +1,17 @@
 # Plan de fusión de las ramas U2 en `main`
 
-**Estado: propuesta, no ejecutada.** Se ejecuta solo con aprobación.
+**Estado: ejecutado el 2026-10-29** (aprobado por el equipo).
+
+| Resultado | |
+|---|---|
+| Punto de retorno | Etiqueta `pre-fusion-u2` = `abd316f` (el `main` anterior) |
+| Fusiones | 10 commits de fusión, de `8207485` (u2-fase0) a `c7aa73a` (u2-colector-nube), **sin conflictos**; `main` se movió solo al final |
+| Comprobaciones | `contratos/validar.py`: 0 fallos · `mkdocs build`: ok · `.env` ya no está versionado |
+| Imágenes | `monitoraqua-streaming` y `monitoraqua-ingesta` reconstruidas desde `main`. Se recrearon el puente, el colector, el consumidor de eventos, el de volumen y Spark. Spark retomó sus 6 consultas con los mismos `id` y el puente retomó desde su estado |
+| `verificar_stack.py` | Stack completo y operativo |
+| Workflow | Usa el código de `main` (se quitó `ref: vars.COLECTOR_REF`). La variable se elimina a mano en GitHub |
+
+El texto de abajo es la propuesta original, tal como se aprobó.
 
 ## Situación (2026-10-29)
 

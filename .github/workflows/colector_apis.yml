@@ -11,8 +11,8 @@
 # Requisitos (Settings -> Secrets and variables -> Actions):
 #   Secrets:   FIREBASE_API_KEY, FIREBASE_DB_URL, FIREBASE_EMAIL, FIREBASE_PASSWORD (los mismos de .env);
 #              USGS_API_KEY es opcional
-#   Variable:  COLECTOR_REF = u2-colector-nube, rama con el código del colector. TEMPORAL: solo mientras main no
-#              tenga las fases U2; al fusionarlas en main se elimina y se usa la rama del workflow
+#   El código del colector se toma de main (desde la fusión de las ramas U2, 2026-10-29; la variable temporal
+#   COLECTOR_REF ya no se usa).
 #   Con la PC encendida corre a la vez que el colector local, sin duplicados (misma clave fija).
 #   Si los minutos no alcanzan: cron "7 * * * *" (una vez por hora), sin perder datos gracias a la ventana de 6 h.
 # GitHub solo dispara los "schedule" desde la rama por defecto (main): este archivo tiene que estar en main.
@@ -39,8 +39,6 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ vars.COLECTOR_REF || github.ref }}
 
       - uses: actions/setup-python@v5
         with:

@@ -46,9 +46,8 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
   - **Colector en la nube (respaldo):** `.github/workflows/colector_apis.yml` (GitHub Actions, cada 30 min, `EDAD_MAX_H=7
     --una-vez --ventana-min 360`, un PATCH por fuente) sigue alimentando Firebase con la PC apagada; corre a la vez
     que el local sin duplicar. **GitHub no garantiza el cron** (la primera noche no disparó entre 02:07 y 08:07): la
-    ventana de 6 h es la protección. El workflow vive en `main` y toma el código de la variable `COLECTOR_REF`
-    (`u2-colector-nube`), que es **temporal**: se elimina al fusionar las ramas U2 en `main`. Credenciales solo
-    como Secrets de GitHub. Si cambia el colector, se prueba con `--seco --ventana-min 360` antes del push.
+    ventana de 6 h es la protección. El workflow vive en `main` y usa el código de `main` (la variable temporal
+    `COLECTOR_REF` quedó sin uso con la fusión U2 del 2026-10-29). Credenciales solo como Secrets de GitHub. Si cambia el colector, se prueba con `--seco --ventana-min 360` antes del push.
   - **Arranque diario:** checklist en `docs/arranque-diario.md` (verificar_stack, puente sin duplicados, checkpoint
     de Spark, ejecuciones nocturnas, huecos con `ingesta/auditar_huecos.py`). Un hueco de APIs se recarga con el
     colector en modo ventana solo con claves nuevas (`docs/ingesta.md` → *Recarga puntual*).

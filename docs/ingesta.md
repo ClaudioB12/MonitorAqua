@@ -318,9 +318,8 @@ en `docs/evidencias/colector-nube/`.
 
 1. **Secrets:** `FIREBASE_API_KEY`, `FIREBASE_DB_URL`, `FIREBASE_EMAIL` y `FIREBASE_PASSWORD`, con los mismos valores
    de `.env`. `USGS_API_KEY` es opcional. Nunca se escriben en el repo.
-2. **Variable:** `COLECTOR_REF` = `u2-colector-nube`, la rama con este código. **Es temporal:** existe solo porque
-   `main` todavía no tiene las fases U2. Cuando las ramas U2 se fusionen en `main`, la variable **se elimina** y el
-   workflow pasa a usar el código de `main`.
+2. **Código:** el workflow usa el código de `main`. Antes de la fusión de las ramas U2 (2026-10-29) lo tomaba de
+   `u2-colector-nube` mediante la variable temporal `COLECTOR_REF`. Esa variable ya no se usa y se elimina en GitHub.
 3. **El workflow tiene que estar en `main`:** GitHub solo dispara los `schedule` desde la rama por defecto. Cambiar
    la ventana o el cron exige un commit en `main`.
 4. **Prueba:** Actions → colector-apis → *Run workflow*.
