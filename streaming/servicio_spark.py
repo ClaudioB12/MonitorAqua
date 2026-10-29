@@ -56,8 +56,16 @@ def detectar(origen_lecturas):
         previo = json.loads(estado.get[0]) if estado.exists else None
         eventos, nuevo = _detector().procesar(clave[0], lecturas, previo, origen_lecturas, int(time.time() * 1000))
         estado.update((json.dumps(nuevo),))
-        yield pd.DataFrame([{**ev, "detalle": json.dumps(ev["detalle"], ensure_ascii=False)} for ev in eventos],
-                           columns=[c.name for c in SALIDA.fields])
+        filas = [{**ev, "detalle": json.dumps(ev["detalle"], ensure_ascii=False)} for ev in eventos]
+        # F5: una fila "_estado" por sensor y lote con la foto del estado (temperatura del agua estimada,
+        # residencia). No es un evento: el sumidero la manda a InfluxDB estado_tanque, nunca a Kafka.
+        if nuevo.get("ult_ts"):
+            filas.append({"eventoId": f"_estado-{clave[0]}-{nuevo['ult_ts']}", "tipo": "_estado", "sensorId": clave[0],
+                          "zona": "", "severidad": "info", "inicioTs": nuevo["ult_ts"], "finTs": nuevo["ult_ts"],
+                          "valor": None, "umbral": None, "unidad": "", "origenLecturas": origen_lecturas,
+                          "detectadoTs": int(time.time() * 1000), "versionRegla": "",
+                          "detalle": json.dumps(nuevo, ensure_ascii=False)})
+        yield pd.DataFrame(filas, columns=[c.name for c in SALIDA.fields])
     return por_sensor
 
 
@@ -72,7 +80,12 @@ def eventos_servicio(lecturas, origen_lecturas):
 def a_servicio(topico=TOPICO_SERVICIO, a_influx=True, jsonl=None, log=print):
     """foreachBatch: publica en Kafka (clave sensorId) y en InfluxDB eventos_servicio (tiempo = inicioTs)."""
     def escribir(df, batch_id):
-        eventos = [{**r.asDict(), "detalle": json.loads(r.detalle) if r.detalle else None} for r in df.collect()]
+        import tablero
+        filas = [{**r.asDict(), "detalle": json.loads(r.detalle) if r.detalle else None} for r in df.collect()]
+        estados = [f for f in filas if f["tipo"] == "_estado"]
+        eventos = [f for f in filas if f["tipo"] != "_estado"]
+        if estados and a_influx:
+            influx.escribir([tablero.linea_estado(f["sensorId"], f["detalle"], f["origenLecturas"]) for f in estados])
         if not eventos:
             return
         for ev in eventos:
@@ -83,13 +96,7 @@ def a_servicio(topico=TOPICO_SERVICIO, a_influx=True, jsonl=None, log=print):
                                "key string, value string")
          .write.format("kafka").option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP).option("topic", topico).save())
         if a_influx:
-            influx.escribir([influx.linea(
-                "eventos_servicio",
-                {"tipo": e["tipo"], "sensorId": e["sensorId"], "zona": e["zona"], "severidad": e["severidad"],
-                 "origenLecturas": e["origenLecturas"]},
-                {"eventoId": e["eventoId"], "valor": e["valor"], "umbral": e["umbral"], "unidad": e["unidad"],
-                 "finTs": e["finTs"], "detectadoTs": e["detectadoTs"], "versionRegla": e["versionRegla"],
-                 "detalle": json.dumps(e.get("detalle"), ensure_ascii=False)}, e["inicioTs"]) for e in eventos])
+            influx.escribir([tablero.linea_evento(e) for e in eventos])  # F5: con los numéricos de detalle aplanados
         if jsonl:
             with open(jsonl, "a", encoding="utf-8") as f:
                 for e in eventos:

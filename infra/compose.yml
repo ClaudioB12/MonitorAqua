@@ -40,6 +40,9 @@ services:
       INFLUX_ORG: ${INFLUX_ORG}
       INFLUX_BUCKET: ${INFLUX_BUCKET}
       INFLUX_TOKEN: ${INFLUX_TOKEN}
+      # F5: capturas reproducibles de los tableros (docs/evidencias/f5/) con el renderizador oficial
+      GF_RENDERING_SERVER_URL: http://renderer:8081/render
+      GF_RENDERING_CALLBACK_URL: http://grafana:3000/
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
       - ../dashboards:/var/lib/grafana/dashboards:ro
@@ -48,6 +51,15 @@ services:
       - influxdb
     networks:
       - lambda26-kafka-net
+
+  # Renderizador de Grafana (F5): /render/d/<uid> devuelve el tablero como PNG
+  renderer:
+    image: grafana/grafana-image-renderer:3.11.0
+    container_name: lambda26-grafana-renderer
+    restart: unless-stopped
+    networks:
+      lambda26-kafka-net:
+        aliases: [renderer]
 
   # --- Ingesta (F2): misma imagen, dos procesos -----------------------------------
   # Reemplaza a lambda26-aqua-bridge: NO correr ambos a la vez (publicarían dos veces).
@@ -88,6 +100,19 @@ services:
     environment:
       KAFKA_BOOTSTRAP: kafka:9092
       PYTHONUNBUFFERED: "1"
+    networks:
+      - lambda26-kafka-net
+
+  # --- Volumen por tópico (F5, costos de F8): bytes en disco y mensajes cada 5 min ---------
+  aqua-volumen:
+    image: monitoraqua-ingesta:latest
+    container_name: lambda26-aqua-volumen
+    restart: unless-stopped
+    command: ["python", "volumen_kafka.py"]
+    env_file: ../.env
+    environment:
+      KAFKA_BOOTSTRAP: kafka:9092
+      INFLUX_URL_INTERNA: http://influxdb:8086
     networks:
       - lambda26-kafka-net
 

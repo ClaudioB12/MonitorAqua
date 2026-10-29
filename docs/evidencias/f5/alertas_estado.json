@@ -1,0 +1,111 @@
+{
+ "consultado": "2026-10-29",
+ "reglas": [
+  {
+   "regla": "ESP32 sin datos por mÃ¡s de 5 min",
+   "salud": "ok",
+   "estado": "inactive",
+   "instancias": [
+    {
+     "estado": "Normal",
+     "etiquetas": {},
+     "valor": ""
+    }
+   ]
+  },
+  {
+   "regla": "Lag del consumidor de servicio-eventos sobre 10 mensajes",
+   "salud": "ok",
+   "estado": "inactive",
+   "instancias": [
+    {
+     "estado": "Normal",
+     "etiquetas": {},
+     "valor": ""
+    }
+   ]
+  },
+  {
+   "regla": "Lote de Spark mÃ¡s largo que su trigger",
+   "salud": "ok",
+   "estado": "inactive",
+   "instancias": [
+    {
+     "estado": "Normal",
+     "etiquetas": {
+      "consulta": "bronce"
+     },
+     "valor": ""
+    },
+    {
+     "estado": "Normal",
+     "etiquetas": {
+      "consulta": "esp32_detalle"
+     },
+     "valor": ""
+    },
+    {
+     "estado": "Normal",
+     "etiquetas": {
+      "consulta": "eventos_servicio"
+     },
+     "valor": ""
+    },
+    {
+     "estado": "Normal",
+     "etiquetas": {
+      "consulta": "latencias"
+     },
+     "valor": ""
+    },
+    {
+     "estado": "Normal",
+     "etiquetas": {
+      "consulta": "lentas_agg"
+     },
+     "valor": ""
+    },
+    {
+     "estado": "Normal",
+     "etiquetas": {
+      "consulta": "rapidas_agg"
+     },
+     "valor": ""
+    }
+   ]
+  },
+  {
+   "regla": "Latencia p95 de una fuente rÃ¡pida sobre el watermark (420 s)",
+   "salud": "ok",
+   "estado": "inactive",
+   "instancias": [
+    {
+     "estado": "Normal",
+     "etiquetas": {
+      "origen": "esp32-fisico"
+     },
+     "valor": ""
+    },
+    {
+     "estado": "Normal",
+     "etiquetas": {
+      "origen": "thingspeak"
+     },
+     "valor": ""
+    }
+   ]
+  },
+  {
+   "regla": "Falla de sensor activa en el ESP32",
+   "salud": "ok",
+   "estado": "inactive",
+   "instancias": [
+    {
+     "estado": "Normal",
+     "etiquetas": {},
+     "valor": ""
+    }
+   ]
+  }
+ ]
+}
