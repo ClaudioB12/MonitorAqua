@@ -454,9 +454,8 @@ en `docs/evidencias/f6-d2/d2.2/tablas_d2.2.md`.
    - Holt d2.1 es el peor en todos los casos.
 2. **Esto matiza la tabla de autonomía, donde ganaba el consumo medio.** Esa tabla descansa en 2-3 episodios con
    sesgo de selección. La del consumo descansa en cientos de ventanas en 8 y 4 tanques.
-   - **La decisión de F7 se mantiene** (cifra principal = consumo medio; rango = banda calibrada).
-   - **Pero la evidencia observable apoya al perfil como estimador del consumo.** El equipo puede reconsiderarlo
-     cuando el ESP32 tenga datos propios.
+   - **Por eso el equipo cambió la decisión de F7:** el principal es el **perfil** y el consumo medio queda como
+     comparación (ver *Decisión para F7*).
 3. **Los modelos se equivocan en sentidos opuestos según el nivel:**
    - En la flota, perfil y consumo medio **sobreestiman** el consumo, así que dan una autonomía prudente.
    - En ThingSpeak lo **subestiman**, así que dan una autonomía optimista. En el perfil eso es significativo a 12 y
@@ -537,9 +536,19 @@ Hasta entonces, la autonomía de F7 se muestra como **estimación con su banda**
 5. **Todo descansa en pocos episodios no censurados:** 3 en la flota y 2 en ThingSpeak. El C-index, que usa también
    los censurados, confirma el orden: d2.2 ≫ d2.1.
 
-**Decisión para F7** (tomada por el equipo el 2026-10-29):
-- **Cifra principal:** la autonomía del **consumo medio** de cada tanque, por ser la de menor error.
+**Decisión para F7** (tomada por el equipo el 2026-10-29, después de evaluar el consumo previsto):
+- **Modelo principal:** el **perfil de consumo**, porque es el mejor en la evidencia que sí se observa (el consumo
+  previsto). El **consumo medio** queda como **comparación**. La tabla de autonomía, donde ganaba el consumo medio,
+  descansa en 2-3 episodios sesgados.
+- **Horizonte mostrado:**
+  - La proyección del consumo y del nivel se muestra **hasta 12 h**.
+  - A 24 h el error es del tamaño del propio consumo (~16 % frente a 14.5 % en ThingSpeak), así que **no se
+    muestra**.
+  - Si la autonomía proyectada pasa de 12 h, el tablero dice **"más de 12 h"** en vez de un número.
 - **Rango:** la **banda P10-P90 del perfil, calibrada** con el factor de su nivel.
+- **Advertencia en el tablero:** en **ThingSpeak el perfil tiende a ser optimista**. Subestima el consumo (sesgo
+  −1.4 a −4.2 % de la capacidad a 6-12 h), así que su autonomía puede ser mayor que la real. En la flota es al revés
+  (prudente).
 - **Mejora pendiente para una d2.3:** encoger cada celda del perfil hacia el consumo medio del tanque cuando tiene
   pocas muestras, y recalibrar la banda cuando haya más episodios.
 
@@ -576,17 +585,21 @@ Hasta entonces, la autonomía de F7 se muestra como **estimación con su banda**
   hora.
 - **Entrada:** el nivel % suavizado (mediana móvil de 15 min) y la hora del dato.
 - **Cálculo en F7:**
-  - Cifra principal: `(nivel − umbral) / consumo_medio_pct_h` del tanque.
+  - Principal: `horas_autonomia(nivel, ts, umbral, "p50")` del perfil y `pronostico(nivel, ts, minutos)`, hasta
+    12 h. Si la autonomía pasa de 12 h, se muestra "más de 12 h".
+  - Comparación: `(nivel − umbral) / consumo_medio_pct_h` del tanque.
   - Rango: `[horas_autonomia(..., "p90") / factor, horas_autonomia(..., "p10") × factor]`.
+  - Advertencia junto al valor en los tanques de ThingSpeak: "el modelo tiende a ser optimista".
   - El factor está en `perfil.json` → `calibracion_banda`: 1.03 en la flota y 1.80 en ThingSpeak y el ESP32.
 
 ### Preguntas del jurado sobre d2.2
 
-**6. "Si el consumo medio gana, ¿para qué el perfil?"**
-Lo reportamos tal cual: en error de horas gana el consumo medio, y por eso es la cifra principal en F7. El
-perfil aporta lo que el promedio no tiene, la **banda P10-P90**, que convierte la respuesta en "entre X y Y horas".
-Su mediana es ruidosa porque reparte pocas semanas en 168 celdas. La siguiente versión lo acerca al promedio
-cuando una celda tiene pocos datos.
+**6. "En la tabla de autonomía gana el consumo medio. ¿Por qué el principal es el perfil?"**
+Porque esa tabla descansa en 2-3 vaciados reales, y además sesgados hacia los vaciados rápidos. Lo que sí se
+observa en cientos de ventanas es el **consumo**, y ahí el perfil es el mejor: en la flota con claridad, y en
+ThingSpeak por poco a 6-12 h. El consumo medio queda como comparación. Mostramos la predicción solo hasta 12 h,
+porque a 24 h el error es tan grande como el consumo, y advertimos que en ThingSpeak el perfil tiende a ser
+optimista.
 
 **7. "¿Qué es el C-index y por qué lo usan?"**
 Mide si el modelo **ordena** bien: si un momento se vació antes que otro, ¿le dio menos horas? Usa también los

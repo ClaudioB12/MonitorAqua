@@ -158,8 +158,10 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
     en horas (no censurados) + **C-index** (`evaluacion.evaluar_concordancia`, usa los censurados).
     Resultado: autonomía de 30-35 h de error (d2.1) a 2-7 h; el **consumo medio** gana al perfil en MAE; en
     nivel a 1 h la persistencia sigue imbatible en datos reales. Modelo F7: `batch/modelos/d2/d2.2-*/perfil.json`.
-    **F7:** cifra principal = consumo medio; rango = banda P10-P90 del perfil calibrada por predicción conforme
-    (conjunto de ajuste de p6.1; factor 1.03 flota, 1.80 ThingSpeak/ESP32). Se reportan C-index global y por
+    **F7 (decisión del equipo):** principal = **perfil** (mejor en el consumo observado); comparación = consumo medio;
+    se muestra hasta **12 h** (autonomía > 12 h -> "más de 12 h"; 24 h no se muestra); rango = banda P10-P90 calibrada
+    por predicción conforme (factor 1.03 flota, 1.80 ThingSpeak/ESP32); advertir que en ThingSpeak el perfil es
+    optimista. Se reportan C-index global y por
     tanque (el global es optimista).
     **Evidencia por umbral** (10/25/50 %, `evaluacion` en `modelo_d2_perfil.yml`): suficiente = ≥ 10 episodios no
     censurados; IC del MAE por episodio, "no informativo" con < 5. Hoy **ningún umbral es suficiente** (máx. 5

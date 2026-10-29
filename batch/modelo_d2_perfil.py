@@ -45,6 +45,8 @@ FINAL = (("consistencia", "consistencia"), ("thingspeak_real", "prueba"), ("esp3
 AUTONOMIA = {"perfil_p50": "d22", "consumo_medio": "base d2.2", "holt_d21": "base d2.2 (d2.1 principal)",
              "persistencia_vel_d21": "d2.1", "tendencia_d21": "d2.1", "gbt_d21": "d2.1"}
 NIVEL = ["pred_perfil", "pred_holt_d21", "pred_gbt_d21"]
+# Decisión del equipo para F7 (2026-10-29); se guarda en perfil.json
+USO_F7 = "principal: perfil P50 (horas_autonomia(..., 'p50') y pronostico) hasta 12 h; si la autonomía pasa de 12 h se muestra 'más de 12 h'; a 24 h no se muestra (el error es del tamaño del consumo). Comparación: consumo medio (consumo_medio_pct_h). Rango: banda P10-P90 calibrada [aut_p90 / factor, aut_p10 * factor] con el factor de su nivel. Advertencia en el tablero: en ThingSpeak el perfil tiende a ser optimista (subestima el consumo)."
 EVAL = CFG2["evaluacion"]
 UMBRALES = EVAL["umbrales"]
 
@@ -486,8 +488,7 @@ def main():
         "version": CFG2["version"], "fecha": fecha, "modelo": "perfil de consumo por hora (batch/perfil_consumo.py)",
         "umbral_pct": CFG["umbral_pct"], "tope_horas": CFG["tope_horas"],
         "entrada": "nivel % (mediana móvil de 15 min) y hora del dato (epoch ms)",
-        "uso_f7": "cifra principal: consumo medio (consumo_medio_pct_h de cada tanque); rango: banda P10-P90 del "
-                  "perfil calibrada: [aut_p90 / factor, aut_p10 * factor] con el factor de su nivel",
+        "uso_f7": USO_F7,
         "calibracion_banda": cal,
         "tanques": {"|".join(k): {**p.a_dict(), "consumo_medio_pct_h": p.consumo_medio_h()} for k, p in perfiles.items()},
         "nota_esp32": "perfil aprendido con la geometría provisional y pocas horas de consumo: provisional"},
