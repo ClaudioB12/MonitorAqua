@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ClaudioB12/MonitorAqua/contratos/servicio_evento.schema.json",
+  "title": "Evento de servicio MonitorAqua",
+  "description": "Evento de negocio que Spark deriva de las lecturas (F4) y publica en el tópico servicio-eventos con clave sensorId. eventoId es determinístico: reprocesar las mismas lecturas tras un reinicio produce el mismo eventoId, así que el consumidor puede descartar repetidos.",
+  "type": "object",
+  "required": ["eventoId", "tipo", "sensorId", "zona", "severidad", "inicioTs", "finTs", "valor", "umbral",
+               "unidad", "origenLecturas", "detectadoTs", "versionRegla"],
+  "additionalProperties": false,
+  "properties": {
+    "eventoId": {
+      "type": "string",
+      "pattern": "^(llegada_agua|corte_prolongado|alerta_fuga|autonomia_baja|umbral_termico|falla_sensor)-.+-[0-9]+$",
+      "description": "<tipo>-<sensorId>-<inicioTs>"
+    },
+    "tipo": {
+      "type": "string",
+      "enum": ["llegada_agua", "corte_prolongado", "alerta_fuga", "autonomia_baja", "umbral_termico", "falla_sensor"]
+    },
+    "sensorId": { "type": "string", "minLength": 1 },
+    "zona": { "type": "string", "minLength": 1 },
+    "severidad": { "type": "string", "enum": ["info", "advertencia", "critica"] },
+    "inicioTs": { "type": "integer", "minimum": 0, "description": "Epoch ms (tiempo de evento) del inicio de la evidencia." },
+    "finTs": { "type": "integer", "minimum": 0, "description": "Epoch ms del fin de la evidencia (lectura que disparó la regla)." },
+    "valor": { "type": ["number", "null"], "description": "Magnitud observada que se comparó con el umbral." },
+    "umbral": { "type": ["number", "null"], "description": "Umbral de la regla, en la misma unidad que valor." },
+    "unidad": { "type": "string", "enum": ["%", "h", "cm", "°C", "lecturas"] },
+    "origenLecturas": { "type": "string", "enum": ["real", "aumentado"],
+                        "description": "real: aqua-eventos-real; aumentado: aqua-eventos-aumentados (validación de reglas)." },
+    "detectadoTs": { "type": "integer", "minimum": 0, "description": "Epoch ms (hora del reloj) en que Spark detectó el evento." },
+    "versionRegla": { "type": "string", "minLength": 1, "description": "Versión de reglas_servicio.yml, o 'provisional'." },
+    "detalle": {
+      "type": "object",
+      "description": "Datos adicionales por tipo (opcional): caudalLlenadoLpm, fueraDeFranja, litros, nivelPct, tempAguaEstimadaC, horaCruceTs, etc."
+    }
+  },
+  "$comment": "Reglas que JSON Schema no expresa y que valida ingesta/comun.py (errores_servicio): eventoId == tipo-sensorId-inicioTs y finTs >= inicioTs.",
+  "allOf": [
+    {
+      "if": { "properties": { "tipo": { "const": "umbral_termico" } } },
+      "then": { "properties": { "versionRegla": { "const": "provisional" }, "unidad": { "const": "°C" } } }
+    },
+    {
+      "if": { "properties": { "tipo": { "const": "llegada_agua" } } },
+      "then": { "properties": { "unidad": { "const": "%" } } }
+    },
+    {
+      "if": { "properties": { "tipo": { "const": "corte_prolongado" } } },
+      "then": { "properties": { "unidad": { "const": "h" } } }
+    },
+    {
+      "if": { "properties": { "tipo": { "const": "falla_sensor" } } },
+      "then": { "properties": { "unidad": { "const": "lecturas" } } }
+    }
+  ]
+}

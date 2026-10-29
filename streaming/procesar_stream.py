@@ -85,11 +85,11 @@ def log(**campos):
 
 # --- Lectura, procedencia y calidad -------------------------------------------------------
 
-def leer_eventos(spark):
+def leer_eventos(spark, topico=KAFKA_TOPIC, starting_offsets=STARTING_OFFSETS):
     crudo = (spark.readStream.format("kafka")
              .option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP)
-             .option("subscribe", KAFKA_TOPIC)
-             .option("startingOffsets", STARTING_OFFSETS)
+             .option("subscribe", topico)
+             .option("startingOffsets", starting_offsets)
              .option("maxOffsetsPerTrigger", 20000)
              .option("failOnDataLoss", "false")  # la retención de 7 días puede borrar offsets viejos
              .load())
@@ -243,6 +243,15 @@ def main():
         .partitionBy("origen", "fecha")
         .option("path", BRONCE_DIR).option("checkpointLocation", cp("bronce"))
         .trigger(processingTime="1 minute").start())
+
+    # F4: eventos de servicio. Mismo watermark y deduplicación que las rápidas; estado por sensor en el detector.
+    from servicio_spark import a_servicio, eventos_servicio
+    tanques_reales = (reales.filter(F.col("origen").isin(ORIGENES_RAPIDOS))
+                      .withWatermark("tiempo_evento", WATERMARK_RAPIDO)
+                      .dropDuplicatesWithinWatermark(["eventId"]))
+    (eventos_servicio(tanques_reales, "real").writeStream.queryName("eventos_servicio").outputMode("append")
+        .foreachBatch(a_servicio(log=log)).option("checkpointLocation", cp("eventos_servicio"))
+        .trigger(processingTime="10 seconds").start())
 
     log(status="started", consultas=[q.name for q in spark.streams.active], kafkaTopic=KAFKA_TOPIC,
         sensoresPruebaExcluidos=excluidos,

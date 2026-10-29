@@ -1,0 +1,74 @@
+# Umbrales de las reglas de eventos de servicio (F4). El detector relee este archivo cuando cambia.
+# Ver docs/eventos-servicio.md para el razonamiento de cada valor.
+
+version: "f4.3"   # f4.2: histéresis de falla_sensor y llegada_agua tras falla/confirmada (datos reales del 28-oct)
+                   # f4.3: llenado lento (subida acumulada en 60 min): en Juliaca la baja presión de red es lo común
+
+# Reglas CONGELADAS. Desde este momento no se cambian; un cambio exige versión nueva y congelamiento nuevo.
+# Todo lo real anterior (ESP32 y bitácora hasta 2026-10-28 23:37:40 de Lima) es el conjunto de DISEÑO con el que se
+# hicieron f4.2 y f4.3: no se usa para reportar rendimiento real. El rendimiento real se calcula solo con lecturas y
+# bitácora posteriores a "desde" (streaming/comparar_bitacora.py lo aplica).
+congelamiento:
+  version: "f4.3"
+  desde: "2026-10-28T23:37:40-05:00"   # arranque de lambda26-aqua-streaming con f4.3 (2026-10-29 04:37:40 UTC)
+  commit: "b400e7d480363274665ece065db5ea07c66390db"   # commit que fija estas reglas (u2-fase4)
+  # Verificación: las reglas y el detector no cambiaron desde ese commit si este comando no muestra diferencias
+  # fuera de este bloque:  git diff b400e7d -- streaming/reglas_servicio.yml streaming/detector_servicio.py
+
+compensacion_termica:
+  activa: true                 # distancia × c(T)/c(20 °C) con la temperatura del DHT11 (adecuación D6)
+  temp_valida_c: [-10, 50]     # fuera de este rango (o -1) no se compensa esa lectura
+
+llegada_agua:
+  ventana_min: 15              # el nivel sube...
+  subida_min_pct: 6.0          # ...más de este % de la capacidad dentro de la ventana (un llenado real sube 7-16 % en 15 min)
+  mediana_n: 5                 # mediana de las últimas N lecturas: filtra saltos del sensor (1.9 %, a veces dos seguidos)
+  confirmacion_n: 3            # la subida debe sostenerse en 3 medianas seguidas (f4.2)
+  lento:                       # f4.3: llenados lentos por baja presión de red
+    ventana_min: 60
+    subida_min_pct: 5.0        # 5 % en 60 min = 55 L/h en un tanque de 1100 L, 125 L/h en uno de 2500 L
+    confirmacion_n: 5          # medianas seguidas por encima (una por lectura)
+    ventana_minima_min: 30     # tendencia: mediana de los primeros 10 min vs. últimos 5 min de una ventana de >= 30 min
+  fin_sin_subida_min: 10       # el llenado termina tras este tiempo sin subir
+  tolerancia_franja_h: 1       # fuera de franja = el llenado empieza fuera de [franja] ± tolerancia
+
+corte_prolongado:
+  horas_sin_llegada: 30        # intervalo típico ~24 h (franja diaria; ThingSpeak 1233810: 22 h) × 1.25
+  critica_desde_h: 48
+
+alerta_fuga:
+  noche_lima_h: [0.0, 3.5]     # ventana evaluada cada noche: termina antes de la franja de llegada más temprana
+  sin_llenado_previo_h: 1      # no se evalúa si hubo llenado en la ventana o justo antes
+  descenso_min_cm: 0.8         # descenso absoluto mínimo en la ventana
+  incertidumbre_dht_frac: 0.0036   # ±2 °C del DHT11 -> ±0.36 % de la distancia (±0.18 cm a 50 cm, adecuación D6)
+  factor_incertidumbre: 3      # el descenso debe superar 3 × esa incertidumbre
+  margen_sobre_base_cm_h: 0.25 # y la tasa debe superar la tasa nocturna habitual del tanque en este margen
+  base_inicial_cm_h: 0.3       # tasa nocturna habitual antes de tener noches propias (consumo nocturno)
+  base_alfa: 0.3               # media exponencial de la tasa de las noches sin alerta
+
+autonomia_baja:
+  umbral_pct: 20
+  critica_bajo_pct: 10
+  rearme_pct: 30               # vuelve a avisar solo después de subir por encima de este nivel
+
+umbral_termico:
+  version_regla: provisional   # el modelo aire -> agua definitivo llega en F6
+  tau_h: 25.2                  # primer orden: amplitud 15 % y atraso 5.4 h, como ThingSpeak 3418755 (5-7 h)
+  horizonte_h: 6
+  umbral_bajo_c: 4.0           # riesgo de congelamiento en tanque y tubería
+  umbral_alto_c: 25.0          # agua almacenada demasiado tibia
+  histeresis_c: 1.0
+  # Ciclo horario medio del aire en Juliaca (Open-Meteo, 30 días; batch/perfiles/perfil_real.json), hora de Lima 0..23
+  ciclo_aire_c: [6.37, 5.24, 4.32, 3.5, 2.68, 1.92, 2.44, 5.9, 9.71, 12.58, 14.86, 16.51,
+                 17.8, 18.18, 18.54, 17.81, 16.48, 14.5, 12.2, 11.3, 9.99, 8.85, 7.9, 7.11]
+
+falla_sensor:
+  lecturas_invalidas_seguidas: 5
+  rearme_validas_min: 2        # f4.2: se rearma solo tras 2 min de lecturas válidas seguidas (sensor intermitente = 1 falla)
+  margen_fondo_cm: 10          # distancia > sensor_al_fondo + margen = el sensor no ve el agua (salto imposible)
+
+zonas:                         # hora de Lima en que puede empezar la llegada de agua
+  Juliaca-A: [4, 8]            # supuesto declarado (continuidad SUNASS, como en datos-aumentados.md)
+  zonaA: [4, 7]                # flota extrapolada (ingesta/generador.yml)
+  zonaB: [5, 8]
+  thingspeak: null             # franja desconocida (horas en UTC de otros países)

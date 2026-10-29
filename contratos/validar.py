@@ -92,6 +92,35 @@ EJEMPLOS = [
     ("NEG: esAnomalia no booleano", {**AUMENTADO, "esAnomalia": "no"}, False),
 ]
 
+# Eventos de servicio (F4, contratos/servicio_evento.schema.json)
+LLEGADA = {"eventoId": "llegada_agua-esp32-tanque-real-01-1793250000000", "tipo": "llegada_agua",
+           "sensorId": "esp32-tanque-real-01", "zona": "Juliaca-A", "severidad": "info",
+           "inicioTs": 1793250000000, "finTs": 1793250300000, "valor": 12.5, "umbral": 4.0, "unidad": "%",
+           "origenLecturas": "real", "detectadoTs": 1793250305000, "versionRegla": "f4.1",
+           "detalle": {"caudalLlenadoLpm": 27.5, "fueraDeFranja": True, "nivelPct": 63.0}}
+TERMICO = {"eventoId": "umbral_termico-flota-zonaA-01-1793000000000", "tipo": "umbral_termico",
+           "sensorId": "flota-zonaA-01", "zona": "zonaA", "severidad": "advertencia",
+           "inicioTs": 1793000000000, "finTs": 1793000000000, "valor": 3.6, "umbral": 4.0, "unidad": "°C",
+           "origenLecturas": "aumentado", "detectadoTs": 1793250305000, "versionRegla": "provisional",
+           "detalle": {"tempAguaEstimadaC": 4.8, "horaCruceTs": 1793010800000}}
+EJEMPLOS_SERVICIO = [
+    ("llegada_agua real", LLEGADA, True),
+    ("umbral_termico aumentado (provisional)", TERMICO, True),
+    ("corte_prolongado sin detalle", {**LLEGADA, "tipo": "corte_prolongado", "severidad": "advertencia",
+                                      "eventoId": "corte_prolongado-esp32-tanque-real-01-1793250000000",
+                                      "unidad": "h", "valor": 31.2, "umbral": 30}, True),
+    ("NEG: eventoId no determinístico", {**LLEGADA, "eventoId": "llegada_agua-esp32-tanque-real-01-1"}, False),
+    ("NEG: finTs anterior a inicioTs", {**LLEGADA, "finTs": 1793249999999}, False),
+    ("NEG: severidad fuera del catálogo", {**LLEGADA, "severidad": "alta"}, False),
+    ("NEG: tipo fuera del catálogo", {**LLEGADA, "tipo": "inundacion",
+                                      "eventoId": "inundacion-esp32-tanque-real-01-1793250000000"}, False),
+    ("NEG: origenLecturas 'sintetico'", {**LLEGADA, "origenLecturas": "sintetico"}, False),
+    ("NEG: umbral_termico sin 'provisional'", {**TERMICO, "versionRegla": "f4.1"}, False),
+    ("NEG: llegada_agua en litros", {**LLEGADA, "unidad": "cm"}, False),
+    ("NEG: falta detectadoTs", {k: v for k, v in LLEGADA.items() if k != "detectadoTs"}, False),
+    ("NEG: campo no previsto", {**LLEGADA, "extra": 1}, False),
+]
+
 
 def main() -> int:
     schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
@@ -127,7 +156,23 @@ def main() -> int:
         fallos += not ok
         print(f"  {'OK' if ok else 'FALLA'}  {nombre}")
     print("-" * 72)
-    print(f"{len(EJEMPLOS)} ejemplos + {len(chequeos)} chequeos del puente: {fallos} fallo(s)")
+
+    # Contrato de servicio-eventos (F4): schema + eventoId determinístico + finTs >= inicioTs
+    from comun import cargar_validador_servicio, errores_servicio
+    v_serv = cargar_validador_servicio()
+    print(f"\n{'servicio-eventos':<44} {'esperado':<9} {'obtenido':<9} resultado")
+    print("-" * 76)
+    for nombre, evento, debe_ser_valido in EJEMPLOS_SERVICIO:
+        errores = errores_servicio(v_serv, evento)
+        ok = (not errores) == debe_ser_valido
+        fallos += not ok
+        print(f"{nombre:<44} {'válido' if debe_ser_valido else 'inválido':<9} "
+              f"{'válido' if not errores else 'inválido':<9} {'OK' if ok else 'FALLA'}")
+        for e in errores[:2]:
+            print(f"    - {e}")
+    print("-" * 76)
+    print(f"{len(EJEMPLOS)} ejemplos de lecturas + {len(chequeos)} chequeos del puente + "
+          f"{len(EJEMPLOS_SERVICIO)} ejemplos de servicio: {fallos} fallo(s)")
     return 1 if fallos else 0
 
 

@@ -62,8 +62,17 @@ def cargar_config(args):
         # Más tanques: se replican las plantillas en orden, con sensorId nuevo
         cfg["tanques"] = [{**base[i % len(base)], "sensorId": f"flota-{base[i % len(base)]['zona']}-{i + 1:02d}"}
                           for i in range(args.tanques)]
+    # Variantes para el análisis de sensibilidad (F4). Solo entran a la configuración (y al runId) si se pasan.
+    if getattr(args, "factor_ruido", None) is not None:
+        cfg["medicion"]["factor_ruido"] = args.factor_ruido
+    if getattr(args, "caudal_llenado", None) is not None:
+        cfg["suministro"]["caudal_llenado_lpm"] = args.caudal_llenado
+    if getattr(args, "franja_atipica", None):
+        cfg["anomalias"]["llegada_atipica"]["franja"] = list(args.franja_atipica)
     perfil = json.loads((RAIZ / cfg["perfil"]).read_text(encoding="utf-8"))
-    huella = hashlib.sha1(json.dumps({"version": VERSION, **cfg}, sort_keys=True).encode()).hexdigest()[:8]
+    # El modelo f2b.2 se activa con su propio YAML (version_modelo: f2b.2); sin esa clave, el runId de f2b.1 no cambia
+    huella = hashlib.sha1(json.dumps({"version": cfg.get("version_modelo", VERSION), **cfg},
+                                     sort_keys=True).encode()).hexdigest()[:8]
     run_id = f"r{c['semilla']}-{huella}"
     return cfg, perfil, run_id
 
@@ -77,9 +86,12 @@ def parametros_perfil(perfil, cfg):
     if len(ciclo) != 24:
         raise SystemExit("perfil_real.json no trae el ciclo horario de Juliaca: corre batch/perfilar.py")
     m = cfg["medicion"]
+    # factor_ruido multiplica el ruido del perfil real: σ de las lecturas y frecuencia de los saltos > 2 cm
+    # (los -1 no cambian: son fallas etiquetadas, no ruido)
+    f = m.get("factor_ruido", 1.0)
     return {
-        "ruido_sigma_cm": deltas.get("ruido_abs_le_2cm", {}).get("desv_std", 0.3) if m["intervalo_ruido_desde_perfil"] else 0.3,
-        "saltos_tasa": deltas.get("saltos_abs_gt_2cm", {}).get("tasa", 0.02) if m["saltos_tasa_desde_perfil"] else 0.0,
+        "ruido_sigma_cm": f * (deltas.get("ruido_abs_le_2cm", {}).get("desv_std", 0.3) if m["intervalo_ruido_desde_perfil"] else 0.3),
+        "saltos_tasa": min(0.5, f * (deltas.get("saltos_abs_gt_2cm", {}).get("tasa", 0.02) if m["saltos_tasa_desde_perfil"] else 0.0)),
         "temp_hora": np.array([ciclo[str(h)]["temperaturaC_media"] for h in range(24)]),
         "hum_hora": np.array([ciclo[str(h)]["humedadPct_media"] for h in range(24)]),
         "min_diaria_desv": clima.get("minima_diaria_C", {}).get("desv_std", 1.5),
@@ -121,8 +133,11 @@ def programar(cfg, run_id, tiempos, hora_local, dia_idx, rng):
         # Una fuga o una helada que se superponen a un llenado quedan tapadas por él: se evitan
         return not any(x < b and a < y for x, y in llegadas[t].values())
 
-    def cabe(asignados, largo, cuota):
-        # El primer episodio de un tipo siempre entra; los siguientes no pueden pasar la cuota en más de 10 %
+    def cabe(asignados, largo, cuota, tipo=None):
+        # El primer episodio de un tipo siempre entra; los siguientes no pueden pasar la cuota en más de 10 %,
+        # salvo que el tipo pida un mínimo de episodios (f2b.2: fugas largas, para tener con qué medir el recall)
+        if tipo and sum(1 for ep in episodios if ep["tipo"] == tipo) < anom.get(tipo, {}).get("episodios_min", 0):
+            return True
         return asignados == 0 or asignados + largo <= cuota * 1.1
 
     def marcar(t, a, b, tipo):
@@ -136,16 +151,38 @@ def programar(cfg, run_id, tiempos, hora_local, dia_idx, rng):
     aislados = (cfg["medicion"]["falla_distancia_tasa"] + cfg["medicion"]["falla_dht_tasa"]) * total
     presupuesto = max(0.0, c["proporcion_anomalias"] * total - aislados)
 
+    omitidas_sin_etiqueta = [0]
     for tipo in TIPOS:
-        cuota, asignados, intentos = anom["reparto"][tipo] * presupuesto, 0, 0
+        # f2b.2: toda llegada que no ocurre (también las "normales" del 8 % de días sin agua) es un corte etiquetado,
+        # desde la hora en que la franja de ese día empezaba hasta la siguiente llegada real
+        if tipo == "corte_prolongado" and anom["corte_prolongado"].get("etiquetar_omitidas"):
+            for t, tq in enumerate(cfg["tanques"]):
+                lo = sumi["zonas"][tq["zona"]]["franja"][0]
+                dias_con = sorted(llegadas[t])
+                d = 0
+                while d < dias:
+                    if d in llegadas[t] or d == 0:
+                        d += 1
+                        continue
+                    a = inicio_dia[d] + pasos(lo)
+                    siguiente = next((x for x in dias_con if x > d), None)
+                    b = llegadas[t][siguiente][0] if siguiente is not None else n
+                    if libre(t, a, b):
+                        marcar(t, a, b, "corte_prolongado")
+                    else:
+                        omitidas_sin_etiqueta[0] += 1  # cae dentro de otro episodio (p. ej. una fuga larga)
+                    d = siguiente if siguiente is not None else dias
+        cuota, intentos = anom["reparto"][tipo] * presupuesto, 0
+        asignados = int((etiqueta == TIPOS.index(tipo)).sum())  # f2b.2: los cortes omitidos ya cuentan
         p = anom[tipo]
-        while asignados < cuota and intentos < 5000:
+        minimo = anom.get(tipo, {}).get("episodios_min", 0)
+        while (asignados < cuota or sum(1 for ep in episodios if ep["tipo"] == tipo) < minimo) and intentos < 5000:
             intentos += 1
             t = int(rng.integers(n_t))
             if tipo == "fuga_lenta":
                 a = int(rng.integers(n))
                 b = a + pasos(rng.uniform(*p["duracion_h"]))
-                if libre(t, a, b) and sin_llegada(t, a, b) and cabe(asignados, b - a, cuota):
+                if libre(t, a, b) and (p.get("permitir_con_llenado") or sin_llegada(t, a, b))                         and cabe(asignados, b - a, cuota, tipo):
                     marcar(t, a, b, tipo)
                     fuga_lph[t, a:b] = rng.uniform(*p["litros_hora"])
                     asignados += b - a
@@ -201,7 +238,8 @@ def programar(cfg, run_id, tiempos, hora_local, dia_idx, rng):
         for a, b in ll.values():
             suministro[t, a:b] = True
     return {"etiqueta": etiqueta, "episodio": episodio, "fuga_lph": fuga_lph, "frio_extra": frio_extra,
-            "falla_modo": falla_modo, "suministro": suministro, "episodios": episodios}
+            "falla_modo": falla_modo, "suministro": suministro, "episodios": episodios,
+            "omitidas_sin_etiqueta": omitidas_sin_etiqueta[0]}
 
 
 # --- Simulación ------------------------------------------------------------------------------
@@ -270,7 +308,9 @@ def generar(cfg, perfil, run_id):
         etiqueta[sueltos_d | sueltos_h] = TIPOS.index("falla_sensor")
         nivel_pct = np.where(dist == -1, np.nan, np.round(np.clip((alt - (dist - off)) / alt * 100, 0, 100), 1))
         filas.append({"t": t, "dist": dist, "dist_real": np.round(dist_real, 2), "nivel": nivel_pct,
-                      "temp": temp, "hum": humedad, "etiqueta": etiqueta, "episodio": prog["episodio"][t]})
+                      "temp": temp, "hum": humedad, "etiqueta": etiqueta, "episodio": prog["episodio"][t],
+                      "suministro": prog["suministro"][t],  # agenda de llegadas: la usa el análisis de sensibilidad
+                      "omitidas_sin_etiqueta": prog["omitidas_sin_etiqueta"]})
     return tiempos, filas, prog["episodios"]
 
 
@@ -386,6 +426,11 @@ def main():
     ap.add_argument("--intervalo-s", type=int, dest="intervalo_s")
     ap.add_argument("--semilla", type=int)
     ap.add_argument("--anomalias", type=float, help="proporción objetivo de eventos anómalos (0.05 = 5 %%)")
+    ap.add_argument("--factor-ruido", type=float, dest="factor_ruido",
+                    help="multiplica el ruido del perfil real (σ y frecuencia de saltos); sensibilidad")
+    ap.add_argument("--caudal-llenado", type=float, dest="caudal_llenado", help="L/min de llenado; sensibilidad")
+    ap.add_argument("--franja-atipica", type=float, nargs=2, dest="franja_atipica", metavar=("DESDE", "HASTA"),
+                    help="hora de Lima en que empiezan las llegadas atípicas; sensibilidad")
     ap.add_argument("--parquet", action="store_true", help="escribe batch/datos/aumentados/runId=<id>/")
     ap.add_argument("--kafka", action="store_true", help=f"publica en {TOPICO}")
     ap.add_argument("--crear-topico", action="store_true", help="crea el tópico (3 particiones) si falta")
