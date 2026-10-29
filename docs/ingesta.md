@@ -165,6 +165,64 @@ lectura más reciente con valor de cada parámetro.
 **Open-Meteo:** Juliaca (lat -15.49, lon -70.13), `temperature_2m` → `temperaturaC` y `relative_humidity_2m` →
 `humedadPct`.
 
+## Colector en la nube (GitHub Actions)
+
+El contenedor `lambda26-aqua-colector` solo corre con la PC encendida y pide **la última** lectura de cada
+estación. Con la PC apagada, esas horas de EA UK y USGS se perdían. El workflow
+`.github/workflows/colector_apis.yml` corre el mismo colector en GitHub cada 30 min, en **modo ventana**:
+
+```bash
+python colector_apis.py --una-vez --ventana-min 120
+```
+
+| Fuente | Cómo pide la ventana |
+|---|---|
+| ThingSpeak | `feeds.json?minutes=120` |
+| EA UK | `readings?since=<hace 2 h>`; las 23 estaciones en paralelo (8 hilos), porque la API tarda ~4 s por estación |
+| USGS | colección `continuous` con `time=<desde>/<hasta>` (en vivo se usa `latest-continuous`) |
+| Open-Meteo | `minutely_15` con `past_minutely_15=8`: los mismos instantes de 15 min que `current` |
+
+- **Sin huecos ni duplicados:** la ventana (2 h) es cuatro veces el intervalo del cron (30 min). Un cron atrasado
+  o salteado no deja huecos, y la clave determinística `origen_estacion_timestamp` hace que las lecturas que se
+  repiten se sobrescriban sin duplicarse.
+- **Escritura:** un `PATCH` multi-ruta por fuente sobre `/board1/lecturas/historial`. Tiene el mismo efecto que un
+  PUT por clave y es una sola petición. Verificado contra las reglas de Firebase el 2026-10-29.
+- **Límite de la ventana:** `--ventana-min` debe ser menor que `VENTANA_H` (3 h). Si no, el puente, que relee 3 h
+  hacia atrás al reconectarse, no vería las lecturas más viejas. El colector rechaza una ventana mayor.
+- **Con la PC apagada:** las lecturas quedan en Firebase. Al encender, el puente lee desde su cursor menos 3 h hasta
+  el presente y pasa a Kafka todo lo acumulado. Spark lo procesa con la hora de cada medición (watermark) y Grafana
+  muestra el atraso como latencia de ingesta.
+- **Con la PC encendida corren los dos a la vez:** el colector local (`lambda26-aqua-colector`) y el de GitHub. No hay
+  duplicados: los dos escriben la misma clave fija (`origen_estacion_timestamp`), así que una lectura repetida se
+  sobrescribe en Firebase en vez de agregarse. El puente, además, publica cada clave una sola vez en Kafka
+  (`vistas`). No hace falta apagar ninguno: el local da frescura de 5 min para la demo y el de GitHub cubre las
+  horas con la PC apagada.
+- **Fallas:** si una fuente falla, la ejecución sale con código 1 y GitHub avisa por correo. Una estación suelta
+  caída solo queda en el log, porque la próxima ventana la cubre.
+- **Medición** (2026-10-29, ventana de 2 h, en seco): 537 lecturas, 0 rechazadas. ThingSpeak 2 s, USGS 2 s,
+  Open-Meteo 1 s y EA UK 20 s.
+
+**Configuración (una sola vez, en GitHub → Settings → Secrets and variables → Actions):**
+
+1. **Secrets:** `FIREBASE_API_KEY`, `FIREBASE_DB_URL`, `FIREBASE_EMAIL` y `FIREBASE_PASSWORD`, con los mismos valores
+   de `.env`. `USGS_API_KEY` es opcional. Nunca se escriben en el repo.
+2. **Variable:** `COLECTOR_REF` = `u2-colector-nube`, la rama con este código. **Es temporal:** existe solo porque
+   `main` todavía no tiene las fases U2. Cuando las ramas U2 se fusionen en `main`, la variable **se elimina** y el
+   workflow pasa a usar el código de `main`.
+3. **El workflow tiene que estar en `main`:** GitHub solo dispara los `schedule` desde la rama por defecto.
+4. **Prueba:** Actions → colector-apis → *Run workflow*.
+
+**Costo:** el repo es privado; el plan Free incluye 2,000 min/mes de Actions. Cada ejecución tarda ~45 s y se
+factura 1 min. A 48 ejecuciones por día son ~1,440 min/mes.
+
+**Si los minutos de Actions no alcanzan,** el cron pasa a una vez por hora (`"7 * * * *"` en el workflow), unos 720
+min/mes, **sin perder datos**: la ventana de 2 h sigue siendo el doble del intervalo, así que cada pasada cubre la
+hora anterior completa, con margen para un cron atrasado. Lo único que cambia es la frescura: las lecturas llegan a
+Firebase hasta con una hora de atraso.
+
+**Firebase:** las reescrituras no aumentan el almacenamiento (misma clave). Con la PC encendida, cada PATCH llega por
+el stream del puente: ~200 KB × 48 ≈ 10 MB/día de descarga extra, ~0.3 GB/mes, dentro de los 10 GB/mes.
+
 ## Volumen frente al plan gratuito de Firebase (Spark)
 
 | Fuente | Lecturas nuevas/día | Bytes/lectura | Almacenamiento/día |

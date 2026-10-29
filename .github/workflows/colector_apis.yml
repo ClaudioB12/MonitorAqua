@@ -1,0 +1,60 @@
+# Colector de APIs públicas en la nube (MonitorAqua). Corre aunque la PC del equipo esté apagada.
+#
+# Cada 30 min hace UNA pasada de ingesta/colector_apis.py en modo ventana: pide todas las lecturas de las últimas
+# 2 h de ThingSpeak, EA UK, USGS y Open-Meteo y las escribe en Firebase (/board1/lecturas/historial), la misma
+# entrada del ESP32. Las ventanas se solapan y la clave es determinística: un cron atrasado (GitHub los atrasa en
+# horas punta) no deja huecos ni duplica. Al encender la PC, el puente Firebase -> Kafka se pone al día solo.
+#
+# Requisitos (Settings -> Secrets and variables -> Actions):
+#   Secrets:   FIREBASE_API_KEY, FIREBASE_DB_URL, FIREBASE_EMAIL, FIREBASE_PASSWORD (los mismos de .env);
+#              USGS_API_KEY es opcional
+#   Variable:  COLECTOR_REF = u2-colector-nube, rama con el código del colector. TEMPORAL: solo mientras main no
+#              tenga las fases U2; al fusionarlas en main se elimina y se usa la rama del workflow
+#   Con la PC encendida corre a la vez que el colector local, sin duplicados (misma clave fija).
+#   Si los minutos no alcanzan: cron "7 * * * *" (una vez por hora), sin perder datos gracias a la ventana de 2 h.
+# GitHub solo dispara los "schedule" desde la rama por defecto (main): este archivo tiene que estar en main.
+#
+# Costo: ~45 s por ejecución (1 min facturado) x 48 al día = ~1,440 min/mes, dentro de los 2,000 min/mes gratis de
+# un repo privado con plan Free. Si el cupo se acerca al límite, cambiar a cada hora ("7 * * * *").
+name: colector-apis
+
+on:
+  schedule:
+    - cron: "7,37 * * * *"   # minutos desfasados de la hora en punto, cuando GitHub está más cargado
+  workflow_dispatch:          # botón "Run workflow" para probar a mano
+
+concurrency:
+  group: colector-apis
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  pasada:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ vars.COLECTOR_REF || github.ref }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"          # la misma de la imagen de ingesta
+          cache: pip
+          cache-dependency-path: ingesta/requirements.txt
+
+      - run: pip install -r ingesta/requirements.txt
+
+      - name: Pasada con ventana de 2 h
+        working-directory: ingesta
+        env:
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_DB_URL: ${{ secrets.FIREBASE_DB_URL }}
+          FIREBASE_EMAIL: ${{ secrets.FIREBASE_EMAIL }}
+          FIREBASE_PASSWORD: ${{ secrets.FIREBASE_PASSWORD }}
+          USGS_API_KEY: ${{ secrets.USGS_API_KEY }}
+          FIREBASE_PATH: /board1/lecturas/historial
+          VENTANA_H: "3"                  # igual que el puente: la ventana del colector debe ser menor
+        run: python colector_apis.py --una-vez --ventana-min 120

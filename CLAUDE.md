@@ -37,6 +37,11 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
 - **Ingesta (F2):** `infra/compose.yml` levanta `lambda26-aqua-puente` y `lambda26-aqua-colector` (imagen
   `monitoraqua-ingesta`, código en `ingesta/`). Detalle y estaciones en `docs/ingesta.md`.
   - **Colector:** escribe en Firebase con la clave `origen_estacion_timestamp` (PUT, idempotente).
+  - **Colector en la nube:** `.github/workflows/colector_apis.yml` (GitHub Actions, cada 30 min, `--una-vez
+    --ventana-min 120`, un PATCH por fuente) sigue alimentando Firebase con la PC apagada; corre a la vez que el
+    local sin duplicar. El workflow vive en `main` y toma el código de la variable `COLECTOR_REF`
+    (`u2-colector-nube`), que es **temporal**: se elimina al fusionar las ramas U2 en `main`. Credenciales solo
+    como Secrets de GitHub. Si cambia el colector, se prueba con `--seco --ventana-min 120` antes del push.
   - **Puente:** lee `historial` con `orderBy="timestamp"` (necesita `.indexOn: "timestamp"` en las reglas), completa el
     contrato, valida, usa `sensorId` como clave de Kafka y guarda su estado (cursor, piso y claves vistas) en el volumen
     `monitoraqua_ingesta_estado`.
