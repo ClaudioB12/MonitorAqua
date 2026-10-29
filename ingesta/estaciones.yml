@@ -1,0 +1,77 @@
+# Estaciones del colector de APIs (F2). Verificadas el 2026-10-28; ver docs/ingesta.md.
+# intervalo_s: cada cuánto se consulta la fuente. Cada fuente corre aislada en su hilo.
+
+fuentes:
+
+  # Canales públicos de nivel de tanque. Solo se incluyen los que tenían una lectura de
+  # menos de 24 h al verificarlos. campos: medida del contrato -> fieldN del canal.
+  thingspeak:
+    habilitada: true
+    intervalo_s: 300
+    # 7 de 22 canales activos (<24 h) entre 212 candidatos; los otros 15 no son tanques o
+    # tienen datos inválidos (lista completa en docs/ingesta.md). escalas: factor de conversión.
+    canales:
+      - {id: 283977, nombre: "House Water Tank Reporting", campos: {nivelPct: field1}}
+      - {id: 480876, nombre: "Water Tank Levels & Temp/Humidity", campos: {nivelPct: field1, temperaturaC: field3, humedadPct: field4}}
+      - {id: 1233810, nombre: "House Water Tank (24k L)", campos: {nivelPct: field1}}
+      - {id: 1233815, nombre: "Veggie Water Tank (24k L)", campos: {nivelPct: field1}}
+      - {id: 1272968, nombre: "WaterLevelMonitor", campos: {distanciaCm: field1}}
+      - {id: 3418755, nombre: "Rain water harvesting monitoring", campos: {nivelM: field1, tempAguaC: field3}, escalas: {nivelM: 0.01}}
+      - {id: 3019316, nombre: "Nivel Carcamo", campos: {distanciaCm: field4}}
+
+  # Environment Agency UK, cuenca "Thames from Hurley to Teddington" (23 estaciones, una cuenca,
+  # comparables). nivelM = stage aguas arriba (m sobre el cero de la estación, mASD; 2 en mAOD);
+  # caudalM3s solo en las 6 estaciones de aforo. Publican cada 15 min con ~45 min de atraso.
+  ea_uk:
+    habilitada: true
+    intervalo_s: 900
+    cuenca: Thames from Hurley to Teddington
+    estaciones:
+      - {ref: "2497TH", nombre: Hurley Lock, rio: River Thames, lat: 51.55135, lon: -0.808421}
+      - {ref: "2499TH", nombre: Marlow Lock, rio: River Thames, lat: 51.567382, lon: -0.769176}
+      - {ref: "2601TH", nombre: Cookham Lock, rio: River Thames, lat: 51.560993, lon: -0.694635}
+      - {ref: "2602TH", nombre: Boulters Lock, rio: River Thames, lat: 51.532713, lon: -0.699466}
+      - {ref: "2603TH", nombre: Taplow, rio: Jubilee River, lat: 51.529307, lon: -0.697199, caudal: true}
+      - {ref: "2604TH", nombre: Maidenhead, rio: River Thames, lat: 51.524146, lon: -0.702103, caudal: true}
+      - {ref: "2607TH", nombre: Bray Lock, rio: River Thames, lat: 51.509305, lon: -0.69032}
+      - {ref: "2655TH", nombre: Raymill Road, rio: Maidenhead Ditch, lat: 51.528985, lon: -0.716959}
+      - {ref: "2698TH", nombre: Romney Lock, rio: River Thames, lat: 51.491873, lon: -0.604104}
+      - {ref: "2700TH", nombre: Windsor Park, rio: River Thames, lat: 51.485795, lon: -0.589124, caudal: true}
+      - {ref: "2702TH", nombre: Bell Weir, rio: River Thames, lat: 51.438166, lon: -0.537257}
+      - {ref: "2703TH", nombre: Old Windsor Lock, rio: River Thames, lat: 51.463198, lon: -0.569077}
+      - {ref: "2900TH", nombre: Staines, rio: River Thames, lat: 51.431611, lon: -0.512248, caudal: true}
+      - {ref: "2901TH", nombre: Penton Hook, rio: River Thames, lat: 51.414528, lon: -0.499731}
+      - {ref: "2902TH", nombre: Chertsey Lock, rio: River Thames, lat: 51.390617, lon: -0.48637}
+      - {ref: "2904TH", nombre: Shepperton Lock, rio: River Thames, lat: 51.382892, lon: -0.458071}
+      - {ref: "3100TH", nombre: Walton, rio: River Thames, lat: 51.3919, lon: -0.421389, caudal: true}
+      - {ref: "3101TH", nombre: Sunbury Lock, rio: River Thames, lat: 51.399708, lon: -0.4156}
+      - {ref: "3102TH", nombre: Molesey Lock, rio: River Thames, lat: 51.406476, lon: -0.349558}
+      - {ref: "3104TH", nombre: Thames Ditton Island, rio: River Thames, lat: 51.393384, lon: -0.331228}
+      - {ref: "3400TH", nombre: Kingston, rio: River Thames, lat: 51.415005, lon: -0.308869, caudal: true}
+      - {ref: "3401TH", nombre: Teddington Lock, rio: River Thames, lat: 51.429566, lon: -0.318416}
+      - {ref: "3404TH", nombre: Trowlock Island, rio: River Thames, lat: 51.423993, lon: -0.308538}
+
+  # USGS Water Data API (OGC, latest-continuous), cuenca del río Delaware (NY/PA/NJ/DE).
+  # Las 10 miden temperatura del agua (00010, °C), pH (00400) y oxígeno disuelto (00300, mg/L).
+  # Una sola consulta por pasada para las 10. Clave opcional: USGS_API_KEY en .env.
+  usgs:
+    habilitada: true
+    intervalo_s: 900
+    estaciones:
+      - {id: USGS-01433500, nombre: "Mongaup River near Mongaup NY", lat: 41.4612, lon: -74.7588}
+      - {id: USGS-01438500, nombre: "Delaware River at Montague NJ", lat: 41.3092, lon: -74.7953}
+      - {id: USGS-01454700, nombre: "Lehigh River at Glendon PA", lat: 40.6693, lon: -75.2363}
+      - {id: USGS-01463500, nombre: "Delaware River at Trenton NJ", lat: 40.2217, lon: -74.7781}
+      - {id: USGS-01465798, nombre: "Poquessing Creek at Philadelphia PA", lat: 40.0570, lon: -74.9852}
+      - {id: USGS-01467200, nombre: "Delaware River at Penn's Landing, Philadelphia PA", lat: 39.9464, lon: -75.1394}
+      - {id: USGS-01473500, nombre: "Schuylkill River at Norristown PA", lat: 40.1156, lon: -75.3561}
+      - {id: USGS-01474000, nombre: "Wissahickon Creek at Mouth, Philadelphia PA", lat: 40.0153, lon: -75.2068}
+      - {id: USGS-01474500, nombre: "Schuylkill River at Philadelphia PA", lat: 39.9678, lon: -75.1885}
+      - {id: USGS-01481500, nombre: "Brandywine Creek at Wilmington DE", lat: 39.7695, lon: -75.5767}
+
+  # Open-Meteo: clima actual de Juliaca (sin clave). El modelo actualiza "current" cada 15 min.
+  open_meteo:
+    habilitada: true
+    intervalo_s: 900
+    ubicaciones:
+      - {id: juliaca, lat: -15.49, lon: -70.13}

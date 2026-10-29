@@ -11,6 +11,17 @@ from jsonschema import Draft202012Validator
 
 SCHEMA_PATH = Path(__file__).with_name("evento_aqua.schema.json")
 
+# Para probar el completado real del puente (no una copia): ingesta/puente_firebase_kafka.py
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "ingesta"))
+from puente_firebase_kafka import Puente  # noqa: E402
+
+# Lo que el ESP32 escribe en /board1/lecturas/historial (export real, 2026-10-28):
+# solo sensorId, distanciaCm, temperaturaC, humedadPct y timestamp; la push key es el eventId.
+ESP32_PUSH_KEY = "-P53dfczInbKy2W8YMY6"
+ESP32_CRUDO = {"distanciaCm": 5.3, "humedadPct": 53.0, "sensorId": "esp32-tanque-real-01",
+               "temperaturaC": 20.7, "timestamp": 1793226881208}
+ESP32_FALLO = {**ESP32_CRUDO, "distanciaCm": -1}
+
 # (nombre, evento, debe_ser_valido)
 EJEMPLOS = [
     # Ejemplo literal que hoy publica el ESP32 (sin fuenteTipo ni ingestaTs)
@@ -43,7 +54,11 @@ EJEMPLOS = [
         "timestamp": 1792120800000, "ingestaTs": 1792121620300,
         "temperaturaC": 8.4, "humedadPct": 41.0, "lat": -15.49, "lon": -70.13,
     }, True),
+    # ESP32 tal como lo completa el puente (eventId, origen, fuenteTipo, tipoEvento, ingestaTs)
+    ("esp32 completado por el puente", Puente.a_evento(ESP32_PUSH_KEY, ESP32_CRUDO), True),
+    ("esp32 con distanciaCm=-1 (pasa tal cual)", Puente.a_evento(ESP32_PUSH_KEY, ESP32_FALLO), True),
     # Casos negativos: deben ser rechazados
+    ("NEG: esp32 crudo sin completar", {**ESP32_CRUDO}, False),
     ("NEG: sin eventId", {
         "tipoEvento": "aqua.tanque.lectura", "sensorId": "esp32-tanque-real-01",
         "origen": "esp32-fisico", "timestamp": 1792121672601, "distanciaCm": 3.9,
@@ -75,7 +90,21 @@ def main() -> int:
             print(f"    - {ruta}: {e.message}")
 
     print("-" * 72)
-    print(f"{len(EJEMPLOS) - fallos}/{len(EJEMPLOS)} casos según lo esperado")
+    completado = Puente.a_evento(ESP32_PUSH_KEY, ESP32_FALLO)
+    print("esp32 completado:", json.dumps(completado, ensure_ascii=False))
+    chequeos = {
+        "eventId = push key": completado["eventId"] == ESP32_PUSH_KEY,
+        "origen = esp32-fisico": completado["origen"] == "esp32-fisico",
+        "fuenteTipo = iot-propio": completado["fuenteTipo"] == "iot-propio",
+        "tipoEvento = aqua.tanque.lectura": completado["tipoEvento"] == "aqua.tanque.lectura",
+        "ingestaTs presente": isinstance(completado.get("ingestaTs"), int),
+        "distanciaCm = -1 se conserva": completado["distanciaCm"] == -1,
+    }
+    for nombre, ok in chequeos.items():
+        fallos += not ok
+        print(f"  {'OK' if ok else 'FALLA'}  {nombre}")
+    print("-" * 72)
+    print(f"{len(EJEMPLOS)} ejemplos + {len(chequeos)} chequeos del puente: {fallos} fallo(s)")
     return 1 if fallos else 0
 
 

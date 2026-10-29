@@ -27,6 +27,23 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
 
 - **Firebase:** la entrada única de todas las fuentes es **`/board1/lecturas/historial`**, la ruta real que ya usa el firmware del ESP32 (que no se modifica). El colector de APIs de F2 escribe en esa misma ruta (`FIREBASE_PATH` en `.env`).
 - **Kafka:** se **reutiliza** el cluster `lambda26`; no se crea un segundo Kafka. El bootstrap es `localhost:49092` desde el host y `kafka:9092` desde la red `lambda26-kafka-net`. Detalle en `docs/stack-actual.md`.
+- **Capa de servicio (F1):** `infra/compose.yml` levanta InfluxDB 2 (`localhost:48086`, bucket `monitoraqua`) y es el
+  **dueño de Grafana** (`lambda26-grafana`, `localhost:43000`). El provisioning va en `infra/grafana/` y los tableros en
+  `dashboards/`. Prometheus sigue en `lambda26/obs`; su servicio `grafana` no se vuelve a levantar.
+- **Spark:** corre en el contenedor `lambda26-pyspark` (PySpark 4.2.0, Scala 2.13). El conector se pasa con
+  `spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.13:4.2.0`.
+- **Verificación:** `.venv/Scripts/python infra/verificar_stack.py` comprueba todo el stack en un comando.
+- **Kafka no tiene volumen:** usar `docker start`/`stop`; nunca `compose down`, porque borra los mensajes.
+- **Ingesta (F2):** `infra/compose.yml` levanta `lambda26-aqua-puente` y `lambda26-aqua-colector` (imagen
+  `monitoraqua-ingesta`, código en `ingesta/`). Detalle y estaciones en `docs/ingesta.md`.
+  - **Colector:** escribe en Firebase con la clave `origen_estacion_timestamp` (PUT, idempotente).
+  - **Puente:** lee `historial` con `orderBy="timestamp"` (necesita `.indexOn: "timestamp"` en las reglas), completa el
+    contrato, valida, usa `sensorId` como clave de Kafka y guarda su estado (cursor, piso y claves vistas) en el volumen
+    `monitoraqua_ingesta_estado`.
+  - **Entrega:** al-menos-una-vez; Spark deduplica por `eventId`.
+  - **Puente viejo:** `lambda26-aqua-bridge` queda detenido y con `restart=no`. **Nunca correrlo junto al nuevo**, porque
+    cada lectura llegaría dos veces a Kafka.
+  - **El -1 del ESP32** (fallo del sensor) viaja tal cual a Kafka; se filtra en Spark (F3).
 
 ## Contrato del evento
 

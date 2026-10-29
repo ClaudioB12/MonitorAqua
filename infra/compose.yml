@@ -1,0 +1,93 @@
+# Capa de servicio de MonitorAqua sobre el stack lambda26 (F1).
+# No crea otro Kafka ni otro Prometheus: se une a la red lambda26-kafka-net.
+#
+# Uso (desde la raíz del repo, para que tome el .env):
+#   docker compose -f infra/compose.yml --env-file .env up -d
+name: monitoraqua-infra
+
+services:
+  influxdb:
+    image: influxdb:2.7.12
+    container_name: lambda26-influxdb
+    restart: unless-stopped
+    ports:
+      - "48086:8086"
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: ${INFLUX_ADMIN_USER}
+      DOCKER_INFLUXDB_INIT_PASSWORD: ${INFLUX_ADMIN_PASSWORD}
+      DOCKER_INFLUXDB_INIT_ORG: ${INFLUX_ORG}
+      DOCKER_INFLUXDB_INIT_BUCKET: ${INFLUX_BUCKET}
+      DOCKER_INFLUXDB_INIT_RETENTION: ${INFLUX_RETENTION}
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUX_TOKEN}
+    volumes:
+      - monitoraqua_influxdb_data:/var/lib/influxdb2
+      - monitoraqua_influxdb_config:/etc/influxdb2
+    networks:
+      - lambda26-kafka-net
+
+  # Reemplaza al Grafana de lambda26/obs: mismo contenedor, puerto y volumen de datos,
+  # pero con el provisioning versionado en este repo (infra/grafana/ y dashboards/).
+  grafana:
+    image: grafana/grafana:11.4.0
+    container_name: lambda26-grafana
+    restart: unless-stopped
+    ports:
+      - "43000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
+      INFLUX_ORG: ${INFLUX_ORG}
+      INFLUX_BUCKET: ${INFLUX_BUCKET}
+      INFLUX_TOKEN: ${INFLUX_TOKEN}
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ../dashboards:/var/lib/grafana/dashboards:ro
+      - lambda26_grafana_data:/var/lib/grafana
+    depends_on:
+      - influxdb
+    networks:
+      - lambda26-kafka-net
+
+  # --- Ingesta (F2): misma imagen, dos procesos -----------------------------------
+  # Reemplaza a lambda26-aqua-bridge: NO correr ambos a la vez (publicarían dos veces).
+  aqua-puente:
+    build:
+      context: ..
+      dockerfile: ingesta/Dockerfile
+    image: monitoraqua-ingesta:latest
+    container_name: lambda26-aqua-puente
+    restart: unless-stopped
+    command: ["python", "puente_firebase_kafka.py"]
+    env_file: ../.env
+    environment:
+      KAFKA_BOOTSTRAP: kafka:9092   # dentro de la red; el .env trae localhost:49092 para el host
+      ESTADO_PATH: /estado/puente.json
+    volumes:
+      - monitoraqua_ingesta_estado:/estado
+    networks:
+      - lambda26-kafka-net
+
+  aqua-colector:
+    image: monitoraqua-ingesta:latest
+    container_name: lambda26-aqua-colector
+    restart: unless-stopped
+    command: ["python", "colector_apis.py"]
+    env_file: ../.env
+    depends_on:
+      - aqua-puente   # comparte la imagen que construye aqua-puente
+    networks:
+      - lambda26-kafka-net
+
+volumes:
+  monitoraqua_ingesta_estado:
+  monitoraqua_influxdb_data:
+  monitoraqua_influxdb_config:
+  lambda26_grafana_data:
+    external: true
+    name: lambda26-obs_lambda26_grafana_data
+
+networks:
+  lambda26-kafka-net:
+    external: true
+    name: lambda26-kafka-net
