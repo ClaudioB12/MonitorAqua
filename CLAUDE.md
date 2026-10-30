@@ -100,8 +100,11 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
   - **Compensación térmica en el firmware:** el firmware del ESP32 (`firmware/esp32/MonitorAqua_esp32.ino`; `secrets.h`
     nunca a git) ya compensa la distancia con el DHT11. `tanques.yml` → `compensacion_en_firmware.desde` evita la
     doble corrección (supuesto documentado: desde el inicio; confirmado desde el 28-oct). La flota (f2b.1/f2b.2)
-    imita un sensor sin compensación; **f2b.3** (`generador_f2b3.yml`) imita al ESP32. El sensor real es un
-    JSN-SR04T/AJ-SR04M con zona ciega de ~20-25 cm.
+    imita un sensor sin compensación; **f2b.3** (`generador_f2b3.yml`) imita al ESP32.
+  - **Sensor del ESP32, por periodo** (`tanques.yml` → `sensorModelo`): HC-SR04 (2-400 cm) hasta
+    `sensor_desde` = 2026-10-29 09:22:23; desde ahí JSN-SR04T/AJ-SR04M (25-450 cm, zona ciega ~20-25 cm). Todo el
+    historial de diseño es del HC-SR04: la zona ciega **no** se aplica ni explica sus ecos. La capa plata marca
+    inválidas las lecturas fuera del rango del sensor vigente; el detector congelado no usa ese rango.
   - **Tres niveles de validación que no se mezclan:**
     - **Consistencia detector-generador** (`evaluar_detector.py`): mide definiciones compartidas, **no** rendimiento.
     - **Sensibilidad:** `sensibilidad.py`.
@@ -139,10 +142,10 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
     nivel con `Detector.nivel` (guarda `geometria_version` y `compensacionOrigen`: detector, firmware o
     desconocida; `d6_noches` excluye "desconocida").
   - **Oro** (`batch/datos/oro/`): `d2_autonomia`, `d4_llegadas`, `d6_noches` y `d8_termica`, por tramos continuos y
-    sin interpolar huecos. Los eventos salen del detector con las reglas de `reglas_servicio.yml` **del momento de
-    la corrida**: la última regeneración (29-oct, antes de desplegar f4.4) usó f4.3, y es la entrada de d2.1-d2.2 y
-    d4.1. Una corrida de `capas.py` posterior al congelamiento de f4.4 recalcula `d4_llegadas` con f4.4 (entrada
-    de d4.2). En `d4_llegadas`,
+    sin interpolar huecos. Los eventos salen del detector con las reglas de `REGLAS_ORO` (por defecto las vigentes,
+    `reglas_servicio.yml`). Las entradas de d2.1-d2.2 y d4.1 usan **f4.3**: para reproducirlas,
+    `git show b400e7d:streaming/reglas_servicio.yml > data/local/reglas_f43.yml` y
+    `-e REGLAS_ORO=/repo/data/local/reglas_f43.yml`. Sin esa variable, la corrida usa f4.4 (entrada de d4.2). En `d4_llegadas`,
     `artefacto_reanudacion = true` marca la reconexión del ESP32, que no es servicio real.
   - **Partición única:** la vigente es **`p6.2`** (`batch/particion_modelos_p6.2.yml`, `particion.VIGENTE`); `p6.1`
     (`batch/particion_modelos.yml`) se conserva sin cambios para reproducir d2.1-d2.2 y d4.1. p6.2 solo cambia el

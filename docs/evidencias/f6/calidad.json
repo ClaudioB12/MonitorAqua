@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-10-29T22:50:50+00:00",
+ "generado_utc": "2026-10-29T23:05:58+00:00",
  "particion": {
   "version": "p6.2",
   "esp32_inicio_prueba_ms": {
@@ -38,27 +38,27 @@
   {
    "fuente": "esp32",
    "origen_dato": "kafka-bronce",
-   "count": 18358
+   "count": 18537
   },
   {
    "fuente": "ea-uk",
    "origen_dato": "kafka-bronce",
-   "count": 1807
+   "count": 1830
   },
   {
    "fuente": "thingspeak",
    "origen_dato": "kafka-bronce",
-   "count": 2573
+   "count": 2583
   },
   {
    "fuente": "usgs",
    "origen_dato": "kafka-bronce",
-   "count": 547
+   "count": 551
   },
   {
    "fuente": "open-meteo",
    "origen_dato": "kafka-bronce",
-   "count": 87
+   "count": 88
   },
   {
    "fuente": "aumentado_f2b1",
@@ -84,64 +84,64 @@
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-3400TH",
-   "filas": 80,
-   "validas": 69,
+   "filas": 81,
+   "validas": 70,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-2700TH",
-   "filas": 79,
-   "validas": 79,
+   "filas": 80,
+   "validas": 80,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-2602TH",
-   "filas": 79,
-   "validas": 79,
+   "filas": 80,
+   "validas": 80,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-2604TH",
-   "filas": 77,
-   "validas": 77,
+   "filas": 78,
+   "validas": 78,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-3101TH",
-   "filas": 80,
-   "validas": 80,
+   "filas": 81,
+   "validas": 81,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-2655TH",
-   "filas": 78,
-   "validas": 78,
+   "filas": 79,
+   "validas": 79,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "usgs",
    "sensorId": "usgs-01465798",
-   "filas": 54,
-   "validas": 54,
+   "filas": 55,
+   "validas": 55,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
@@ -174,10 +174,10 @@
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-2702TH",
-   "filas": 79,
-   "validas": 79,
+   "filas": 80,
+   "validas": 80,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
@@ -201,17 +201,17 @@
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-2902TH",
-   "filas": 77,
-   "validas": 77,
+   "filas": 78,
+   "validas": 78,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "open-meteo",
    "sensorId": "open-meteo-juliaca",
-   "filas": 2367,
-   "validas": 2367,
+   "filas": 2368,
+   "validas": 2368,
    "desde": 1785110400000,
    "hasta": 1793314800000,
    "origenes_dato": 2
@@ -219,28 +219,28 @@
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-2499TH",
-   "filas": 79,
-   "validas": 79,
+   "filas": 80,
+   "validas": 80,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-2603TH",
-   "filas": 78,
-   "validas": 78,
+   "filas": 79,
+   "validas": 79,
    "desde": 1793218500000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-2698TH",
-   "filas": 79,
-   "validas": 79,
+   "filas": 80,
+   "validas": 80,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
@@ -318,28 +318,28 @@
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-3401TH",
-   "filas": 77,
-   "validas": 77,
+   "filas": 78,
+   "validas": 78,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-3104TH",
-   "filas": 80,
-   "validas": 80,
+   "filas": 81,
+   "validas": 81,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-3102TH",
-   "filas": 80,
-   "validas": 80,
+   "filas": 81,
+   "validas": 81,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
@@ -381,28 +381,28 @@
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-2901TH",
-   "filas": 79,
-   "validas": 79,
+   "filas": 80,
+   "validas": 80,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-2497TH",
-   "filas": 77,
-   "validas": 77,
+   "filas": 78,
+   "validas": 78,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-2601TH",
-   "filas": 78,
-   "validas": 78,
+   "filas": 79,
+   "validas": 79,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793312100000,
    "origenes_dato": 1
   },
   {
@@ -417,28 +417,28 @@
   {
    "fuente": "usgs",
    "sensorId": "usgs-01454700",
-   "filas": 56,
-   "validas": 56,
+   "filas": 57,
+   "validas": 57,
    "desde": 1793223900000,
-   "hasta": 1793310300000,
+   "hasta": 1793313900000,
    "origenes_dato": 1
   },
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-3404TH",
-   "filas": 80,
-   "validas": 80,
+   "filas": 81,
+   "validas": 81,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-2900TH",
-   "filas": 77,
-   "validas": 77,
+   "filas": 78,
+   "validas": 78,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
@@ -453,19 +453,19 @@
   {
    "fuente": "usgs",
    "sensorId": "usgs-01473500",
-   "filas": 54,
-   "validas": 54,
+   "filas": 55,
+   "validas": 55,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "usgs",
    "sensorId": "usgs-01463500",
-   "filas": 23,
-   "validas": 23,
+   "filas": 24,
+   "validas": 24,
    "desde": 1793221200000,
-   "hasta": 1793307600000,
+   "hasta": 1793311200000,
    "origenes_dato": 1
   },
   {
@@ -480,46 +480,46 @@
   {
    "fuente": "esp32",
    "sensorId": "esp32-tanque-real-01",
-   "filas": 19904,
-   "validas": 15714,
+   "filas": 20083,
+   "validas": 12131,
    "desde": 1790914229075,
-   "hasta": 1793314075365,
+   "hasta": 1793314972649,
    "origenes_dato": 2
   },
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-2703TH",
-   "filas": 78,
-   "validas": 78,
+   "filas": 79,
+   "validas": 79,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-2904TH",
-   "filas": 79,
-   "validas": 79,
+   "filas": 80,
+   "validas": 80,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-2607TH",
-   "filas": 78,
-   "validas": 78,
+   "filas": 79,
+   "validas": 79,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   },
   {
    "fuente": "ea-uk",
    "sensorId": "ea-uk-3100TH",
-   "filas": 79,
-   "validas": 79,
+   "filas": 80,
+   "validas": 80,
    "desde": 1793223000000,
-   "hasta": 1793309400000,
+   "hasta": 1793313000000,
    "origenes_dato": 1
   }
  ],
@@ -565,6 +565,11 @@
    "count": 8
   },
   {
+   "fuente": "esp32",
+   "motivo_invalidez": "distanciaCm_fuera_del_rango_del_sensor",
+   "count": 3764
+  },
+  {
    "fuente": "thingspeak",
    "motivo_invalidez": "distanciaCm_-1",
    "count": 39
@@ -582,7 +587,7 @@
   {
    "fuente": "esp32",
    "motivo_invalidez": "distanciaCm_mas_alla_del_fondo",
-   "count": 2545
+   "count": 2543
   },
   {
    "fuente": "ea-uk",
@@ -592,17 +597,17 @@
  ],
  "oro": {
   "d2_autonomia": {
-   "filas": 111420,
+   "filas": 111355,
    "por_fuente": {
     "aumentado_f2b1": 34399,
     "aumentado_f2b2": 34400,
-    "esp32": 317,
+    "esp32": 252,
     "thingspeak": 42304
    },
    "por_particion": {
     "consistencia": 18343,
     "embargo": 2839,
-    "entrenamiento": 84688,
+    "entrenamiento": 84623,
     "prueba": 5550
    },
    "columnas": [
@@ -628,17 +633,17 @@
    ]
   },
   "d4_llegadas": {
-   "filas": 339,
+   "filas": 340,
    "por_fuente": {
     "aumentado_f2b1": 123,
     "aumentado_f2b2": 122,
-    "esp32": 21,
+    "esp32": 22,
     "thingspeak": 73
    },
    "por_particion": {
     "consistencia": 63,
     "embargo": 10,
-    "entrenamiento": 247,
+    "entrenamiento": 248,
     "prueba": 19
    },
    "columnas": [
@@ -703,17 +708,17 @@
    ]
   },
   "d8_termica": {
-   "filas": 7531,
+   "filas": 7528,
    "por_fuente": {
     "aumentado_f2b1": 2880,
     "aumentado_f2b2": 2880,
-    "esp32": 37,
+    "esp32": 34,
     "thingspeak": 1734
    },
    "por_particion": {
     "consistencia": 1536,
     "embargo": 216,
-    "entrenamiento": 5483,
+    "entrenamiento": 5480,
     "prueba": 296
    },
    "columnas": [
@@ -792,7 +797,7 @@
     "desde": 1793283743334,
     "hasta": 1793286982648,
     "lecturas": 646,
-    "validas": 261,
+    "validas": 151,
     "minutos": 53.988566666666664
    },
    {
@@ -800,7 +805,7 @@
     "desde": 1793287720896,
     "hasta": 1793292204485,
     "lecturas": 858,
-    "validas": 304,
+    "validas": 42,
     "minutos": 74.72648333333333
    },
    {
@@ -808,7 +813,7 @@
     "desde": 1793296577248,
     "hasta": 1793312657176,
     "lecturas": 3166,
-    "validas": 3166,
+    "validas": 0,
     "minutos": 267.9988
    }
   ],

@@ -74,10 +74,19 @@ llega a Firebase **ya viene compensada**. Hasta f4.3 el detector la compensaba o
   - **Sesiones a 137-215 cm (1 y 8-oct):** la temperatura casi no varía (18.0-18.7 °C), así que solo habría un desfase
     constante de ~0.3-0.6 cm, sin cambios ficticios.
   - **Consecuencia:** el supuesto no cambia ningún resultado.
-- **Sensor:** el firmware usa un **JSN-SR04T con placa AJ-SR04M** (no un HC-SR04), con zona ciega de ~20-25 cm. Las
-  lecturas reales de 4-17 cm caen dentro de esa zona: eso explica, al menos en parte, los ecos alternos (7 ↔ 17 cm)
-  que motivaron la regla de intermitencia. **Montar la sonda al menos 25 cm sobre el nivel máximo** antes de la
-  prueba real.
+- **Sensor, por periodo** (`ingesta/tanques.yml` → `sensorModelo`, `sensor_desde`):
+  - **Hasta el 29-oct a las 09:22:23: HC-SR04,** con rango válido de 2-400 cm y un firmware de la misma lógica que el
+    actual, pero con pulso de disparo de 10 µs y una sola medición por lectura. **Todo el historial de diseño (1 al
+    29-oct en la mañana) es de este sensor.** Sus lecturas de 4-17 cm están dentro de su rango, así que los ecos
+    alternos de 7 ↔ 17 cm que motivaron la regla de intermitencia **no** se explican por una zona ciega.
+  - **Desde el 29-oct a las 09:22:23: JSN-SR04T con placa AJ-SR04M,** con rango válido de 25-450 cm (zona ciega de
+    ~20-25 cm) y el firmware de `firmware/esp32/` (pulso de 20 µs y mediana de 5 mediciones). Se instaló entre las 08:32
+    y las 09:22; `sensor_desde` es la primera lectura del salto de distancia (76.9 cm, tras 49.7 min sin datos).
+  - **La capa plata** marca inválidas las lecturas fuera del rango del sensor vigente
+    (`distanciaCm_fuera_del_rango_del_sensor`). El detector congelado mantiene su filtro propio (2-450 cm y más allá
+    del fondo).
+  - **Lo leído desde la instalación hasta que se monte bien la sonda es diseño.** La prueba real empieza en
+    `geometria_desde`. La sonda debe quedar al menos 25 cm sobre el nivel máximo.
 
 Antes de evaluar se descartan:
 
@@ -426,14 +435,19 @@ Al cambiar `ingesta/tanques.yml` (por ejemplo, con las medidas reales del tanque
 - **f4.4: subida sostenida en el tanque de lluvia.** En 3418755 las llegadas pasan de 49 a 65, y son lluvias. Está
   fuera del alcance de D4 (`batch/modelo_d4.yml` → `fuera_de_alcance`).
 
-- **Zona ciega del sensor.** El JSN-SR04T/AJ-SR04M no mide bien a menos de ~20-25 cm, y la geometría provisional
-  pone el sensor a ~4 cm del rebose. Con el tanque lleno, las lecturas caen en la zona ciega. Al cargar las medidas
-  reales, la sonda debe quedar al menos 25 cm sobre el nivel máximo.
+- **Zona ciega del sensor nuevo (desde el 29-oct, 09:22).** El JSN-SR04T/AJ-SR04M no mide bien a menos de ~20-25 cm,
+  y la geometría provisional (pensada para el HC-SR04) pone el sensor a ~4 cm del rebose. Al cargar las medidas
+  reales, la sonda debe quedar al menos 25 cm sobre el nivel máximo. No afecta al historial de diseño, que es del
+  HC-SR04.
+- **El detector f4.4 filtra con 2-450 cm, no con el rango de cada sensor, y no hace falta una f4.5.** Con la sonda bien
+  montada (al menos 25 cm sobre el nivel máximo), el JSN-SR04T nunca da lecturas en su zona ciega, así que los dos
+  filtros coinciden. **Si durante la prueba real aparecen lecturas menores de 25 cm, se revisa el montaje antes de
+  interpretar los eventos.** La capa plata ya las marca (`distanciaCm_fuera_del_rango_del_sensor`).
 - **Eventos f4.3 de la mañana del 29-oct.** Entre las 11:05 y las 12:30, f4.3 publicó 5 eventos con el ESP32
   manipulado (nivel −7.5 %, subidas de 18-53 %). Son anteriores al congelamiento de f4.4: conjunto de diseño.
-- **Las capas oro y la versión de reglas.** `batch/capas.py` recalcula `d4_llegadas` con las reglas vigentes. La
-  regeneración del 29-oct se hizo antes del congelamiento (con f4.3) y es la entrada de d4.1; la próxima, con f4.4,
-  será la entrada de d4.2.
+- **Las capas oro y la versión de reglas.** `batch/capas.py` genera `d4_llegadas` con las reglas de `REGLAS_ORO`
+  (por defecto, las vigentes). Las regeneraciones del 29-oct fijaron f4.3 (`b400e7d`), que es la entrada de
+  d2.1-d2.2 y d4.1; una corrida sin esa variable usa f4.4 y es la entrada de d4.2.
 
 ## Pendientes
 

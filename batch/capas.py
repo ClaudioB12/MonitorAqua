@@ -24,6 +24,7 @@ Salidas (no versionadas):
 import hashlib
 import json
 import math
+import os
 import shutil
 import sys
 from datetime import datetime, timezone
@@ -41,6 +42,10 @@ sys.path.insert(0, str(RAIZ / "batch"))
 DATOS = RAIZ / "batch" / "datos"
 FUENTES = DATOS / "fuentes"
 BITACORA = RAIZ / "docs" / "evidencias" / "f4" / "bitacora_real.csv"
+# Reglas con las que el detector genera los eventos de las tablas oro (d4_llegadas). Por defecto las vigentes; para
+# reproducir las entradas de d2.1-d2.2 y d4.1 se fijan las de f4.3:
+#   git show b400e7d:streaming/reglas_servicio.yml > /tmp/reglas_f43.yml  y  REGLAS_ORO=/tmp/reglas_f43.yml
+REGLAS_ORO = os.getenv("REGLAS_ORO", str(RAIZ / "streaming" / "reglas_servicio.yml"))
 CORRIDAS = {"r2026-45facae2": "aumentado_f2b1", "r7-79a6b935": "aumentado_f2b2"}
 PRIORIDAD = {"firebase": 0, "thingspeak-api": 1, "open-meteo-archivo": 1, "open-meteo-pronostico": 2,
              "kafka-bronce": 3, "parquet": 0}
@@ -60,7 +65,7 @@ PLATA = StructType(BASE.fields + [
     StructField("distanciaCompensadaCm", DoubleType()), StructField("compensada", BooleanType()),
     StructField("nivelPct", DoubleType()), StructField("nivelCm", DoubleType()), StructField("litros", DoubleType()),
     StructField("geometria_version", StringType()), StructField("geometria_por_medir", BooleanType()),
-    StructField("compensacionOrigen", StringType()),
+    StructField("compensacionOrigen", StringType()), StructField("sensorModelo", StringType()),
 ])
 
 
@@ -136,6 +141,23 @@ def bitacora():
 
 # --- Plata ---------------------------------------------------------------------------------------------------
 
+def modelo_sensor(geom, ts):
+    """Sensor de distancia vigente en ts según ingesta/tanques.yml -> sensorModelo (lista con desde/hasta), o None.
+    Su rango_valido_cm marca en plata las lecturas que ese sensor no puede medir (el detector congelado no lo usa)."""
+    if not geom or ts is None:
+        return None
+    for m in geom.get("sensorModelo") or []:
+        desde = partir_ms(m.get("desde"))
+        hasta = partir_ms(m.get("hasta"))
+        if (desde is None or ts >= desde) and (hasta is None or ts < hasta):
+            return m
+    return None
+
+
+def partir_ms(iso):
+    return int(datetime.fromisoformat(str(iso)).timestamp() * 1000) if iso else None
+
+
 def a_plata(lotes):
     from detector_servicio import Configuracion, Detector, origen_compensacion
     from procesar_stream import MEDIDAS, RANGOS
@@ -162,6 +184,11 @@ def a_plata(lotes):
                 if motivo is None and all(med.get(m) is None for m in MEDIDAS):
                     motivo = "sin_medidas"
             geom = cfg.tanques.get(r["sensorId"])
+            modelo = modelo_sensor(geom, r.get("timestamp"))
+            if motivo is None and modelo and r.get("distanciaCm") is not None:
+                lo, hi = modelo["rango_valido_cm"]
+                if not lo <= r["distanciaCm"] <= hi:
+                    motivo = "distanciaCm_fuera_del_rango_del_sensor"
             nivel = (None,) * 6
             if geom and motivo is None:
                 nivel = det.nivel(med, geom, cfg.reglas)
@@ -174,7 +201,8 @@ def a_plata(lotes):
                      geometria_version=versiones.get(r["sensorId"]),
                      geometria_por_medir=bool(geom.get("por_medir")) if geom else None,
                      # f4.4: quién compensó la distancia (detector, firmware o desconocida; D6 excluye "desconocida")
-                     compensacionOrigen=origen_compensacion(med, geom) if dc is not None else None)
+                     compensacionOrigen=origen_compensacion(med, geom) if dc is not None else None,
+                     sensorModelo=modelo["modelo"] if modelo else None)
             salida.append(r)
         yield pd.DataFrame(salida, columns=PLATA.fieldNames())
 
@@ -185,7 +213,7 @@ def a_oro(juliaca_pdf, tau_h, bitacora):
     def por_sensor(pdf):
         import oro
         from detector_servicio import Configuracion, Detector
-        det = Detector(Configuracion(str(RAIZ / "streaming" / "reglas_servicio.yml"), str(RAIZ / "ingesta" / "tanques.yml")))
+        det = Detector(Configuracion(REGLAS_ORO, str(RAIZ / "ingesta" / "tanques.yml")))
         pdf = pdf.sort_values("timestamp").reset_index(drop=True)
         fuente, sid, run = pdf["fuente"].iloc[0], pdf["sensorId"].iloc[0], pdf["runId"].iloc[0]
         validas = pdf[pdf["lectura_valida"]].copy()

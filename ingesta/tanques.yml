@@ -8,6 +8,7 @@
 #   por_medir: true      valores provisionales; reemplazar con las medidas reales
 #   geometria_desde      fecha y hora en que la geometría pasó a ser la real (ver esp32-tanque-real-01)
 #   compensacion_en_firmware {desde}  el firmware ya compensa la distancia por temperatura desde esa fecha (f4.4)
+#   sensorModelo         sensores de distancia por periodo (desde/hasta) con su rango_valido_cm (capa plata)
 #
 # Tanques de ThingSpeak: se usa nivelPct o nivelM tal como llegan (modo), sin distancia.
 
@@ -22,6 +23,16 @@ tanques:
     # de este sensor se calcula solo desde la más tardía entre esta hora y el congelamiento de reglas
     # (streaming/comparar_bitacora.py). Mientras sea null, no hay periodo de rendimiento real para este sensor.
     geometria_desde: null
+    # Sensor de distancia. Hasta el 29-oct en la mañana, HC-SR04 (firmware con pulso de 10 µs y una sola medición).
+    # El JSN-SR04T con placa AJ-SR04M se instaló entre las 08:32 y las 09:22; sensor_desde es la primera lectura del
+    # salto de distancia (76.9 cm, tras 49.7 min sin datos). La capa plata marca inválidas las lecturas fuera del
+    # rango del sensor vigente (motivo distanciaCm_fuera_del_rango_del_sensor); el detector congelado no lo usa.
+    # Lo leído desde la instalación hasta que se monte bien la sonda es diseño: la prueba real empieza en
+    # geometria_desde.
+    sensor_desde: &sensor_desde "2026-10-29T09:22:23-05:00"
+    sensorModelo:
+      - {modelo: HC-SR04, rango_valido_cm: [2, 400], hasta: *sensor_desde}
+      - {modelo: JSN-SR04T (placa AJ-SR04M), rango_valido_cm: [25, 450], desde: *sensor_desde}   # zona ciega ~20-25 cm
     # f4.4: el firmware (firmware/esp32/MonitorAqua_esp32.ino) ya compensa la distancia con el DHT11
     # (vSonido = 331.3 + 0.606 · T; 20 °C si el DHT11 falla). Desde "desde", el detector NO la compensa otra vez;
     # antes, la compensación es "desconocida" y D6 excluye esas lecturas.
