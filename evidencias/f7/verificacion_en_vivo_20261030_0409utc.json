@@ -1,0 +1,45 @@
+{
+ "generado_utc": "2026-10-30T04:09:38+00:00",
+ "ventana_h": 6,
+ "D8_agua_real_vs_pronosticada": {
+  "n": 0,
+  "filas": []
+ },
+ "D8_estimaciones_3418755": {
+  "n": 2,
+  "filas": [
+   {
+    "_start": 1793311779067,
+    "_stop": 1793333379067,
+    "_time": 1793329200000,
+    "_measurement": "predicciones",
+    "dimension": "D8",
+    "origen": "thingspeak",
+    "origenLecturas": "real",
+    "sensorId": "thingspeak-3418755",
+    "tipo": "estimacion",
+    "version_modelo": "d8.1-20261029",
+    "agua_c": 9.66,
+    "variante": "solo_aire"
+   },
+   {
+    "_start": 1793311779067,
+    "_stop": 1793333379067,
+    "_time": 1793332800000,
+    "_measurement": "predicciones",
+    "dimension": "D8",
+    "origen": "thingspeak",
+    "origenLecturas": "real",
+    "sensorId": "thingspeak-3418755",
+    "tipo": "estimacion",
+    "version_modelo": "d8.1-20261029",
+    "agua_c": 8.94,
+    "variante": "aire_y_om"
+   }
+  ]
+ },
+ "D4_error_llegada_real": {
+  "n": 0,
+  "filas": []
+ }
+}

@@ -1,0 +1,8 @@
+ventana ingestaTs: últimos 5 min | entradas con timestamp en las últimas 3 h: 2586
+origen                       ingestaTs<5min  sin ingestaTs  total 3 h  ingestaTs (s atrás)
+ea-uk                                   161              0        251  59-76
+esp32-fisico (firmware)                   0           1877       1877  -
+open-meteo                                9              0         12  76-76
+thingspeak                              310              0        376  76-76
+usgs                                     58              0         70  76-76
+TOTAL                                   538

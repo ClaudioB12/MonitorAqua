@@ -1,0 +1,2723 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://claudiob12.github.io/MonitorAqua/modelo-d6/">
+      
+      
+        <link rel="prev" href="../modelo-d4/">
+      
+      
+        <link rel="next" href="../modelo-d8/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>D6 · Pérdida por fuga - MonitorAqua — Proyecto Sello</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#modelo-d6-perdida-proyectada-por-fuga" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-header__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MonitorAqua — Proyecto Sello
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              D6 · Pérdida por fuga
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-nav__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MonitorAqua — Proyecto Sello
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Producto U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto de la Unidad 2: pipeline en tiempo real
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stack-actual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stack y servicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta (S6-S7)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ingesta (S6-S7)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ingesta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta unificada (IoT y APIs)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventos-servicio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eventos de servicio (empresariales)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos-aumentados/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flota extrapolada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Streaming (S8)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observabilidad y costos (S9)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Observabilidad y costos (S9)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tableros/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tableros y alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../costos-escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Costos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset-modelos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset de los modelos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inferencia-en-vivo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inferencia en vivo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dimensiones U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D2 · Horas de autonomía
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D4 · Próxima llegada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D6 · Pérdida por fuga
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D6 · Pérdida por fuga
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-que-pregunta-responde-y-que-decision-habilita" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Qué pregunta responde y qué decisión habilita
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Datos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-como-se-estima-la-tasa-y-la-perdida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Cómo se estima la tasa y la pérdida
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-los-modelos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Los modelos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Los modelos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modelo-principal-tasa-robusta-regresion-logistica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelo principal: tasa robusta + regresión logística
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entrenamiento-distribuido-con-spark-mllib" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entrenamiento distribuido con Spark MLlib
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lineas-base-obligatorias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Líneas base (obligatorias)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-como-se-evito-mirar-la-prueba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cómo se evitó mirar la prueba
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-resultados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Resultados
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Resultados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consistencia-en-la-flota-reconoce-las-fugas-del-generador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consistencia en la flota: ¿reconoce las fugas del generador?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consistencia-error-de-la-tasa-en-las-noches-con-fuga-lh-ic-por-episodio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consistencia: error de la tasa en las noches con fuga (L/h; IC por episodio)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consistencia-perdida-proyectada-l-ic-por-tanque-y-corrida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consistencia: pérdida proyectada (L; IC por tanque y corrida)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-leer-los-resultados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo leer los resultados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thingspeak-real-el-descenso-de-la-noche-siguiente-ingrediente-observable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ThingSpeak real: el descenso de la noche siguiente (ingrediente observable)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sesgo-de-seleccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sesgo de selección
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-sensibilidad-minima-detectable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Sensibilidad mínima detectable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-esp32-metrica-final-pendiente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. ESP32: métrica final pendiente
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-limitaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Limitaciones
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-uso-en-f7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Uso en F7
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-preguntas-probables-del-jurado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Preguntas probables del jurado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-reproducir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Reproducir
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#graficos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gráficos del notebook y del tablero en vivo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gráficos del notebook y del tablero en vivo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tablero-bi-en-vivo-f7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tablero BI en vivo (F7)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evidencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencia
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D8 · Temperatura y residencia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arranque-diario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arranque diario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guion-demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guion de la demo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Antecedentes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Antecedentes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitectura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura (diseño inicial)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dimensiones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones (U1 y U2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adecuacion-dimensiones-u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adecuación al hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Datos de muestra (U1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-que-pregunta-responde-y-que-decision-habilita" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Qué pregunta responde y qué decisión habilita
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Datos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-como-se-estima-la-tasa-y-la-perdida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Cómo se estima la tasa y la pérdida
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-los-modelos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Los modelos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Los modelos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modelo-principal-tasa-robusta-regresion-logistica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelo principal: tasa robusta + regresión logística
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entrenamiento-distribuido-con-spark-mllib" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entrenamiento distribuido con Spark MLlib
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lineas-base-obligatorias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Líneas base (obligatorias)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-como-se-evito-mirar-la-prueba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cómo se evitó mirar la prueba
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-resultados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Resultados
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Resultados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consistencia-en-la-flota-reconoce-las-fugas-del-generador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consistencia en la flota: ¿reconoce las fugas del generador?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consistencia-error-de-la-tasa-en-las-noches-con-fuga-lh-ic-por-episodio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consistencia: error de la tasa en las noches con fuga (L/h; IC por episodio)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consistencia-perdida-proyectada-l-ic-por-tanque-y-corrida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consistencia: pérdida proyectada (L; IC por tanque y corrida)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-leer-los-resultados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo leer los resultados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thingspeak-real-el-descenso-de-la-noche-siguiente-ingrediente-observable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ThingSpeak real: el descenso de la noche siguiente (ingrediente observable)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sesgo-de-seleccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sesgo de selección
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-sensibilidad-minima-detectable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Sensibilidad mínima detectable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-esp32-metrica-final-pendiente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. ESP32: métrica final pendiente
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-limitaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Limitaciones
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-uso-en-f7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Uso en F7
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-preguntas-probables-del-jurado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Preguntas probables del jurado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-reproducir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Reproducir
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#graficos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gráficos del notebook y del tablero en vivo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gráficos del notebook y del tablero en vivo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tablero-bi-en-vivo-f7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tablero BI en vivo (F7)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evidencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencia
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="modelo-d6-perdida-proyectada-por-fuga">Modelo D6: pérdida proyectada por fuga<a class="headerlink" href="#modelo-d6-perdida-proyectada-por-fuga" title="Permanent link">&para;</a></h1>
+<p><strong>Dimensión D6 (Joel Huillca).</strong> Versión <code>d6.1</code>, entrenada el 2026-10-29 con la partición <code>p6.2</code>.</p>
+<p><strong>Gráficos y evidencia:</strong> al final de la página, en <a href="#graficos">Gráficos del notebook y del tablero en vivo</a>.</p>
+<ul>
+<li><strong>Código:</strong> <code>batch/modelo_d6.py</code> (configuración en <code>batch/modelo_d6.yml</code>) y <code>batch/fuga.py</code>, el modelo, sin
+  dependencias fuera de numpy, para F7.</li>
+<li><strong>Modelo guardado:</strong> <code>batch/modelos/d6/d6.1-20261029/</code> (<code>modelo.json</code> y <code>manifiesto.json</code>).</li>
+<li><strong>Evidencia:</strong> <code>docs/evidencias/f6-d6/</code>.</li>
+<li><strong>Plantilla:</strong> <code>docs/modelo-d2.md</code> y <code>docs/modelo-d4.md</code>, con las mismas reglas de evaluación.</li>
+</ul>
+<blockquote>
+<p><strong>Qué se puede afirmar y qué no.</strong> <strong>No hay ninguna fuga real etiquetada.</strong> Todas las cifras de detección y de
+litros salen de la flota aumentada, donde el generador crea las fugas que el modelo aprende a detectar: son
+<strong>consistencia</strong> (el modelo reconoce las fugas tal como el generador las define), <strong>no rendimiento real</strong>. En los
+tanques reales de ThingSpeak, que no tienen etiquetas, la línea base "cero fuga" gana. La primera evidencia real
+será la <strong>fuga controlada</strong> de la prueba en vivo con el ESP32 (sección 8).</p>
+</blockquote>
+<h2 id="1-que-pregunta-responde-y-que-decision-habilita">1. Qué pregunta responde y qué decisión habilita<a class="headerlink" href="#1-que-pregunta-responde-y-que-decision-habilita" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>¿Este tanque está perdiendo agua por una fuga? Si es así, ¿a cuántos litros por hora, y cuánta agua se
+perderá en las próximas 24 horas y en los próximos 7 días si nadie hace nada?</strong></p>
+</blockquote>
+<p>Con la respuesta, la familia o el administrador pueden decidir:</p>
+<ul>
+<li>si conviene <strong>revisar el flotador, las uniones o la llave</strong> del tanque, antes de que la pérdida crezca;</li>
+<li><strong>cuánta agua cuesta no arreglarlo</strong>, en litros a 24 h y a 7 días, con un rango creíble;</li>
+<li>y, junto con D2 (autonomía), si la fuga <strong>acorta las horas de agua</strong> que quedan.</li>
+</ul>
+<h2 id="2-datos">2. Datos<a class="headerlink" href="#2-datos" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Qué datos</th>
+<th>Etiquetas de fuga</th>
+<th>Para qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Flota f2b.2</strong></td>
+<td>24 corridas del generador, 4 tanques × 30 noches cada una: 12 semillas para entrenar y 12 <strong>distintas</strong> para evaluar (<code>modelo_d6.yml</code>). El sensor no compensa la temperatura; la compensa el detector</td>
+<td>Sí: episodios <code>fuga_lenta</code> de 1-4 días a 1.5-4 L/h, con la tasa real</td>
+<td>Entrenar y medir consistencia</td>
+</tr>
+<tr>
+<td><strong>Flota f2b.3</strong></td>
+<td>Igual, pero el <strong>firmware</strong> compensa con un DHT11 de ±2 °C redondeado a grados enteros, como el ESP32 real</td>
+<td>Sí</td>
+<td>Lo mismo, con un sensor como el real</td>
+</tr>
+<tr>
+<td><strong>ThingSpeak real</strong></td>
+<td>Tanques 1233810, 1233815, 283977 y 480876 (nivel en %)</td>
+<td>No</td>
+<td>El ingrediente observable: el descenso nocturno</td>
+</tr>
+<tr>
+<td><strong>ESP32</strong></td>
+<td>El tanque del equipo</td>
+<td>Pendiente (fuga controlada)</td>
+<td>La métrica final, cuando exista la prueba real</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Base común: la tabla oro <code>d6_noches</code>.</strong> Cada noche se arma con la misma función de la capa oro (<code>batch/oro.py</code> →
+<code>d6</code>) sobre la distancia de la capa plata. Esa distancia ya respeta dos cosas:</p>
+<ul>
+<li><strong><code>compensacion_en_firmware</code>:</strong> la distancia del ESP32 no se compensa dos veces.</li>
+<li><strong>El sensor vigente en cada periodo:</strong> HC-SR04 o JSN-SR04T, cada uno con su rango válido (<code>ingesta/tanques.yml</code> →
+  <code>sensorModelo</code>).</li>
+</ul>
+<p>Una noche con dos sensores, o con compensación desconocida, no se usa.</p>
+<p><strong>Por qué varias corridas por modelo de generador y no solo la de la tabla oro:</strong></p>
+<ul>
+<li>La tabla oro tiene una corrida de f2b.2 (semilla 7), y en su partición de consistencia solo hay 2 noches con
+  fuga. Con eso no se puede medir nada.</li>
+<li>Las demás semillas se reconstruyen con el mismo código.</li>
+<li><strong>Entrenamiento y evaluación usan semillas disjuntas.</strong> El modelo se entrena y se ajusta solo con la partición
+  <code>entrenamiento</code> de 12 semillas, y se evalúa solo con la partición <code>consistencia</code> de <strong>otras 12</strong>, las mismas para
+  f2b.2 y f2b.3. Una primera versión usaba las mismas semillas para las dos cosas, separadas solo en el tiempo, y eso
+  tenía dos fugas de información:</li>
+<li><strong>En el tiempo:</strong> 8 de 32 episodios de la evaluación cruzaban el día de embargo, y 2 tenían noches en el
+    entrenamiento.</li>
+<li><strong>Entre generadores:</strong> f2b.2 y f2b.3 con la misma semilla generan <strong>las mismas fugas</strong> (solo cambia el sensor).</li>
+<li><strong>Control:</strong> la reconstrucción de la semilla 7 reproduce la tabla oro <strong>exactamente</strong> (120 de 120 noches,
+  diferencia máxima 0.0 cm, mismas etiquetas).</li>
+</ul>
+<p><strong>ThingSpeak no está en <code>d6_noches</code></strong> porque esos canales informan el nivel en %, no la distancia. Para ellos el
+modelo usa el nivel directamente.</p>
+<h2 id="3-como-se-estima-la-tasa-y-la-perdida">3. Cómo se estima la tasa y la pérdida<a class="headerlink" href="#3-como-se-estima-la-tasa-y-la-perdida" title="Permanent link">&para;</a></h2>
+<p><strong>Franja nocturna: 00:00 a 03:30 (Lima).</strong></p>
+<ul>
+<li>Es la misma de <code>d6_noches</code> y de la regla <code>alerta_fuga</code> congelada.</li>
+<li>Es la de menor consumo (pesos 0.1-0.2 del perfil horario) y termina antes de la franja de llegada más temprana.</li>
+</ul>
+<p><strong>Noche válida.</strong> Debe cumplir tres condiciones:</p>
+<ul>
+<li>al menos 60 % de los minutos con lectura;</li>
+<li>ningún llenado en la franja ni en la hora anterior;</li>
+<li>un solo sensor, con la compensación conocida.</li>
+</ul>
+<p>El llenado se detecta cuando la mediana de 15 min sube más de 2 puntos sobre el mínimo de los 30 min previos. <strong>No se
+usa <code>hubo_subida</code> de la tabla oro</strong> (una subida de más de 2 % entre dos lecturas seguidas): los saltos del sensor
+(2-6 cm en el 1.9 % de las lecturas) la disparan en 116 de 120 noches de la flota.</p>
+<p><strong>Pasos de la estimación:</strong></p>
+<ol>
+<li><strong>Tasa de la noche (cm/h):</strong> la pendiente de Theil-Sen, que es la mediana de todas las pendientes entre pares de
+   puntos, de las medianas por minuto de la distancia.</li>
+<li><strong>Por qué Theil-Sen y no "últimos 15 min − primeros 15 min"</strong> (lo que usa <code>alerta_fuga</code>): la diferencia de dos
+     extremos depende de dos ventanas cortas, y un eco o un salto en una de ellas la arrastra. Theil-Sen usa toda la
+     franja y tolera hasta ~29 % de puntos malos.</li>
+<li><strong>En L/h:</strong> se multiplica por la capacidad del tanque entre su altura (litros por cm).</li>
+<li><strong>Referencia del tanque (L/h):</strong> la mediana de sus 7 noches válidas anteriores, con un mínimo de 3. Es el
+   <strong>consumo nocturno normal</strong>: de noche también se usa algo de agua.</li>
+<li><strong>Exceso (L/h)</strong> = tasa − referencia. Es lo que una fuga <strong>añade</strong> a lo normal.</li>
+<li><strong>Probabilidad de fuga esta noche:</strong> sale del clasificador (sección 4).</li>
+<li><strong>Pérdida proyectada a H horas (L)</strong> = P(fuga) · max(exceso, 0) · H · f_H.</li>
+<li><strong>f_H es el factor de persistencia</strong>, aprendido en el conjunto de ajuste: qué fracción de esa pérdida ocurrió de
+     verdad.</li>
+<li><strong>Por qué hace falta:</strong> una fuga no dura para siempre (se repara, o el flotador se asienta), y suponer que sigue
+     sobreestima. Sale <strong>f₂₄ = 0.61</strong> y <strong>f₁₆₈ = 0.23</strong>: en la flota, de lo que una fuga perdería en 7 días si
+     siguiera igual, solo ocurre ~1/4.</li>
+<li><strong>Banda P10-P90:</strong> predicción conforme sobre el conjunto de ajuste, por separado para las noches que el modelo marca
+   como fuga y para las demás (conforme de Mondrian).</li>
+<li><strong>Por qué separadas:</strong> con una sola banda, los residuos de las noches normales, casi todos 0, la dejaban de ancho
+     0 y no cubría las fugas (3-13 % de cobertura en las noches con fuga).</li>
+</ol>
+<p><strong>La verdad en la flota:</strong> la tasa real del generador (<code>fuga_lph</code>), la media en la franja, y la pérdida real por
+fuga en las 24 h y 7 días siguientes al fin de la franja.</p>
+<h2 id="4-los-modelos">4. Los modelos<a class="headerlink" href="#4-los-modelos" title="Permanent link">&para;</a></h2>
+<h3 id="modelo-principal-tasa-robusta-regresion-logistica">Modelo principal: tasa robusta + regresión logística<a class="headerlink" href="#modelo-principal-tasa-robusta-regresion-logistica" title="Permanent link">&para;</a></h3>
+<p>La regresión logística (IRLS con penalización L2, clases equilibradas) da P(fuga esta noche) con siete variables:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Qué mide</th>
+<th>Coeficiente (estandarizado)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>exceso_lph</code></td>
+<td>exceso de esta noche</td>
+<td><strong>+2.22</strong></td>
+</tr>
+<tr>
+<td><code>estabilidad_lph</code></td>
+<td>desviación de la tasa en las 5 noches anteriores</td>
+<td>+1.15</td>
+</tr>
+<tr>
+<td><code>log_horas_llenado</code></td>
+<td>horas desde el último llenado (log)</td>
+<td>+0.40</td>
+</tr>
+<tr>
+<td><code>dT_dht_c</code></td>
+<td>enfriamiento del aire en la franja (DHT11)</td>
+<td>+0.33</td>
+</tr>
+<tr>
+<td><code>exceso_prev_lph</code></td>
+<td>exceso de la noche anterior (una fuga sigue)</td>
+<td>+0.32</td>
+</tr>
+<tr>
+<td><code>ruido_cm</code></td>
+<td>dispersión de los minutos alrededor de la recta</td>
+<td>+0.12</td>
+</tr>
+<tr>
+<td><code>dT_juliaca_c</code></td>
+<td>enfriamiento en Juliaca (Open-Meteo)</td>
+<td>+0.06</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Umbral:</strong> P ≥ <strong>0.70</strong>. Se eligió en el conjunto de ajuste (mayor F1, 0.63), nunca en la evaluación.</p>
+<p><strong>Cómo se leen los coeficientes:</strong></p>
+<ul>
+<li><strong>Pesa sobre todo el exceso,</strong> como debe ser.</li>
+<li><strong>La estabilidad sube la probabilidad</strong> porque, si la noche anterior ya tenía fuga, la serie de noches previas se
+  vuelve inestable.</li>
+<li><strong>Las temperaturas pesan poco.</strong> El DHT11 y Open-Meteo entran para que el modelo no confunda el enfriamiento con un
+  descenso. Ninguna deriva térmica de la evaluación dio una alarma (0 de 12 en cada modelo de generador).</li>
+</ul>
+<p><strong>Por qué una regresión logística y no un GBT de MLlib:</strong></p>
+<ul>
+<li><strong>Hay pocos positivos:</strong> 124 noches con fuga en el entrenamiento. Un GBT con tan pocos positivos aprende ruido.</li>
+<li><strong>Es explicable:</strong> cada coeficiente se puede defender frente al jurado, como en la tabla de arriba.</li>
+<li><strong>Es calibrable:</strong> da una probabilidad, que es justo lo que pide la pérdida esperada (P · exceso · H).</li>
+<li><strong>Es portable:</strong> corre en F7 sin Spark (<code>batch/fuga.py</code>, solo numpy).</li>
+</ul>
+<h3 id="entrenamiento-distribuido-con-spark-mllib">Entrenamiento distribuido con Spark MLlib<a class="headerlink" href="#entrenamiento-distribuido-con-spark-mllib" title="Permanent link">&para;</a></h3>
+<p>El mismo modelo se entrena con <code>LogisticRegression</code> de Spark MLlib (<code>batch/modelo_d6_mllib.py</code>), con las mismas
+noches, las mismas variables estandarizadas, los mismos pesos de clase y la misma penalización L2. MLlib promedia la
+pérdida, así que su <code>regParam</code> es la L2 de numpy dividida por la suma de los pesos.</p>
+<table>
+<thead>
+<tr>
+<th>Comparación</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Diferencia máxima entre coeficientes</td>
+<td>1.2 × 10⁻⁷</td>
+</tr>
+<tr>
+<td>Diferencia máxima entre probabilidades</td>
+<td>1.1 × 10⁻⁷</td>
+</tr>
+<tr>
+<td>Noches de evaluación con decisión distinta</td>
+<td>0 (en f2b.2 y en f2b.3)</td>
+</tr>
+<tr>
+<td>Métricas de evaluación</td>
+<td>idénticas (<code>docs/evidencias/f6-d6/mllib_vs_numpy.json</code>)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reparto de papeles:</strong></p>
+<ul>
+<li><strong>MLlib es el entrenamiento distribuido:</strong> escala a la flota completa y a más corridas sin cambiar el código.</li>
+<li><strong>numpy es la inferencia ligera en F7:</strong> aplicar 7 coeficientes a una noche no necesita Spark.</li>
+</ul>
+<p>Los dos dan el mismo modelo.</p>
+<ul>
+<li>Lo que el modelo necesita no es flexibilidad, sino una <strong>tasa bien estimada</strong> (Theil-Sen) y una <strong>referencia por
+  tanque</strong>.</li>
+</ul>
+<h3 id="lineas-base-obligatorias">Líneas base (obligatorias)<a class="headerlink" href="#lineas-base-obligatorias" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Línea base</th>
+<th>Detección</th>
+<th>Tasa (L/h)</th>
+<th>Pérdida a H horas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>(a) Sin fuga</strong></td>
+<td>nunca avisa</td>
+<td>0</td>
+<td>0 L</td>
+</tr>
+<tr>
+<td><strong>(b) Noche anterior</strong></td>
+<td>—</td>
+<td>max(exceso de la noche anterior, 0)</td>
+<td>ese exceso × H</td>
+</tr>
+<tr>
+<td><strong>(c) Regla <code>alerta_fuga</code> congelada f4.4</strong></td>
+<td>la alerta del detector</td>
+<td>(tasa − base) de la alerta, si avisó</td>
+<td>esa tasa × H</td>
+</tr>
+</tbody>
+</table>
+<p>La línea base (c) corre el <strong>mismo detector congelado f4.4</strong> (<code>streaming/reglas_servicio.yml</code>, commit <code>0cfb9b1</code>)
+sobre las mismas lecturas. <strong>Las reglas congeladas no se tocaron.</strong></p>
+<h2 id="5-como-se-evito-mirar-la-prueba">5. Cómo se evitó mirar la prueba<a class="headerlink" href="#5-como-se-evito-mirar-la-prueba" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Flota:</strong> se entrena con la partición <code>entrenamiento</code> de p6.2 (primeros 21 días de cada corrida, sin el último
+  20 %) de las <strong>12 semillas de entrenamiento</strong>.</li>
+<li><strong>El último 20 % de cada tanque</strong> es el conjunto de <strong>ajuste</strong>: allí, y solo allí, se eligen el umbral, el factor
+    de persistencia y la banda conforme.</li>
+<li><strong>La evaluación</strong> usa la partición <code>consistencia</code> (los últimos ~8 días) de <strong>otras 12 semillas</strong>, que el modelo
+    nunca vio. Nunca es métrica final.</li>
+<li><strong>ThingSpeak:</strong> el número de noches anteriores para la mediana (k) se elige en el conjunto de diseño (la cola del
+  entrenamiento). La cifra final usa la partición <code>prueba</code> (últimos 7 días de cada canal).</li>
+<li><strong>ESP32:</strong> no hay periodo de prueba (geometría provisional). Nada del ESP32 se usó para ajustar.</li>
+</ul>
+<h2 id="6-resultados">6. Resultados<a class="headerlink" href="#6-resultados" title="Permanent link">&para;</a></h2>
+<p>Tablas completas en <code>docs/evidencias/f6-d6/tablas_d6.md</code>. Todas las proporciones llevan su IC 95 % de Wilson.</p>
+<h3 id="consistencia-en-la-flota-reconoce-las-fugas-del-generador">Consistencia en la flota: ¿reconoce las fugas del generador?<a class="headerlink" href="#consistencia-en-la-flota-reconoce-las-fugas-del-generador" title="Permanent link">&para;</a></h3>
+<p><strong>Esto es consistencia, no rendimiento real</strong> (ver el recuadro del principio). La evaluación usa 12 semillas que el
+modelo nunca vio, con 14 episodios de fuga por generador, así que la consistencia es <strong>suficiente</strong> (mínimo 10).</p>
+<table>
+<thead>
+<tr>
+<th>Generador</th>
+<th>Detector</th>
+<th>Recall por episodio</th>
+<th>Recall por noche</th>
+<th>Precisión por noche</th>
+<th>Alarmas falsas / 100 noches sin fuga</th>
+<th>Alarmas en deriva térmica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>f2b.2</td>
+<td><strong>Modelo</strong></td>
+<td><strong>0.93 [0.69-0.99]</strong> (13/14)</td>
+<td><strong>0.88</strong> [0.70-0.96]</td>
+<td>0.55 [0.40-0.69]</td>
+<td>5.3</td>
+<td>0 de 12</td>
+</tr>
+<tr>
+<td>f2b.2</td>
+<td>Regla f4.4 (c)</td>
+<td>0.50 [0.27-0.73] (7/14)</td>
+<td>0.32 [0.17-0.52]</td>
+<td><strong>0.80</strong> [0.49-0.94]</td>
+<td>0.6</td>
+<td>0 de 12</td>
+</tr>
+<tr>
+<td>f2b.3</td>
+<td><strong>Modelo</strong></td>
+<td><strong>0.86 [0.60-0.96]</strong> (12/14)</td>
+<td><strong>0.80</strong> [0.61-0.91]</td>
+<td>0.55 [0.40-0.70]</td>
+<td>4.8</td>
+<td>0 de 12</td>
+</tr>
+<tr>
+<td>f2b.3</td>
+<td>Regla f4.4 (c)</td>
+<td>0.36 [0.16-0.61] (5/14)</td>
+<td>0.24 [0.12-0.43]</td>
+<td><strong>1.00</strong> [0.61-1.00]</td>
+<td>0.0</td>
+<td>0 de 12</td>
+</tr>
+</tbody>
+</table>
+<p>La línea base (a) nunca avisa: recall 0.</p>
+<p><strong>Según la tasa real de la fuga</strong> (recall por noche):</p>
+<table>
+<thead>
+<tr>
+<th>Tasa real</th>
+<th>Modelo f2b.2</th>
+<th>Regla f4.4 f2b.2</th>
+<th>Modelo f2b.3</th>
+<th>Regla f4.4 f2b.3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.5-2.5 L/h</td>
+<td>0.62 (5/8)</td>
+<td>0.25 (2/8)</td>
+<td>0.38 (3/8)</td>
+<td>0.12 (1/8)</td>
+</tr>
+<tr>
+<td>2.5-4 L/h</td>
+<td><strong>1.00</strong> (17/17)</td>
+<td>0.35 (6/17)</td>
+<td><strong>1.00</strong> (17/17)</td>
+<td>0.29 (5/17)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="consistencia-error-de-la-tasa-en-las-noches-con-fuga-lh-ic-por-episodio">Consistencia: error de la tasa en las noches con fuga (L/h; IC por episodio)<a class="headerlink" href="#consistencia-error-de-la-tasa-en-las-noches-con-fuga-lh-ic-por-episodio" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Predictor</th>
+<th>f2b.2: MAE [IC 95 %] · sesgo</th>
+<th>f2b.3: MAE [IC 95 %] · sesgo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Modelo</strong> (exceso)</td>
+<td><strong>0.91 [0.55, 1.25]</strong> · +0.34</td>
+<td><strong>0.58 [0.43, 0.73]</strong> · −0.05</td>
+</tr>
+<tr>
+<td>(a) Sin fuga</td>
+<td>2.71 [2.43, 3.01] · −2.71</td>
+<td>2.71 [2.43, 3.01] · −2.71</td>
+</tr>
+<tr>
+<td>(b) Noche anterior</td>
+<td>1.71 [1.22, 2.28] · −0.90</td>
+<td>1.76 [1.47, 2.19] · −1.50</td>
+</tr>
+<tr>
+<td>(c) Regla f4.4</td>
+<td>2.13 [1.51, 2.68] · −1.51</td>
+<td>2.02 [1.43, 2.48] · −1.94</td>
+</tr>
+</tbody>
+</table>
+<h3 id="consistencia-perdida-proyectada-l-ic-por-tanque-y-corrida">Consistencia: pérdida proyectada (L; IC por tanque y corrida)<a class="headerlink" href="#consistencia-perdida-proyectada-l-ic-por-tanque-y-corrida" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Horizonte</th>
+<th>Generador</th>
+<th>Noches</th>
+<th><strong>Modelo</strong></th>
+<th>(a) Sin fuga</th>
+<th>(b) Noche anterior</th>
+<th>(c) Regla f4.4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24 h, todas las noches</td>
+<td>f2b.2</td>
+<td>336</td>
+<td>4.6 [3.1, 6.4]</td>
+<td>4.5 [2.1, 7.1]</td>
+<td>12.0 [9.0, 15.3]</td>
+<td>4.8 [2.2, 7.2]</td>
+</tr>
+<tr>
+<td>24 h, solo noches con fuga</td>
+<td>f2b.2</td>
+<td>24</td>
+<td><strong>23.4 [18.0, 29.7]</strong></td>
+<td>45.6 [36.1, 54.8]</td>
+<td>39.6 [27.5, 53.0]</td>
+<td>47.1 [37.2, 57.2]</td>
+</tr>
+<tr>
+<td>24 h, todas las noches</td>
+<td>f2b.3</td>
+<td>336</td>
+<td>5.4 [3.7, 7.3]</td>
+<td>4.5 [2.1, 7.1]</td>
+<td>12.5 [9.9, 15.3]</td>
+<td>4.5 [2.2, 6.8]</td>
+</tr>
+<tr>
+<td>24 h, solo noches con fuga</td>
+<td>f2b.3</td>
+<td>24</td>
+<td><strong>30.5 [24.2, 38.2]</strong></td>
+<td>45.6 [36.1, 54.8]</td>
+<td>38.9 [31.6, 49.0]</td>
+<td>45.4 [36.5, 55.1]</td>
+</tr>
+<tr>
+<td>7 días, solo noches con fuga</td>
+<td>f2b.2 / f2b.3</td>
+<td><strong>5</strong></td>
+<td>41.8 / 70.2</td>
+<td>133.6 / 133.6</td>
+<td>167.2 / 105.0</td>
+<td>195.2 / 133.6</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Banda P10-P90 a 24 h:</strong></p>
+<ul>
+<li><strong>Todas las noches:</strong> cubre el 90 % (f2b.2) y el 87 % (f2b.3).</li>
+<li><strong>Noches con fuga:</strong> cubre el <strong>75 % [55-88]</strong> (f2b.2) y el <strong>58 % [39-76]</strong> (f2b.3).</li>
+<li><strong>Ancho mediano:</strong> ~0 L, porque la mayoría de las noches no tiene fuga y la banda es estrecha.</li>
+</ul>
+<p>A 7 días cubre el 88-90 %, con un ancho mediano de ~111 L.</p>
+<h3 id="como-leer-los-resultados">Cómo leer los resultados<a class="headerlink" href="#como-leer-los-resultados" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>En la flota, el modelo reconoce muchas más fugas que la regla congelada, a cambio de más alarmas falsas.</strong></li>
+<li><strong>Recall por episodio:</strong> 0.86-0.93 frente a 0.36-0.50. Los IC casi no se solapan, pero sigue siendo
+     consistencia con las fugas del generador.</li>
+<li><strong>Precisión:</strong> 0.55 frente a 0.80-1.00.</li>
+<li><strong>Alarmas falsas:</strong> ~5 por cada 100 noches sin fuga, frente a 0-0.6.</li>
+<li><strong>Es un compromiso, no una mejora en todo:</strong> la regla avisa poco y casi siempre acierta; el modelo avisa más y
+     también se equivoca más.</li>
+<li><strong>La ganancia del modelo está en las fugas medianas y rápidas.</strong></li>
+<li><strong>De 2.5 L/h para arriba:</strong> detecta todas las noches (17 de 17 en cada generador); la regla, un tercio.</li>
+<li><strong>Entre 1.5 y 2.5 L/h:</strong> 3-5 de 8. Son pocas noches; ese tramo es el borde de la sensibilidad (sección 7).</li>
+<li><strong>La tasa (L/h) es lo que mejor estima:</strong> error de 0.58-0.91 L/h en las noches con fuga, frente a 1.71-1.76 de la
+   mejor línea base (b), con IC que no se solapan.</li>
+<li><strong>En la pérdida a 24 h de todas las noches, nadie le gana a "sin fuga".</strong></li>
+<li><strong>Cifras:</strong> modelo 4.6-5.4 L, sin fuga 4.5, regla 4.5-4.8; todos dentro del mismo IC.</li>
+<li><strong>Por qué:</strong> 9 de cada 10 noches no tienen fuga, y ahí lo mejor es decir 0.</li>
+<li><strong>Donde el modelo aporta es en las noches con fuga:</strong> 23-31 L de error frente a 39-47 L de las líneas base.</li>
+<li><strong>A 7 días no hay evidencia:</strong> solo 5 noches con fuga tienen 7 días de datos por delante. El factor de
+   persistencia evita sobreestimar, pero con 5 casos no se puede afirmar nada. Se reporta tal cual y <strong>no se usa en
+   F7</strong>.</li>
+<li><strong>La banda a 24 h cubre menos de lo nominal en las noches con fuga:</strong> 58-75 %, frente al 80 % buscado. Se calibró
+   con 22 noches con fuga del ajuste; las fugas lentas, que el modelo marca pero subestima, quedan por encima de P90.</li>
+</ol>
+<h3 id="thingspeak-real-el-descenso-de-la-noche-siguiente-ingrediente-observable">ThingSpeak real: el descenso de la noche siguiente (ingrediente observable)<a class="headerlink" href="#thingspeak-real-el-descenso-de-la-noche-siguiente-ingrediente-observable" title="Permanent link">&para;</a></h3>
+<p>Para cada noche válida, el pronóstico es la mediana de las k noches válidas anteriores (k = 10, elegido en el
+diseño).</p>
+<table>
+<thead>
+<tr>
+<th>Conjunto</th>
+<th>Noches</th>
+<th>Tanques</th>
+<th><strong>Mediana de 10 noches</strong></th>
+<th>(a) Cero</th>
+<th>(b) Noche anterior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Diseño</td>
+<td>16</td>
+<td>1233810, 1233815, 283977</td>
+<td>0.17 pp [0.15, 0.23]</td>
+<td>0.20 pp [0.17, 0.28]</td>
+<td>0.30 pp [0.27, 0.35]</td>
+</tr>
+<tr>
+<td>Diseño, en litros</td>
+<td>12</td>
+<td>con capacidad (24,000 L)</td>
+<td>30.6 L [22.5, 35.8]</td>
+<td>40.3 L [29.8, 48.7]</td>
+<td>24.7 L [20.1, 27.9]</td>
+</tr>
+<tr>
+<td><strong>Prueba</strong></td>
+<td><strong>11</strong></td>
+<td>1233815, 283977, 480876</td>
+<td>0.16 pp [0.16, 0.18]</td>
+<td><strong>0.06 pp [0.04, 0.07]</strong></td>
+<td>0.14 pp [0.12, 0.15]</td>
+</tr>
+<tr>
+<td><strong>Prueba, en litros</strong></td>
+<td>7</td>
+<td>1233815</td>
+<td>10.6 L [8.3, 14.7]</td>
+<td>9.8 L [2.4, 13.1]</td>
+<td>13.2 L [8.0, 19.2]</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Evidencia indicativa, no suficiente:</strong> son 11 noches de prueba.</li>
+<li><strong>En la prueba, "cero" gana:</strong> estos tanques casi no bajan de noche (descenso mediano de 0.0-0.04 pp; 1233815 es un
+  tanque de 24,000 L). Pronosticar con las noches anteriores no mejora a "no baja".</li>
+<li><strong>1233810, el tanque doméstico, recibe agua de noche en 52 de sus 59 noches.</strong> Para él, 00:00-03:30 no es una
+  franja de consumo mínimo sino de llenado, y casi todas sus noches quedan fuera (sesgo de selección: en ThingSpeak se
+  evalúan los tanques quietos). Es la misma observación de D4, donde sus llegadas son a la 01-02 h.</li>
+<li><strong>El tanque de agua de lluvia 3418755 se reporta aparte</strong> (fuera de alcance, como en D4): 5 noches de prueba,
+  descenso 0 cm.</li>
+</ul>
+<h3 id="sesgo-de-seleccion">Sesgo de selección<a class="headerlink" href="#sesgo-de-seleccion" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Flota:</strong> no hay. Son evaluables el 100 % de las noches de la evaluación (384 de 384 en cada generador); ningún
+  episodio quedó sin noche evaluable.</li>
+<li><strong>ThingSpeak:</strong> sí hay. Las noches con llenado se excluyen, y con ellas casi todo 1233810. Lo evaluado son tanques
+  que de noche no se mueven.</li>
+</ul>
+<h2 id="7-sensibilidad-minima-detectable">7. Sensibilidad mínima detectable<a class="headerlink" href="#7-sensibilidad-minima-detectable" title="Permanent link">&para;</a></h2>
+<p>La tasa de fuga más baja que se puede distinguir de cada fuente de incertidumbre, con 3 desviaciones y en litros por
+hora con la geometría <strong>provisional</strong> del ESP32 (11 L/cm):</p>
+<table>
+<thead>
+<tr>
+<th>Fuente</th>
+<th>Cómo se midió</th>
+<th>Mínima detectable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ruido del HC-SR04</strong> (historial, hasta el 29-oct a las 09:22)</td>
+<td>Tramo quieto real del 29-oct (03:20-08:00, 280 min a 17.0 cm): residuos remuestreados en bloques de 15 min. El ruido (0.04 cm) queda <strong>por debajo de la resolución de 0.1 cm</strong>, así que manda la resolución: 0.1 cm en 3.5 h</td>
+<td>0.029 cm/h = <strong>0.31 L/h</strong></td>
+</tr>
+<tr>
+<td><strong>Ruido del JSN-SR04T</strong> (desde el 29-oct a las 09:22)</td>
+<td>Sin un tramo de 30 min válido: la sonda todavía no está bien montada, y casi todo lo leído está bajo 25 cm</td>
+<td><strong>Pendiente</strong> de la prueba real</td>
+</tr>
+<tr>
+<td><strong>DHT11</strong> (un cambio de 1 °C en la noche que no se ve; peor caso, 2 °C)</td>
+<td>Error de c(T) = 0.183 %/°C de la distancia, repartido en 3.5 h</td>
+<td>0.43 L/h a 25 cm · 0.86 a 50 cm · <strong>1.72 a 100 cm</strong> (peor caso: 0.86 / 1.72 / 3.45)</td>
+</tr>
+<tr>
+<td><strong>Consumo nocturno</strong> (flota)</td>
+<td>P95 del exceso en las noches sin fuga del entrenamiento</td>
+<td><strong>1.55-1.59 L/h</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>La mínima detectable práctica es ~1.5-2 L/h:</strong></p>
+<ul>
+<li><strong>Lo que manda:</strong> la variación del consumo nocturno y, a 100 cm, el DHT11. El ruido del sensor pesa poco.</li>
+<li><strong>Coincide con la evaluación:</strong> el modelo detecta la mitad de las noches con fugas de 1.5-2.5 L/h y casi todas las
+  de más de 2.5 L/h.</li>
+<li><strong>En el tanque real:</strong> la variación del consumo nocturno es la de la flota, que es un supuesto. Se medirá con las
+  noches sin consumo de la prueba real.</li>
+</ul>
+<h2 id="8-esp32-metrica-final-pendiente">8. ESP32: métrica final pendiente<a class="headerlink" href="#8-esp32-metrica-final-pendiente" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Por qué no hay métrica:</strong> no hay periodo de prueba (<code>geometria_desde: null</code>).</li>
+<li><strong>La única noche del historial</strong> (28 → 29-oct, HC-SR04) <strong>no es evaluable</strong>. Los ecos alternos de 7 ↔ 17 cm del
+  sensor intermitente parecen un llenado dentro de la franja (mediana de 15 min que sube más de 2 puntos). Es
+  correcto que no se use: su "descenso" de 5.4 cm es un salto de eco, no una fuga.</li>
+<li><strong>Plan de la prueba en vivo</strong> (<code>docs/eventos-servicio.md</code> → "Prueba en vivo con el ESP32"):</li>
+<li><strong>Fuga controlada:</strong> un goteo constante con caudal medido (probeta y cronómetro), de al menos 2.5 L/h, más uno de
+    ~1.5 L/h para el borde.</li>
+<li><strong>Duración:</strong> debe cubrir toda la franja 00:00-03:30.</li>
+<li><strong>Registro:</strong> en la bitácora como <code>accion = fuga</code>, con <code>timestamp_fin</code> y los L/h en la nota.</li>
+<li><strong>Uso:</strong> es el único episodio de fuga real etiquetado. Mide la detección (contra <code>alerta_fuga</code> y contra el modelo)
+    y el error de la tasa en L/h.</li>
+<li><strong>Antes de la fuga,</strong> unas noches sin consumo dan la referencia y el ruido real del JSN-SR04T.</li>
+</ul>
+<h2 id="9-limitaciones">9. Limitaciones<a class="headerlink" href="#9-limitaciones" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Limitación principal: la franja nocturna es fija (00:00-03:30) y no sirve cuando el agua llega de madrugada.</strong></li>
+<li><strong>Lo que pasó en ThingSpeak:</strong> en 1233810, el tanque doméstico real, el agua llega de noche en <strong>52 de sus 59
+    noches</strong>, así que casi ninguna noche queda sin llenado dentro de la franja.</li>
+<li><strong>Por qué importa en Juliaca:</strong> el suministro intermitente también suele llegar de noche o de madrugada (la franja
+    de llegada de la flota es de 4-8 h, y la de 1233810, de 01-02 h). La misma franja fija dejaría sin noches
+    evaluables a muchos tanques reales.</li>
+<li><strong>Mejora d6.2:</strong> calcular la franja de mínimo consumo <strong>por tanque</strong>, con las horas de llegada de D4 (la
+    distribución de la hora de llegada de cada tanque). Se elige la ventana de 3-4 h sin llegadas probables y con el
+    menor consumo, en lugar de 00:00-03:30 para todos.</li>
+<li><strong>No hay ninguna fuga real etiquetada.</strong> Todo lo cuantitativo sale de la flota: fugas constantes de 1.5-4 L/h que
+  duran 1-4 días. Una fuga real puede crecer, intermitir o empezar de día; ninguna de esas formas se evaluó. La primera
+  evidencia real será la fuga controlada.</li>
+<li><strong>La referencia necesita 3 noches válidas anteriores.</strong> Un tanque nuevo, o uno que vuelve de un hueco largo, no se
+  puntúa las primeras noches. Una fuga que ya existía al empezar queda dentro de la referencia y no se ve.</li>
+<li><strong>La banda a 24 h cubre el 58-75 % de las noches con fuga, no el 80 %.</strong></li>
+<li><strong>La proyección a 7 días tiene solo 5 casos con fuga:</strong> no se usa en F7.</li>
+<li><strong>La geometría del ESP32 es provisional:</strong> los L/h del ESP32 cambian cuando se mida el recipiente.</li>
+</ul>
+<h2 id="10-uso-en-f7">10. Uso en F7<a class="headerlink" href="#10-uso-en-f7" title="Permanent link">&para;</a></h2>
+<p><code>batch/fuga.py</code> (<code>ModeloFuga.desde_dict</code>) carga <code>batch/modelos/d6/d6.1-20261029/modelo.json</code>. Cada mañana, para cada
+tanque con distancia:</p>
+<ol>
+<li><strong>Calcula la tasa de la noche</strong> (Theil-Sen sobre 00:00-03:30), su referencia (mediana de las 7 noches anteriores)
+   y el exceso.</li>
+<li><strong>Aplica el modelo:</strong> P(fuga), y si P ≥ 0.70 marca "posible fuga".</li>
+<li><strong>Muestra:</strong></li>
+<li>el <strong>exceso en L/h</strong>;</li>
+<li>la <strong>pérdida a 24 h con su banda P10-P90</strong>;</li>
+<li>un aviso si la noche no fue válida (llenado, sensor intermitente, cobertura baja).</li>
+<li><strong>No muestra la proyección a 7 días</strong> hasta tener evidencia.</li>
+<li><strong>Convive con <code>alerta_fuga</code>,</strong> que sigue congelada: la regla es la alerta conservadora y el modelo, la estimación
+   de cuánto se pierde.</li>
+</ol>
+<h2 id="11-preguntas-probables-del-jurado">11. Preguntas probables del jurado<a class="headerlink" href="#11-preguntas-probables-del-jurado" title="Permanent link">&para;</a></h2>
+<p><strong>1. "¿Cómo distinguen una fuga del consumo normal de la noche?"</strong>
+Comparamos cada noche con las 7 noches anteriores del mismo tanque. Lo normal de ese tanque, por ejemplo una familia
+que usa algo de agua de madrugada, queda en la referencia; la fuga es lo que se suma encima. Por eso el modelo mira el
+exceso y no la bajada total. Debajo de ~1.5 L/h la fuga se confunde con lo que varía el consumo de una noche a otra:
+lo declaramos como la sensibilidad mínima.</p>
+<p><strong>2. "¿Su modelo detecta fugas reales?"</strong>
+Todavía no lo sabemos, y lo decimos así. No tenemos ninguna fuga real etiquetada. En la flota aumentada, el modelo
+reconoce 86-93 % de los episodios frente a 36-50 % de la regla de F4, pero esas fugas las creó el generador: es
+consistencia, no rendimiento real. En los tanques reales de ThingSpeak, que no tienen etiquetas, gana la línea base
+"cero fuga". La primera evidencia real será una fuga controlada, con goteo medido, en la prueba con el ESP32.</p>
+<p><strong>3. "¿Cómo se aseguraron de no evaluar con lo mismo que entrenaron?"</strong>
+Entrenamos con 12 semillas del generador y evaluamos con otras 12 que el modelo nunca vio. Al principio usábamos las
+mismas semillas separadas en el tiempo, y lo corregimos: una fuga de varios días cruzaba la separación, y los dos
+generadores con la misma semilla tienen las mismas fugas. El umbral, el factor de persistencia y la banda se eligieron
+en un conjunto de ajuste, no en la evaluación. Y el mismo modelo entrenado con Spark MLlib da exactamente los mismos
+coeficientes.</p>
+<p><strong>4. "¿El frío de la noche no se confunde con una fuga?"</strong>
+El sonido viaja más lento en aire frío, y un sensor que no compensa lee el agua más lejos: parece que baja. Por eso
+la distancia se compensa con el DHT11, una sola vez: en el ESP32 ya lo hace el firmware. Además, el modelo recibe el
+enfriamiento del DHT11 y el de Juliaca. En las 24 noches con helada atípica de la evaluación no hubo ninguna alarma,
+con los dos tipos de sensor. Lo que el DHT11 sí limita es la sensibilidad: a 100 cm, un error de 1 °C equivale a
+~1.7 L/h.</p>
+<p><strong>5. "¿Por qué no sirve el mismo horario de noche para todos los tanques?"</strong>
+Porque el agua de la red en Juliaca suele llegar de noche. En el tanque real 1233810 llega en la madrugada en 52 de
+59 noches, y entonces la franja de 00:00-03:30 no muestra consumo mínimo sino llenado. Es nuestra limitación
+principal. En la versión d6.2 la franja se calcula por tanque, con las horas de llegada que ya predice D4.</p>
+<h2 id="12-reproducir">12. Reproducir<a class="headerlink" href="#12-reproducir" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># Requiere las capas plata y oro (batch/capas.py); las corridas de la flota quedan en batch/datos/d6_cache/</span>
+.venv/Scripts/python<span class="w"> </span>batch/modelo_d6.py<span class="w">          </span><span class="c1"># ~5 min la primera vez, ~20 s con la caché</span>
+<span class="c1"># El mismo modelo con Spark MLlib (compara coeficientes y métricas con numpy)</span>
+<span class="nv">MSYS_NO_PATHCONV</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">:/repo"</span><span class="w"> </span>-w<span class="w"> </span>/repo<span class="w"> </span>-e<span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span>/repo/batch<span class="w"> </span>monitoraqua-streaming<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>spark-submit<span class="w"> </span>--driver-memory<span class="w"> </span>2g<span class="w"> </span>batch/modelo_d6_mllib.py
+</code></pre></div>
+<!-- graficos-notebook -->
+
+<h2 id="graficos">Gráficos del notebook y del tablero en vivo<a class="headerlink" href="#graficos" title="Permanent link">&para;</a></h2>
+<p>Los gráficos salen del notebook <code>notebooks/u2/d6_fugas.ipynb</code>, que reproduce las cifras de esta página desde los modelos versionados, sin reentrenar. Las capturas del tablero BI son de F7 (<code>docs/evidencias/f7/</code>).</p>
+<p><img alt="D6, gráfico 1" src="../img/notebooks/d6_01.png" /></p>
+<p><em>Gráfico 1. Pérdida a 24 h proyectada frente a la real en la flota, separando noches con y sin fuga. A la derecha, los residuos en las noches con fuga: el modelo se centra más cerca de cero que la regla f4.4, que subestima la pérdida.</em></p>
+<p><img alt="D6, gráfico 2" src="../img/notebooks/d6_02.png" /></p>
+<p><em>Gráfico 2. Cobertura de la banda P10-P90 de la pérdida a 24 h, por generador. Con todas las noches supera el 80 %; en las noches con fuga cae a 75 % (f2b.2) y 59 % (f2b.3).</em></p>
+<p><img alt="D6, gráfico 3" src="../img/notebooks/d6_03.png" /></p>
+<p><em>Gráfico 3. En vivo (F7): pérdida a 24 h observada (aproximada) frente a la pronosticada, tanque flota-zonaA-01. El pronóstico se queda corto en las noches de fuga más grandes.</em></p>
+<h3 id="tablero-bi-en-vivo-f7">Tablero BI en vivo (F7)<a class="headerlink" href="#tablero-bi-en-vivo-f7" title="Permanent link">&para;</a></h3>
+<p><img alt="Tabla F7 con datos reales." src="../evidencias/f7/real_d6_perdida.png" /></p>
+<p><em>Tabla F7 con datos reales.</em></p>
+<p><img alt="Tabla F7 con la flota extrapolada." src="../evidencias/f7/aumentado_d6_perdida.png" /></p>
+<p><em>Tabla F7 con la flota extrapolada.</em></p>
+<p><img alt="Fila “Pronóstico vs real” con datos reales." src="../evidencias/f7/real_vs_real_d6.png" /></p>
+<p><em>Fila “Pronóstico vs real” con datos reales.</em></p>
+<h2 id="evidencia">Evidencia<a class="headerlink" href="#evidencia" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../evidencias/f6-d6/">Evidencia de d6.1</a></li>
+<li><a href="../evidencias/f6-d6/tablas_d6/">Tablas completas de d6.1</a></li>
+<li><a href="../inferencia-en-vivo/">Inferencia en vivo (F7)</a> y su <a href="../evidencias/f7/">evidencia</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.indexes", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

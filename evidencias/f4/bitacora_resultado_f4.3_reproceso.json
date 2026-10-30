@@ -1,0 +1,122 @@
+{
+ "fuente_eventos": "reproceso de bronce con las reglas vigentes (f4.3)",
+ "congelamiento": {
+  "version": "f4.3",
+  "desde_ms": 1793248660000
+ },
+ "inicio_rendimiento_real_ms": {
+  "esp32-tanque-real-01": null
+ },
+ "diseno": {
+  "que_mide": "rendimiento real contra la bitácora de pruebas con el ESP32",
+  "no_verificables": 2,
+  "eventos_excluidos_por_no_verificable": [
+   "falla_sensor-esp32-tanque-real-01-1793247164554",
+   "llegada_agua-esp32-tanque-real-01-1793241969427",
+   "llegada_agua-esp32-tanque-real-01-1793246889527"
+  ],
+  "acciones": 1,
+  "acciones_independientes": 0,
+  "periodo": [
+   "28-10 22:45:29",
+   "28-10 23:10:29"
+  ],
+  "resumen": {
+   "llenado": {
+    "evento": "llegada_agua",
+    "acciones": 0,
+    "detectadas": 0,
+    "recall": null,
+    "recall_ic95": null,
+    "eventos_en_periodo": 0,
+    "eventos_con_registro": 0,
+    "precision": null,
+    "precision_ic95": null
+   },
+   "vaciado": {
+    "evento": "autonomia_baja",
+    "acciones": 0,
+    "detectadas": 0,
+    "recall": null,
+    "recall_ic95": null,
+    "eventos_en_periodo": 0,
+    "eventos_con_registro": 0,
+    "precision": null,
+    "precision_ic95": null
+   },
+   "falla": {
+    "evento": "falla_sensor",
+    "acciones": 1,
+    "detectadas": 1,
+    "recall": 1.0,
+    "recall_ic95": [
+     0.207,
+     1.0
+    ],
+    "eventos_en_periodo": 0,
+    "eventos_con_registro": 0,
+    "precision": null,
+    "precision_ic95": null
+   }
+  },
+  "casos": [
+   {
+    "ts": 1793245829000,
+    "accion": "falla",
+    "sensorId": "esp32-tanque-real-01",
+    "fin": null,
+    "observador": "sistema",
+    "nota": "HC-SR04 envía -1 sin pausa desde las 22:50:29 (hora de Lima); DHT11 sigue midiendo. Registrada a posteriori desde los datos: no es una observación independiente. Causa por confirmar.",
+    "evento": "falla_sensor-esp32-tanque-real-01-1793243599454",
+    "retraso_deteccion_s": 3856,
+    "inicio_evento_menos_accion_s": -2230
+   }
+  ],
+  "sin_registro": []
+ },
+ "evaluacion": {
+  "que_mide": "rendimiento real contra la bitácora de pruebas con el ESP32",
+  "no_verificables": 0,
+  "eventos_excluidos_por_no_verificable": [],
+  "acciones": 0,
+  "acciones_independientes": 0,
+  "periodo": null,
+  "resumen": {
+   "llenado": {
+    "evento": "llegada_agua",
+    "acciones": 0,
+    "detectadas": 0,
+    "recall": null,
+    "recall_ic95": null,
+    "eventos_en_periodo": 0,
+    "eventos_con_registro": 0,
+    "precision": null,
+    "precision_ic95": null
+   },
+   "vaciado": {
+    "evento": "autonomia_baja",
+    "acciones": 0,
+    "detectadas": 0,
+    "recall": null,
+    "recall_ic95": null,
+    "eventos_en_periodo": 0,
+    "eventos_con_registro": 0,
+    "precision": null,
+    "precision_ic95": null
+   },
+   "falla": {
+    "evento": "falla_sensor",
+    "acciones": 0,
+    "detectadas": 0,
+    "recall": null,
+    "recall_ic95": null,
+    "eventos_en_periodo": 0,
+    "eventos_con_registro": 0,
+    "precision": null,
+    "precision_ic95": null
+   }
+  },
+  "casos": [],
+  "sin_registro": []
+ }
+}

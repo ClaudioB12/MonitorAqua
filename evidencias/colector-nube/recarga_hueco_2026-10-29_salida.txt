@@ -1,0 +1,6 @@
+{'claves_existentes_en_rango': 5433}
+{"service": "aqua-colector", "ts": 1793286392555, "status": "written_batch", "fuente": "thingspeak", "eventos": 871, "desde": 1793256530000, "hasta": 1793283292000}
+{"service": "aqua-colector", "ts": 1793286410495, "status": "written_batch", "fuente": "ea_uk", "eventos": 513, "desde": 1793257200000, "hasta": 1793282400000}
+{"service": "aqua-colector", "ts": 1793286411905, "status": "written_batch", "fuente": "usgs", "eventos": 236, "desde": 1793256600000, "hasta": 1793283300000}
+{"service": "aqua-colector", "ts": 1793286413014, "status": "written_batch", "fuente": "open_meteo", "eventos": 21, "desde": 1793257200000, "hasta": 1793283300000}
+{'ventana_min': 503, 'lecturas': 1641, 'escritas': 1641, 'rechazadas': 0, 'sin_cambio': 0, 'antiguas': 0, 'errores': 0}

@@ -1,0 +1,117 @@
+{
+ "version": "d2.1",
+ "fecha": "20261029",
+ "particion": "p6.1",
+ "fuentes_descargadas": "2026-10-29T15:35:25+00:00",
+ "features_gbt": [
+  "y0",
+  "l1",
+  "l2",
+  "l3",
+  "l6",
+  "l12",
+  "d1",
+  "d3",
+  "d12",
+  "ma3",
+  "ma6",
+  "ma12",
+  "sd12",
+  "hora_sin",
+  "hora_cos",
+  "dia_semana",
+  "h_desde_llenado",
+  "sin_llenado",
+  "tend3h"
+ ],
+ "gbt": {
+  "gbt_h15_consistencia": {
+   "maxDepth": 5,
+   "maxIter": 60,
+   "mae_ajuste": 0.4212073758330895
+  },
+  "gbt_h60_consistencia": {
+   "maxDepth": 3,
+   "maxIter": 60,
+   "mae_ajuste": 1.9340887396361288
+  },
+  "gbt_h15_thingspeak": {
+   "maxDepth": 3,
+   "maxIter": 30,
+   "mae_ajuste": 0.3375094633951519
+  },
+  "gbt_h60_thingspeak": {
+   "maxDepth": 2,
+   "maxIter": 30,
+   "mae_ajuste": 0.8043541907840157
+  }
+ },
+ "gbt_objetivo": "cambio de nivel (pp) a 15 o 60 min; la predicción de nivel es y0 + cambio",
+ "archivos": [
+  "gbt_h15_consistencia",
+  "gbt_h15_thingspeak",
+  "gbt_h60_consistencia",
+  "gbt_h60_thingspeak",
+  "holt.json",
+  "manifiesto.json"
+ ],
+ "config": {
+  "version": "d2.1",
+  "umbral_pct": 10,
+  "umbrales_sensibilidad": [
+   25
+  ],
+  "tope_horas": 72,
+  "horizontes_min": [
+   15,
+   60
+  ],
+  "tendencia_k": 12,
+  "llenado": {
+   "subida_pp": 10,
+   "quieto_pp": 0.2,
+   "suavizado_pasos": 3
+  },
+  "frac_ajuste": 0.2,
+  "holt": {
+   "alpha": [
+    0.1,
+    0.2,
+    0.3,
+    0.5,
+    0.7,
+    0.8,
+    0.9,
+    0.95,
+    1.0
+   ],
+   "beta": [
+    0.0,
+    0.003,
+    0.01,
+    0.03,
+    0.1,
+    0.2,
+    0.4,
+    0.6
+   ]
+  },
+  "gbt": {
+   "maxDepth": [
+    2,
+    3,
+    5
+   ],
+   "maxIter": [
+    30,
+    60
+   ],
+   "stepSize": 0.1,
+   "semilla": 2026
+  },
+  "bootstrap": {
+   "n_boot": 1000,
+   "largo_bloque": 12
+  }
+ }
+}

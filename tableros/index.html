@@ -1,0 +1,2043 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://claudiob12.github.io/MonitorAqua/tableros/">
+      
+      
+        <link rel="prev" href="../streaming/">
+      
+      
+        <link rel="next" href="../costos-escalado/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Tableros y alertas - MonitorAqua — Proyecto Sello</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tableros-de-grafana-y-alertas-f5-con-las-predicciones-de-f7" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-header__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MonitorAqua — Proyecto Sello
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tableros y alertas
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-nav__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MonitorAqua — Proyecto Sello
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Producto U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto de la Unidad 2: pipeline en tiempo real
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stack-actual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stack y servicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta (S6-S7)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ingesta (S6-S7)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ingesta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta unificada (IoT y APIs)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventos-servicio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eventos de servicio (empresariales)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos-aumentados/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flota extrapolada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Streaming (S8)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observabilidad y costos (S9)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Observabilidad y costos (S9)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tableros y alertas
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tableros y alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#datos-que-alimentan-los-tableros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Datos que alimentan los tableros
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-salud-del-servicio-de-agua-juliaca-uid-monitoraqua-bi-criterio-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. "Salud del servicio de agua – Juliaca" (uid monitoraqua-bi), criterio 6
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#b-salud-del-pipeline-uid-monitoraqua-pipeline-criterio-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. "Salud del pipeline" (uid monitoraqua-pipeline), criterio 4
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c-alertas-grafana-alerting-infragrafanaprovisioningalertingreglas_monitoraquayml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Alertas (Grafana Alerting, infra/grafana/provisioning/alerting/reglas_monitoraqua.yml)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#d-verificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D. Verificación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pendientes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pendientes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../costos-escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Costos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset-modelos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset de los modelos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inferencia-en-vivo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inferencia en vivo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dimensiones U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D2 · Horas de autonomía
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D4 · Próxima llegada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D6 · Pérdida por fuga
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D8 · Temperatura y residencia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arranque-diario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arranque diario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guion-demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guion de la demo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Antecedentes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Antecedentes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitectura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura (diseño inicial)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dimensiones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones (U1 y U2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adecuacion-dimensiones-u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adecuación al hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Datos de muestra (U1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#datos-que-alimentan-los-tableros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Datos que alimentan los tableros
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-salud-del-servicio-de-agua-juliaca-uid-monitoraqua-bi-criterio-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. "Salud del servicio de agua – Juliaca" (uid monitoraqua-bi), criterio 6
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#b-salud-del-pipeline-uid-monitoraqua-pipeline-criterio-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. "Salud del pipeline" (uid monitoraqua-pipeline), criterio 4
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c-alertas-grafana-alerting-infragrafanaprovisioningalertingreglas_monitoraquayml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Alertas (Grafana Alerting, infra/grafana/provisioning/alerting/reglas_monitoraqua.yml)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#d-verificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D. Verificación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pendientes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pendientes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="tableros-de-grafana-y-alertas-f5-con-las-predicciones-de-f7">Tableros de Grafana y alertas (F5, con las predicciones de F7)<a class="headerlink" href="#tableros-de-grafana-y-alertas-f5-con-las-predicciones-de-f7" title="Permanent link">&para;</a></h1>
+<p><strong>F7:</strong> los espacios reservados de cada fila ahora muestran las predicciones en vivo de los modelos de F6, y hay una
+fila nueva de pronóstico vs real. Cómo llega cada predicción del modelo al tablero: <code>docs/inferencia-en-vivo.md</code>.</p>
+<p>Cubre los criterios <strong>6</strong> (BI/ML distribuidas: tablero BI con KPIs del flujo en tiempo real, verificado en vivo) y
+<strong>4</strong> (observabilidad: panel operativo con métricas correlacionadas del pipeline).</p>
+<ul>
+<li><strong>Todo por provisioning:</strong> los tableros son JSON versionado en <code>dashboards/</code>, generado por
+  <code>dashboards/generar_tableros.py</code>, y las alertas viven en <code>infra/grafana/provisioning/alerting/</code>. No se editó nada a
+  mano en la interfaz; para cambiar un panel se cambia el script y se vuelve a generar.</li>
+<li><strong>Acceso:</strong> Grafana en http://localhost:43000, carpeta <strong>MonitorAqua</strong>.</li>
+<li><strong>Verificación de paneles:</strong> <code>infra/verificar_tableros.py</code> ejecuta cada consulta por la API de Grafana.</li>
+<li><strong>Capturas:</strong> en <code>docs/evidencias/f5/</code>, hechas con el renderizador oficial (<code>lambda26-grafana-renderer</code>).</li>
+</ul>
+<h2 id="datos-que-alimentan-los-tableros">Datos que alimentan los tableros<a class="headerlink" href="#datos-que-alimentan-los-tableros" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Measurement / métrica</th>
+<th>Origen</th>
+<th>Qué guarda</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lecturas_agg</code></td>
+<td>Spark F3 (<code>rapidas_agg</code>, <code>lentas_agg</code>)</td>
+<td>ventanas por sensor y origen: <code>n_total</code>, <code>n_validas</code>, medias</td>
+</tr>
+<tr>
+<td><code>nivel_tanque</code> (F5)</td>
+<td>Spark <code>esp32_detalle</code>, con <code>Detector.nivel()</code> congelado</td>
+<td>distancia cruda y compensada, nivel en % y litros, tag <code>geometria</code> (<code>real</code> o <code>por_medir</code>)</td>
+</tr>
+<tr>
+<td><code>estado_tanque</code> (F5)</td>
+<td>foto del estado del detector de F4 en cada lote</td>
+<td>temperatura del agua estimada (provisional), horas de residencia</td>
+</tr>
+<tr>
+<td><code>eventos_servicio</code></td>
+<td>sumidero de F4</td>
+<td>eventos con los numéricos de <code>detalle</code> aplanados (caudal, tasa, litros perdidos…)</td>
+</tr>
+<tr>
+<td><code>latencia_ingesta</code> (F5)</td>
+<td>consulta Spark <code>latencias</code> (sin estado)</td>
+<td>latencia de ingesta por lectura y origen</td>
+</tr>
+<tr>
+<td><code>spark_progreso</code></td>
+<td>listener de Spark (F3)</td>
+<td>filas, duración del lote, descartes por watermark y duplicados, por consulta</td>
+</tr>
+<tr>
+<td><code>predicciones</code> (F7)</td>
+<td>Spark, consulta <code>predicciones</code> (<code>streaming/inferencia.py</code>)</td>
+<td>predicciones de D2, D4, D6 y D8 por tanque: tags <code>dimension</code>, <code>version_modelo</code>, <code>tipo</code> (<code>estimacion</code>, <code>pronostico</code>, <code>verificacion</code>, <code>motivo</code>)</td>
+</tr>
+<tr>
+<td><code>inferencia</code> (F7)</td>
+<td>ídem, una por lote</td>
+<td>latencia de la inferencia, lecturas, puntos escritos, recargas de modelos, errores</td>
+</tr>
+<tr>
+<td><code>kafka_volumen</code> (F5)</td>
+<td>servicio <code>aqua-volumen</code> (cada 5 min)</td>
+<td>bytes en disco y mensajes por tópico</td>
+</tr>
+<tr>
+<td><code>kafka_*</code> (Prometheus)</td>
+<td>kafka-exporter</td>
+<td>offsets por tópico y partición, lag y miembros por grupo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Buckets de InfluxDB:</strong></p>
+<ul>
+<li><strong><code>monitoraqua</code>:</strong> lo real, en vivo, con retención de 30 días.</li>
+<li><strong><code>monitoraqua_aumentados</code>:</strong> la flota extrapolada (corrida <code>r2026-45facae2</code>, 28-sep a 27-oct) <strong>sin vencimiento</strong>.
+  Tiene sus propias fechas simuladas, que la retención de 30 días rechazaría.</li>
+</ul>
+<p><code>streaming/cargar_historico_influx.py</code> carga el historial real (bronce) y los datos aumentados. Es idempotente:
+reescribir un punto con la misma serie y tiempo lo reemplaza. Lo que llega en vivo lo escribe Spark con las mismas
+funciones (<code>streaming/tablero.py</code>).</p>
+<p>Las reglas congeladas de F4 (<code>reglas_servicio.yml</code>, <code>detector_servicio.py</code>) <strong>no se tocaron</strong>. F5 usa
+<code>Detector.nivel()</code> y lee el estado que el detector ya mantenía.</p>
+<h2 id="a-salud-del-servicio-de-agua-juliaca-uid-monitoraqua-bi-criterio-6">A. "Salud del servicio de agua – Juliaca" (uid <code>monitoraqua-bi</code>), criterio 6<a class="headerlink" href="#a-salud-del-servicio-de-agua-juliaca-uid-monitoraqua-bi-criterio-6" title="Permanent link">&para;</a></h2>
+<p><strong>Variables:</strong></p>
+<ul>
+<li><strong><code>origenLecturas</code>:</strong> <code>real</code> por defecto, bucket <code>monitoraqua</code>; u <code>aumentado</code>, bucket <code>monitoraqua_aumentados</code>. Con
+  <code>aumentado</code> hay que elegir el periodo 2026-09-28 a 2026-10-28.</li>
+<li><strong><code>sensorId</code>:</strong> varios valores o All.</li>
+</ul>
+<p><strong>Anotaciones:</strong> los eventos de servicio, uno por tipo y cada uno con su interruptor. <code>falla_sensor</code> viene apagada en
+este tablero porque son muchas; se activa a mano.</p>
+<table>
+<thead>
+<tr>
+<th>Fila</th>
+<th>Panel</th>
+<th>Qué responde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KPIs</td>
+<td>Lecturas por minuto</td>
+<td>volumen del flujo: todas las lecturas del periodo / minutos (ventanas de 1 min alineadas al minuto y de 15 min)</td>
+</tr>
+<tr>
+<td>KPIs</td>
+<td>Lecturas válidas (%)</td>
+<td>calidad: <code>n_validas / n_total</code> según la regla de F3</td>
+</tr>
+<tr>
+<td>KPIs</td>
+<td>Sensores activos por origen</td>
+<td>cobertura: sensores con datos en las 2 h finales del periodo (2 h porque EA y USGS llegan con 25-54 min de atraso)</td>
+</tr>
+<tr>
+<td>KPIs</td>
+<td>Eventos de servicio por tipo</td>
+<td>qué está pasando en el servicio en el periodo (24 h por defecto)</td>
+</tr>
+<tr>
+<td>D2</td>
+<td>Nivel del tanque (% y litros)</td>
+<td>¿cuánta agua hay?</td>
+</tr>
+<tr>
+<td>D2</td>
+<td>Geometría del tanque</td>
+<td>aviso <strong>"GEOMETRÍA POR MEDIR"</strong> mientras <code>tanques.yml</code> tenga <code>por_medir: true</code>: % y litros son aproximados</td>
+</tr>
+<tr>
+<td>D2</td>
+<td><strong>F7 · Horas de autonomía (perfil de consumo)</strong></td>
+<td>autonomía P50 hasta 12 h ("más de 12 h"), banda calibrada, consumo medio como comparación, advertencia en ThingSpeak; o el motivo si no aplica</td>
+</tr>
+<tr>
+<td>D4</td>
+<td>Llegadas de agua y cortes</td>
+<td>línea de tiempo de <code>llegada_agua</code> y <code>corte_prolongado</code></td>
+</tr>
+<tr>
+<td>D4</td>
+<td>Horas entre llegadas</td>
+<td>intervalo entre llegadas del mismo tanque</td>
+</tr>
+<tr>
+<td>D4</td>
+<td>Caudal de llenado estimado</td>
+<td>L/min = subida × capacidad / Δt (adecuación de D4)</td>
+</tr>
+<tr>
+<td>D4</td>
+<td><strong>F7 · Próxima llegada del agua</strong></td>
+<td>horas a la llegada más probable, ventana P10-P90 calibrada, probabilidad a 6/12/24 h; o el motivo</td>
+</tr>
+<tr>
+<td>D6</td>
+<td>Distancia cruda vs compensada</td>
+<td>cuánto corrige la compensación con el DHT11 (±0.18 cm a 50 cm)</td>
+</tr>
+<tr>
+<td>D6</td>
+<td>Alertas de fuga</td>
+<td><code>alerta_fuga</code> con descenso, tasa, tasa habitual y litros perdidos</td>
+</tr>
+<tr>
+<td>D6</td>
+<td><strong>F7 · Pérdida proyectada por fuga (última noche)</strong></td>
+<td>tasa, exceso, P(fuga) y pérdida a 24 h con banda (complemento de <code>alerta_fuga</code>); o el motivo</td>
+</tr>
+<tr>
+<td>D8</td>
+<td>Temperaturas</td>
+<td>aire de la cámara (DHT11), Juliaca (Open-Meteo, solo con <code>real</code>) y agua estimada (<strong>provisional</strong>, τ = 25.2 h)</td>
+</tr>
+<tr>
+<td>D8</td>
+<td>Horas de residencia del agua</td>
+<td>horas desde el último llenado detectado</td>
+</tr>
+<tr>
+<td>D8</td>
+<td><strong>F7 · Agua estimada, cruce del umbral y residencia</strong></td>
+<td>agua ahora y a 6/12 h con banda, P(cruzar 4 °C / 25 °C en 12 h), residencia (edad del agua)</td>
+</tr>
+<tr>
+<td>F7 · Pronóstico vs real</td>
+<td>D2 · Nivel a 60 min: real vs pronosticado · D2 · Error del nivel · D4 · Error de la hora de llegada · D6 · Pérdida pronosticada vs observada · D8 · Agua real vs pronosticada</td>
+<td>el <strong>error en vivo</strong> de las predicciones pasadas (puntos <code>verificacion</code>, en el instante objetivo)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="b-salud-del-pipeline-uid-monitoraqua-pipeline-criterio-4">B. "Salud del pipeline" (uid <code>monitoraqua-pipeline</code>), criterio 4<a class="headerlink" href="#b-salud-del-pipeline-uid-monitoraqua-pipeline-criterio-4" title="Permanent link">&para;</a></h2>
+<p><strong>Anotaciones:</strong> <code>falla_sensor</code>, del bucket real.</p>
+<table>
+<thead>
+<tr>
+<th>Fila</th>
+<th>Panel</th>
+<th>Qué responde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kafka</td>
+<td>Mensajes por segundo por tópico</td>
+<td>carga de entrada de cada tópico</td>
+</tr>
+<tr>
+<td>Kafka</td>
+<td>Lag por grupo de consumidores</td>
+<td>¿algún consumidor se atrasa? Línea roja en 10</td>
+</tr>
+<tr>
+<td>Spark</td>
+<td>Filas de entrada por segundo, por consulta</td>
+<td>carga de cada consulta</td>
+</tr>
+<tr>
+<td>Spark</td>
+<td>Duración del lote frente al trigger (%)</td>
+<td>¿alguna consulta no alcanza? Línea roja en 100 %</td>
+</tr>
+<tr>
+<td>Spark</td>
+<td>Filas descartadas por watermark</td>
+<td>lecturas que llegaron más tarde que el watermark</td>
+</tr>
+<tr>
+<td>Spark</td>
+<td>Duplicados descartados</td>
+<td><code>dropDuplicatesWithinWatermark(eventId)</code> en acción</td>
+</tr>
+<tr>
+<td>Frescura</td>
+<td>Minutos desde la última lectura, por origen</td>
+<td>¿qué fuente dejó de llegar? Incluye el atraso propio de cada fuente</td>
+</tr>
+<tr>
+<td>Frescura</td>
+<td>Latencia p50 y p95 por origen (tabla)</td>
+<td>cuánto tarda cada fuente en llegar a Kafka</td>
+</tr>
+<tr>
+<td>Frescura</td>
+<td>Latencia p95 por origen (30 min)</td>
+<td>evolución; línea roja = watermark de las rápidas (420 s)</td>
+</tr>
+<tr>
+<td>Volumen</td>
+<td>Mensajes por día por tópico</td>
+<td>base de los costos de F8</td>
+</tr>
+<tr>
+<td>Volumen</td>
+<td>Bytes por día por tópico</td>
+<td>ídem; hacen falta 2 días de mediciones de <code>aqua-volumen</code> (empezó el 2026-10-29)</td>
+</tr>
+<tr>
+<td>Volumen</td>
+<td>Tamaño actual por tópico</td>
+<td>bytes, mensajes retenidos y <strong>bytes por mensaje</strong></td>
+</tr>
+<tr>
+<td>Correlación</td>
+<td>Entrada de Spark · Duración del lote · Lag y mensajes/s · Lecturas del ESP32 por minuto</td>
+<td>los cuatro sobre el mismo eje de tiempo, con el cursor compartido</td>
+</tr>
+<tr>
+<td>Inferencia en vivo (F7)</td>
+<td>Latencia de la inferencia por lote (ms) · Predicciones escritas por lote</td>
+<td>cuánto tardan los modelos en cada micro-lote (línea roja = trigger de 30 s) y cuántas predicciones y recargas de modelos hubo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Lo que muestra la correlación con los datos del 28-oct:</strong></p>
+<ul>
+<li><strong>Hueco del ESP32 (~19:50 a 20:10):</strong> las lecturas por minuto bajan a cero, y la lectura se retoma sin pérdida.</li>
+<li><strong>Grupos abandonados:</strong> el lag de <code>aqua-monitor-group</code> crecía sin consumidor hasta que se borró el grupo.</li>
+<li><strong>Latencia del ESP32 en 24 h:</strong> el p95 es de <strong>1.5 h</strong>, muy por encima del watermark, por la puesta al día tras la
+  suspensión de la PC de esa noche. En la ventana de 30 min de la alerta ya es normal.</li>
+</ul>
+<p><strong>Grupos de consumidores:</strong> con aprobación del equipo se borraron dos grupos abandonados, sin miembros activos:</p>
+<ul>
+<li><code>aqua-monitor-group</code>, de la S09: tenía lag creciente. Si se vuelve a levantar <code>lambda26-aqua-consumer</code>, el grupo
+  reaparece.</li>
+<li><code>aqua-servicio-consumidor-relectura</code>, la relectura de F4.</li>
+</ul>
+<p>Queda <code>aqua-servicio-consumidor</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">No volver a encender el contenedor de la S09</p>
+<p><code>lambda26-aqua-consumer</code> (consumidor de la S09, en el repo del curso) <strong>no debe volver a encenderse</strong>: al
+arrancar recrea el grupo <code>aqua-monitor-group</code>, que vuelve a acumular lag sin que nadie lo use y dispara un
+falso problema en el panel de lag. El consumidor vigente es <code>lambda26-aqua-consumidor-eventos</code>, grupo
+<code>aqua-servicio-consumidor</code>.</p>
+</div>
+<h2 id="c-alertas-grafana-alerting-infragrafanaprovisioningalertingreglas_monitoraquayml">C. Alertas (Grafana Alerting, <code>infra/grafana/provisioning/alerting/reglas_monitoraqua.yml</code>)<a class="headerlink" href="#c-alertas-grafana-alerting-infragrafanaprovisioningalertingreglas_monitoraquayml" title="Permanent link">&para;</a></h2>
+<p>Grupo <code>monitoraqua-f5</code>, carpeta MonitorAqua, evaluado cada 1 min. Sin contact point configurado: el estado se ve en
+Grafana → Alerting.</p>
+<table>
+<thead>
+<tr>
+<th>Regla</th>
+<th>Condición</th>
+<th>Umbral y justificación</th>
+<th>Sin datos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ESP32 sin datos por más de 5 min</strong></td>
+<td>lecturas del ESP32 en 5 min &lt; 1</td>
+<td>el ESP32 publica cada 5 s: se esperan 60 lecturas en 5 min. Cero significa sensor, Wi-Fi, Firebase o puente caídos, o la PC suspendida</td>
+<td><strong>alerta</strong></td>
+</tr>
+<tr>
+<td><strong>Lag del consumidor de servicio-eventos &gt; 10</strong></td>
+<td><code>sum(kafka_consumergroup_lag{consumergroup="aqua-servicio-consumidor"}) &gt; 10</code> durante 5 min</td>
+<td><code>servicio-eventos</code> recibe pocos eventos por hora y el consumidor los lee al instante; 10 acumulados durante 5 min es un consumidor caído o atascado</td>
+<td><strong>alerta</strong> (el grupo desapareció)</td>
+</tr>
+<tr>
+<td><strong>Lote de Spark más largo que su trigger</strong></td>
+<td>máx. en 10 min de <code>batchDurationMs / trigger</code> &gt; 100 %, por consulta, durante 5 min</td>
+<td>si un lote dura más que su trigger, la consulta se atrasa lote tras lote. Hoy el máximo observado es ~75 % (<code>eventos_servicio</code>, trigger 10 s)</td>
+<td><strong>alerta</strong> (Spark sin progreso)</td>
+</tr>
+<tr>
+<td><strong>Latencia p95 de una fuente rápida &gt; 420 s</strong></td>
+<td>p95 en 30 min de <code>latencia_ingesta</code>, por origen (ESP32, ThingSpeak)</td>
+<td>420 s = watermark de las fuentes rápidas (7 min). Por encima, parte de esa fuente se descarta por tardía</td>
+<td>OK</td>
+</tr>
+<tr>
+<td><strong>Falla de sensor activa</strong></td>
+<td>lecturas inválidas del ESP32 en 5 min / total &gt; 0.5 durante 2 min</td>
+<td>mismo síntoma que el evento <code>falla_sensor</code> de F4, medido en vivo. Si no llega nada, ya salta "ESP32 sin datos"</td>
+<td>OK</td>
+</tr>
+<tr>
+<td><strong>La consulta de predicciones dejó de escribir</strong> (F7)</td>
+<td>puntos de predicción en 30 min &lt; 1, durante 5 min</td>
+<td>ThingSpeak llega cada ~5 min y cada lote con tanques escribe predicciones o motivos: 30 min sin nada es la consulta caída o atascada</td>
+<td><strong>alerta</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Estado verificado el 2026-10-29:</strong> las 5 reglas con salud <code>ok</code> y en <code>Normal</code>. Las multidimensionales evalúan cada
+consulta (6) y cada fuente rápida (2) por separado. Detalle en <code>docs/evidencias/f5/alertas_estado.json</code>.</p>
+<h2 id="d-verificacion">D. Verificación<a class="headerlink" href="#d-verificacion" title="Permanent link">&para;</a></h2>
+<p><code>infra/verificar_tableros.py</code> ejecuta cada consulta de cada panel y anotación con la API de Grafana (mismas macros y
+datasource que el tablero). Resultado del 2026-10-29 (<code>docs/evidencias/f5/verificacion_paneles.json</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Escenario</th>
+<th>Con datos</th>
+<th>Sin datos</th>
+<th>Por qué sin datos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BI · real · 24 h</td>
+<td>16</td>
+<td>5</td>
+<td>en 24 h no hubo <code>alerta_fuga</code>, <code>corte_prolongado</code>, <code>autonomia_baja</code> ni <code>umbral_termico</code> (tabla de fugas y 4 anotaciones). El panel muestra "Sin alertas de fuga en el periodo"</td>
+</tr>
+<tr>
+<td>BI · aumentado · 28-sep a 28-oct</td>
+<td>19</td>
+<td>2</td>
+<td>Open-Meteo no existe para la flota extrapolada; ningún <code>umbral_termico</code> (igual que en la validación de F4)</td>
+</tr>
+<tr>
+<td>Pipeline · 24 h</td>
+<td>18</td>
+<td>1</td>
+<td>bytes por día: hacen falta 2 días de mediciones; el panel lo dice</td>
+</tr>
+</tbody>
+</table>
+<p>En el tablero BI con <code>aumentado</code>, los conteos de eventos (113 <code>llegada_agua</code>, 25 <code>falla_sensor</code>, 10
+<code>corte_prolongado</code>, 4 <code>autonomia_baja</code>, 1 <code>alerta_fuga</code>) coinciden con la validación de consistencia de F4 (f4.3).</p>
+<p><strong>Capturas</strong> (<code>docs/evidencias/f5/</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Qué muestra</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bi_real_24h.png</code></td>
+<td>BI con <code>origen = real</code>, últimas 24 h</td>
+</tr>
+<tr>
+<td><code>bi_aumentado_30d.png</code></td>
+<td>BI con <code>origen = aumentado</code>, 28-sep a 28-oct</td>
+</tr>
+<tr>
+<td><code>bi_aumentado_fuga_zonaA02.png</code></td>
+<td>BI aumentado, 3 días de <code>flota-zonaA-02</code></td>
+</tr>
+<tr>
+<td><code>pipeline_24h.png</code></td>
+<td>pipeline, últimas 24 h</td>
+</tr>
+<tr>
+<td><code>pipeline_latencia.png</code></td>
+<td>tabla de latencias p50 y p95 por origen</td>
+</tr>
+<tr>
+<td><code>alertas.png</code></td>
+<td>lista de reglas: 5, provisionadas, todas en Normal</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Tablero BI con datos reales, últimas 24 h" src="../evidencias/f5/bi_real_24h.png" /></p>
+<p><em>Tablero BI "Salud del servicio de agua – Juliaca" con datos reales, últimas 24 h.</em></p>
+<p><img alt="Tablero BI con la flota, 30 días" src="../evidencias/f5/bi_aumentado_30d.png" /></p>
+<p><em>El mismo tablero con la flota extrapolada (<code>origen = aumentado</code>), 28-sep a 28-oct.</em></p>
+<p><img alt="Tres días de flota-zonaA-02" src="../evidencias/f5/bi_aumentado_fuga_zonaA02.png" /></p>
+<p><em>Tres días de <code>flota-zonaA-02</code> con la flota extrapolada.</em></p>
+<p><img alt="Tablero de salud del pipeline, 24 h" src="../evidencias/f5/pipeline_24h.png" /></p>
+<p><em>Tablero "Salud del pipeline", últimas 24 h.</em></p>
+<p><img alt="Latencias p50 y p95 por origen" src="../evidencias/f5/pipeline_latencia.png" /></p>
+<p><em>Latencias de ingesta p50 y p95 por origen.</em></p>
+<p><img alt="Reglas de alerta" src="../evidencias/f5/alertas.png" /></p>
+<p><em>Reglas de alerta en F5 (eran 5; F7 agregó la sexta). Evidencia completa: <a href="../evidencias/f5/">F5</a>.</em></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Regenerar tableros (y Grafana los recarga solo en ~10 s)</span>
+.venv/Scripts/python<span class="w"> </span>dashboards/generar_tableros.py
+<span class="c1"># Cargar historial real y datos aumentados en InfluxDB</span>
+.venv/Scripts/python<span class="w"> </span>streaming/cargar_historico_influx.py
+<span class="c1"># Verificar que cada panel devuelve datos</span>
+.venv/Scripts/python<span class="w"> </span>infra/verificar_tableros.py<span class="w"> </span>--json<span class="w"> </span>docs/evidencias/f5/verificacion_paneles.json
+<span class="c1"># Recargar las alertas tras cambiar el YAML</span>
+curl<span class="w"> </span>-u<span class="w"> </span>admin:&lt;clave&gt;<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:43000/api/admin/provisioning/alerting/reload
+<span class="c1"># Captura de un tablero</span>
+curl<span class="w"> </span>-u<span class="w"> </span>admin:&lt;clave&gt;<span class="w"> </span>-o<span class="w"> </span>captura.png<span class="w"> </span><span class="s2">"http://localhost:43000/render/d/monitoraqua-bi?orgId=1&amp;from=now-24h&amp;to=now&amp;width=1800&amp;height=2100&amp;kiosk"</span>
+</code></pre></div>
+<h2 id="pendientes">Pendientes<a class="headerlink" href="#pendientes" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Geometría del ESP32:</strong> con las medidas reales, el aviso "GEOMETRÍA POR MEDIR" pasa a "geometría real" sin tocar
+  el tablero.</li>
+<li><strong>Verificación de D8 contra el agua real (3418755) y de D4 con una llegada real:</strong> pendientes de revisar el 31-oct
+  (<code>docs/inferencia-en-vivo.md</code>, <code>infra/evidencia_f7_pendiente.py</code>).</li>
+<li><strong>Bytes por día:</strong> se completa solo desde el 2026-10-30.</li>
+<li><strong>Contact point:</strong> las alertas no notifican a nadie (correo, Telegram); se ven en Grafana. Se define en F8 si hace
+  falta.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.indexes", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

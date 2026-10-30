@@ -1,0 +1,2051 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://claudiob12.github.io/MonitorAqua/costos-escalado/">
+      
+      
+        <link rel="prev" href="../tableros/">
+      
+      
+        <link rel="next" href="../dataset-modelos/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Costos y escalado - MonitorAqua — Proyecto Sello</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#costos-y-criterios-de-escalado-f8-criterio-5" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-header__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MonitorAqua — Proyecto Sello
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Costos y escalado
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-nav__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MonitorAqua — Proyecto Sello
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Producto U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto de la Unidad 2: pipeline en tiempo real
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stack-actual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stack y servicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta (S6-S7)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ingesta (S6-S7)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ingesta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta unificada (IoT y APIs)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventos-servicio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eventos de servicio (empresariales)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos-aumentados/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flota extrapolada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Streaming (S8)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observabilidad y costos (S9)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Observabilidad y costos (S9)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tableros/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tableros y alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Costos y escalado
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Costos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-volumen-real-medido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Volumen real medido
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-escenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Escenarios
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-costo-mensual-estimado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Costo mensual estimado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-prueba-de-carga" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Prueba de carga
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-criterios-de-escalado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Criterios de escalado
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset-modelos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset de los modelos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inferencia-en-vivo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inferencia en vivo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dimensiones U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D2 · Horas de autonomía
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D4 · Próxima llegada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D6 · Pérdida por fuga
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D8 · Temperatura y residencia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arranque-diario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arranque diario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guion-demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guion de la demo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Antecedentes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Antecedentes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitectura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura (diseño inicial)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dimensiones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones (U1 y U2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adecuacion-dimensiones-u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adecuación al hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Datos de muestra (U1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-volumen-real-medido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Volumen real medido
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-escenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Escenarios
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-costo-mensual-estimado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Costo mensual estimado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-prueba-de-carga" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Prueba de carga
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-criterios-de-escalado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Criterios de escalado
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="costos-y-criterios-de-escalado-f8-criterio-5">Costos y criterios de escalado (F8, criterio 5)<a class="headerlink" href="#costos-y-criterios-de-escalado-f8-criterio-5" title="Permanent link">&para;</a></h1>
+<p><strong>Qué contiene esta página:</strong></p>
+<ol>
+<li>El volumen real del pipeline, medido.</li>
+<li>Los escenarios de crecimiento: hoy, 100 tanques y toda Juliaca.</li>
+<li>Su costo mensual en servicios administrados, con precios de las páginas oficiales.</li>
+<li>La prueba de carga que mide dónde se satura el stack actual.</li>
+<li>Los criterios para agregar particiones, brokers o ejecutores.</li>
+</ol>
+<p><strong>Cálculo reproducible:</strong></p>
+<ul>
+<li><strong>Escenarios y costos:</strong> <code>infra/costos_escenarios.py</code>.</li>
+<li><strong>Prueba de carga:</strong> <code>infra/prueba_carga.py</code>.</li>
+<li><strong>Evidencia:</strong> <code>docs/evidencias/f8/</code>.</li>
+</ul>
+<h2 id="1-volumen-real-medido">1. Volumen real medido<a class="headerlink" href="#1-volumen-real-medido" title="Permanent link">&para;</a></h2>
+<p><strong>Tabla 1. Volumen del pipeline (medido el 2026-10-30, salvo donde se indica)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Dato</th>
+<th>Valor</th>
+<th>Fuente</th>
+<th>Fecha</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Eventos/día en <code>aqua-eventos-real</code></td>
+<td><strong>19,115</strong>: ESP32 13,795 · ThingSpeak 2,799 · EA UK 1,863 · USGS 573 · Open-Meteo 85</td>
+<td>bronce Parquet, por <code>ingestaTs</code></td>
+<td>día completo 2026-10-29</td>
+</tr>
+<tr>
+<td>Tasa de publicación en <code>aqua-eventos-real</code></td>
+<td>19,660 mensajes en 22.66 h → <strong>~20,800/día (0.24 ev/s)</strong></td>
+<td><code>kafka_volumen</code> (panel "Bytes por día por tópico"), <code>mensajes_publicados</code> 8,418 → 28,078</td>
+<td>29-oct 05:04 → 30-oct 03:43 UTC</td>
+</tr>
+<tr>
+<td>Bytes en disco de <code>aqua-eventos-real</code></td>
+<td>9.4 MB para 25,533 mensajes retenidos → <strong>369 B/mensaje</strong> (~7.7 MB/día)</td>
+<td><code>kafka_volumen.bytes</code> (<code>describe_log_dirs</code>)</td>
+<td>30-oct 03:43 UTC</td>
+</tr>
+<tr>
+<td><code>aqua-eventos-aumentados</code></td>
+<td>172,800 mensajes, 81.1 MB (469 B/mensaje). Carga única de la flota, no diaria</td>
+<td><code>kafka_volumen</code></td>
+<td>30-oct</td>
+</tr>
+<tr>
+<td><code>servicio-eventos</code></td>
+<td>60 → 87 mensajes en 22.66 h (<strong>~29/día</strong>), 42.6 KB (490 B/mensaje)</td>
+<td><code>kafka_volumen</code></td>
+<td>29-30 oct</td>
+</tr>
+<tr>
+<td>Disco total de Kafka</td>
+<td>101 MB (<code>aqua-eventos-real</code> 9.2 MB, <code>aqua-eventos-aumentados</code> 78 MB, <code>servicio-eventos</code> 104 KB)</td>
+<td><code>du</code> en el contenedor</td>
+<td>30-oct</td>
+</tr>
+<tr>
+<td>Escrituras en Firebase</td>
+<td>~19,000/día: el ESP32 escribe cada 5 s (17,280/día nominales, 13,795 el 29-oct) y el colector ~5,300/día</td>
+<td>bronce (todo lo que entra a Firebase pasa a Kafka)</td>
+<td>29-oct</td>
+</tr>
+<tr>
+<td>Almacenamiento en Firebase</td>
+<td><strong>30,261 registros, 5.29 MB de JSON (175 B/registro)</strong> desde el 2-oct; plan gratuito: 1 GB</td>
+<td>lectura completa de <code>/board1/lecturas/historial</code> (solo lectura)</td>
+<td>30-oct 03:47 UTC</td>
+</tr>
+<tr>
+<td>InfluxDB</td>
+<td>motor 15 MB: <code>monitoraqua</code> 3.3 MB, <code>monitoraqua_aumentados</code> 8.9 MB, <code>_monitoring</code> 0.24 MB</td>
+<td><code>du</code> en <code>/var/lib/influxdb2/engine/data</code></td>
+<td>30-oct</td>
+</tr>
+<tr>
+<td>Escrituras a InfluxDB</td>
+<td><strong>390,216 valores/día</strong> en <code>monitoraqua</code>: <code>spark_progreso</code> 99k, <code>nivel_tanque</code> 82.5k, <code>lecturas_agg</code> 73k, <code>lecturas_esp32</code> 70k, <code>latencia_ingesta</code> 41.5k, <code>estado_tanque</code> 15k, <code>predicciones</code> 4.7k…</td>
+<td>Flux <code>count()</code> por measurement, 24 h</td>
+<td>30-oct</td>
+</tr>
+<tr>
+<td>Series en InfluxDB</td>
+<td>151 en <code>monitoraqua</code>; <strong>16-20 por tanque</strong> (ESP32 16; un tanque de la flota con predicciones 20)</td>
+<td><code>influxdb.cardinality()</code></td>
+<td>30-oct</td>
+</tr>
+<tr>
+<td>Parquet</td>
+<td>bronce 10.9 MB (28,200 filas, <strong>386 B/fila</strong>, archivos chicos sin compactar); plata 19.0 MB; oro 4.6 MB; fuentes 19.5 MB; aumentados 9.5 MB</td>
+<td>tamaño en disco</td>
+<td>30-oct</td>
+</tr>
+<tr>
+<td>Prometheus</td>
+<td>24.1 MB</td>
+<td><code>du /prometheus</code></td>
+<td>30-oct</td>
+</tr>
+<tr>
+<td>GitHub Actions</td>
+<td>5 ejecuciones del colector (4 el 29-oct, 1 el 30-oct), ~25-30 s cada una. El cron pide 48 al día; GitHub ejecutó muchas menos. Con 48/día serían ~1,440 min/mes</td>
+<td>API de Actions (<code>/actions/runs</code>)</td>
+<td>29-30 oct</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Lectura:</strong></p>
+<ul>
+<li><strong>Volumen diminuto:</strong> hoy el pipeline mueve <strong>0.22-0.24 eventos/s</strong>. Todo el historial cabe en ~200 MB.</li>
+<li><strong>Lo que pesa por tanque:</strong></li>
+<li><strong>InfluxDB:</strong> cada lectura del ESP32 se convierte en ~14 valores escritos (detalle, nivel, estado, latencia,
+    agregados).</li>
+<li><strong>Firebase:</strong> un tanque escribe cada 5 s.</li>
+<li>Esas dos son las variables que deciden el costo al crecer.</li>
+</ul>
+<h2 id="2-escenarios">2. Escenarios<a class="headerlink" href="#2-escenarios" title="Permanent link">&para;</a></h2>
+<p><strong>Fuentes del número de tanques de Juliaca:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Escenario</th>
+<th>Número</th>
+<th>Fuente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Principal</strong></td>
+<td><strong>53,724 conexiones activas de agua potable</strong> de EPS SEDAJULIACA S.A. a octubre de 2023 (64,347 conexiones totales, 17 % inactivas)</td>
+<td>SUNASS, <em>Estudio tarifario de EPS SEDAJULIACA S.A., periodo regulatorio 2025-2029</em>, p. 45, párrafo 74 y Cuadro 14. https://cdn.www.gob.pe/uploads/document/file/6722102/5351549-estudio-tarifario-final-aprobado-texto-completo.pdf (consultado el 2026-10-30)</td>
+</tr>
+<tr>
+<td><strong>Conservador</strong></td>
+<td><strong>35,160 viviendas con red pública</strong> en el distrito de Juliaca: 33,567 dentro de la vivienda y 1,593 fuera de la vivienda pero dentro de la edificación, de 56,995 viviendas con ocupantes presentes</td>
+<td>INEI, <em>Puno: Resultados Definitivos de los Censos Nacionales 2017</em>, Tomo XII, Cuadro 9, p. 14628. https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1563/21TOMO_12.pdf (consultado el 2026-10-30)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Por qué difieren (53,724 frente a 35,160):</strong></p>
+<ul>
+<li><strong>Hay seis años de diferencia:</strong> el censo es de 2017; las conexiones de SUNASS, de octubre de 2023.</li>
+<li><strong>El Cuadro 14 de SUNASS</strong> muestra el crecimiento: 50,699 conexiones activas en 2019 y 53,724 en 2023.</li>
+<li><strong>Abarcan territorios distintos:</strong> el INEI cuenta el distrito de Juliaca. SEDAJULIACA atiende la ciudad, que se
+  extiende sobre parte de otros distritos, y factura también conexiones no domésticas (comercio, Estado).</li>
+<li><strong>El 35 % de las viviendas del distrito usaba pozo en 2017</strong> (20,054): son hogares sin red que el censo no cuenta.</li>
+</ul>
+<p><strong>Supuestos:</strong></p>
+<ul>
+<li><strong>Un tanque monitoreado por conexión.</strong> Es un techo: no toda conexión tiene tanque elevado ni querría el sensor. Si
+  la adopción fuera parcial, se escala linealmente.</li>
+<li><strong>Cadencia de 5 s por tanque,</strong> la del ESP32 actual: 17,280 lecturas/día.</li>
+<li><strong>Más el colector de APIs,</strong> con ~5,300 lecturas/día, que no crecen con los tanques.</li>
+</ul>
+<p><strong>Tabla 2. Escenarios de volumen</strong> (<code>infra/costos_escenarios.py</code>, capacidad de Spark medida en la sección 4)</p>
+<!-- ESCENARIOS -->
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: right;">Actual (1 ESP32 + 7 ThingSpeak + APIs)</th>
+<th style="text-align: right;">100 tanques</th>
+<th style="text-align: right;">Juliaca conservador: 35,160 viviendas con red pública (INEI 2017)</th>
+<th style="text-align: right;">Juliaca principal: 53,724 conexiones activas (SUNASS, oct-2023)</th>
+<th style="text-align: right;">Juliaca principal, diseño a escala</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tanques</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">35,160</td>
+<td style="text-align: right;">53,724</td>
+<td style="text-align: right;">53,724</td>
+</tr>
+<tr>
+<td>eventos_dia</td>
+<td style="text-align: right;">19,115</td>
+<td style="text-align: right;">1,733,320</td>
+<td style="text-align: right;">607,570,120</td>
+<td style="text-align: right;">928,356,040</td>
+<td style="text-align: right;">77,367,880</td>
+</tr>
+<tr>
+<td>eps</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">20.06</td>
+<td style="text-align: right;">7,032</td>
+<td style="text-align: right;">10,745</td>
+<td style="text-align: right;">895</td>
+</tr>
+<tr>
+<td>brokers</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td>gb_mes_kafka_ingreso</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">19.19</td>
+<td style="text-align: right;">6,726</td>
+<td style="text-align: right;">10,277</td>
+<td style="text-align: right;">856</td>
+</tr>
+<tr>
+<td>gb_kafka_retenido</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">4.48</td>
+<td style="text-align: right;">1,569</td>
+<td style="text-align: right;">2,398</td>
+<td style="text-align: right;">200</td>
+</tr>
+<tr>
+<td>gb_mes_parquet</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">20.07</td>
+<td style="text-align: right;">7,036</td>
+<td style="text-align: right;">10,750</td>
+<td style="text-align: right;">896</td>
+</tr>
+<tr>
+<td>gb_mes_firebase</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">9.10</td>
+<td style="text-align: right;">3,190</td>
+<td style="text-align: right;">4,874</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr>
+<td>mb_dia_influx</td>
+<td style="text-align: right;">5.47</td>
+<td style="text-align: right;">496</td>
+<td style="text-align: right;">173,765</td>
+<td style="text-align: right;">265,510</td>
+<td style="text-align: right;">15,474</td>
+</tr>
+<tr>
+<td>series_influx</td>
+<td style="text-align: right;">260</td>
+<td style="text-align: right;">2,100</td>
+<td style="text-align: right;">703,300</td>
+<td style="text-align: right;">1,074,580</td>
+<td style="text-align: right;">1,074,580</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Pendiente de la prueba de carga limpia</p>
+<p>Las filas de particiones, núcleos de Spark y ejecutores dependen de la capacidad de Spark por núcleo, que mide la sección 4. Se agregan cuando esa prueba termine.</p>
+</div>
+<h2 id="3-costo-mensual-estimado">3. Costo mensual estimado<a class="headerlink" href="#3-costo-mensual-estimado" title="Permanent link">&para;</a></h2>
+<p><strong>Tabla 3. Precios de lista usados</strong> (USD, región us-east-1 o la región estándar; consultados el 2026-10-29/30)</p>
+<table>
+<thead>
+<tr>
+<th>Servicio</th>
+<th>Precio</th>
+<th>Página oficial</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Confluent Cloud Basic</td>
+<td>primer eCKU gratis, luego $0.14/eCKU-h; red $0.05/GB (ingreso y egreso); almacenamiento $0.08/GB-mes; hasta 1,500 particiones</td>
+<td>https://www.confluent.io/confluent-cloud/pricing/</td>
+</tr>
+<tr>
+<td>Confluent Cloud Standard</td>
+<td>$0.75/eCKU-h; red $0.035-0.05/GB; $0.08/GB-mes</td>
+<td>ídem</td>
+</tr>
+<tr>
+<td>Amazon MSK (provisionado)</td>
+<td>kafka.m7g.large $0.204/broker-h; kafka.t3.small $0.0456/broker-h; almacenamiento $0.10/GB-mes; sin capa gratuita</td>
+<td>https://aws.amazon.com/msk/pricing/ (y el archivo de precios <code>msk.json</code> de AWS)</td>
+</tr>
+<tr>
+<td>AWS EMR Serverless (x86)</td>
+<td>$0.052624/vCPU-h + $0.0057785/GB-h</td>
+<td>https://aws.amazon.com/emr/pricing/</td>
+</tr>
+<tr>
+<td>Google Serverless for Apache Spark</td>
+<td>$0.06/DCU-h estándar (0.6 DCU por vCPU + 0.1 DCU por GiB)</td>
+<td>https://cloud.google.com/products/managed-service-for-apache-spark/pricing</td>
+</tr>
+<tr>
+<td>Databricks</td>
+<td><strong>no verificado:</strong> la página oficial carga los precios con JavaScript y no se pudo leer; no se usa</td>
+<td>https://www.databricks.com/product/pricing/lakeflow-jobs</td>
+</tr>
+<tr>
+<td>InfluxDB Cloud</td>
+<td>Free: 5 MB de escritura cada 5 min, 10k series, 30 días, 2 buckets. Usage-Based: $0.0025/MB escrito, $0.012 por 100 consultas, $0.002/GB-h</td>
+<td>https://docs.influxdata.com/influxdb/cloud/account-management/limits/ · https://www.influxdata.com/influxdb-pricing/</td>
+</tr>
+<tr>
+<td>Amazon Timestream for InfluxDB</td>
+<td>db.influx.medium $0.120/h; almacenamiento $0.10/GB-mes</td>
+<td>archivo de precios de AWS (<code>AmazonTimestream</code>, us-east-1)</td>
+</tr>
+<tr>
+<td>Grafana Cloud</td>
+<td>Free: 10k series activas, 3 usuarios activos, 14 días. Pro: desde $19/mes + uso</td>
+<td>https://grafana.com/pricing/</td>
+</tr>
+<tr>
+<td>Firebase Realtime Database</td>
+<td>Spark (gratis): 1 GB guardado, 10 GB/mes de descarga, 100 conexiones simultáneas. Blaze: $5/GB guardado sobre 1 GB, $1/GB descargado sobre ~10 GB/mes</td>
+<td>https://firebase.google.com/pricing</td>
+</tr>
+<tr>
+<td>GitHub Actions</td>
+<td>Free: $12/mes de uso incluido; Linux 2 núcleos $0.006/min (~2,000 min)</td>
+<td>https://docs.github.com/en/billing/concepts/product-billing/github-actions</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Supuestos del cálculo</strong> (marcados en el código):</p>
+<ul>
+<li><strong>Mes:</strong> 730 h.</li>
+<li><strong>Kafka:</strong></li>
+<li>retención de 7 días;</li>
+<li>el job lee el tópico real dos veces (consultas generales y predicciones);</li>
+<li>Confluent cobra la red de entrada y de las dos lecturas;</li>
+<li>un eCKU por cada ~5,000 ev/s (supuesto);</li>
+<li>en MSK, 3 brokers m7g.large con factor de replicación 3.</li>
+<li><strong>Spark administrado:</strong></li>
+<li>corre 24/7, porque es streaming;</li>
+<li>un driver de 2 vCPU más los núcleos que pide la sección 4, con el doble de holgura;</li>
+<li>4 GB por vCPU.</li>
+<li><strong>InfluxDB:</strong> 20 bytes de line protocol por valor (supuesto); almacenamiento de un 10 % de lo escrito en el mes.</li>
+<li><strong>Grafana:</strong> el equipo son 4 personas, así que se cuenta Pro ($19); Free admite 3 usuarios activos.</li>
+<li><strong>Firebase:</strong> guarda 3 meses de historial.</li>
+</ul>
+<p><strong>Tabla 4. Costo mensual por escenario</strong> (USD/mes, <code>infra/costos_escenarios.py</code>)</p>
+<!-- COSTOS -->
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: right;">Actual (1 ESP32 + 7 ThingSpeak + APIs)</th>
+<th style="text-align: right;">100 tanques</th>
+<th style="text-align: right;">Juliaca conservador: 35,160 viviendas con red pública (INEI 2017)</th>
+<th style="text-align: right;">Juliaca principal: 53,724 conexiones activas (SUNASS, oct-2023)</th>
+<th style="text-align: right;">Juliaca principal, diseño a escala</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>usd_confluent_basic</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">3.24</td>
+<td style="text-align: right;">1,237</td>
+<td style="text-align: right;">1,938</td>
+<td style="text-align: right;">144</td>
+</tr>
+<tr>
+<td>usd_msk</td>
+<td style="text-align: right;">149</td>
+<td style="text-align: right;">448</td>
+<td style="text-align: right;">918</td>
+<td style="text-align: right;">1,166</td>
+<td style="text-align: right;">507</td>
+</tr>
+<tr>
+<td>usd_influx</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">13,793</td>
+<td style="text-align: right;">21,076</td>
+<td style="text-align: right;">1,228</td>
+</tr>
+<tr>
+<td>usd_grafana</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">19</td>
+</tr>
+<tr>
+<td>usd_firebase</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">131</td>
+<td style="text-align: right;">51,021</td>
+<td style="text-align: right;">77,967</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr>
+<td>influx_free_alcanza</td>
+<td style="text-align: right;">sí</td>
+<td style="text-align: right;">sí</td>
+<td style="text-align: right;">no</td>
+<td style="text-align: right;">no</td>
+<td style="text-align: right;">no</td>
+</tr>
+<tr>
+<td>firebase_free_alcanza</td>
+<td style="text-align: right;">sí</td>
+<td style="text-align: right;">no</td>
+<td style="text-align: right;">no</td>
+<td style="text-align: right;">no</td>
+<td style="text-align: right;">sí</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Pendiente de la prueba de carga limpia</p>
+<p>El costo de Spark administrado (EMR Serverless y Google Serverless for Apache Spark) depende de los núcleos que fije la prueba de carga y se agrega con ella. Las filas de esta tabla no dependen de esa medición.</p>
+</div>
+<p><strong>Qué servicios gratuitos alcanzan hoy y cuándo dejan de alcanzar:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Servicio gratuito</th>
+<th>Hoy</th>
+<th>100 tanques</th>
+<th>Juliaca</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Firebase Spark (1 GB, 10 GB/mes de descarga, 100 conexiones)</td>
+<td><strong>alcanza:</strong> 5.3 MB en 4 semanas</td>
+<td><strong>no alcanza:</strong> ~9 GB/mes; el GB gratis se llena en ~3 días y la descarga del puente roza el límite; 100 tanques son el tope de conexiones simultáneas</td>
+<td>no: Firebase deja de ser la puerta de entrada (ver diseño a escala)</td>
+</tr>
+<tr>
+<td>InfluxDB Cloud Free (5 MB/5 min, 10k series)</td>
+<td>alcanza: 5.5 MB/día, 260 series</td>
+<td><strong>alcanza justo:</strong> ~0.5 GB/día (1.7 MB cada 5 min) y ~2,100 series</td>
+<td>no: 700k-1.1M series y ~174-266 GB/día</td>
+</tr>
+<tr>
+<td>Confluent Basic (primer eCKU gratis)</td>
+<td><strong>alcanza:</strong> pagaría solo red y disco, ~$0.04</td>
+<td>alcanza con ~$3 de red y disco</td>
+<td>sí en eCKU, pero la red y el disco ya son ~$1,200-1,900</td>
+</tr>
+<tr>
+<td>Grafana Cloud Free</td>
+<td>no por usuarios (4 &gt; 3); sí por series</td>
+<td>ídem</td>
+<td>ídem</td>
+</tr>
+<tr>
+<td>GitHub Actions (Free, $12)</td>
+<td><strong>alcanza:</strong> ~1,440 min/mes ≈ $8.6 si GitHub ejecutara las 48 diarias</td>
+<td>igual: el colector no crece con los tanques</td>
+<td>igual</td>
+</tr>
+<tr>
+<td>Spark</td>
+<td>no hay capa gratuita administrada: hoy corre en la PC del equipo</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-prueba-de-carga">4. Prueba de carga<a class="headerlink" href="#4-prueba-de-carga" title="Permanent link">&para;</a></h2>
+<!-- PRUEBA -->
+
+<div class="admonition warning">
+<p class="admonition-title">Pendiente de la prueba de carga limpia</p>
+<p>La corrida limpia (25 a 1,000 ev/s, con producción y <code>lambda26-pyspark</code> detenidos y Docker con 12 GB) todavía no se hizo. Las corridas 1 y 2 quedaron como hallazgos: saturación temprana por la carga del YAML de prueba en cada worker de Python y un incidente de DNS de Docker bajo carga. Detalle en <a href="../evidencias/f8/prueba_carga_corridas_1_y_2/">prueba de carga, corridas 1 y 2</a>.</p>
+</div>
+<h2 id="5-criterios-de-escalado">5. Criterios de escalado<a class="headerlink" href="#5-criterios-de-escalado" title="Permanent link">&para;</a></h2>
+<!-- CRITERIOS -->
+
+<div class="admonition warning">
+<p class="admonition-title">Pendiente de la prueba de carga limpia</p>
+<p>Los umbrales para agregar particiones, brokers o ejecutores salen de la prueba de carga limpia. Hasta entonces, la señal de saturación que se vigila es la <strong>duración del lote frente a su trigger</strong>, en el tablero "Salud del pipeline": en las corridas 1 y 2, <code>lagOffsets</code> quedó en 0 aunque las consultas de 10 s ya no daban abasto.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.indexes", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

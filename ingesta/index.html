@@ -1,0 +1,2580 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://claudiob12.github.io/MonitorAqua/ingesta/">
+      
+      
+        <link rel="prev" href="../stack-actual/">
+      
+      
+        <link rel="next" href="../eventos-servicio/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Ingesta unificada (IoT y APIs) - MonitorAqua — Proyecto Sello</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ingesta-unificada-f2" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-header__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MonitorAqua — Proyecto Sello
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ingesta unificada (IoT y APIs)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-nav__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MonitorAqua — Proyecto Sello
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Producto U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto de la Unidad 2: pipeline en tiempo real
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stack-actual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stack y servicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta (S6-S7)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ingesta (S6-S7)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta unificada (IoT y APIs)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta unificada (IoT y APIs)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#puente-firebase-kafka" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Puente Firebase → Kafka
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#colector-de-apis-firebase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Colector de APIs → Firebase
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Colector de APIs → Firebase">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estaciones-elegidas-verificadas-el-2026-10-28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estaciones elegidas (verificadas el 2026-10-28)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recarga-al-arranque-del-colector-local-principal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recarga al arranque del colector local (principal)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#colector-en-la-nube-github-actions-respaldo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Colector en la nube (GitHub Actions, respaldo)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Colector en la nube (GitHub Actions, respaldo)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lo-que-hizo-el-cron-la-primera-noche-2026-10-29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lo que hizo el cron la primera noche (2026-10-29)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recarga-puntual-del-hueco-nocturno-2026-10-29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recarga puntual del hueco nocturno (2026-10-29)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracion-una-sola-vez-en-github-settings-secrets-and-variables-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuración (una sola vez, en GitHub → Settings → Secrets and variables → Actions)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#costo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Costo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#volumen-frente-al-plan-gratuito-de-firebase-spark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Volumen frente al plan gratuito de Firebase (Spark)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verificacion-2026-10-28-22352253-utc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificación (2026-10-28, 22:35–22:53 UTC)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventos-servicio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eventos de servicio (empresariales)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos-aumentados/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flota extrapolada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Streaming (S8)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observabilidad y costos (S9)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Observabilidad y costos (S9)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tableros/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tableros y alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../costos-escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Costos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset-modelos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset de los modelos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inferencia-en-vivo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inferencia en vivo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dimensiones U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D2 · Horas de autonomía
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D4 · Próxima llegada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D6 · Pérdida por fuga
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D8 · Temperatura y residencia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arranque-diario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arranque diario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guion-demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guion de la demo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Antecedentes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Antecedentes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitectura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura (diseño inicial)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dimensiones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones (U1 y U2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adecuacion-dimensiones-u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adecuación al hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Datos de muestra (U1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#puente-firebase-kafka" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Puente Firebase → Kafka
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#colector-de-apis-firebase" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Colector de APIs → Firebase
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Colector de APIs → Firebase">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estaciones-elegidas-verificadas-el-2026-10-28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estaciones elegidas (verificadas el 2026-10-28)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recarga-al-arranque-del-colector-local-principal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recarga al arranque del colector local (principal)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#colector-en-la-nube-github-actions-respaldo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Colector en la nube (GitHub Actions, respaldo)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Colector en la nube (GitHub Actions, respaldo)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lo-que-hizo-el-cron-la-primera-noche-2026-10-29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lo que hizo el cron la primera noche (2026-10-29)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recarga-puntual-del-hueco-nocturno-2026-10-29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recarga puntual del hueco nocturno (2026-10-29)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracion-una-sola-vez-en-github-settings-secrets-and-variables-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuración (una sola vez, en GitHub → Settings → Secrets and variables → Actions)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#costo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Costo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#volumen-frente-al-plan-gratuito-de-firebase-spark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Volumen frente al plan gratuito de Firebase (Spark)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verificacion-2026-10-28-22352253-utc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificación (2026-10-28, 22:35–22:53 UTC)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="ingesta-unificada-f2">Ingesta unificada (F2)<a class="headerlink" href="#ingesta-unificada-f2" title="Permanent link">&para;</a></h1>
+<p>Todas las fuentes, el ESP32 físico y cuatro APIs públicas reales, escriben en <strong>una sola entrada</strong>: Firebase
+<code>/board1/lecturas/historial</code>. Un único puente publica de ahí al tópico Kafka <strong><code>aqua-eventos-real</code></strong>, cumpliendo el
+contrato <code>contratos/evento_aqua.schema.json</code>. Cubre el criterio 2 de la rúbrica (ingesta IoT/sensores).</p>
+<div class="highlight"><pre><span></span><code>ESP32 físico (cada 5 s, firmware sin cambios) ──┐
+ThingSpeak  (7 canales, cada 5 min) ────────────┤
+EA UK       (23 estaciones, cada 15 min) ───────┼─&gt; Firebase /board1/lecturas/historial
+USGS        (10 estaciones, cada 15 min) ───────┤          │  (índice .indexOn: "timestamp")
+Open-Meteo  (Juliaca, cada 15 min) ─────────────┘          v
+             lambda26-aqua-colector        lambda26-aqua-puente ─&gt; Kafka aqua-eventos-real (clave sensorId)
+</code></pre></div>
+<h2 id="puente-firebase-kafka">Puente Firebase → Kafka<a class="headerlink" href="#puente-firebase-kafka" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td><code>ingesta/puente_firebase_kafka.py</code> (+ <code>ingesta/comun.py</code>)</td>
+</tr>
+<tr>
+<td>Contenedor</td>
+<td><code>lambda26-aqua-puente</code>, servicio <code>aqua-puente</code> de <code>infra/compose.yml</code>, imagen <code>monitoraqua-ingesta</code></td>
+</tr>
+<tr>
+<td>Ejecución</td>
+<td><code>docker compose -f infra/compose.yml --env-file .env up -d aqua-puente</code></td>
+</tr>
+<tr>
+<td>Autenticación</td>
+<td>Firebase Auth Email/Password por REST, con un usuario dedicado al pipeline (<code>FIREBASE_EMAIL</code> / <code>FIREBASE_PASSWORD</code> en <code>.env</code>). El idToken se renueva 10 min antes de vencer y el stream se reabre con el token nuevo. Nunca se registra la URL con <code>?auth=</code></td>
+</tr>
+<tr>
+<td>Lee</td>
+<td>Solo <code>FIREBASE_PATH=/board1/lecturas/historial</code>; si la ruta es otra, el puente no arranca. <code>/board1/lecturas/ultima</code>, <code>/board1/sensor</code> y <code>/board1/outputs</code> no se leen</td>
+</tr>
+<tr>
+<td>Publica</td>
+<td><code>aqua-eventos-real</code> con clave <code>sensorId</code>, <code>acks=all</code></td>
+</tr>
+</tbody>
+</table>
+<p>Reemplaza al puente de la S08 (<code>lambda26/aqua-bridge</code>, contenedor <code>lambda26-aqua-bridge</code>), que queda <strong>detenido y con
+<code>restart=no</code></strong>, sin borrar. Nunca deben correr los dos a la vez.</p>
+<p><strong>Qué hace con cada lectura:</strong></p>
+<ol>
+<li><strong>Completa el contrato.</strong> El ESP32 escribe solo <code>sensorId</code>, <code>distanciaCm</code>, <code>temperaturaC</code>, <code>humedadPct</code> y <code>timestamp</code>;
+   el puente agrega <code>eventId</code> (la push key de Firebase), <code>origen=esp32-fisico</code>, <code>fuenteTipo=iot-propio</code>,
+   <code>tipoEvento=aqua.tanque.lectura</code> e <code>ingestaTs</code> (ahora). Las lecturas del colector ya traen el contrato completo; solo
+   se asegura <code>eventId</code> = clave y se completan <code>fuenteTipo</code> e <code>ingestaTs</code> si faltan.</li>
+<li><strong>Conserva <code>distanciaCm = -1</code></strong> (fallo del sensor) tal cual. La regla de calidad vive en Spark (F3). El puente de la
+   S08 lo convertía en <code>null</code>; este ya no.</li>
+<li><strong>Valida</strong> contra el schema. Si no cumple, registra <code>status=rejected</code> con los errores y <strong>no publica</strong>.</li>
+<li><strong>Publica</strong> con clave <code>sensorId</code>.</li>
+</ol>
+<p><strong>Reanudación sin republicar el historial.</strong> Las push keys del ESP32 (<code>-P53...</code>) y las claves del colector
+(<code>usgs_...</code>) no ordenan en el tiempo entre sí, así que el cursor es el campo <code>timestamp</code>. Esto exige
+<code>".indexOn": "timestamp"</code> en las reglas de <code>/board1/lecturas/historial</code> (ya publicado). El estado vive en el volumen
+<code>monitoraqua_ingesta_estado</code> (<code>/estado/puente.json</code>):</p>
+<ul>
+<li><strong><code>cursor</code>:</strong> el mayor <code>timestamp</code> publicado. El stream se abre desde <code>cursor - VENTANA_H</code> (3 h), porque las APIs
+  publican con atraso: EA ~45 min, USGS &lt;1 h.</li>
+<li><strong><code>vistas</code>:</strong> las claves ya publicadas dentro de la ventana. Lo re-leído al reconectar se salta.</li>
+<li><strong><code>piso</code>:</strong> nada con <code>timestamp</code> anterior se publica. Al arrancar <strong>sin estado</strong> vale "ahora", así que solo pasan
+  lecturas nuevas.</li>
+</ul>
+<p><strong>Backfill explícito:</strong> <code>python puente_firebase_kafka.py --backfill-horas H [--once]</code> baja el piso y publica las
+lecturas de las últimas H horas que no se hayan publicado.</p>
+<p><strong>Reconexión.</strong> Si Firebase o Kafka se caen (error HTTP, stream cancelado, broker no disponible, timeout de envío), el
+puente registra <code>status=error</code> y reintenta con espera creciente de 2 a 60 s. Si el error es de Kafka, recrea el
+productor. La lectura que no se pudo publicar no quedó en <code>vistas</code>, así que vuelve a llegar en el siguiente stream.</p>
+<p><strong>Garantía:</strong> al-menos-una-vez. Si el proceso muere entre publicar y guardar el estado (cada 5 s), una lectura puede
+repetirse; Spark deduplica por <code>eventId</code> (F3).</p>
+<h2 id="colector-de-apis-firebase">Colector de APIs → Firebase<a class="headerlink" href="#colector-de-apis-firebase" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td><code>ingesta/colector_apis.py</code> + configuración <code>ingesta/estaciones.yml</code></td>
+</tr>
+<tr>
+<td>Contenedor</td>
+<td><code>lambda26-aqua-colector</code>, servicio <code>aqua-colector</code> de <code>infra/compose.yml</code></td>
+</tr>
+<tr>
+<td>Prueba sin escribir</td>
+<td><code>docker run --rm --env-file .env monitoraqua-ingesta:latest python colector_apis.py --seco --una-vez [--fuente usgs]</code></td>
+</tr>
+</tbody>
+</table>
+<p>Cada lectura se convierte al contrato y se valida antes de escribir; si no cumple, se registra y no se escribe. Se
+escribe con <strong>PUT</strong> en <code>historial/&lt;origen&gt;_&lt;estación&gt;_&lt;timestamp&gt;</code>, con <code>print=silent</code> para que Firebase no devuelva el
+cuerpo y no consuma descarga. Una misma lectura consultada dos veces cae en la misma clave y no se duplica; si el dato
+es idéntico, Firebase ni siquiera emite evento.</p>
+<ul>
+<li><strong>Fuentes aisladas:</strong> cada fuente corre en su propio hilo y con su propio intervalo; si una API falla, se registra
+  <code>fuente_error</code> y las demás siguen.</li>
+<li><strong>Lecturas antiguas:</strong> no se escriben las de más de <code>VENTANA_H</code> (3 h), porque el puente ya no las vería.</li>
+<li><strong>Unidades:</strong> se convierte cuando la fuente no viene en °C, m o m³/s: °F→°C, ft³/s→m³/s, ft→m, y escalas por canal
+  (cm→m). Hoy USGS entrega °C y mg/L, EA m y m³/s, y Open-Meteo °C.</li>
+</ul>
+<h3 id="estaciones-elegidas-verificadas-el-2026-10-28">Estaciones elegidas (verificadas el 2026-10-28)<a class="headerlink" href="#estaciones-elegidas-verificadas-el-2026-10-28" title="Permanent link">&para;</a></h3>
+<p><strong>ThingSpeak:</strong> 212 canales candidatos (búsqueda por <em>water level</em>, <em>water tank</em>, <em>tank level</em>, <em>ultrasonic</em>, etc.),
+22 con lectura de menos de 24 h. Se eligieron los 7 que miden nivel de tanque:</p>
+<table>
+<thead>
+<tr>
+<th>Canal</th>
+<th>Nombre</th>
+<th>Medidas del contrato</th>
+<th>Actualiza</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>283977</td>
+<td>House Water Tank Reporting</td>
+<td><code>nivelPct</code></td>
+<td>~12/h</td>
+</tr>
+<tr>
+<td>480876</td>
+<td>Water Tank Levels &amp; Temp/Humidity</td>
+<td><code>nivelPct</code>, <code>temperaturaC</code>, <code>humedadPct</code></td>
+<td>~60/h</td>
+</tr>
+<tr>
+<td>1233810</td>
+<td>House Water Tank (24k L)</td>
+<td><code>nivelPct</code></td>
+<td>~6/h</td>
+</tr>
+<tr>
+<td>1233815</td>
+<td>Veggie Water Tank (24k L)</td>
+<td><code>nivelPct</code></td>
+<td>~3/h</td>
+</tr>
+<tr>
+<td>1272968</td>
+<td>WaterLevelMonitor</td>
+<td><code>distanciaCm</code></td>
+<td>~60/h</td>
+</tr>
+<tr>
+<td>3418755</td>
+<td>Rain water harvesting monitoring</td>
+<td><code>nivelM</code> (cm × 0.01), <code>tempAguaC</code></td>
+<td>~12/h</td>
+</tr>
+<tr>
+<td>3019316</td>
+<td>Nivel Cárcamo</td>
+<td><code>distanciaCm</code></td>
+<td>~4/h</td>
+</tr>
+</tbody>
+</table>
+<p>Canales activos descartados:</p>
+<ul>
+<li><strong>No son tanques:</strong></li>
+<li>Napkollektor (718576, colector solar)</li>
+<li>AquaControl32-4R (2421172, acuario)</li>
+<li>Trout Pond (24768)</li>
+<li>Metering (500688, energía)</li>
+<li>Well level (1127756, pozo)</li>
+<li>HydroSense (3527530, hidroponía)</li>
+<li>Water Tank 61103 (unidades de rango no documentadas)</li>
+<li>Docklands London (521315, temperatura de río)</li>
+<li>Bayfront Canal (1172149, canal)</li>
+<li>FHWS Volume (812321, unidades no documentadas)</li>
+<li>Project ALIGN (3185316)</li>
+<li>CO2 + AIR (159156)</li>
+<li><strong>Datos inválidos:</strong> Main Water Tank (668025), con "Percent Full" = -37.83.</li>
+<li><strong>Más de 3 h sin publicar:</strong> Water tank (1483281, 9.9 h) y plzenskaAggregated (765201, 17 h, en ceros).</li>
+</ul>
+<p><strong>Environment Agency UK:</strong> las 23 estaciones activas de la cuenca <strong>Thames from Hurley to Teddington</strong>, una sola cuenca
+para que sean comparables. <code>nivelM</code> = <em>stage</em> aguas arriba (mASD; Trowlock Island y Thames Ditton Island en mAOD).
+<code>caudalM3s</code> lo dan las 6 estaciones de aforo.</p>
+<table>
+<thead>
+<tr>
+<th>Ref</th>
+<th>Estación</th>
+<th>Río</th>
+<th>Caudal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2497TH</td>
+<td>Hurley Lock</td>
+<td>River Thames</td>
+<td></td>
+</tr>
+<tr>
+<td>2499TH</td>
+<td>Marlow Lock</td>
+<td>River Thames</td>
+<td></td>
+</tr>
+<tr>
+<td>2601TH</td>
+<td>Cookham Lock</td>
+<td>River Thames</td>
+<td></td>
+</tr>
+<tr>
+<td>2602TH</td>
+<td>Boulters Lock</td>
+<td>River Thames</td>
+<td></td>
+</tr>
+<tr>
+<td>2603TH</td>
+<td>Taplow</td>
+<td>Jubilee River</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>2604TH</td>
+<td>Maidenhead</td>
+<td>River Thames</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>2607TH</td>
+<td>Bray Lock</td>
+<td>River Thames</td>
+<td></td>
+</tr>
+<tr>
+<td>2655TH</td>
+<td>Raymill Road</td>
+<td>Maidenhead Ditch</td>
+<td></td>
+</tr>
+<tr>
+<td>2698TH</td>
+<td>Romney Lock</td>
+<td>River Thames</td>
+<td></td>
+</tr>
+<tr>
+<td>2700TH</td>
+<td>Windsor Park</td>
+<td>River Thames</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>2702TH</td>
+<td>Bell Weir</td>
+<td>River Thames</td>
+<td></td>
+</tr>
+<tr>
+<td>2703TH</td>
+<td>Old Windsor Lock</td>
+<td>River Thames</td>
+<td></td>
+</tr>
+<tr>
+<td>2900TH</td>
+<td>Staines</td>
+<td>River Thames</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>2901TH</td>
+<td>Penton Hook</td>
+<td>River Thames</td>
+<td></td>
+</tr>
+<tr>
+<td>2902TH</td>
+<td>Chertsey Lock</td>
+<td>River Thames</td>
+<td></td>
+</tr>
+<tr>
+<td>2904TH</td>
+<td>Shepperton Lock</td>
+<td>River Thames</td>
+<td></td>
+</tr>
+<tr>
+<td>3100TH</td>
+<td>Walton</td>
+<td>River Thames</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>3101TH</td>
+<td>Sunbury Lock</td>
+<td>River Thames</td>
+<td></td>
+</tr>
+<tr>
+<td>3102TH</td>
+<td>Molesey Lock</td>
+<td>River Thames</td>
+<td></td>
+</tr>
+<tr>
+<td>3104TH</td>
+<td>Thames Ditton Island</td>
+<td>River Thames</td>
+<td></td>
+</tr>
+<tr>
+<td>3400TH</td>
+<td>Kingston</td>
+<td>River Thames</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>3401TH</td>
+<td>Teddington Lock</td>
+<td>River Thames</td>
+<td></td>
+</tr>
+<tr>
+<td>3404TH</td>
+<td>Trowlock Island</td>
+<td>River Thames</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Excluidas: Ray Farm (SU89_82, agua subterránea, 14 h sin datos) y una estación de la cuenca que responde 404.</p>
+<p><strong>USGS</strong> (<code>api.waterdata.usgs.gov/ogcapi/v1</code>, colección <code>latest-continuous</code>, una sola consulta para las 10): 475
+estaciones de EE. UU. tenían los tres parámetros con lectura de menos de 3 h. Se eligieron 10 de la <strong>cuenca del río
+Delaware</strong>. Todas miden temperatura del agua (00010, °C → <code>tempAguaC</code>), pH (00400 → <code>ph</code>) y oxígeno disuelto (00300,
+mg/L → <code>oxigenoMgL</code>). La API devuelve también series viejas (2020, 2025) y valores <code>null</code>: el colector se queda con la
+lectura más reciente con valor de cada parámetro.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Estación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USGS-01433500</td>
+<td>Mongaup River near Mongaup NY</td>
+</tr>
+<tr>
+<td>USGS-01438500</td>
+<td>Delaware River at Montague NJ</td>
+</tr>
+<tr>
+<td>USGS-01454700</td>
+<td>Lehigh River at Glendon PA</td>
+</tr>
+<tr>
+<td>USGS-01463500</td>
+<td>Delaware River at Trenton NJ</td>
+</tr>
+<tr>
+<td>USGS-01465798</td>
+<td>Poquessing Creek at Philadelphia PA</td>
+</tr>
+<tr>
+<td>USGS-01467200</td>
+<td>Delaware River at Penn's Landing, Philadelphia PA</td>
+</tr>
+<tr>
+<td>USGS-01473500</td>
+<td>Schuylkill River at Norristown PA</td>
+</tr>
+<tr>
+<td>USGS-01474000</td>
+<td>Wissahickon Creek at Mouth, Philadelphia PA</td>
+</tr>
+<tr>
+<td>USGS-01474500</td>
+<td>Schuylkill River at Philadelphia PA</td>
+</tr>
+<tr>
+<td>USGS-01481500</td>
+<td>Brandywine Creek at Wilmington DE</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Open-Meteo:</strong> Juliaca (lat -15.49, lon -70.13), <code>temperature_2m</code> → <code>temperaturaC</code> y <code>relative_humidity_2m</code> →
+<code>humedadPct</code>.</p>
+<h2 id="recarga-al-arranque-del-colector-local-principal">Recarga al arranque del colector local (principal)<a class="headerlink" href="#recarga-al-arranque-del-colector-local-principal" title="Permanent link">&para;</a></h2>
+<p>El colector local (<code>lambda26-aqua-colector</code>) solo corre con la PC encendida, y en vivo pide <strong>la última</strong> lectura de
+cada estación. Para que una noche con la PC apagada no dependa del cron de GitHub, el colector <strong>recarga al
+arrancar</strong>, antes de su bucle normal:</p>
+<ol>
+<li><strong>Lee de Firebase las lecturas de APIs de las últimas <code>RECARGA_REVISAR_H</code> horas</strong> (24 por defecto). Es una sola
+   consulta de ~5 MB.</li>
+<li><strong>Elige desde dónde recargar cada origen</strong> (ThingSpeak, EA UK, USGS y Open-Meteo):</li>
+<li>desde su <strong>primer hueco interno</strong> de más de <code>RECARGA_HUECO_MIN</code> minutos (45);</li>
+<li>si no tiene huecos, desde su <strong>última lectura</strong>;</li>
+<li>en ambos casos, con 30 min de margen hacia atrás, porque EA UK y USGS publican con ~1 h de atraso.</li>
+</ol>
+<p>Así se cubren las noches en que GitHub escribió solo un pedazo, como la del 2026-10-29, con datos de 06:30 a
+   08:40 y un hueco de 02:00 a 06:30.
+3. <strong>Si un origen no tiene nada en esas 24 h,</strong> busca su última lectura hacia atrás, hasta el tope de su API.
+4. <strong>Pide a cada API todo lo que falta,</strong> en modo ventana, sin pasar del <strong>tope de días</strong> de esa API
+   (<code>recarga_max_dias</code> en <code>ingesta/estaciones.yml</code>):</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>Tope</th>
+<th>Por qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ThingSpeak</td>
+<td>5 días</td>
+<td>Corta en 8,000 lecturas, ~5.5 días en los canales de 1 por minuto</td>
+</tr>
+<tr>
+<td>EA UK</td>
+<td>7 días</td>
+<td>Guarda al menos 30 días</td>
+</tr>
+<tr>
+<td>USGS</td>
+<td>7 días</td>
+<td>Guarda semanas; se pagina, porque 10 estaciones × varios días superan las 10,000 lecturas por página</td>
+</tr>
+<tr>
+<td>Open-Meteo</td>
+<td>7 días</td>
+<td><code>minutely_15</code> da al menos 7 días hacia atrás</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><strong>Escribe solo las claves que no existen en Firebase.</strong> Las que existen pueden estar ya en Kafka y el puente las
+   repetiría, porque su memoria de claves (<code>vistas</code>) solo cubre 3 h. La clave es la misma de siempre
+   (<code>origen_estacion_timestamp</code>).</li>
+</ol>
+<p><strong>Qué llega a Kafka:</strong></p>
+<ul>
+<li>Al encender la PC, el puente escucha desde su cursor del apagado menos 3 h. Toda lectura recargada con
+  <code>timestamp</code> posterior llega a Kafka y al bronce, que es el caso normal: recargar la noche.</li>
+<li>Si la recarga encuentra un hueco más viejo, por ejemplo de un día anterior, esas lecturas quedan <strong>solo en
+  Firebase</strong>.</li>
+</ul>
+<p><strong>Configuración y prueba:</strong></p>
+<ul>
+<li>Se desactiva con <code>RECARGA_ARRANQUE=0</code>.</li>
+<li>Para probarla: <code>python colector_apis.py --solo-recarga --seco</code>.</li>
+<li>Si una API falla durante la recarga, se registra y el colector sigue con su bucle normal.</li>
+</ul>
+<p><strong>Primera recarga real</strong> (2026-10-29, 15:05 Lima, al desplegarla): revisó 4,525 lecturas de las últimas 24 h y
+escribió 597 claves nuevas.</p>
+<table>
+<thead>
+<tr>
+<th>Origen</th>
+<th>Claves nuevas</th>
+<th>Qué se rellenó</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EA UK</td>
+<td>536</td>
+<td>Huecos que deja el modo en vivo, porque EA publica por tandas y en vivo solo se pide la última lectura</td>
+</tr>
+<tr>
+<td>ThingSpeak</td>
+<td>49</td>
+<td></td>
+</tr>
+<tr>
+<td>Open-Meteo</td>
+<td>10</td>
+<td>Incluye los pasos del corte de internet de 10:17 a 10:28</td>
+</tr>
+<tr>
+<td>USGS</td>
+<td>2</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><code>auditar_ingesta.py</code> dio 0 <code>eventId</code> repetidos en Kafka.</p>
+<p><strong>Arreglos de la misma revisión,</strong> que también afectan a las pasadas de la nube:</p>
+<ul>
+<li><strong>EA UK:</strong> sin <code>_limit</code> devolvía como máximo 500 lecturas por estación. Ahora pide <code>_limit=10000</code>.</li>
+<li><strong>USGS:</strong> sigue el enlace <code>next</code> cuando hay más de una página.</li>
+</ul>
+<h2 id="colector-en-la-nube-github-actions-respaldo">Colector en la nube (GitHub Actions, respaldo)<a class="headerlink" href="#colector-en-la-nube-github-actions-respaldo" title="Permanent link">&para;</a></h2>
+<p>Con la recarga al arranque, GitHub Actions queda como <strong>respaldo</strong>: mantiene Firebase al día mientras la PC está
+apagada, y si no corre, la recarga lo cubre al encender. El workflow <code>.github/workflows/colector_apis.yml</code> corre el
+mismo colector en GitHub cada 30 min, en <strong>modo ventana</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">EDAD_MAX_H</span><span class="o">=</span><span class="m">7</span><span class="w"> </span>python<span class="w"> </span>colector_apis.py<span class="w"> </span>--una-vez<span class="w"> </span>--ventana-min<span class="w"> </span><span class="m">360</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Fuente</th>
+<th>Cómo pide la ventana</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ThingSpeak</td>
+<td><code>feeds.json?minutes=360</code></td>
+</tr>
+<tr>
+<td>EA UK</td>
+<td><code>readings?since=&lt;hace 6 h&gt;&amp;_limit=10000</code>; las 23 estaciones en paralelo (8 hilos), porque la API tarda ~4 s por estación</td>
+</tr>
+<tr>
+<td>USGS</td>
+<td>colección <code>continuous</code> con <code>time=&lt;desde&gt;/&lt;hasta&gt;</code>, siguiendo el enlace <code>next</code> (en vivo se usa <code>latest-continuous</code>)</td>
+</tr>
+<tr>
+<td>Open-Meteo</td>
+<td><code>minutely_15</code> con <code>past_minutely_15=24</code>: los mismos instantes de 15 min que <code>current</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>GitHub no garantiza el cron.</strong> Puede atrasar una ejecución o no dispararla. Ver la tabla de abajo.</li>
+<li><strong>La protección es la ventana de 6 h.</strong> Cada pasada pide las últimas 6 h, doce veces el intervalo del cron. Basta
+  una pasada verde cada menos de 6 h para que no quede ningún hueco: una pasada tardía rellena lo que dejaron las
+  que faltaron.</li>
+<li><strong>Sin duplicados:</strong> la clave determinística <code>origen_estacion_timestamp</code> hace que las lecturas que se repiten entre
+  pasadas se sobrescriban en Firebase en vez de agregarse.</li>
+<li><strong>Escritura:</strong> un <code>PATCH</code> multi-ruta por fuente sobre <code>/board1/lecturas/historial</code>. Tiene el mismo efecto que un
+  PUT por clave y es una sola petición. Verificado contra las reglas de Firebase el 2026-10-29.</li>
+<li><strong>Edad máxima:</strong> el colector descarta lecturas más viejas que <code>EDAD_MAX_H</code>. Si no se define, vale <code>VENTANA_H</code>
+  (3 h). El workflow la sube a 7 h, por encima de la ventana, y el colector rechaza una ventana mayor que la edad
+  máxima.</li>
+<li><strong>Con la PC apagada:</strong> las lecturas quedan en Firebase. Al encender, el puente lee desde su cursor menos 3 h hasta
+  el presente y pasa a Kafka todo lo acumulado: se recupera la noche entera.</li>
+<li><strong>Con la PC encendida:</strong> el puente escucha en vivo las lecturas con <code>timestamp</code> posterior a su cursor menos 3 h.
+  Puede pasar que GitHub se salte más de 3 h y una pasada tardía escriba lecturas nuevas de hace 3-6 h. Esas
+  lecturas quedan <strong>solo en Firebase</strong>: no llegan a Kafka ni al bronce.</li>
+<li>ThingSpeak y Open-Meteo no se pierden para los modelos: la capa batch las baja directo de sus APIs
+    (<code>batch/descargar_fuentes.py</code>).</li>
+<li>EA UK y USGS no alimentan ninguna dimensión.</li>
+<li>Si hiciera falta, se recuperan con una recarga como la del 2026-10-29 (abajo).</li>
+<li><strong>Los dos colectores a la vez:</strong> con la PC encendida corren el local (<code>lambda26-aqua-colector</code>) y el de GitHub. No
+  hay duplicados: los dos escriben la misma clave fija, y el puente publica cada clave una sola vez en Kafka
+  (<code>vistas</code>). El local da frescura de 5 min para la demo y el de GitHub cubre las horas con la PC apagada.</li>
+<li><strong>Fallas:</strong> si una fuente falla, la ejecución sale con código 1 y GitHub avisa por correo. Una estación suelta
+  caída solo queda en el log, porque la próxima ventana la cubre.</li>
+<li><strong>Medición</strong> (2026-10-29, en seco):</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Ventana</th>
+<th>Lecturas</th>
+<th>Duración</th>
+<th>Detalle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2 h</td>
+<td>537</td>
+<td>~20 s</td>
+<td>ThingSpeak 2 s, USGS 2 s, Open-Meteo 1 s, EA UK 20 s</td>
+</tr>
+<tr>
+<td>6 h</td>
+<td>1,739</td>
+<td>25 s</td>
+<td>EA UK 24 s</td>
+</tr>
+<tr>
+<td>6 h, con <code>_limit</code> de EA</td>
+<td>1,652</td>
+<td>~35 s</td>
+<td>EA UK 31 s (otra hora: el número de lecturas cambia con la hora)</td>
+</tr>
+</tbody>
+</table>
+<p>0 rechazadas en ambas.</p>
+<h3 id="lo-que-hizo-el-cron-la-primera-noche-2026-10-29">Lo que hizo el cron la primera noche (2026-10-29)<a class="headerlink" href="#lo-que-hizo-el-cron-la-primera-noche-2026-10-29" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Hora (Lima)</th>
+<th>Ejecución</th>
+<th>Qué se vio en Firebase</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>~01:31 y ~01:36</td>
+<td>#1 manual y su re-run</td>
+<td>Pasadas de 515 y 538 lecturas (evidencia en <code>docs/evidencias/colector-nube/</code>)</td>
+</tr>
+<tr>
+<td>02:07 a 08:07</td>
+<td>Ninguna</td>
+<td><strong>GitHub no disparó el cron.</strong> No hay lecturas de APIs entre las 02:00 y las 06:30</td>
+</tr>
+<tr>
+<td>08:40</td>
+<td>#2, la <strong>primera programada</strong> ("Triggered via schedule", 43 s, verde): la de las 08:37, 3 min tarde</td>
+<td>543 lecturas, con la ventana de 2 h de entonces</td>
+</tr>
+<tr>
+<td>09:07 a 13:37</td>
+<td>Ninguna</td>
+<td><strong>GitHub no ejecutó el cron entre las 08:40 y las 13:48</strong> (según la pestaña Actions)</td>
+</tr>
+<tr>
+<td>13:48</td>
+<td>La siguiente programada (Actions)</td>
+<td>No se distingue en Firebase: la pasada de las 14:34, con ventana de 6 h, reescribió las mismas claves</td>
+</tr>
+<tr>
+<td>14:34</td>
+<td>Pasada de la nube, ya con la ventana de 6 h</td>
+<td>495 claves con esta <code>ingestaTs</code> (las demás se reescribieron después)</td>
+</tr>
+</tbody>
+</table>
+<p>GitHub suele tardar en activar el cron de un workflow recién agregado, y en horas de carga atrasa o descarta
+ejecuciones. Esa noche y esa mañana estuvo <strong>5 h sin ejecutar nada</strong>. Por eso:</p>
+<ul>
+<li>la ventana pasó de 2 h a 6 h el mismo día;</li>
+<li>y, sobre todo, el colector local recarga al arrancar (sección anterior), así que la continuidad ya no depende
+  de GitHub.</li>
+</ul>
+<h3 id="recarga-puntual-del-hueco-nocturno-2026-10-29">Recarga puntual del hueco nocturno (2026-10-29)<a class="headerlink" href="#recarga-puntual-del-hueco-nocturno-2026-10-29" title="Permanent link">&para;</a></h3>
+<p>El hueco de las APIs de esa noche (01:48 → 09:15) se recargó a mano con el colector en modo ventana, filtrado a ese
+rango y <strong>solo con las claves que todavía no existían en Firebase</strong>. Las que ya existían pueden estar publicadas en
+Kafka y el puente las repetiría, porque su memoria de claves (<code>vistas</code>) solo cubre 3 h. El script y su salida están
+en <code>docs/evidencias/colector-nube/</code>.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ThingSpeak</th>
+<th>EA UK</th>
+<th>USGS</th>
+<th>Open-Meteo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lecturas nuevas escritas en Firebase</td>
+<td>871</td>
+<td>513</td>
+<td>236</td>
+<td>21</td>
+</tr>
+<tr>
+<td>Publicadas por el puente en Kafka</td>
+<td>871</td>
+<td>513</td>
+<td>236</td>
+<td>21</td>
+</tr>
+<tr>
+<td>En el bronce, 01:48-06:30 (únicas)</td>
+<td>748</td>
+<td>414</td>
+<td>187</td>
+<td>18</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Sin duplicados:</strong> <code>auditar_ingesta.py</code> dio 0 <code>eventId</code> repetidos y 0 lecturas en Firebase sin su copia en Kafka.</li>
+<li><strong>Por qué el puente las vio:</strong> su conexión de esa mañana había arrancado con <code>desdeTs</code> = el cursor del apagado
+  menos 3 h. Por eso escuchaba todo lo de la noche. Una recarga hecha después de su siguiente reconexión (cada
+  ~50 min) solo quedaría en Firebase.</li>
+<li><strong>Fuera del watermark:</strong> estas lecturas llegaron con horas de atraso, más que el watermark de las consultas
+  agregadas (7 min las rápidas y 90 min las lentas). Por eso <strong>no aparecen en los agregados en vivo de Grafana</strong>
+  (<code>lecturas_agg</code>) ni generan eventos de servicio, porque el detector descarta lo que llega fuera de orden. Sí
+  quedan en el <strong>bronce</strong>, que guarda todo sin watermark, y de ahí en la <strong>capa batch</strong> (<code>batch/capas.py</code>). Es el
+  reparto de trabajo de la arquitectura Lambda: la capa rápida prioriza lo reciente y la batch completa la historia.</li>
+</ul>
+<h3 id="configuracion-una-sola-vez-en-github-settings-secrets-and-variables-actions">Configuración (una sola vez, en GitHub → Settings → Secrets and variables → Actions)<a class="headerlink" href="#configuracion-una-sola-vez-en-github-settings-secrets-and-variables-actions" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Secrets:</strong> <code>FIREBASE_API_KEY</code>, <code>FIREBASE_DB_URL</code>, <code>FIREBASE_EMAIL</code> y <code>FIREBASE_PASSWORD</code>, con los mismos valores
+   de <code>.env</code>. <code>USGS_API_KEY</code> es opcional. Nunca se escriben en el repo.</li>
+<li><strong>Código:</strong> el workflow usa el código de <code>main</code>. Antes de la fusión de las ramas U2 (2026-10-29) lo tomaba de
+   <code>u2-colector-nube</code> mediante la variable temporal <code>COLECTOR_REF</code>. Esa variable ya no se usa y se elimina en GitHub.</li>
+<li><strong>El workflow tiene que estar en <code>main</code>:</strong> GitHub solo dispara los <code>schedule</code> desde la rama por defecto. Cambiar
+   la ventana o el cron exige un commit en <code>main</code>.</li>
+<li><strong>Prueba:</strong> Actions → colector-apis → <em>Run workflow</em>.</li>
+</ol>
+<h3 id="costo">Costo<a class="headerlink" href="#costo" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Actions:</strong> el repo es privado y el plan Free incluye 2,000 min/mes. Cada ejecución tarda ~45 s y se factura
+  1 min. A 48 ejecuciones por día son ~1,440 min/mes.</li>
+<li><strong>Si los minutos no alcanzan,</strong> el cron pasa a una vez por hora (<code>"7 * * * *"</code>), unos 720 min/mes, <strong>sin perder
+  datos</strong>. La ventana de 6 h cubre seis horas de ejecuciones perdidas. Solo cambia la frescura: las lecturas llegan
+  a Firebase hasta con una hora de atraso.</li>
+<li><strong>Firebase:</strong> las reescrituras no aumentan el almacenamiento (misma clave). Con la PC encendida, cada PATCH de
+  6 h (~650 KB) llega por el stream del puente: ~31 MB/día de descarga extra, ~0.9 GB/mes, dentro de los 10 GB/mes
+  del plan.</li>
+</ul>
+<h2 id="volumen-frente-al-plan-gratuito-de-firebase-spark">Volumen frente al plan gratuito de Firebase (Spark)<a class="headerlink" href="#volumen-frente-al-plan-gratuito-de-firebase-spark" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Fuente</th>
+<th>Lecturas nuevas/día</th>
+<th>Bytes/lectura</th>
+<th>Almacenamiento/día</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ThingSpeak (7, máx. 1 cada 5 min)</td>
+<td>~1,460</td>
+<td>370</td>
+<td>0.54 MB</td>
+</tr>
+<tr>
+<td>EA UK (23 × 96)</td>
+<td>2,208</td>
+<td>370</td>
+<td>0.82 MB</td>
+</tr>
+<tr>
+<td>USGS (10 × 96)</td>
+<td>960</td>
+<td>370</td>
+<td>0.36 MB</td>
+</tr>
+<tr>
+<td>Open-Meteo (1 × 96)</td>
+<td>96</td>
+<td>330</td>
+<td>0.03 MB</td>
+</tr>
+<tr>
+<td><strong>Colector</strong></td>
+<td><strong>~4,720</strong></td>
+<td></td>
+<td><strong>~1.75 MB</strong></td>
+</tr>
+<tr>
+<td>ESP32 (cada 5 s)</td>
+<td>17,280</td>
+<td>120</td>
+<td>2.07 MB</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>~22,000</strong></td>
+<td></td>
+<td><strong>~3.8 MB</strong></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Límite del plan Spark (RTDB)</th>
+<th>Uso estimado</th>
+<th>%</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Escrituras: sin cuota diaria; tope 1,000/s</td>
+<td>0.25/s</td>
+<td>0.03 %</td>
+</tr>
+<tr>
+<td>Almacenamiento: 1 GB</td>
+<td>3.8 MB/día (el ESP32 aporta 55 %)</td>
+<td>1 GB en ~260 días</td>
+</tr>
+<tr>
+<td>Descarga: 10 GB/mes</td>
+<td>~17.5 MB/día ≈ 0.53 GB/mes</td>
+<td>~5 %</td>
+</tr>
+<tr>
+<td>Conexiones simultáneas: 100</td>
+<td>1 stream + REST cortas</td>
+<td>~2 %</td>
+</tr>
+</tbody>
+</table>
+<p>La descarga se reparte así:</p>
+<ul>
+<li><strong>Stream del puente:</strong> recibe cada lectura una vez, 3.8 MB/día.</li>
+<li><strong>Relectura al reconectar:</strong> cada ~50 min el puente vuelve a leer la ventana de 3 h (0.47 MB), ~13.7 MB/día.</li>
+<li><strong>Escrituras del colector:</strong> con <code>print=silent</code> no devuelven nada.</li>
+</ul>
+<h2 id="verificacion-2026-10-28-22352253-utc">Verificación (2026-10-28, 22:35–22:53 UTC)<a class="headerlink" href="#verificacion-2026-10-28-22352253-utc" title="Permanent link">&para;</a></h2>
+<p>La auditoría con <code>ingesta/auditar_ingesta.py</code> lee todo lo publicado por el puente nuevo (desde el offset 2649 de la
+partición 0) y lo compara con Firebase:</p>
+<table>
+<thead>
+<tr>
+<th>Origen</th>
+<th>Mensajes</th>
+<th>Sensores</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>esp32-fisico</td>
+<td>1,523</td>
+<td>1</td>
+</tr>
+<tr>
+<td>ea-uk</td>
+<td>23</td>
+<td>23</td>
+</tr>
+<tr>
+<td>thingspeak</td>
+<td>21</td>
+<td>7</td>
+</tr>
+<tr>
+<td>usgs</td>
+<td>11</td>
+<td>10</td>
+</tr>
+<tr>
+<td>open-meteo</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Rechazados por el schema:</strong> 0 en el puente, 0 en el colector. Tampoco hubo errores de fuente, de escritura ni de
+  conexión.</li>
+<li><strong><code>eventId</code> repetidos:</strong> 0, aunque el puente y el colector se reiniciaron a mitad de la prueba. Al reiniciar, el
+  colector reescribió en Firebase las mismas claves de EA, USGS y ThingSpeak, y no volvieron a Kafka.</li>
+<li><strong>ESP32 una sola vez:</strong> 1,523 lecturas en Firebase en el rango auditado y 1,523 <code>eventId</code> únicos en Kafka; ninguna
+  falta y ninguna sobra. 25 traen <code>distanciaCm = -1</code> y pasaron tal cual.</li>
+<li><strong>Clave Kafka = <code>sensorId</code>:</strong> 1,579/1,579. Con 42 sensores, las particiones ya se reparten (0: 1544, 1: 26, 2: 9).</li>
+<li><strong>Un incidente durante la prueba:</strong> el primer arranque del puente, sin estado, publicó las 3 h previas del ESP32
+  (1,319 lecturas). No son duplicados (Kafka no tenía nada después del 23-oct), pero no eran "nuevas". Se corrigió con
+  el <code>piso</code>, y un arranque sin estado contra un tópico temporal publicó solo las lecturas posteriores al arranque.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--network<span class="w"> </span>lambda26-kafka-net<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span>-e<span class="w"> </span><span class="nv">KAFKA_BOOTSTRAP</span><span class="o">=</span>kafka:9092<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>monitoraqua-ingesta:latest<span class="w"> </span>python<span class="w"> </span>auditar_ingesta.py<span class="w"> </span>--desde<span class="w"> </span><span class="m">0</span>:2649,1:0,2:0
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.indexes", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

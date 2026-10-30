@@ -1,0 +1,84 @@
+{
+ "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+ "metricas": [
+  {
+   "anomalia": "fuga_lenta",
+   "evento": "alerta_fuga",
+   "episodios": 5,
+   "eventos": 1,
+   "consistencia_precision": 0.0,
+   "consistencia_precision_ic95": [
+    0.0,
+    0.793
+   ],
+   "consistencia_recall": 0.0,
+   "consistencia_recall_ic95": [
+    0.0,
+    0.434
+   ]
+  },
+  {
+   "anomalia": "corte_prolongado",
+   "evento": "corte_prolongado",
+   "episodios": 1,
+   "eventos": 10,
+   "consistencia_precision": 0.2,
+   "consistencia_precision_ic95": [
+    0.057,
+    0.51
+   ],
+   "consistencia_recall": 1.0,
+   "consistencia_recall_ic95": [
+    0.207,
+    1.0
+   ]
+  },
+  {
+   "anomalia": "llegada_atipica",
+   "evento": "llegada_agua (fueraDeFranja)",
+   "episodios": 4,
+   "eventos": 4,
+   "consistencia_precision": 1.0,
+   "consistencia_precision_ic95": [
+    0.51,
+    1.0
+   ],
+   "consistencia_recall": 1.0,
+   "consistencia_recall_ic95": [
+    0.51,
+    1.0
+   ]
+  },
+  {
+   "anomalia": "falla_sensor",
+   "evento": "falla_sensor",
+   "episodios": 25,
+   "eventos": 25,
+   "consistencia_precision": 1.0,
+   "consistencia_precision_ic95": [
+    0.867,
+    1.0
+   ],
+   "consistencia_recall": 1.0,
+   "consistencia_recall_ic95": [
+    0.867,
+    1.0
+   ]
+  }
+ ],
+ "deriva_termica": {
+  "episodios": 3,
+  "con_alerta_fuga_falsa": 0,
+  "ic95": [
+   0.0,
+   0.562
+  ]
+ },
+ "eventos_por_tipo": {
+  "llegada_agua": 113,
+  "falla_sensor": 25,
+  "corte_prolongado": 10,
+  "autonomia_baja": 4,
+  "alerta_fuga": 1
+ }
+}

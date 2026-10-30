@@ -1,0 +1,2013 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://claudiob12.github.io/MonitorAqua/stack-actual/">
+      
+      
+        <link rel="prev" href="../u2/">
+      
+      
+        <link rel="next" href="../ingesta/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Stack y servicios - MonitorAqua — Proyecto Sello</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#stack-actual-cluster-lambda26-capa-monitoraqua" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-header__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MonitorAqua — Proyecto Sello
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Stack y servicios
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-nav__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MonitorAqua — Proyecto Sello
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Producto U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto de la Unidad 2: pipeline en tiempo real
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stack y servicios
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stack y servicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quien-levanta-que" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quién levanta qué
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contenedores-y-puertos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenedores y puertos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kafka" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kafka
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spark
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#influxdb-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        InfluxDB 2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#influxdb-buckets-f5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        InfluxDB: buckets (F5)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grafana" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grafana
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prometheus-y-metricas-de-kafka" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prometheus y métricas de Kafka
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verificacion-en-un-comando" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificación en un comando
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arranque-del-stack-orden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arranque del stack (orden)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trampas-conocidas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trampas conocidas
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta (S6-S7)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ingesta (S6-S7)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ingesta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta unificada (IoT y APIs)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventos-servicio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eventos de servicio (empresariales)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos-aumentados/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flota extrapolada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Streaming (S8)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observabilidad y costos (S9)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Observabilidad y costos (S9)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tableros/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tableros y alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../costos-escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Costos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset-modelos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset de los modelos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inferencia-en-vivo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inferencia en vivo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dimensiones U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D2 · Horas de autonomía
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D4 · Próxima llegada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D6 · Pérdida por fuga
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D8 · Temperatura y residencia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arranque-diario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arranque diario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guion-demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guion de la demo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Antecedentes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Antecedentes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitectura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura (diseño inicial)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dimensiones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones (U1 y U2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adecuacion-dimensiones-u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adecuación al hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Datos de muestra (U1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quien-levanta-que" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quién levanta qué
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contenedores-y-puertos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenedores y puertos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kafka" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kafka
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spark
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#influxdb-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        InfluxDB 2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#influxdb-buckets-f5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        InfluxDB: buckets (F5)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grafana" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grafana
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prometheus-y-metricas-de-kafka" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prometheus y métricas de Kafka
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verificacion-en-un-comando" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificación en un comando
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arranque-del-stack-orden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arranque del stack (orden)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trampas-conocidas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trampas conocidas
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="stack-actual-cluster-lambda26-capa-monitoraqua">Stack actual (cluster <code>lambda26</code> + capa MonitorAqua)<a class="headerlink" href="#stack-actual-cluster-lambda26-capa-monitoraqua" title="Permanent link">&para;</a></h1>
+<p>Estado verificado el 2026-10-28: F1 cerró con <code>infra/verificar_stack.py</code> en verde (12/12). En F2 se sumaron el puente,
+el colector y un chequeo de ingesta viva (ver <code>docs/ingesta.md</code>).</p>
+<h2 id="quien-levanta-que">Quién levanta qué<a class="headerlink" href="#quien-levanta-que" title="Permanent link">&para;</a></h2>
+<p>El stack lo levantan tres compose: dos del repo del curso <code>C:\upeu\Big Data\u2\lambda26</code> y uno de este repo.
+Ninguno duplica Kafka ni Prometheus.</p>
+<table>
+<thead>
+<tr>
+<th>Compose</th>
+<th>Proyecto</th>
+<th>Servicios</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lambda26/kafka/compose.yml</code></td>
+<td><code>lambda26-kafka</code></td>
+<td>Kafka, kafka-exporter, Kafbat UI</td>
+</tr>
+<tr>
+<td><code>lambda26/obs/compose.yml</code></td>
+<td><code>lambda26-obs</code></td>
+<td><strong>solo Prometheus</strong> (su servicio <code>grafana</code> ya no se usa, ver abajo)</td>
+</tr>
+<tr>
+<td><code>MonitorAqua/infra/compose.yml</code></td>
+<td><code>monitoraqua-infra</code></td>
+<td>InfluxDB 2, Grafana, puente Firebase → Kafka, colector de APIs, Spark Structured Streaming</td>
+</tr>
+</tbody>
+</table>
+<p>Otros contenedores de lambda26:</p>
+<ul>
+<li><strong><code>lambda26-pyspark</code></strong> (Jupyter + Spark): lo sigue usando el proyecto.</li>
+<li><strong><code>lambda26-aqua-bridge</code></strong> (puente de la S08): reemplazado en F2 por <code>lambda26-aqua-puente</code>. Queda <strong>detenido y con
+  <code>restart=no</code></strong>, sin borrar. Nunca correrlo junto al nuevo, porque cada lectura llegaría dos veces a Kafka.</li>
+<li><strong><code>lambda26-aqua-consumer</code></strong> (S09): detenido. Su grupo <code>aqua-monitor-group</code> se <strong>borró en F5</strong> porque estaba
+  abandonado, con lag creciente. Si se vuelve a encender el contenedor, el grupo reaparece. El consumidor vigente es
+  <code>lambda26-aqua-consumidor-eventos</code> (grupo <code>aqua-servicio-consumidor</code>).</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Grafana ahora pertenece a <code>infra/compose.yml</code></p>
+<p>El contenedor <code>lambda26-grafana</code> se recreó desde este repo, con el mismo nombre, el mismo puerto 43000 y el mismo
+volumen de datos (<code>lambda26-obs_lambda26_grafana_data</code>). Ahora toma el provisioning de <code>infra/grafana/</code> y los
+tableros de <code>dashboards/</code>, donde está la copia del tablero S09. <strong>No volver a levantar el servicio <code>grafana</code> de
+<code>lambda26/obs</code></strong>: chocaría por el nombre del contenedor. Para Prometheus usar
+<code>docker compose -f obs/compose.yml up -d prometheus</code>.</p>
+</div>
+<h2 id="contenedores-y-puertos">Contenedores y puertos<a class="headerlink" href="#contenedores-y-puertos" title="Permanent link">&para;</a></h2>
+<p>Todos están en la red Docker <strong><code>lambda26-kafka-net</code></strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Contenedor</th>
+<th>Imagen</th>
+<th>Host → contenedor</th>
+<th>Nombre en la red</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lambda26-kafka</code></td>
+<td><code>apache/kafka:4.3.1</code> (KRaft, 1 nodo)</td>
+<td><code>49092 → 49092</code></td>
+<td><code>kafka:9092</code></td>
+</tr>
+<tr>
+<td><code>lambda26-kafka-ui</code></td>
+<td><code>ghcr.io/kafbat/kafka-ui:v1.5.0</code></td>
+<td><code>48085 → 8080</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>lambda26-kafka-exporter</code></td>
+<td><code>danielqsj/kafka-exporter:v1.10.0</code></td>
+<td><code>49308 → 9308</code></td>
+<td><code>kafka-exporter:9308</code></td>
+</tr>
+<tr>
+<td><code>lambda26-prometheus</code></td>
+<td><code>prom/prometheus:v3.14.0</code></td>
+<td><code>49090 → 9090</code></td>
+<td><code>prometheus:9090</code></td>
+</tr>
+<tr>
+<td><code>lambda26-grafana</code></td>
+<td><code>grafana/grafana:11.4.0</code></td>
+<td><code>43000 → 3000</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>lambda26-influxdb</code></td>
+<td><code>influxdb:2.7.12</code></td>
+<td><code>48086 → 8086</code></td>
+<td><code>influxdb:8086</code></td>
+</tr>
+<tr>
+<td><code>lambda26-pyspark</code></td>
+<td>build local (Python 3.10, Java 21, PySpark 4.2.0)</td>
+<td><code>4488 → 8888</code> (Jupyter), <code>4042 → 4040</code> (Spark UI)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>lambda26-aqua-puente</code></td>
+<td><code>monitoraqua-ingesta</code> (build de <code>ingesta/Dockerfile</code>)</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>lambda26-aqua-colector</code></td>
+<td><code>monitoraqua-ingesta</code></td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>lambda26-aqua-consumidor-eventos</code></td>
+<td><code>monitoraqua-ingesta</code> (consumidor de <code>servicio-eventos</code>, grupo <code>aqua-servicio-consumidor</code>)</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>lambda26-aqua-volumen</code></td>
+<td><code>monitoraqua-ingesta</code> (bytes y mensajes por tópico cada 5 min → InfluxDB <code>kafka_volumen</code>)</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>lambda26-grafana-renderer</code></td>
+<td><code>grafana/grafana-image-renderer:3.11.0</code> (capturas de tableros, <code>/render</code>)</td>
+<td>—</td>
+<td><code>renderer:8081</code></td>
+</tr>
+<tr>
+<td><code>lambda26-aqua-streaming</code></td>
+<td><code>monitoraqua-streaming</code> (build de <code>streaming/Dockerfile</code>, PySpark 4.2.0)</td>
+<td><code>4043 → 4040</code> (Spark UI)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="kafka">Kafka<a class="headerlink" href="#kafka" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Bootstrap:</strong> <code>localhost:49092</code> desde el host, <code>kafka:9092</code> desde un contenedor en <code>lambda26-kafka-net</code>.</li>
+<li><strong>UI:</strong> cluster <code>lambda26</code> en Kafbat UI, http://localhost:48085.</li>
+<li><strong>Auto-creación de tópicos:</strong> <code>KAFKA_AUTO_CREATE_TOPICS_ENABLE=true</code>, pero un tópico creado solo queda con 1 partición. Los tópicos del proyecto se crean siempre a mano.</li>
+<li><strong>Sin volumen:</strong> el compose de Kafka no monta volumen, así que los mensajes viven en la capa del contenedor. Se usa <code>docker start</code>/<code>stop</code> y <strong>nunca</strong> <code>docker compose down</code> ni <code>up --force-recreate</code>, que borrarían el historial.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Tópico</th>
+<th>Particiones</th>
+<th>Retención</th>
+<th>Mensajes (28-oct)</th>
+<th>Key</th>
+<th>Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>aqua-eventos-real</code></td>
+<td>3</td>
+<td>7 días (<code>retention.ms=604800000</code>)</td>
+<td>4,228 al cierre de F2: 2,649 del puente de la S08 (offsets 0–2648, partición 0) y el resto del puente nuevo</td>
+<td><code>sensorId</code></td>
+<td>lecturas de todas las fuentes</td>
+</tr>
+<tr>
+<td><code>servicio-eventos</code></td>
+<td>3</td>
+<td>7 días (<code>retention.ms=604800000</code>)</td>
+<td>51 al arrancar F4 (historial real)</td>
+<td><code>sensorId</code></td>
+<td>eventos de negocio derivados por Spark (F4; contrato en <code>docs/eventos-servicio.md</code>)</td>
+</tr>
+<tr>
+<td><code>aqua-eventos-aumentados</code></td>
+<td>3</td>
+<td>7 días (<code>retention.ms=604800000</code>, <code>CreateTime</code>)</td>
+<td>172,800 (corrida <code>r2026-45facae2</code>, F2b)</td>
+<td><code>sensorId</code></td>
+<td>datos aumentados de la flota extrapolada; nunca se mezclan con el real (<code>docs/datos-aumentados.md</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>Con 42 sensores (ESP32 + 41 de API) la clave <code>sensorId</code> ya reparte entre las 3 particiones. El ESP32 sigue en la
+partición 0.</p>
+<p>Así se creó <code>servicio-eventos</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">MSYS_NO_PATHCONV</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>lambda26-kafka<span class="w"> </span>/opt/kafka/bin/kafka-topics.sh<span class="w"> </span>--bootstrap-server<span class="w"> </span>kafka:9092<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--create<span class="w"> </span>--if-not-exists<span class="w"> </span>--topic<span class="w"> </span>servicio-eventos<span class="w"> </span>--partitions<span class="w"> </span><span class="m">3</span><span class="w"> </span>--replication-factor<span class="w"> </span><span class="m">1</span><span class="w"> </span>--config<span class="w"> </span>retention.ms<span class="o">=</span><span class="m">604800000</span>
+</code></pre></div>
+<h2 id="spark">Spark<a class="headerlink" href="#spark" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Dónde corre:</strong> dentro del contenedor <code>lambda26-pyspark</code>, con PySpark <strong>4.2.0</strong> (Scala 2.13), Java 21 y Python 3.10. No hay Spark instalado en Windows.</li>
+<li><strong>Conector:</strong> <code>org.apache.spark:spark-sql-kafka-0-10_2.13:4.2.0</code>, ya cacheado en el Ivy del contenedor (junto con <code>kafka-clients-3.9.2</code>).</li>
+<li><strong>Trampa con <code>spark-submit</code>:</strong> el conector se pasa con <code>--packages</code>. Ponerlo en <code>spark.jars.packages</code> dentro del builder no tiene efecto, porque la JVM ya arrancó, y falla con <code>Failed to find data source: kafka</code>.</li>
+<li><strong>Montaje:</strong> el contenedor monta <code>lambda26/pyspark/sesiones → /opt</code>, no este repo. Para correr scripts de MonitorAqua se copian con <code>docker cp</code>. En F3 se decide si el job de streaming tiene su propio contenedor.</li>
+</ul>
+<p>Prueba mínima (<code>infra/prueba_spark_kafka.py</code>), que leyó los 10 últimos mensajes sin errores:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>cp<span class="w"> </span>infra/prueba_spark_kafka.py<span class="w"> </span>lambda26-pyspark:/tmp/
+<span class="nv">MSYS_NO_PATHCONV</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>lambda26-pyspark<span class="w"> </span>spark-submit<span class="w"> </span>--conf<span class="w"> </span>spark.ui.enabled<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--packages<span class="w"> </span>org.apache.spark:spark-sql-kafka-0-10_2.13:4.2.0<span class="w"> </span>/tmp/prueba_spark_kafka.py
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>Spark 4.2.0 · kafka:9092 · aqua-eventos-real · 2649 mensajes en el tópico
+|0 |2648|2026-10-23 02:11:09.563|{"tipoEvento": "aqua.tanque.lectura", "eventId": "-P4aWg-9A8Y3N3drWoH-", "sensorId": "esp32-tanque-real-01", "distanciaCm": 16.2, ...}
+</code></pre></div>
+<h2 id="influxdb-2">InfluxDB 2<a class="headerlink" href="#influxdb-2" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Acceso:</strong> http://localhost:48086, org <code>horeb</code>, bucket <strong><code>monitoraqua</code></strong> con retención de <strong>30 días</strong>. Treinta días cubren el ciclo de U2 y la demo de S12; el histórico largo va a Parquet en la capa batch (F6).</li>
+<li><strong>Credenciales:</strong> usuario, contraseña y token de administrador viven solo en <code>.env</code> (<code>INFLUX_*</code>). El setup inicial (<code>DOCKER_INFLUXDB_INIT_*</code>) solo se aplica la primera vez que se crea el volumen <code>monitoraqua_influxdb_data</code>.</li>
+</ul>
+<h2 id="influxdb-buckets-f5">InfluxDB: buckets (F5)<a class="headerlink" href="#influxdb-buckets-f5" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Bucket</th>
+<th>Retención</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>monitoraqua</code></td>
+<td>30 días</td>
+<td>todo lo real en vivo (Spark, <code>aqua-volumen</code>)</td>
+</tr>
+<tr>
+<td><code>monitoraqua_aumentados</code></td>
+<td>sin vencimiento</td>
+<td>flota extrapolada (corrida <code>r2026-45facae2</code>, fechas simuladas 28-sep a 27-oct), cargada por <code>streaming/cargar_historico_influx.py</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="grafana">Grafana<a class="headerlink" href="#grafana" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Acceso:</strong> http://localhost:43000, con las credenciales de <code>.env</code> (<code>GRAFANA_ADMIN_*</code>, que solo aplican si el volumen es nuevo; el volumen actual conserva <code>admin</code>).</li>
+<li><strong>Datasources provisionados (<code>infra/grafana/provisioning/datasources/</code>):</strong></li>
+<li><code>Prometheus</code> (uid <code>prometheus</code>, por defecto): <code>http://prometheus:9090</code>. Responde "Successfully queried the Prometheus API".</li>
+<li><code>InfluxDB</code> (uid <code>influxdb</code>, Flux): <code>http://influxdb:8086</code>, con el token tomado de la variable <code>INFLUX_TOKEN</code>. Responde "datasource is working".</li>
+<li><strong>Tableros:</strong> se cargan de <code>dashboards/</code> a la carpeta <em>MonitorAqua</em>. Hoy está "S9 - Observabilidad del pipeline MonitorAqua".</li>
+</ul>
+<h2 id="prometheus-y-metricas-de-kafka">Prometheus y métricas de Kafka<a class="headerlink" href="#prometheus-y-metricas-de-kafka" title="Permanent link">&para;</a></h2>
+<p>Prometheus raspa <code>prometheus</code> y <code>kafka-exporter:9308</code> cada 15 s, y ambos targets están <code>up</code>. Hoy no hay métricas de Spark: se agregan en F5.</p>
+<p>Métricas de Kafka disponibles:</p>
+<table>
+<thead>
+<tr>
+<th>Métrica</th>
+<th>Para qué sirve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kafka_topic_partition_current_offset</code></td>
+<td>último offset por partición: con <code>rate()</code> da los <strong>mensajes por segundo</strong> de cada tópico</td>
+</tr>
+<tr>
+<td><code>kafka_topic_partition_oldest_offset</code></td>
+<td>primer offset retenido: con el anterior da los mensajes guardados</td>
+</tr>
+<tr>
+<td><code>kafka_topic_partitions</code></td>
+<td>particiones por tópico</td>
+</tr>
+<tr>
+<td><code>kafka_consumergroup_lag</code>, <code>kafka_consumergroup_lag_sum</code></td>
+<td><strong>lag</strong> por grupo/partición y total</td>
+</tr>
+<tr>
+<td><code>kafka_consumergroup_current_offset[_sum]</code></td>
+<td>offset confirmado por el grupo</td>
+</tr>
+<tr>
+<td><code>kafka_consumergroup_members</code></td>
+<td>consumidores activos del grupo</td>
+</tr>
+<tr>
+<td><code>kafka_brokers</code>, <code>kafka_broker_info</code></td>
+<td>brokers vivos</td>
+</tr>
+<tr>
+<td><code>kafka_topic_partition_in_sync_replica</code>, <code>..._under_replicated_partition</code>, <code>..._leader</code>, <code>..._leader_is_preferred</code>, <code>..._replicas</code></td>
+<td>salud de la replicación</td>
+</tr>
+</tbody>
+</table>
+<p>Valores el 28-oct:</p>
+<ul>
+<li><strong>Mensajes por tópico:</strong> <code>aqua-eventos-real</code>=2649, <code>servicio-eventos</code>=0.</li>
+<li><strong>Lag:</strong> <code>aqua-monitor-group</code> sobre <code>aqua-eventos-real</code> = 1.</li>
+</ul>
+<p>Hay un límite: Spark Structured Streaming <strong>no registra consumer group</strong> en Kafka, así que su lag no aparece aquí. Por eso existe <code>aqua-consumer</code>; el progreso de Spark se medirá con sus propias métricas en F5.</p>
+<h2 id="verificacion-en-un-comando">Verificación en un comando<a class="headerlink" href="#verificacion-en-un-comando" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>.venv/Scripts/python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>infra/requirements.txt<span class="w">   </span><span class="c1"># una vez</span>
+.venv/Scripts/python<span class="w"> </span>infra/verificar_stack.py
+</code></pre></div>
+<p>Chequea Kafka por protocolo desde el host, los dos tópicos con sus particiones y mensajes, la salud de InfluxDB y el
+bucket, Grafana y la salud de sus dos datasources, los targets de Prometheus y <code>kafka_brokers</code> del exporter. Desde F2
+también chequea la <strong>ingesta viva</strong>: el último mensaje de <code>aqua-eventos-real</code> debe tener menos de 120 s. Sale con
+código 1 si algo falla.</p>
+<p>Los chequeos de datasources usan <code>GRAFANA_ADMIN_USER</code> y <code>GRAFANA_ADMIN_PASSWORD</code> de <code>.env</code>. Si la contraseña de
+<code>admin</code> se cambia en la interfaz de Grafana, hay que actualizarla también en <code>.env</code>; si no, esos dos chequeos dan 401.</p>
+<h2 id="arranque-del-stack-orden">Arranque del stack (orden)<a class="headerlink" href="#arranque-del-stack-orden" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>start<span class="w"> </span>lambda26-kafka<span class="w"> </span>lambda26-kafka-exporter<span class="w"> </span>lambda26-kafka-ui<span class="w"> </span>lambda26-prometheus<span class="w">   </span><span class="c1"># existentes</span>
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>infra/compose.yml<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span>up<span class="w"> </span>-d<span class="w">   </span><span class="c1"># InfluxDB, Grafana, puente, colector y Spark streaming</span>
+docker<span class="w"> </span>start<span class="w"> </span>lambda26-pyspark<span class="w">                                                                 </span><span class="c1"># si se usa Spark</span>
+</code></pre></div>
+<h2 id="trampas-conocidas">Trampas conocidas<a class="headerlink" href="#trampas-conocidas" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Tópico tras un reset de Docker:</strong> si Kafka se recrea, crear <code>aqua-eventos-real</code> y <code>servicio-eventos</code> con 3 particiones <strong>antes</strong> de arrancar el puente.</li>
+<li><strong>Rutas en Git Bash:</strong> <code>docker exec</code> con rutas <code>/opt/...</code> necesita <code>MSYS_NO_PATHCONV=1</code>; si no, Git Bash las convierte en <code>C:/Program Files/Git/opt/...</code>.</li>
+<li><strong>Montaje de <code>lambda26-pyspark</code>:</strong> a veces queda apuntando a otra copia del repo del curso; verificarlo con <code>docker inspect lambda26-pyspark</code>.</li>
+<li><strong>Reloj del PC:</strong> va unos 1.4 s atrasado respecto a la hora NTP que usa el ESP32; las latencias calculadas en el host pueden salir negativas.</li>
+<li><strong>Python local:</strong> usar 3.12 para <code>.venv</code>. En 3.15 PyYAML (y por tanto mkdocs) no instala sin compilador de C++.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.indexes", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

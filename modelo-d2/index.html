@@ -1,0 +1,3500 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://claudiob12.github.io/MonitorAqua/modelo-d2/">
+      
+      
+        <link rel="prev" href="../inferencia-en-vivo/">
+      
+      
+        <link rel="next" href="../modelo-d4/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>D2 · Horas de autonomía - MonitorAqua — Proyecto Sello</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#modelo-d2-horas-de-autonomia-del-tanque" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-header__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MonitorAqua — Proyecto Sello
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              D2 · Horas de autonomía
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-nav__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MonitorAqua — Proyecto Sello
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Producto U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto de la Unidad 2: pipeline en tiempo real
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stack-actual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stack y servicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta (S6-S7)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ingesta (S6-S7)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ingesta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta unificada (IoT y APIs)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventos-servicio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eventos de servicio (empresariales)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos-aumentados/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flota extrapolada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Streaming (S8)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observabilidad y costos (S9)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Observabilidad y costos (S9)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tableros/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tableros y alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../costos-escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Costos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset-modelos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset de los modelos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inferencia-en-vivo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inferencia en vivo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dimensiones U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D2 · Horas de autonomía
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D2 · Horas de autonomía
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-que-pregunta-responde-y-que-decision-habilita" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Qué pregunta responde y qué decisión habilita
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Datos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-como-se-calculan-las-horas-de-autonomia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Cómo se calculan las horas de autonomía
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Cómo se calculan las horas de autonomía">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-es-un-caso-censurado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qué es un caso censurado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-los-modelos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Los modelos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Los modelos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#holt-principal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Holt (principal)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gbt-de-spark-mllib-comparacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GBT de Spark MLlib (comparación)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lineas-base-obligatorias-de-batchevaluacionpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Líneas base (obligatorias, de batch/evaluacion.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-como-se-evito-mirar-la-prueba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cómo se evitó mirar la prueba
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-resultados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Resultados
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Resultados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pronostico-del-nivel-mae-en-puntos-de-menor-es-mejor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pronóstico del nivel (MAE en puntos de %; menor es mejor)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#horas-de-autonomia-hasta-el-10-mae-en-horas-solo-casos-no-censurados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Horas de autonomía hasta el 10 % (MAE en horas; solo casos no censurados)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-leer-estos-resultados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo leer estos resultados
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-esp32-metrica-final-pendiente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. ESP32: métrica final pendiente
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-limitaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Limitaciones
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-uso-en-f7-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Uso en F7 (streaming)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-preguntas-probables-del-jurado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Preguntas probables del jurado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-reproducir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Reproducir
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-version-d22-perfil-de-consumo-por-hora-del-dia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Versión d2.2: perfil de consumo por hora del día
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Versión d2.2: perfil de consumo por hora del día">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-cambio-y-por-que" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qué cambió y por qué
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resultados-d21-y-d22-lado-a-lado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resultados: d2.1 y d2.2 lado a lado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-evidencia-principal-el-consumo-previsto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La evidencia principal: el consumo previsto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evidencia-por-umbral-10-25-y-50" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencia por umbral (10, 25 y 50 %)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-leer-d22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo leer d2.2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#por-que-la-persistencia-gana-en-el-nivel-a-1-hora-y-no-sirve-para-la-autonomia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Por qué la persistencia gana en el nivel a 1 hora y no sirve para la autonomía
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limitaciones-propias-de-d22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitaciones propias de d2.2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uso-en-f7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uso en F7
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preguntas-del-jurado-sobre-d22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preguntas del jurado sobre d2.2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reproducir-d22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducir d2.2
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#graficos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gráficos del notebook y del tablero en vivo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gráficos del notebook y del tablero en vivo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tablero-bi-en-vivo-f7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tablero BI en vivo (F7)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evidencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencia
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D4 · Próxima llegada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D6 · Pérdida por fuga
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D8 · Temperatura y residencia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arranque-diario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arranque diario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guion-demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guion de la demo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Antecedentes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Antecedentes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitectura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura (diseño inicial)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dimensiones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones (U1 y U2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adecuacion-dimensiones-u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adecuación al hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Datos de muestra (U1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-que-pregunta-responde-y-que-decision-habilita" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Qué pregunta responde y qué decisión habilita
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Datos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-como-se-calculan-las-horas-de-autonomia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Cómo se calculan las horas de autonomía
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Cómo se calculan las horas de autonomía">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-es-un-caso-censurado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qué es un caso censurado
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-los-modelos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Los modelos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Los modelos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#holt-principal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Holt (principal)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gbt-de-spark-mllib-comparacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GBT de Spark MLlib (comparación)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lineas-base-obligatorias-de-batchevaluacionpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Líneas base (obligatorias, de batch/evaluacion.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-como-se-evito-mirar-la-prueba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cómo se evitó mirar la prueba
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-resultados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Resultados
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Resultados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pronostico-del-nivel-mae-en-puntos-de-menor-es-mejor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pronóstico del nivel (MAE en puntos de %; menor es mejor)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#horas-de-autonomia-hasta-el-10-mae-en-horas-solo-casos-no-censurados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Horas de autonomía hasta el 10 % (MAE en horas; solo casos no censurados)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-leer-estos-resultados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo leer estos resultados
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-esp32-metrica-final-pendiente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. ESP32: métrica final pendiente
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-limitaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Limitaciones
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-uso-en-f7-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Uso en F7 (streaming)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-preguntas-probables-del-jurado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Preguntas probables del jurado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-reproducir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Reproducir
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-version-d22-perfil-de-consumo-por-hora-del-dia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Versión d2.2: perfil de consumo por hora del día
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Versión d2.2: perfil de consumo por hora del día">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-cambio-y-por-que" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qué cambió y por qué
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resultados-d21-y-d22-lado-a-lado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resultados: d2.1 y d2.2 lado a lado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-evidencia-principal-el-consumo-previsto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La evidencia principal: el consumo previsto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evidencia-por-umbral-10-25-y-50" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencia por umbral (10, 25 y 50 %)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-leer-d22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo leer d2.2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#por-que-la-persistencia-gana-en-el-nivel-a-1-hora-y-no-sirve-para-la-autonomia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Por qué la persistencia gana en el nivel a 1 hora y no sirve para la autonomía
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limitaciones-propias-de-d22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitaciones propias de d2.2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uso-en-f7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uso en F7
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preguntas-del-jurado-sobre-d22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preguntas del jurado sobre d2.2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reproducir-d22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducir d2.2
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#graficos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gráficos del notebook y del tablero en vivo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gráficos del notebook y del tablero en vivo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tablero-bi-en-vivo-f7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tablero BI en vivo (F7)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evidencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencia
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="modelo-d2-horas-de-autonomia-del-tanque">Modelo D2: horas de autonomía del tanque<a class="headerlink" href="#modelo-d2-horas-de-autonomia-del-tanque" title="Permanent link">&para;</a></h1>
+<p><strong>Dimensión D2 (Claudio Bustinza).</strong> Dos versiones, las dos con la partición <code>p6.1</code>:</p>
+<p><strong>Gráficos y evidencia:</strong> al final de la página, en <a href="#graficos">Gráficos del notebook y del tablero en vivo</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Versión</th>
+<th>Modelo principal</th>
+<th>Código</th>
+<th>Evidencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>d2.1</code> (commit <code>6f9bcae</code>)</td>
+<td>Holt (nivel + tendencia)</td>
+<td><code>batch/modelo_d2.py</code>, <code>batch/holt.py</code></td>
+<td><code>docs/evidencias/f6-d2/</code></td>
+</tr>
+<tr>
+<td><strong><code>d2.2</code></strong> (sección 12)</td>
+<td><strong>Perfil de consumo por hora del día</strong></td>
+<td><code>batch/modelo_d2_perfil.py</code>, <code>batch/perfil_consumo.py</code></td>
+<td><code>docs/evidencias/f6-d2/d2.2/</code></td>
+</tr>
+</tbody>
+</table>
+<p>Las secciones 1-11 describen d2.1, y casi todo vale también para d2.2: la pregunta, los datos, la censura y la
+partición. <strong>La sección 12 resume qué cambió en d2.2 y compara las dos versiones sobre las mismas filas.</strong></p>
+<h2 id="1-que-pregunta-responde-y-que-decision-habilita">1. Qué pregunta responde y qué decisión habilita<a class="headerlink" href="#1-que-pregunta-responde-y-que-decision-habilita" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>¿Cuántas horas le quedan al tanque antes de quedar casi vacío, si se sigue gastando como en las últimas horas?</strong></p>
+</blockquote>
+<p>"Casi vacío" es un umbral configurable; por defecto, el <strong>10 %</strong> del nivel.</p>
+<p>La respuesta sirve para decidir <strong>a tiempo</strong>:</p>
+<ul>
+<li><strong>Si la autonomía es baja y no se espera agua pronto</strong> (eso lo dice D4): avisar a la familia o al administrador
+  para que raciones, pidas una cisterna o llenes el tanque mientras hay servicio.</li>
+<li><strong>Si la autonomía es alta:</strong> no hay que hacer nada.</li>
+</ul>
+<p>En F7, este modelo correrá en vivo y alimentará el indicador del tablero y el evento <code>autonomia_baja</code>.</p>
+<h2 id="2-datos">2. Datos<a class="headerlink" href="#2-datos" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Tabla:</strong> <code>d2_autonomia</code> de la capa oro de F6. Es el nivel en % cada 5 min (la mediana de cada bloque), cortado
+  en tramos continuos y sin rellenar huecos.</li>
+<li><strong>Tres niveles de datos</strong>, que se reportan siempre por separado:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Qué es</th>
+<th>Para qué sirve aquí</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consistencia</td>
+<td>Flota extrapolada (datos aumentados, f2b.1 y f2b.2): 4 tanques × 2 corridas × 30 días</td>
+<td>Entrenar y comprobar que el modelo funciona donde la verdad se conoce. <strong>No es métrica final</strong></td>
+</tr>
+<tr>
+<td>ThingSpeak real</td>
+<td>5 tanques reales con nivel (canales 1233810, 1233815, 283977, 480876 y 3418755)</td>
+<td>La métrica real con la que se juzga el modelo</td>
+</tr>
+<tr>
+<td>ESP32 real</td>
+<td>El tanque del equipo</td>
+<td>Métrica final <strong>pendiente</strong> (sección 7)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Snapshot:</strong> las fuentes se descargaron el 2026-10-29 a las 10:35 de Lima, para incluir la noche del ESP32
+  (<code>docs/evidencias/f6-d2/manifiesto_fuentes_d2.json</code>).</li>
+</ul>
+<h2 id="3-como-se-calculan-las-horas-de-autonomia">3. Cómo se calculan las horas de autonomía<a class="headerlink" href="#3-como-se-calculan-las-horas-de-autonomia" title="Permanent link">&para;</a></h2>
+<p><strong>La idea es una regla de tres:</strong> si el tanque está al 60 % y baja 4 puntos por hora, llegar al 10 % le toma
+(60 − 10) / 4 = <strong>12.5 horas</strong>.</p>
+<div class="highlight"><pre><span></span><code>horas de autonomía = (nivel actual − umbral) / velocidad de bajada (% por hora)
+</code></pre></div>
+<ul>
+<li><strong>Si el nivel no está bajando</strong> (de noche, por ejemplo, nadie usa agua), la fórmula no tiene sentido. El modelo
+  responde <strong>"sin descenso previsto"</strong>, que se trata como "más de 72 h".</li>
+<li><strong>Cada modelo estima la velocidad de bajada a su manera.</strong> Esa es la diferencia entre ellos (sección 4).</li>
+</ul>
+<h3 id="que-es-un-caso-censurado">Qué es un caso censurado<a class="headerlink" href="#que-es-un-caso-censurado" title="Permanent link">&para;</a></h3>
+<p>Para saber si el modelo acertó hay que ver <strong>cuándo llegó de verdad</strong> el tanque al 10 %. Pero casi siempre llega
+agua antes: el tanque se rellena y <strong>nunca llegamos a ver cuándo se habría vaciado</strong>. Ese caso está <strong>censurado</strong>:
+sabemos que la autonomía era <em>al menos</em> hasta el llenado, pero no cuánto.</p>
+<ul>
+<li><strong>Cómo se detecta un llenado:</strong> una subida sostenida de más de 10 puntos del nivel, sobre la mediana de 15 min.
+  Con ese criterio, en la flota salen las mismas llegadas que detecta el detector congelado de F4 (27-29 por tanque
+  en 30 días), y en ThingSpeak 1233810, ~1 por día.</li>
+<li><strong>Episodio de descenso:</strong> el tramo entre un llenado y el siguiente.</li>
+<li><strong>Entrenamiento:</strong> Holt y GBT aprenden a seguir el <strong>nivel</strong>, no la autonomía. Los casos censurados no ensucian el
+  aprendizaje, porque el nivel sí se observa siempre. Solo la elección de los parámetros de Holt usa casos de
+  autonomía, y únicamente los no censurados del entrenamiento.</li>
+<li><strong>Evaluación:</strong> el error en horas se mide <strong>solo en los casos no censurados</strong>, donde el tanque realmente bajó
+  hasta el umbral. Siempre se informa cuántos episodios hubo y cuántos fueron censurados.</li>
+<li><strong>¿Por qué no se cuentan los censurados como error?</strong> Sería inventar una verdad que no se observó.</li>
+</ul>
+<h2 id="4-los-modelos">4. Los modelos<a class="headerlink" href="#4-los-modelos" title="Permanent link">&para;</a></h2>
+<h3 id="holt-principal">Holt (principal)<a class="headerlink" href="#holt-principal" title="Permanent link">&para;</a></h3>
+<p>Holt es un <strong>promedio que se actualiza con cada lectura y recuerda dos cosas</strong>: el nivel actual "limpio" (sin el
+ruido del sensor) y la <strong>velocidad</strong> a la que viene cambiando. Tiene dos perillas:</p>
+<ul>
+<li><strong>alpha:</strong> cuánto se cree en la lectura nueva frente a lo que ya se sabía.</li>
+<li><strong>beta:</strong> qué tan rápido se cambia de opinión sobre la velocidad. Un beta chico = una velocidad con memoria larga.</li>
+</ul>
+<p><strong>Por qué Holt:</strong></p>
+<ul>
+<li><strong>Da justo lo que necesita la autonomía:</strong> un nivel y una velocidad. Con la regla de tres de arriba sale la
+  respuesta.</li>
+<li><strong>Es liviano:</strong> guarda dos números por tanque y se actualiza con cada lectura. Encaja con el streaming de F7, y
+  <code>batch/holt.py</code> se usará allí tal cual.</li>
+<li><strong>Es explicable:</strong> se puede mostrar en el tablero de dónde sale cada número.</li>
+</ul>
+<p><strong>Un hallazgo del ajuste:</strong> las perillas se eligen de dos formas, siempre solo con datos de entrenamiento, y las dos
+chocan.</p>
+<table>
+<thead>
+<tr>
+<th>Ajustado para…</th>
+<th>Flota</th>
+<th>ThingSpeak real</th>
+<th>Qué pasa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pronosticar el nivel a 15-60 min (<code>holt_pronostico</code>)</td>
+<td>alpha 0.7 · beta 0.4</td>
+<td>alpha 1.0 · beta 0.0</td>
+<td>En ThingSpeak, <strong>se convierte en persistencia</strong>: velocidad siempre cero. Entonces nunca prevé una bajada y en autonomía dice "sin descenso" en el 95 % de los casos</td>
+</tr>
+<tr>
+<td>Estimar la autonomía (<code>holt</code>, <strong>el principal</strong>)</td>
+<td>alpha 1.0 · beta 0.03</td>
+<td>alpha 0.1 · beta 0.1</td>
+<td>Velocidad con memoria larga: pronostica peor el nivel a 15-60 min, pero sirve para la pregunta de D2</td>
+</tr>
+</tbody>
+</table>
+<p>Por eso el modelo principal se ajusta con el objetivo de la dimensión, las horas de autonomía, y el otro queda solo
+como comparación. Ese ajuste usa los casos no censurados del entrenamiento: 1,726 orígenes en la flota y 394 en
+ThingSpeak.</p>
+<h3 id="gbt-de-spark-mllib-comparacion">GBT de Spark MLlib (comparación)<a class="headerlink" href="#gbt-de-spark-mllib-comparacion" title="Permanent link">&para;</a></h3>
+<p><code>GBTRegressor</code> es un conjunto de <strong>árboles de decisión</strong> entrenados uno tras otro, cada uno corrigiendo los errores
+del anterior. Pronostica <strong>cuánto cambiará el nivel</strong> en 15 y en 60 min a partir de:</p>
+<ul>
+<li>las lecturas recientes y sus diferencias;</li>
+<li>las medias móviles;</li>
+<li>la hora del día y el día de la semana;</li>
+<li>las horas desde el último llenado;</li>
+<li>la tendencia de las últimas 3 h.</li>
+</ul>
+<p><strong>Por qué GBT:</strong> ve cosas que Holt no ve, como que a cierta hora siempre se gasta más. Además es el modelo de
+MLlib que exige la rúbrica (criterio 7). Para la autonomía se usa su pronóstico a 60 min como velocidad de bajada.</p>
+<p>Variables más importantes según el propio modelo:</p>
+<ul>
+<li><strong>Flota:</strong> la hora del día y el último cambio.</li>
+<li><strong>ThingSpeak:</strong> el nivel actual, la variabilidad reciente y los rezagos.</li>
+</ul>
+<h3 id="lineas-base-obligatorias-de-batchevaluacionpy">Líneas base (obligatorias, de <code>batch/evaluacion.py</code>)<a class="headerlink" href="#lineas-base-obligatorias-de-batchevaluacionpy" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Pronóstico del nivel</th>
+<th>Autonomía</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Persistencia</strong></td>
+<td>El nivel dentro de 15 o 60 min será el de ahora</td>
+<td>La velocidad de bajada es la de la última hora</td>
+</tr>
+<tr>
+<td><strong>Tendencia lineal</strong></td>
+<td>Se prolonga la recta de la última hora</td>
+<td>La velocidad es la pendiente de esa recta</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-como-se-evito-mirar-la-prueba">5. Cómo se evitó mirar la prueba<a class="headerlink" href="#5-como-se-evito-mirar-la-prueba" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Partición <code>p6.1</code>, siempre temporal:</strong></li>
+<li><strong>ThingSpeak:</strong> la prueba son los últimos 7 días de cada canal, con un día de <strong>embargo</strong> antes.</li>
+<li><strong>Flota:</strong> la consistencia son los últimos ~8 días de cada corrida.</li>
+<li><strong>Ajuste de hiperparámetros:</strong> solo con la partición de entrenamiento. Su último 20 % se separó como conjunto de
+  ajuste para elegir. Después se reentrenó con todo el entrenamiento y <strong>la prueba se miró una sola vez</strong>, al final.</li>
+<li><strong>Intervalos de confianza:</strong></li>
+<li><strong>Pronóstico:</strong> bootstrap por <strong>bloques de 1 h</strong>, porque lecturas seguidas no son independientes.</li>
+<li><strong>Autonomía:</strong> bootstrap por <strong>episodios completos</strong>.</li>
+</ul>
+<h2 id="6-resultados">6. Resultados<a class="headerlink" href="#6-resultados" title="Permanent link">&para;</a></h2>
+<p>Todas las cifras son del conjunto final (prueba de ThingSpeak y consistencia de la flota), con IC 95 %. Tablas
+completas, con RMSE y MAPE, en <code>docs/evidencias/f6-d2/tablas_d2.md</code>.</p>
+<h3 id="pronostico-del-nivel-mae-en-puntos-de-menor-es-mejor">Pronóstico del nivel (MAE en puntos de %; menor es mejor)<a class="headerlink" href="#pronostico-del-nivel-mae-en-puntos-de-menor-es-mejor" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Predictor</th>
+<th>15 min</th>
+<th>Mejora vs persistencia</th>
+<th>60 min</th>
+<th>Mejora vs persistencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consistencia (n ≈ 18,000)</td>
+<td>persistencia</td>
+<td>0.72 [0.65, 0.80]</td>
+<td>—</td>
+<td>2.66 [2.43, 2.94]</td>
+<td>—</td>
+</tr>
+<tr>
+<td></td>
+<td>tendencia</td>
+<td>0.99 [0.86, 1.13]</td>
+<td>−37 %</td>
+<td>3.22 [2.83, 3.63]</td>
+<td>−21 %</td>
+</tr>
+<tr>
+<td></td>
+<td>holt (principal)</td>
+<td>0.81 [0.73, 0.88]</td>
+<td>−12 %</td>
+<td>3.10 [2.84, 3.40]</td>
+<td>−16 %</td>
+</tr>
+<tr>
+<td></td>
+<td>holt_pronostico</td>
+<td>0.64 [0.56, 0.72]</td>
+<td><strong>+12 %</strong></td>
+<td>2.93 [2.57, 3.30]</td>
+<td>−10 %</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>gbt</strong></td>
+<td><strong>0.41 [0.37, 0.45]</strong></td>
+<td><strong>+43 %</strong></td>
+<td><strong>1.84 [1.67, 2.06]</strong></td>
+<td><strong>+31 %</strong></td>
+</tr>
+<tr>
+<td>ThingSpeak real (n 3,468 / 4,290)</td>
+<td><strong>persistencia</strong></td>
+<td><strong>0.78 [0.58, 0.99]</strong></td>
+<td>—</td>
+<td><strong>1.13 [0.93, 1.36]</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td></td>
+<td>tendencia</td>
+<td>1.03 [0.80, 1.29]</td>
+<td>−32 %</td>
+<td>1.99 [1.65, 2.39]</td>
+<td>−76 %</td>
+</tr>
+<tr>
+<td></td>
+<td>holt (principal)</td>
+<td>1.18 [0.96, 1.45]</td>
+<td>−53 %</td>
+<td>1.77 [1.48, 2.10]</td>
+<td>−57 %</td>
+</tr>
+<tr>
+<td></td>
+<td>holt_pronostico</td>
+<td>0.78 [0.58, 0.99]</td>
+<td>0 % (es la persistencia)</td>
+<td>1.13 [0.93, 1.36]</td>
+<td>0 %</td>
+</tr>
+<tr>
+<td></td>
+<td>gbt</td>
+<td>1.00 [0.77, 1.25]</td>
+<td>−28 %</td>
+<td>1.30 [1.10, 1.53]</td>
+<td>−15 %</td>
+</tr>
+<tr>
+<td>ESP32 real</td>
+<td>—</td>
+<td><strong>pendiente</strong></td>
+<td></td>
+<td><strong>pendiente</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="horas-de-autonomia-hasta-el-10-mae-en-horas-solo-casos-no-censurados">Horas de autonomía hasta el 10 % (MAE en horas; solo casos no censurados)<a class="headerlink" href="#horas-de-autonomia-hasta-el-10-mae-en-horas-solo-casos-no-censurados" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Los IC de esta tabla se calcularon por episodio, pero con 2-3 episodios no informan. Ver sección 12,
+<em>Evidencia por umbral</em>: la cifra al 10 % es indicativa.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Episodios</th>
+<th>Llegan al 10 %</th>
+<th>Censurados</th>
+<th>Predictor</th>
+<th>MAE h</th>
+<th>Sin descenso previsto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consistencia</td>
+<td>83</td>
+<td><strong>3</strong></td>
+<td>80</td>
+<td>persistencia</td>
+<td>13.8 [8.1, 15.8]</td>
+<td>20 %</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>tendencia</td>
+<td>14.0 [8.3, 16.5]</td>
+<td>20 %</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>holt (principal)</strong></td>
+<td><strong>12.4 [8.7, 15.2]</strong></td>
+<td>22 %</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>holt_pronostico</td>
+<td>14.7 [8.3, 16.5]</td>
+<td>21 %</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>gbt</td>
+<td>23.6 [16.1, 25.6]</td>
+<td>37 %</td>
+</tr>
+<tr>
+<td>ThingSpeak real</td>
+<td>137</td>
+<td><strong>2</strong></td>
+<td>135</td>
+<td>persistencia</td>
+<td><strong>29.6 [24.4, 38.5]</strong></td>
+<td>38 %</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>tendencia</td>
+<td><strong>29.4 [25.3, 36.5]</strong></td>
+<td>39 %</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>holt (principal)</td>
+<td>35.6 [26.6, 50.9]</td>
+<td>46 %</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>holt_pronostico</td>
+<td>64.1 [62.9, 66.2]</td>
+<td>95 %</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>gbt</td>
+<td>46.6 [38.8, 59.9]</td>
+<td>62 %</td>
+</tr>
+<tr>
+<td>ESP32 real</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td><strong>pendiente</strong></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Con umbral del 25 %</strong> (sensibilidad): en la flota se repite el orden (holt 13.2 h, persistencia 14.2 h, tendencia
+14.2 h). En la prueba de ThingSpeak <strong>ningún episodio llega al 25 %</strong>, así que no hay casos no censurados.</p>
+<h3 id="como-leer-estos-resultados">Cómo leer estos resultados<a class="headerlink" href="#como-leer-estos-resultados" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>En datos reales, nada le gana a la persistencia para pronosticar el nivel a 15-60 min.</strong> En una hora el nivel
+   de un tanque casi no cambia, salvo cuando llega agua, y eso ninguna tendencia lo anticipa. Es un resultado
+   conocido en series de corto plazo, y por eso la persistencia es una línea base obligatoria.</li>
+<li><strong>El GBT gana con holgura en la flota (+43 % y +31 %), pero pierde en ThingSpeak.</strong> En los datos aumentados
+   aprende el ciclo diario del generador. En los tanques reales ese patrón no se repite igual, y menos en la semana
+   de prueba. Es la razón por la que la flota se llama "consistencia" y no se usa como métrica final.</li>
+<li><strong>En autonomía, Holt es el mejor en la flota (12.4 h frente a 13.8 h de la persistencia), pero con solo 3
+   episodios no censurados los intervalos se solapan.</strong> No se puede afirmar que sea mejor. En ThingSpeak gana la
+   persistencia de la velocidad (29.6 h frente a 35.6 h), sobre <strong>2 episodios</strong>.</li>
+<li><strong>El error de autonomía es grande (12-35 h) por una razón clara: el consumo es intermitente.</strong> En el 20-46 % de
+   los momentos el tanque no está bajando (de noche, por ejemplo), y cualquier método de tendencia de corto plazo
+   responde "sin descenso". Cuando se reanuda el consumo, el tanque se vacía mucho antes de lo que decía esa
+   respuesta.</li>
+<li><strong>El 10 % casi nunca se alcanza:</strong> 3 de 83 episodios en la flota y 2 de 137 en ThingSpeak. Los tanques se
+   rellenan antes. La evaluación de la autonomía descansa en muy pocos episodios, y eso es lo primero que hay que
+   decir al presentarla.</li>
+</ol>
+<p><strong>Conclusión:</strong> el modelo queda <strong>entrenado, evaluado sin trampas y listo para F7</strong>, pero en datos reales <strong>no supera
+a la línea base</strong>. Se reporta tal cual. La mejora natural para una versión <code>d2.2</code> es estimar la velocidad de
+consumo con una memoria de un día o con el perfil de consumo por hora del día, en vez de la última hora. Así se
+evita el "sin descenso" nocturno. No se implementó en esta fase.</p>
+<h2 id="7-esp32-metrica-final-pendiente">7. ESP32: métrica final pendiente<a class="headerlink" href="#7-esp32-metrica-final-pendiente" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Por qué está pendiente:</strong> la geometría del tanque del ESP32 es <strong>provisional</strong> en <code>ingesta/tanques.yml</code>
+  (<code>por_medir: true</code>, <code>geometria_desde: null</code>). La partición <code>p6.1</code> solo abre el periodo de prueba del ESP32 desde
+  la hora en que rija la geometría medida (y después del congelamiento de F4). Sin periodo de prueba no hay
+  métrica final, y no se inventa una.</li>
+<li><strong>El tramo nocturno del 29-oct</strong> (01:40-08:30, 6.8 h continuas) es el primero del ESP32 que alcanza para un
+  horizonte de 1 h. Sirve como <strong>diseño</strong>: con los parámetros de ThingSpeak, la persistencia da MAE 0.20 % a 15 min
+  y 0.48 % a 60 min. El nivel casi no se movió, porque de noche no hubo consumo.</li>
+<li><strong>Para cerrar la métrica:</strong></li>
+<li>Medir el tanque y fijar <code>geometria_desde</code>.</li>
+<li>Acumular sesiones del ESP32 con consumo y llenados.</li>
+<li><strong>Vaciados controlados registrados en la bitácora</strong> (<code>docs/evidencias/f4/bitacora_real.csv</code>) durante la
+    prueba en vivo. Por ejemplo, abrir la salida y anotar la hora de inicio y la de llegada al umbral, sin rellenar
+    en medio. Cada uno aporta un <strong>episodio real de autonomía, no censurado y sin sesgo de selección</strong>, que es justo
+    lo que hoy falta para pasar la autonomía de "indicativa" a "medida".</li>
+<li>Volver a correr <code>batch/modelo_d2.py</code> para obtener la métrica final.</li>
+</ul>
+<h2 id="8-limitaciones">8. Limitaciones<a class="headerlink" href="#8-limitaciones" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>ESP32:</strong></li>
+<li>Geometría provisional, así que los % y litros son aproximados.</li>
+<li>Sesiones cortas e intermitentes: hasta el 29-oct, ningún tramo superaba las 2.4 h.</li>
+<li>Sin periodo de prueba.</li>
+<li><strong>DHT11 (±2 °C):</strong> la compensación térmica de la distancia tiene una incertidumbre de ~±0.36 % de la distancia.
+  En pronósticos de pocas décimas de punto, eso es del mismo orden que el error.</li>
+<li><strong>ThingSpeak es de otro país:</strong> son tanques de terceros, con otros hábitos de consumo, tamaños y sensores. Sirven
+  para probar el <strong>método</strong> con datos reales, no para afirmar cuánto acertará en Juliaca.</li>
+<li><strong>Muestreo de ThingSpeak 1233810 (cada ~10 min):</strong> en la rejilla de 5 min no tiene observación a 15 min exactos.
+  Entra en la evaluación a 60 min y en autonomía, pero no a 15 min.</li>
+<li><strong>Pocos episodios no censurados:</strong> 3 en la flota y 2 en ThingSpeak. Los intervalos son anchos y un solo
+  episodio pesa mucho.</li>
+<li><strong>Snapshot:</strong> volver a descargar las fuentes mueve la semana de prueba de ThingSpeak. Las cifras valen para el
+  snapshot guardado en la evidencia.</li>
+</ul>
+<h2 id="9-uso-en-f7-streaming">9. Uso en F7 (streaming)<a class="headerlink" href="#9-uso-en-f7-streaming" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Holt:</strong></li>
+<li><code>batch/holt.py</code>: la clase <code>Holt</code>, con <code>actualizar(ts, nivel)</code>, <code>pronostico(minutos)</code> y
+    <code>horas_autonomia(umbral)</code>. Su <code>estado()</code> es serializable para guardarlo entre micro-lotes.</li>
+<li>Parámetros en <code>batch/modelos/d2/d2.1-20261029/holt.json</code>. Los del ESP32 son los de ThingSpeak real.</li>
+<li>Se alimenta con la mediana del nivel en bloques de 5 min, como la tabla oro.</li>
+<li><strong>GBT:</strong> <code>batch/modelos/d2/d2.1-20261029/gbt_h15_*</code> y <code>gbt_h60_*</code>. Son modelos de Spark que no se versionan y se
+  regeneran con el script. Las variables y su orden están en <code>manifiesto.json</code>.</li>
+</ul>
+<h2 id="10-preguntas-probables-del-jurado">10. Preguntas probables del jurado<a class="headerlink" href="#10-preguntas-probables-del-jurado" title="Permanent link">&para;</a></h2>
+<p><strong>1. "Su modelo principal pierde contra la persistencia en datos reales. ¿Para qué sirve?"</strong>
+A 15-60 min, el nivel de un tanque casi no cambia, y la persistencia es muy difícil de vencer: por eso es una línea
+base obligatoria. Lo reportamos tal cual. La pregunta de D2 no es el nivel en una hora, sino <strong>cuántas horas
+quedan</strong>. Para eso se necesita una velocidad de bajada, que la persistencia del nivel no da. Lo que mostramos es
+que el método funciona de punta a punta, que no hicimos trampa con la prueba, y dónde falla: el consumo
+intermitente. Ese es el siguiente paso, con una velocidad de consumo de memoria más larga.</p>
+<p><strong>2. "¿Qué es un caso censurado y por qué lo dejan fuera?"</strong>
+Es cuando llega agua antes de que el tanque se vacíe. Sabemos que el tanque aguantó al menos hasta el llenado,
+pero no cuándo se habría vaciado. Si lo contáramos como error, estaríamos inventando una verdad. Por eso medimos
+el error solo donde el tanque llegó de verdad al umbral, e informamos siempre cuántos casos fueron censurados:
+80 de 83 en la flota y 135 de 137 en ThingSpeak.</p>
+<p><strong>3. "Si el GBT pronostica mejor en la flota, ¿por qué el principal es Holt?"</strong>
+Porque el GBT gana en los datos aumentados, que tienen un ciclo diario que aprende, pero pierde en los tanques
+reales. Para la autonomía es el peor (23.6 h y 46.6 h), porque su velocidad a 1 h es ruidosa. Holt guarda dos
+números por tanque, se actualiza con cada lectura en streaming y se puede explicar en el tablero.</p>
+<p><strong>4. "¿Cómo saben que no hay fuga de información entre entrenamiento y prueba?"</strong>
+La separación es temporal, nunca aleatoria, y se define una sola vez para los cuatro modelos (<code>p6.1</code>).</p>
+<ul>
+<li>Hay un día de embargo entre el entrenamiento y la prueba.</li>
+<li>Los hiperparámetros se eligieron solo con el último 20 % del entrenamiento.</li>
+<li>La prueba se usó una vez, al final.</li>
+<li>La prueba del ESP32 ni siquiera existe todavía.</li>
+</ul>
+<p>Los intervalos usan bootstrap por bloques y por episodios, porque las lecturas seguidas no son independientes.</p>
+<p><strong>5. "¿Qué tan confiable es esto para su propio tanque?"</strong>
+Todavía no lo sabemos, y no lo inventamos. La geometría del tanque es provisional, así que no hay periodo de prueba
+del ESP32. El tramo nocturno de 6.8 h ya permite evaluar a 1 hora, pero como diseño. La métrica final llega cuando
+midamos el tanque y juntemos sesiones con consumo y llenados.</p>
+<h2 id="11-reproducir">11. Reproducir<a class="headerlink" href="#11-reproducir" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># Fuentes y capas (si se quiere un snapshot nuevo; mueve la prueba de ThingSpeak)</span>
+docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">:/repo"</span><span class="w"> </span>-w<span class="w"> </span>/repo/batch<span class="w"> </span>monitoraqua-ingesta:latest<span class="w"> </span>python<span class="w"> </span>descargar_fuentes.py
+docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">:/repo"</span><span class="w"> </span>-w<span class="w"> </span>/repo<span class="w"> </span>-e<span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span>/repo/streaming:/repo/batch<span class="w"> </span>monitoraqua-streaming:latest<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>spark-submit<span class="w"> </span>--driver-memory<span class="w"> </span>3g<span class="w"> </span>batch/capas.py
+<span class="c1"># Modelo D2 (~12 min)</span>
+docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">:/repo"</span><span class="w"> </span>-w<span class="w"> </span>/repo<span class="w"> </span>-e<span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span>/repo/batch<span class="w"> </span>monitoraqua-streaming:latest<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>spark-submit<span class="w"> </span>--driver-memory<span class="w"> </span>3g<span class="w"> </span>batch/modelo_d2.py
+</code></pre></div>
+<h2 id="12-version-d22-perfil-de-consumo-por-hora-del-dia">12. Versión d2.2: perfil de consumo por hora del día<a class="headerlink" href="#12-version-d22-perfil-de-consumo-por-hora-del-dia" title="Permanent link">&para;</a></h2>
+<h3 id="que-cambio-y-por-que">Qué cambió y por qué<a class="headerlink" href="#que-cambio-y-por-que" title="Permanent link">&para;</a></h3>
+<p>d2.1 mostró que <strong>el problema de la autonomía es el consumo intermitente</strong>. De noche el tanque no baja, cualquier
+tendencia de las últimas horas dice "sin descenso", y el error se dispara.</p>
+<p>d2.2 deja de mirar solo la última hora y aprende <strong>cómo consume cada tanque a lo largo del día</strong>:</p>
+<ol>
+<li><strong>Aprender</strong> (solo con la partición de entrenamiento de cada tanque):</li>
+<li>En cada bloque de una hora de reloj sin llenado, el consumo es cuánto bajó el nivel en esa hora (%/h).</li>
+<li>Con todos esos bloques se arma una tabla por <strong>día de la semana y hora</strong> (si hay al menos 14 días de historia
+     y 3 bloques por celda) o solo por <strong>hora del día</strong>.</li>
+<li>Por celda se guardan el P10, el P50 (la mediana) y el P90 del consumo.</li>
+<li><strong>Proyectar:</strong></li>
+<li>Desde el nivel actual se resta, paso a paso de 5 min, el consumo típico (P50) de cada hora que viene, hasta
+     llegar al umbral. Las horas que tarda son la autonomía.</li>
+<li>Así, si son las 22:00, el modelo "sabe" que de madrugada casi no se gasta y que a las 7:00 se gasta mucho.</li>
+<li><strong>Banda:</strong></li>
+<li>Proyectar con el P90 del consumo (se gasta más de lo normal) da la autonomía <strong>pesimista</strong>.</li>
+<li>Con el P10 (se gasta menos) da la <strong>optimista</strong>.</li>
+<li>La banda P10-P90 es el rango de horas que el tablero puede mostrar.</li>
+</ol>
+<p><strong>Líneas base de la autonomía en d2.2:</strong></p>
+<ul>
+<li><strong>Consumo medio:</strong> nivel disponible sobre el umbral dividido entre el consumo medio por hora del tanque. En % es
+  lo mismo que "litros disponibles / litros por hora", porque la capacidad es constante.</li>
+<li><strong>Holt d2.1:</strong> el modelo principal de la versión anterior, con sus parámetros guardados y sin reajustar.</li>
+</ul>
+<p>La persistencia sigue como línea base del <strong>pronóstico de nivel</strong> a 15 y 60 min.</p>
+<p><strong>Nueva métrica, el C-index (índice de concordancia).</strong> El error en horas solo puede usar los casos no censurados,
+que son muy pocos. El C-index usa <strong>todos</strong>, también los censurados: entre dos momentos, si uno se vació antes,
+¿el modelo le dio menos horas? Para un caso censurado sabemos que aguantó <em>al menos</em> hasta el llenado, y eso basta
+para compararlo con los que se vaciaron antes.</p>
+<ul>
+<li>1 = siempre ordena bien; 0.5 = azar.</li>
+<li>Se calcula con un origen por hora (los de cada 5 min del mismo episodio son casi iguales).</li>
+<li>El IC remuestrea episodios completos.</li>
+<li><strong>Global y por tanque.</strong> El C-index <strong>global</strong> compara momentos de todos los tanques juntos, y eso lo infla:
+  ordenar un tanque casi lleno contra otro casi vacío es trivial, porque basta con mirar el nivel. El C-index <strong>por
+  tanque</strong> (estratificado) solo compara momentos del <strong>mismo</strong> tanque, que es lo difícil: saber si este tanque se
+  vacía antes esta noche o mañana. Se reportan los dos, y el que importa es el por tanque.</li>
+<li>Está en <code>batch/evaluacion.py</code> (<code>evaluar_concordancia</code>) para que D4 lo use igual con el tiempo hasta la próxima
+  llegada.</li>
+</ul>
+<h3 id="resultados-d21-y-d22-lado-a-lado">Resultados: d2.1 y d2.2 lado a lado<a class="headerlink" href="#resultados-d21-y-d22-lado-a-lado" title="Permanent link">&para;</a></h3>
+<p>Mismas filas para todos los predictores. Los GBT y Holt de d2.1 se re-aplicaron sin reentrenar. Tablas completas en
+<code>docs/evidencias/f6-d2/d2.2/tablas_d2.2.md</code>.</p>
+<p><strong>Horas de autonomía hasta el 10 %</strong></p>
+<p>Casos de la evaluación final:</p>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Episodios</th>
+<th>Error en horas: casos no censurados</th>
+<th>C-index: orígenes (uno por hora)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consistencia</td>
+<td>83 (3 llegan al 10 %, 80 censurados)</td>
+<td>1,368 orígenes de 3 episodios</td>
+<td>1,463: 114 no censurados y 1,349 censurados</td>
+</tr>
+<tr>
+<td>ThingSpeak real</td>
+<td>137 (2 llegan, 135 censurados)</td>
+<td>138 orígenes de 2 episodios</td>
+<td>304: 12 no censurados y 292 censurados</td>
+</tr>
+<tr>
+<td>ESP32 real</td>
+<td><strong>pendiente</strong></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Esta tabla es indicativa</strong> (ver <em>Evidencia por umbral</em>, más abajo): con 2-3 episodios no censurados, el IC del
+error en horas, que se calcula por episodio, no informa, y se omite.</p>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Predictor</th>
+<th>Versión</th>
+<th>MAE h, no censurados [IC 95 %]</th>
+<th>C-index global [IC 95 %]</th>
+<th><strong>C-index por tanque</strong> [IC 95 %]</th>
+<th>Sin descenso previsto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consistencia</td>
+<td><strong>perfil P50</strong></td>
+<td><strong>d2.2 principal</strong></td>
+<td>7.3 (IC no informativo: 3 episodios)</td>
+<td>0.989 [0.978, 0.999]</td>
+<td>0.958 [0.928, 0.992]</td>
+<td>0 %</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>consumo medio</strong></td>
+<td>base d2.2</td>
+<td><strong>5.5</strong> (IC no inf.)</td>
+<td><strong>0.994 [0.989, 1.000]</strong></td>
+<td><strong>0.984 [0.955, 1.000]</strong></td>
+<td>0 %</td>
+</tr>
+<tr>
+<td></td>
+<td>Holt</td>
+<td>d2.1 principal</td>
+<td>12.4 (IC no inf.)</td>
+<td>0.969 [0.945, 0.986]</td>
+<td>0.923 [0.879, 0.970]</td>
+<td>22 %</td>
+</tr>
+<tr>
+<td></td>
+<td>persistencia de la velocidad</td>
+<td>d2.1 base</td>
+<td>13.8 (IC no inf.)</td>
+<td>0.912 [0.875, 0.962]</td>
+<td>0.844 [0.791, 0.914]</td>
+<td>20 %</td>
+</tr>
+<tr>
+<td></td>
+<td>tendencia</td>
+<td>d2.1 base</td>
+<td>14.0 (IC no inf.)</td>
+<td>0.906 [0.867, 0.960]</td>
+<td>0.842 [0.785, 0.908]</td>
+<td>20 %</td>
+</tr>
+<tr>
+<td></td>
+<td>GBT</td>
+<td>d2.1</td>
+<td>23.6 (IC no inf.)</td>
+<td>0.775 [0.699, 0.928]</td>
+<td>0.708 [0.638, 0.872]</td>
+<td>37 %</td>
+</tr>
+<tr>
+<td>ThingSpeak real</td>
+<td><strong>perfil P50</strong></td>
+<td><strong>d2.2 principal</strong></td>
+<td>4.5 (IC no informativo: 2 episodios)</td>
+<td><strong>0.991 [0.972, 1.000]</strong></td>
+<td><strong>0.955 [0.807, 1.000]</strong></td>
+<td>0 %</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>consumo medio</strong></td>
+<td>base d2.2</td>
+<td><strong>2.4</strong> (IC no inf.)</td>
+<td>0.987 [0.960, 1.000]</td>
+<td>0.935 [0.719, 1.000]</td>
+<td>0 %</td>
+</tr>
+<tr>
+<td></td>
+<td>Holt</td>
+<td>d2.1 principal</td>
+<td>35.6 (IC no inf.)</td>
+<td>0.779 [0.699, 0.837]</td>
+<td>0.677 [0.533, 0.863]</td>
+<td>46 %</td>
+</tr>
+<tr>
+<td></td>
+<td>persistencia de la velocidad</td>
+<td>d2.1 base</td>
+<td>29.6 (IC no inf.)</td>
+<td>0.926 [0.860, 0.985]</td>
+<td>0.822 [0.600, 0.907]</td>
+<td>38 %</td>
+</tr>
+<tr>
+<td></td>
+<td>tendencia</td>
+<td>d2.1 base</td>
+<td>29.4 (IC no inf.)</td>
+<td>0.870 [0.727, 0.986]</td>
+<td>0.776 [0.496, 0.938]</td>
+<td>39 %</td>
+</tr>
+<tr>
+<td></td>
+<td>GBT</td>
+<td>d2.1</td>
+<td>46.6 (IC no inf.)</td>
+<td>0.671 [0.474, 0.839]</td>
+<td>0.605 [0.325, 0.795]</td>
+<td>62 %</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Banda P10-P90 del perfil y su calibración conforme.</strong></p>
+<p>La banda P10-P90 debería contener la autonomía real el 80 % de las veces. Sin calibrar, en ThingSpeak la contenía
+solo el 59 %: era demasiado estrecha. Se calibró con <strong>predicción conforme</strong> sobre el <strong>conjunto de ajuste</strong> de p6.1
+(el último 20 % del entrenamiento), nunca con la prueba:</p>
+<ol>
+<li><strong>Perfil de calibración:</strong> se aprende con el 80 % inicial del entrenamiento, sin el ajuste. Así ningún dato se
+   usa dos veces.</li>
+<li><strong>Puntaje de cada caso no censurado del ajuste:</strong> cuántas veces se quedó corta la banda, como razón
+   (<code>max(lo / y, y / hi)</code> en escala logarítmica). Al ser una razón, se pueden juntar los umbrales del 10 y del 25 %.</li>
+<li><strong>Factor:</strong> el cuantil del 80 % de esos puntajes, con la corrección de muestra finita.</li>
+<li><strong>Banda calibrada:</strong> <code>[autonomía P90 / factor, autonomía P10 × factor]</code>, con tope de 72 h.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Factor</th>
+<th>Casos (episodios) de calibración</th>
+<th>Cobertura antes → después (umbral 10 %)</th>
+<th>Ancho mediano antes → después</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consistencia</td>
+<td>1.03</td>
+<td>747 (4)</td>
+<td>89 % → <strong>91 %</strong></td>
+<td>25.7 h → 27.3 h</td>
+</tr>
+<tr>
+<td>ThingSpeak real</td>
+<td><strong>1.80</strong></td>
+<td>200 (8)</td>
+<td>59 % → <strong>77 %</strong></td>
+<td>24.5 h → 49.6 h</td>
+</tr>
+<tr>
+<td>ESP32</td>
+<td>1.80 (el de ThingSpeak)</td>
+<td>—</td>
+<td>pendiente</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>En ThingSpeak la calibración casi alcanza el 80 % nominal,</strong> a cambio de una banda el doble de ancha.</li>
+<li><strong>En la flota no cambia casi nada:</strong> la banda ya estaba bien.</li>
+<li><strong>Con umbral del 25 %, la flota sigue cubriendo solo el 35 %</strong> (34 % antes). Lo mismo con el orden de los
+  predictores: consumo medio 11.9 h, perfil 14.1 h, Holt 17.7 h.</li>
+<li><strong>Advertencia:</strong> la calibración se sostiene en <strong>4 y 8 episodios</strong>. Los casos de un mismo episodio no son
+  independientes, así que la garantía de cobertura del método conforme se cumple solo de forma aproximada. Hay que
+  recalibrar cuando haya más episodios.</li>
+<li><strong>En la prueba de ThingSpeak ningún episodio llega al 25 %.</strong></li>
+</ul>
+<p><strong>Pronóstico de nivel</strong> (MAE en puntos de %; mismas filas)</p>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Predictor</th>
+<th>15 min</th>
+<th>vs persistencia</th>
+<th>60 min</th>
+<th>vs persistencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consistencia</td>
+<td>persistencia</td>
+<td>0.72 [0.65, 0.80]</td>
+<td>—</td>
+<td>2.66 [2.43, 2.94]</td>
+<td>—</td>
+</tr>
+<tr>
+<td></td>
+<td>perfil (d2.2)</td>
+<td>0.60 [0.52, 0.68]</td>
+<td><strong>+17 %</strong></td>
+<td>1.99 [1.75, 2.27]</td>
+<td><strong>+25 %</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Holt (d2.1)</td>
+<td>0.81 [0.73, 0.88]</td>
+<td>−12 %</td>
+<td>3.10 [2.84, 3.40]</td>
+<td>−16 %</td>
+</tr>
+<tr>
+<td></td>
+<td>GBT (d2.1)</td>
+<td><strong>0.41 [0.37, 0.45]</strong></td>
+<td><strong>+43 %</strong></td>
+<td><strong>1.84 [1.67, 2.06]</strong></td>
+<td><strong>+31 %</strong></td>
+</tr>
+<tr>
+<td>ThingSpeak real</td>
+<td><strong>persistencia</strong></td>
+<td><strong>1.02 [0.76, 1.33]</strong></td>
+<td>—</td>
+<td><strong>1.30 [1.08, 1.56]</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td></td>
+<td>perfil (d2.2)</td>
+<td>1.04 [0.77, 1.35]</td>
+<td>−1 % (empate)</td>
+<td>1.35 [1.12, 1.60]</td>
+<td>−4 % (empate)</td>
+</tr>
+<tr>
+<td></td>
+<td>Holt (d2.1)</td>
+<td>1.31 [1.03, 1.61]</td>
+<td>−28 %</td>
+<td>1.77 [1.48, 2.09]</td>
+<td>−36 %</td>
+</tr>
+<tr>
+<td></td>
+<td>GBT (d2.1)</td>
+<td>1.25 [0.95, 1.59]</td>
+<td>−22 %</td>
+<td>1.43 [1.21, 1.68]</td>
+<td>−10 %</td>
+</tr>
+</tbody>
+</table>
+<p>Las cifras de ThingSpeak no coinciden con las de la sección 6 porque aquí falta el canal <strong>480876</strong>. Solo tiene ~5.5
+días de datos, que caen enteros en la prueba y el embargo: no tiene entrenamiento, así que no tiene perfil y queda
+fuera para que todos los predictores se comparen en las mismas filas.</p>
+<h3 id="la-evidencia-principal-el-consumo-previsto">La evidencia principal: el consumo previsto<a class="headerlink" href="#la-evidencia-principal-el-consumo-previsto" title="Permanent link">&para;</a></h3>
+<p><strong>La autonomía directa casi nunca se observa.</strong> Para medirla, el tanque tendría que bajar hasta el umbral sin que
+llegue agua, y eso casi no pasa: los rellenos la censuran en el 95-98 % de los episodios. Además, los pocos casos
+que sí llegan están sesgados hacia los vaciados rápidos (ver <em>Evidencia por umbral</em>).</p>
+<p>Lo que <strong>sí se observa siempre</strong> es el ingrediente de la autonomía: <strong>cuánto se consume</strong>. Si un modelo acierta el
+consumo de las próximas horas, acierta la autonomía, que es el nivel disponible dividido entre ese consumo. Por eso
+<strong>la evidencia principal de D2 es el pronóstico del consumo, y la autonomía al 10 % queda como cifra indicativa</strong>.</p>
+<p><strong>Cómo se mide:</strong></p>
+<ul>
+<li>Desde cada hora del conjunto final se compara el consumo previsto para las próximas 6, 12 y 24 h con lo que bajó
+  de verdad el nivel.</li>
+<li>El consumo durante un llenado no se observa, porque lo tapa el agua que entra. Esos pasos se excluyen del real y
+  del previsto por igual, y la ventana queda marcada "con llenado".</li>
+<li>Se exige que al menos el 80 % de la ventana tenga lecturas válidas.</li>
+<li><strong>IC 95 %:</strong> por bootstrap de bloques dentro de cada tanque.</li>
+<li><strong>Sesgo</strong> = previsto − real. Positivo significa que sobreestima el consumo, y por lo tanto subestima la autonomía
+  (prudente). Negativo significa que es optimista.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Horizonte</th>
+<th>Ventanas (con llenado; tanques)</th>
+<th>Consumo real medio</th>
+<th>Consumo medio: MAE % cap. · sesgo</th>
+<th><strong>Perfil P50</strong>: MAE % cap. · sesgo</th>
+<th>Holt d2.1: MAE % cap. · sesgo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consistencia</td>
+<td>6 h</td>
+<td>1,367 (331; 8)</td>
+<td>6.8 % (71 L)</td>
+<td>5.7 [5.2, 6.1] · +1.9</td>
+<td><strong>3.8 [3.4, 4.1]</strong> · +1.3</td>
+<td>8.0 [7.7, 8.5] · −0.6</td>
+</tr>
+<tr>
+<td></td>
+<td>12 h</td>
+<td>1,245 (588; 8)</td>
+<td>13.6 % (142 L)</td>
+<td>8.5 [7.9, 9.1] · +3.8</td>
+<td><strong>5.9 [5.4, 6.3]</strong> · +2.5</td>
+<td>14.3 [13.7, 15.1] · −1.7</td>
+</tr>
+<tr>
+<td></td>
+<td>24 h</td>
+<td>1,028 (953; 8)</td>
+<td>26.6 % (272 L)</td>
+<td>9.9 [9.1, 11.0] · +8.6</td>
+<td><strong>8.0 [7.0, 8.6]</strong> · +5.2</td>
+<td>18.6 [17.7, 19.8] · −1.0</td>
+</tr>
+<tr>
+<td>ThingSpeak real</td>
+<td>6 h</td>
+<td>278 (57; 4)</td>
+<td>2.3 %</td>
+<td>4.2 [2.9, 5.8] · −0.1</td>
+<td><strong>3.8 [2.3, 5.7]</strong> · −1.4</td>
+<td>4.4 [3.1, 5.8] · −0.3</td>
+</tr>
+<tr>
+<td></td>
+<td>12 h</td>
+<td>245 (90; 4)</td>
+<td>6.0 %</td>
+<td>7.9 [5.5, 12.0] · −1.4</td>
+<td><strong>7.4 [4.3, 12.2]</strong> · −4.2</td>
+<td>8.8 [6.3, 12.7] · −1.4</td>
+</tr>
+<tr>
+<td></td>
+<td>24 h</td>
+<td>170 (92; 4)</td>
+<td>14.5 %</td>
+<td><strong>15.7 [12.6, 24.2]</strong> · −5.2</td>
+<td><strong>15.7 [12.7, 27.0]</strong> · −10.5</td>
+<td>19.5 [16.9, 28.8] · −3.8</td>
+</tr>
+<tr>
+<td>ESP32 real</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td><strong>pendiente</strong></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>En litros (solo los tanques con capacidad conocida: la flota y ThingSpeak 1233810 y 1233815, de 24,000 L), a 12 h:
+consumo medio 103 L y perfil <strong>74 L</strong> de error en la flota; 1,279 L y <strong>1,060 L</strong> en ThingSpeak. Tablas completas
+en <code>docs/evidencias/f6-d2/d2.2/tablas_d2.2.md</code>.</p>
+<p><strong>Cómo leerlo:</strong></p>
+<ol>
+<li><strong>Con la evidencia que sí se observa, el perfil es el mejor pronóstico del consumo:</strong></li>
+<li>En la flota gana con claridad en los tres horizontes.</li>
+<li>En ThingSpeak queda primero a 6 y 12 h, pero con intervalos que se solapan con el consumo medio, y empata a
+     24 h.</li>
+<li>Holt d2.1 es el peor en todos los casos.</li>
+<li><strong>Esto matiza la tabla de autonomía, donde ganaba el consumo medio.</strong> Esa tabla descansa en 2-3 episodios con
+   sesgo de selección. La del consumo descansa en cientos de ventanas en 8 y 4 tanques.</li>
+<li><strong>Por eso el equipo cambió la decisión de F7:</strong> el principal es el <strong>perfil</strong> y el consumo medio queda como
+     comparación (ver <em>Decisión para F7</em>).</li>
+<li><strong>Los modelos se equivocan en sentidos opuestos según el nivel:</strong></li>
+<li>En la flota, perfil y consumo medio <strong>sobreestiman</strong> el consumo, así que dan una autonomía prudente.</li>
+<li>En ThingSpeak lo <strong>subestiman</strong>, así que dan una autonomía optimista. En el perfil eso es significativo a 12 y
+     24 h.</li>
+<li>Para el tablero conviene mostrar el rango, no solo la cifra.</li>
+<li><strong>A 24 h, en ThingSpeak, el error (~16 %) es tan grande como el propio consumo (14.5 %).</strong> Más allá de medio día,
+   el consumo de estos tanques es poco predecible.</li>
+<li><strong>El consumo negativo de ThingSpeak a 6 h en litros (−61 L)</strong> sale de rellenos chicos, por debajo de la regla de
+   10 puntos, que cuentan como consumo negativo. Es una limitación del criterio de llenado, no un error de cálculo.</li>
+</ol>
+<h3 id="evidencia-por-umbral-10-25-y-50">Evidencia por umbral (10, 25 y 50 %)<a class="headerlink" href="#evidencia-por-umbral-10-25-y-50" title="Permanent link">&para;</a></h3>
+<p><strong>La cifra al 10 % es indicativa, no una medición firme.</strong> En los datos casi no hay vaciados reales hasta el 10 %:
+los tanques se rellenan antes. Para ver si otro umbral tiene más evidencia, la autonomía se evaluó también al 25 % y
+al 50 %, con los mismos modelos (configurable en <code>batch/modelo_d2_perfil.yml</code> → <code>evaluacion</code>).</p>
+<ul>
+<li><strong>Evidencia suficiente:</strong> al menos <strong>10 episodios no censurados</strong>.</li>
+<li><strong>IC del MAE:</strong> por bootstrap de <strong>episodios</strong>. Con menos de 5 episodios se marca como <strong>no informativo</strong>, porque
+  con 2-3 episodios el remuestreo solo puede combinar esos mismos episodios.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Umbral</th>
+<th>Nivel</th>
+<th>Episodios</th>
+<th>No censurados: episodios (orígenes)</th>
+<th>Censurados</th>
+<th>Evidencia</th>
+<th>Menor MAE</th>
+<th>Banda calibrada: cobertura</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10 %</td>
+<td>Consistencia</td>
+<td>83</td>
+<td>3 (1,368)</td>
+<td>80</td>
+<td>indicativa</td>
+<td>consumo medio 5.5 h</td>
+<td>89 % → 91 %</td>
+</tr>
+<tr>
+<td>10 %</td>
+<td>ThingSpeak real</td>
+<td>137</td>
+<td>2 (138)</td>
+<td>135</td>
+<td>indicativa</td>
+<td>consumo medio 2.4 h</td>
+<td>59 % → 77 %</td>
+</tr>
+<tr>
+<td>25 %</td>
+<td>Consistencia</td>
+<td>83</td>
+<td>3 (1,183)</td>
+<td>80</td>
+<td>indicativa</td>
+<td>consumo medio 11.9 h</td>
+<td>34 % → 35 %</td>
+</tr>
+<tr>
+<td>25 %</td>
+<td>ThingSpeak real</td>
+<td>133</td>
+<td>0</td>
+<td>133</td>
+<td>sin casos</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>50 %</td>
+<td>Consistencia</td>
+<td>83</td>
+<td><strong>5</strong> (1,182)</td>
+<td>78</td>
+<td>indicativa</td>
+<td>consumo medio 25.9 h [20.7, 30.0]</td>
+<td>0 % → 0 %</td>
+</tr>
+<tr>
+<td>50 %</td>
+<td>ThingSpeak real</td>
+<td>130</td>
+<td>4 (39)</td>
+<td>126</td>
+<td>indicativa</td>
+<td>persistencia de la velocidad 57.7 h (IC no inf.)</td>
+<td>0 % → 0 %</td>
+</tr>
+<tr>
+<td>todos</td>
+<td>ESP32 real</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>pendiente</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ningún umbral tiene evidencia suficiente todavía.</strong> El que más se acerca es el <strong>50 % en la flota</strong>, con 5
+episodios: es el único con un IC por episodio calculable, y aun así está por debajo de los 10. Mientras no haya más
+vaciados reales, la evidencia más sólida sobre el <strong>orden</strong> de los modelos es el <strong>C-index por tanque al 10 %</strong>:</p>
+<ul>
+<li>usa 1,463 orígenes en la flota y 304 en ThingSpeak, contando los censurados;</li>
+<li>y confirma consumo medio ≈ perfil ≫ Holt d2.1.</li>
+</ul>
+<p><strong>Por qué al 50 % todos fallan, y fallan para el mismo lado.</strong> Los casos no censurados al 50 % son los que <strong>se
+vaciaron rápido</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Autonomía real (mediana)</th>
+<th>Consumo medio predice</th>
+<th>Perfil predice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flota</td>
+<td>10 h</td>
+<td>~37 h</td>
+<td>~38 h</td>
+</tr>
+<tr>
+<td>ThingSpeak</td>
+<td>1 h</td>
+<td>~61 h</td>
+<td>72 h</td>
+</tr>
+</tbody>
+</table>
+<p>Es un <strong>sesgo de selección por la censura</strong>. Los episodios de consumo lento casi siempre se interrumpen por un
+llenado antes de llegar al umbral, así que entre los que sí llegan sobran los de vaciado rápido. Medir solo los no
+censurados castiga a cualquier modelo basado en el consumo típico: en esos casos todos parecen optimistas.</p>
+<p>Por eso:</p>
+<ul>
+<li><strong>El MAE en no censurados no basta.</strong> El C-index, que usa los censurados, es el complemento necesario.</li>
+<li><strong>La banda no cubre ningún caso al 50 %.</strong> Está centrada en el consumo típico, y estos casos son los atípicamente
+  rápidos.</li>
+</ul>
+<p><strong>Qué haría falta para tener evidencia suficiente:</strong></p>
+<ul>
+<li><strong>Más semanas de datos reales:</strong> ThingSpeak ya trae ~2 meses por canal y aun así tiene pocos vaciados.</li>
+<li><strong>El ESP32 con geometría medida</strong> y sesiones con consumo y llenados.</li>
+<li><strong>Un umbral alto, como el 50 %, como cifra de control:</strong> se cruza más seguido, aunque con el sesgo descrito.</li>
+</ul>
+<p>Hasta entonces, la autonomía de F7 se muestra como <strong>estimación con su banda</strong>, no como un número garantizado.</p>
+<h3 id="como-leer-d22">Cómo leer d2.2<a class="headerlink" href="#como-leer-d22" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>La autonomía mejora muchísimo:</strong> de 30-35 h de error con los métodos de tendencia corta (d2.1) a 2-7 h. Mirar
+   el consumo de todo el día, en vez del de la última hora, resuelve el problema del consumo intermitente: ningún
+   modelo de d2.2 dice "sin descenso".</li>
+<li><strong>Pero el modelo principal (perfil) no supera a su línea base (consumo medio):</strong> 7.3 h frente a 5.5 h en la
+   flota y 4.5 h frente a 2.4 h en ThingSpeak.</li>
+<li>En C-index están empatados, con intervalos que se solapan.</li>
+<li><strong>Se reporta tal cual.</strong> La explicación probable es que el perfil reparte 2-3 semanas de historia en 168 celdas
+     (día × hora). Cada celda tiene pocas muestras y su mediana es ruidosa. El consumo medio usa todas las horas a
+     la vez y es más estable.</li>
+<li>Para horizontes de 1-2 días, que es lo que mide la autonomía, el orden de las horas pesa menos que el total.</li>
+<li><strong>La banda P10-P90 cruda es optimista en datos reales</strong> (59 % en ThingSpeak). Calibrada con el conjunto de
+   ajuste, llega al 77 %, cerca del 80 % nominal, a cambio de ser el doble de ancha (~50 h).</li>
+<li><strong>El C-index global exagera.</strong> Ordenar entre tanques distintos es trivial (basta el nivel). Por tanque, todos
+   bajan: en ThingSpeak el perfil queda en 0.955 y el consumo medio en 0.935, con intervalos muy anchos porque solo
+   hay 12 orígenes no censurados. El orden general se mantiene: d2.2 ≫ d2.1.</li>
+<li><strong>Todo descansa en pocos episodios no censurados:</strong> 3 en la flota y 2 en ThingSpeak. El C-index, que usa también
+   los censurados, confirma el orden: d2.2 ≫ d2.1.</li>
+</ol>
+<p><strong>Decisión para F7</strong> (tomada por el equipo el 2026-10-29, después de evaluar el consumo previsto):</p>
+<ul>
+<li><strong>Modelo principal:</strong> el <strong>perfil de consumo</strong>, porque es el mejor en la evidencia que sí se observa (el consumo
+  previsto). El <strong>consumo medio</strong> queda como <strong>comparación</strong>. La tabla de autonomía, donde ganaba el consumo medio,
+  descansa en 2-3 episodios sesgados.</li>
+<li><strong>Horizonte mostrado:</strong></li>
+<li>La proyección del consumo y del nivel se muestra <strong>hasta 12 h</strong>.</li>
+<li>A 24 h el error es del tamaño del propio consumo (~16 % frente a 14.5 % en ThingSpeak), así que <strong>no se
+    muestra</strong>.</li>
+<li>Si la autonomía proyectada pasa de 12 h, el tablero dice <strong>"más de 12 h"</strong> en vez de un número.</li>
+<li><strong>Rango:</strong> la <strong>banda P10-P90 del perfil, calibrada</strong> con el factor de su nivel.</li>
+<li><strong>Advertencia en el tablero:</strong> en <strong>ThingSpeak el perfil tiende a ser optimista</strong>. Subestima el consumo (sesgo
+  −1.4 a −4.2 % de la capacidad a 6-12 h), así que su autonomía puede ser mayor que la real. En la flota es al revés
+  (prudente).</li>
+<li><strong>Mejora pendiente para una d2.3:</strong> encoger cada celda del perfil hacia el consumo medio del tanque cuando tiene
+  pocas muestras, y recalibrar la banda cuando haya más episodios.</li>
+</ul>
+<h3 id="por-que-la-persistencia-gana-en-el-nivel-a-1-hora-y-no-sirve-para-la-autonomia">Por qué la persistencia gana en el nivel a 1 hora y no sirve para la autonomía<a class="headerlink" href="#por-que-la-persistencia-gana-en-el-nivel-a-1-hora-y-no-sirve-para-la-autonomia" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>El nivel a 1 hora:</strong></li>
+<li>En una hora el nivel de un tanque cambia poco: 1-3 puntos.</li>
+<li>Lo que más lo mueve es la llegada de agua, y nadie la anticipa con la tendencia.</li>
+<li>Por eso <strong>el mejor pronóstico del nivel en una hora es el nivel de ahora</strong> (el comportamiento de un "paseo
+    aleatorio"). Cualquier tendencia estimada agrega su propio ruido: en ThingSpeak real, Holt, GBT y la recta
+    pierden contra la persistencia, y el perfil solo empata.</li>
+<li><strong>La autonomía:</strong></li>
+<li>Pregunta cuánto falta para vaciarse, y eso es <strong>la suma del consumo de muchas horas</strong>.</li>
+<li>La persistencia supone que el nivel no cambia, es decir, que <strong>nadie consume</strong>: su autonomía es siempre
+    "infinita" y no responde nada.</li>
+<li>Por eso en autonomía la línea base no es la persistencia sino el <strong>consumo medio</strong>. Un buen pronóstico de una
+    hora no garantiza una buena autonomía, ni al revés: son preguntas distintas y se evalúan con métricas distintas.</li>
+</ul>
+<h3 id="limitaciones-propias-de-d22">Limitaciones propias de d2.2<a class="headerlink" href="#limitaciones-propias-de-d22" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Pocos episodios no censurados:</strong> igual que en d2.1. El C-index ayuda porque usa todos los casos.</li>
+<li><strong>ThingSpeak 480876 queda fuera:</strong> no tiene historia de entrenamiento.</li>
+<li><strong>El perfil del ESP32 no sirve todavía:</strong> se aprendió con la geometría provisional y con muy pocas horas de
+  consumo real. Su consumo medio (1.85 %/h) sale de los saltos del sensor, no de gasto real. Hay que reaprenderlo
+  cuando la geometría esté medida y haya sesiones con consumo.</li>
+<li><strong>El perfil no se actualiza solo en F7:</strong> es una tabla fija. Para que siga los cambios de hábito hay que
+  reentrenarlo periódicamente (por ejemplo, cada semana) con <code>batch/modelo_d2_perfil.py</code>.</li>
+</ul>
+<h3 id="uso-en-f7">Uso en F7<a class="headerlink" href="#uso-en-f7" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Modelo:</strong> <code>batch/perfil_consumo.py</code> (<code>PerfilConsumo.desde_dict</code>, <code>horas_autonomia(nivel, ts, umbral,
+  cuantil)</code> y <code>pronostico</code>).</li>
+<li><strong>Parámetros por tanque:</strong> <code>batch/modelos/d2/d2.2-20261029/perfil.json</code>, con P10, P50, P90 y la media por día ×
+  hora.</li>
+<li><strong>Entrada:</strong> el nivel % suavizado (mediana móvil de 15 min) y la hora del dato.</li>
+<li><strong>Cálculo en F7:</strong></li>
+<li>Principal: <code>horas_autonomia(nivel, ts, umbral, "p50")</code> del perfil y <code>pronostico(nivel, ts, minutos)</code>, hasta
+    12 h. Si la autonomía pasa de 12 h, se muestra "más de 12 h".</li>
+<li>Comparación: <code>(nivel − umbral) / consumo_medio_pct_h</code> del tanque.</li>
+<li>Rango: <code>[horas_autonomia(..., "p90") / factor, horas_autonomia(..., "p10") × factor]</code>.</li>
+<li>Advertencia junto al valor en los tanques de ThingSpeak: "el modelo tiende a ser optimista".</li>
+<li>El factor está en <code>perfil.json</code> → <code>calibracion_banda</code>: 1.03 en la flota y 1.80 en ThingSpeak y el ESP32.</li>
+</ul>
+<h3 id="preguntas-del-jurado-sobre-d22">Preguntas del jurado sobre d2.2<a class="headerlink" href="#preguntas-del-jurado-sobre-d22" title="Permanent link">&para;</a></h3>
+<p><strong>6. "En la tabla de autonomía gana el consumo medio. ¿Por qué el principal es el perfil?"</strong>
+Porque esa tabla descansa en 2-3 vaciados reales, y además sesgados hacia los vaciados rápidos. Lo que sí se
+observa en cientos de ventanas es el <strong>consumo</strong>, y ahí el perfil es el mejor: en la flota con claridad, y en
+ThingSpeak por poco a 6-12 h. El consumo medio queda como comparación. Mostramos la predicción solo hasta 12 h,
+porque a 24 h el error es tan grande como el consumo, y advertimos que en ThingSpeak el perfil tiende a ser
+optimista.</p>
+<p><strong>7. "¿Qué es el C-index y por qué lo usan?"</strong>
+Mide si el modelo <strong>ordena</strong> bien: si un momento se vació antes que otro, ¿le dio menos horas? Usa también los
+casos censurados (sabemos que aguantaron al menos hasta el llenado). Con muy pocos tanques vaciándose de verdad,
+nos deja aprovechar todos los datos y no solo los dos episodios no censurados de ThingSpeak. Reportamos dos: el global, que es optimista porque comparar tanques distintos es fácil, y el <strong>por tanque</strong>, que
+solo compara momentos del mismo tanque. Este último es el que mide la dificultad real.</p>
+<p><strong>10. "¿Con qué umbral tienen evidencia de verdad?"</strong>
+Con ninguno, todavía, y lo decimos. Al 10 % hay 2-3 vaciados reales en las pruebas, y al 50 %, 4-5. Nuestra regla
+pide al menos 10. Por eso el error en horas es indicativo, y nos apoyamos en el C-index por tanque, que usa también
+los casos censurados. Además encontramos un sesgo: los tanques que llegan al umbral sin rellenarse son los que se
+vacían rápido, y eso hace que cualquier modelo de consumo típico parezca optimista en esos casos.</p>
+<p><strong>11. "¿Qué es el sesgo de selección en su evaluación y cómo lo manejan?"</strong>
+Para medir la autonomía real, el tanque tiene que vaciarse hasta el umbral sin que llegue agua. Casi siempre llega
+agua antes, y los episodios que sí llegan son los de <strong>vaciado rápido</strong>: los de consumo lento quedan cortados por un
+relleno. Si evaluáramos solo esos casos, cualquier modelo de consumo típico parecería optimista. Por eso:</p>
+<ul>
+<li>la autonomía se usa como cifra indicativa;</li>
+<li>la evidencia principal es el <strong>pronóstico del consumo</strong>, que se observa en cientos de ventanas de varios tanques;</li>
+<li>usamos el <strong>C-index</strong>, que incluye los casos censurados;</li>
+<li>y para el ESP32 planeamos <strong>vaciados controlados</strong> registrados en la bitácora, que dan episodios reales sin ese
+  sesgo.</li>
+</ul>
+<p><strong>9. "¿Cómo saben que la banda de horas es confiable?"</strong>
+La calibramos con predicción conforme sobre el conjunto de ajuste, nunca con la prueba. En ThingSpeak pasó de
+contener la autonomía real el 59 % de las veces al 77 %, cerca del 80 % prometido. Pero se apoya en solo 8
+episodios. Lo decimos así y la recalibramos cuando haya más datos.</p>
+<p><strong>8. "¿Por qué la persistencia gana en el nivel y no sirve para la autonomía?"</strong>
+Ver el apartado anterior. A una hora el nivel casi no cambia y la persistencia es imbatible. Pero para la
+autonomía supone que nadie consume, así que su respuesta sería siempre "infinito". Son dos preguntas distintas, y
+por eso cada una tiene su propia línea base.</p>
+<h3 id="reproducir-d22">Reproducir d2.2<a class="headerlink" href="#reproducir-d22" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">:/repo"</span><span class="w"> </span>-w<span class="w"> </span>/repo<span class="w"> </span>-e<span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span>/repo/batch<span class="w"> </span>monitoraqua-streaming:latest<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>spark-submit<span class="w"> </span>--driver-memory<span class="w"> </span>3g<span class="w"> </span>batch/modelo_d2_perfil.py<span class="w">          </span><span class="c1"># ~2 min; usa los modelos de d2.1</span>
+</code></pre></div>
+<!-- graficos-notebook -->
+
+<h2 id="graficos">Gráficos del notebook y del tablero en vivo<a class="headerlink" href="#graficos" title="Permanent link">&para;</a></h2>
+<p>Los gráficos salen del notebook <code>notebooks/u2/d2_autonomia.ipynb</code>, que reproduce las cifras de esta página desde los modelos versionados, sin reentrenar. Las capturas del tablero BI son de F7 (<code>docs/evidencias/f7/</code>).</p>
+<p><img alt="D2, gráfico 1" src="../img/notebooks/d2_01.png" /></p>
+<p><em>Gráfico 1. Consumo previsto a 12 h frente al real, en % de la capacidad. A la izquierda la flota (consistencia), a la derecha ThingSpeak real. La diagonal es el acierto perfecto: el perfil P50 sigue la diagonal en la flota y el consumo medio queda en franjas horizontales; en ThingSpeak los dos se quedan cortos cuando el consumo real es alto.</em></p>
+<p><img alt="D2, gráfico 2" src="../img/notebooks/d2_02.png" /></p>
+<p><em>Gráfico 2. Residuos (previsto − real) del consumo a 12 h. En la flota el perfil está más concentrado que el consumo medio; en ThingSpeak los dos se agrupan cerca de cero, con una cola negativa: subestiman el consumo, por eso el perfil es optimista ahí.</em></p>
+<p><img alt="D2, gráfico 3" src="../img/notebooks/d2_03.png" /></p>
+<p><em>Gráfico 3. Nivel a 60 min en la semana de prueba del canal 3418755: real, perfil d2.2 y persistencia. A una hora el perfil y la persistencia casi se superponen; es el empate que muestra la tabla de pronóstico de nivel.</em></p>
+<p><img alt="D2, gráfico 4" src="../img/notebooks/d2_04.png" /></p>
+<p><em>Gráfico 4. Cobertura de la banda P10-P90 de la autonomía antes y después de la calibración conforme. La línea marca el 80 % nominal: en ThingSpeak sube de 59 % a 77 %.</em></p>
+<p><img alt="D2, gráfico 5" src="../img/notebooks/d2_05.png" /></p>
+<p><em>Gráfico 5. En vivo (F7): nivel a 60 min real frente al pronosticado por la consulta de Spark, tanque flota-zonaA-01.</em></p>
+<h3 id="tablero-bi-en-vivo-f7">Tablero BI en vivo (F7)<a class="headerlink" href="#tablero-bi-en-vivo-f7" title="Permanent link">&para;</a></h3>
+<p><img alt="Tabla F7 con datos reales: el ESP32 muestra el motivo (geometría provisional) en vez de una cifra; ThingSpeak, “más de 12 h”." src="../evidencias/f7/real_d2_autonomia.png" /></p>
+<p><em>Tabla F7 con datos reales: el ESP32 muestra el motivo (geometría provisional) en vez de una cifra; ThingSpeak, “más de 12 h”.</em></p>
+<p><img alt="Tabla F7 con la flota extrapolada, con la cifra y su banda." src="../evidencias/f7/aumentado_d2_autonomia.png" /></p>
+<p><em>Tabla F7 con la flota extrapolada, con la cifra y su banda.</em></p>
+<p><img alt="Fila “Pronóstico vs real” con datos reales: nivel a 60 min." src="../evidencias/f7/real_vs_real_d2_nivel.png" /></p>
+<p><em>Fila “Pronóstico vs real” con datos reales: nivel a 60 min.</em></p>
+<h2 id="evidencia">Evidencia<a class="headerlink" href="#evidencia" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../evidencias/f6-d2/">Evidencia de d2.1</a></li>
+<li><a href="../evidencias/f6-d2/tablas_d2/">Tablas completas de d2.1</a></li>
+<li><a href="../evidencias/f6-d2/d2.2/">Evidencia de d2.2</a></li>
+<li><a href="../evidencias/f6-d2/d2.2/tablas_d2.2/">Tablas completas de d2.2</a></li>
+<li><a href="../inferencia-en-vivo/">Inferencia en vivo (F7)</a> y su <a href="../evidencias/f7/">evidencia</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.indexes", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

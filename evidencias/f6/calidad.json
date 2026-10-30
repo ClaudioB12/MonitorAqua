@@ -1,0 +1,828 @@
+{
+ "generado_utc": "2026-10-29T23:05:58+00:00",
+ "particion": {
+  "version": "p6.2",
+  "esp32_inicio_prueba_ms": {
+   "esp32-tanque-real-01": null
+  },
+  "thingspeak_fin_ms": {
+   "thingspeak-283977": 1793287984000,
+   "thingspeak-480876": 1793288139000,
+   "thingspeak-1233815": 1793288105000,
+   "thingspeak-3418755": 1793287897000,
+   "thingspeak-1233810": 1793287952000,
+   "thingspeak-1272968": 1793288153000,
+   "thingspeak-3019316": 1793287373000
+  },
+  "aumentados_inicio_ms": {
+   "r2026-45facae2": 1790571600000,
+   "r7-79a6b935": 1790571600000
+  }
+ },
+ "filas_crudas_por_origen_dato": [
+  {
+   "fuente": "esp32",
+   "origen_dato": "firebase",
+   "count": 15708
+  },
+  {
+   "fuente": "thingspeak",
+   "origen_dato": "thingspeak-api",
+   "count": 68211
+  },
+  {
+   "fuente": "open-meteo",
+   "origen_dato": "open-meteo-archivo",
+   "count": 2280
+  },
+  {
+   "fuente": "esp32",
+   "origen_dato": "kafka-bronce",
+   "count": 18537
+  },
+  {
+   "fuente": "ea-uk",
+   "origen_dato": "kafka-bronce",
+   "count": 1830
+  },
+  {
+   "fuente": "thingspeak",
+   "origen_dato": "kafka-bronce",
+   "count": 2583
+  },
+  {
+   "fuente": "usgs",
+   "origen_dato": "kafka-bronce",
+   "count": 551
+  },
+  {
+   "fuente": "open-meteo",
+   "origen_dato": "kafka-bronce",
+   "count": 88
+  },
+  {
+   "fuente": "aumentado_f2b1",
+   "origen_dato": "parquet",
+   "count": 172800
+  },
+  {
+   "fuente": "aumentado_f2b2",
+   "origen_dato": "parquet",
+   "count": 172800
+  }
+ ],
+ "plata_por_sensor": [
+  {
+   "fuente": "thingspeak",
+   "sensorId": "thingspeak-283977",
+   "filas": 8000,
+   "validas": 6335,
+   "desde": 1790846471000,
+   "hasta": 1793287984000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-3400TH",
+   "filas": 81,
+   "validas": 70,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-2700TH",
+   "filas": 80,
+   "validas": 80,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-2602TH",
+   "filas": 80,
+   "validas": 80,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-2604TH",
+   "filas": 78,
+   "validas": 78,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-3101TH",
+   "filas": 81,
+   "validas": 81,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-2655TH",
+   "filas": 79,
+   "validas": 79,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "usgs",
+   "sensorId": "usgs-01465798",
+   "filas": 55,
+   "validas": 55,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "aumentado_f2b2",
+   "sensorId": "flota-zonaA-02",
+   "filas": 43200,
+   "validas": 42566,
+   "desde": 1790571600000,
+   "hasta": 1793163540000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "thingspeak",
+   "sensorId": "thingspeak-3418755",
+   "filas": 20211,
+   "validas": 20211,
+   "desde": 1787263132000,
+   "hasta": 1793287897000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "thingspeak",
+   "sensorId": "thingspeak-480876",
+   "filas": 8000,
+   "validas": 5936,
+   "desde": 1792802539000,
+   "hasta": 1793288139000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-2702TH",
+   "filas": 80,
+   "validas": 80,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "usgs",
+   "sensorId": "usgs-01481500",
+   "filas": 58,
+   "validas": 58,
+   "desde": 1793226600000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "aumentado_f2b2",
+   "sensorId": "flota-zonaB-02",
+   "filas": 43200,
+   "validas": 42300,
+   "desde": 1790571600000,
+   "hasta": 1793163540000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-2902TH",
+   "filas": 78,
+   "validas": 78,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "open-meteo",
+   "sensorId": "open-meteo-juliaca",
+   "filas": 2368,
+   "validas": 2368,
+   "desde": 1785110400000,
+   "hasta": 1793314800000,
+   "origenes_dato": 2
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-2499TH",
+   "filas": 80,
+   "validas": 80,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-2603TH",
+   "filas": 79,
+   "validas": 79,
+   "desde": 1793218500000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-2698TH",
+   "filas": 80,
+   "validas": 80,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "usgs",
+   "sensorId": "usgs-01474000",
+   "filas": 33,
+   "validas": 33,
+   "desde": 1793224800000,
+   "hasta": 1793311200000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "usgs",
+   "sensorId": "usgs-01467200",
+   "filas": 126,
+   "validas": 126,
+   "desde": 1793225400000,
+   "hasta": 1793284800000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "thingspeak",
+   "sensorId": "thingspeak-3019316",
+   "filas": 8000,
+   "validas": 7961,
+   "desde": 1785144509000,
+   "hasta": 1793287373000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "thingspeak",
+   "sensorId": "thingspeak-1233815",
+   "filas": 8000,
+   "validas": 8000,
+   "desde": 1788055142000,
+   "hasta": 1793288105000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "aumentado_f2b1",
+   "sensorId": "flota-zonaA-01",
+   "filas": 43200,
+   "validas": 42390,
+   "desde": 1790571600000,
+   "hasta": 1793163540000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "aumentado_f2b1",
+   "sensorId": "flota-zonaB-02",
+   "filas": 43200,
+   "validas": 42273,
+   "desde": 1790571600000,
+   "hasta": 1793163540000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "aumentado_f2b1",
+   "sensorId": "flota-zonaB-01",
+   "filas": 43200,
+   "validas": 42423,
+   "desde": 1790571600000,
+   "hasta": 1793163540000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "thingspeak",
+   "sensorId": "thingspeak-1233810",
+   "filas": 8000,
+   "validas": 8000,
+   "desde": 1788213375000,
+   "hasta": 1793287952000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-3401TH",
+   "filas": 78,
+   "validas": 78,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-3104TH",
+   "filas": 81,
+   "validas": 81,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-3102TH",
+   "filas": 81,
+   "validas": 81,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "usgs",
+   "sensorId": "usgs-01433500",
+   "filas": 56,
+   "validas": 56,
+   "desde": 1793225700000,
+   "hasta": 1793312100000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "aumentado_f2b2",
+   "sensorId": "flota-zonaA-01",
+   "filas": 43200,
+   "validas": 42441,
+   "desde": 1790571600000,
+   "hasta": 1793163540000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "aumentado_f2b1",
+   "sensorId": "flota-zonaA-02",
+   "filas": 43200,
+   "validas": 42280,
+   "desde": 1790571600000,
+   "hasta": 1793163540000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "thingspeak",
+   "sensorId": "thingspeak-1272968",
+   "filas": 8000,
+   "validas": 8000,
+   "desde": 1792807552000,
+   "hasta": 1793288153000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-2901TH",
+   "filas": 80,
+   "validas": 80,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-2497TH",
+   "filas": 78,
+   "validas": 78,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-2601TH",
+   "filas": 79,
+   "validas": 79,
+   "desde": 1793223000000,
+   "hasta": 1793312100000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "usgs",
+   "sensorId": "usgs-01474500",
+   "filas": 34,
+   "validas": 34,
+   "desde": 1793224800000,
+   "hasta": 1793311200000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "usgs",
+   "sensorId": "usgs-01454700",
+   "filas": 57,
+   "validas": 57,
+   "desde": 1793223900000,
+   "hasta": 1793313900000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-3404TH",
+   "filas": 81,
+   "validas": 81,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-2900TH",
+   "filas": 78,
+   "validas": 78,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "usgs",
+   "sensorId": "usgs-01438500",
+   "filas": 53,
+   "validas": 53,
+   "desde": 1793223900000,
+   "hasta": 1793310300000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "usgs",
+   "sensorId": "usgs-01473500",
+   "filas": 55,
+   "validas": 55,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "usgs",
+   "sensorId": "usgs-01463500",
+   "filas": 24,
+   "validas": 24,
+   "desde": 1793221200000,
+   "hasta": 1793311200000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "aumentado_f2b2",
+   "sensorId": "flota-zonaB-01",
+   "filas": 43200,
+   "validas": 42342,
+   "desde": 1790571600000,
+   "hasta": 1793163540000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "esp32",
+   "sensorId": "esp32-tanque-real-01",
+   "filas": 20083,
+   "validas": 12131,
+   "desde": 1790914229075,
+   "hasta": 1793314972649,
+   "origenes_dato": 2
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-2703TH",
+   "filas": 79,
+   "validas": 79,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-2904TH",
+   "filas": 80,
+   "validas": 80,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-2607TH",
+   "filas": 79,
+   "validas": 79,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  },
+  {
+   "fuente": "ea-uk",
+   "sensorId": "ea-uk-3100TH",
+   "filas": 80,
+   "validas": 80,
+   "desde": 1793223000000,
+   "hasta": 1793313000000,
+   "origenes_dato": 1
+  }
+ ],
+ "invalidas_por_motivo": [
+  {
+   "fuente": "aumentado_f2b2",
+   "motivo_invalidez": "distanciaCm_mas_alla_del_fondo",
+   "count": 557
+  },
+  {
+   "fuente": "aumentado_f2b2",
+   "motivo_invalidez": "humedadPct_fuera_de_rango",
+   "count": 1097
+  },
+  {
+   "fuente": "aumentado_f2b2",
+   "motivo_invalidez": "distanciaCm_-1",
+   "count": 1497
+  },
+  {
+   "fuente": "aumentado_f2b1",
+   "motivo_invalidez": "distanciaCm_-1",
+   "count": 1716
+  },
+  {
+   "fuente": "aumentado_f2b1",
+   "motivo_invalidez": "humedadPct_fuera_de_rango",
+   "count": 1290
+  },
+  {
+   "fuente": "aumentado_f2b1",
+   "motivo_invalidez": "distanciaCm_mas_alla_del_fondo",
+   "count": 428
+  },
+  {
+   "fuente": "thingspeak",
+   "motivo_invalidez": "nivelPct_fuera_de_rango",
+   "count": 3729
+  },
+  {
+   "fuente": "esp32",
+   "motivo_invalidez": "distanciaCm_fuera_de_rango",
+   "count": 8
+  },
+  {
+   "fuente": "esp32",
+   "motivo_invalidez": "distanciaCm_fuera_del_rango_del_sensor",
+   "count": 3764
+  },
+  {
+   "fuente": "thingspeak",
+   "motivo_invalidez": "distanciaCm_-1",
+   "count": 39
+  },
+  {
+   "fuente": "esp32",
+   "motivo_invalidez": "humedadPct_fuera_de_rango",
+   "count": 31
+  },
+  {
+   "fuente": "esp32",
+   "motivo_invalidez": "distanciaCm_-1",
+   "count": 1606
+  },
+  {
+   "fuente": "esp32",
+   "motivo_invalidez": "distanciaCm_mas_alla_del_fondo",
+   "count": 2543
+  },
+  {
+   "fuente": "ea-uk",
+   "motivo_invalidez": "caudalM3s_fuera_de_rango",
+   "count": 11
+  }
+ ],
+ "oro": {
+  "d2_autonomia": {
+   "filas": 111355,
+   "por_fuente": {
+    "aumentado_f2b1": 34399,
+    "aumentado_f2b2": 34400,
+    "esp32": 252,
+    "thingspeak": 42304
+   },
+   "por_particion": {
+    "consistencia": 18343,
+    "embargo": 2839,
+    "entrenamiento": 84623,
+    "prueba": 5550
+   },
+   "columnas": [
+    "fuente",
+    "sensorId",
+    "runId",
+    "tramo",
+    "ts",
+    "nivel_pct",
+    "litros",
+    "n_lecturas",
+    "tipo_anomalia",
+    "delta_pct_1h",
+    "delta_pct_5min",
+    "tendencia_pct_h_3h",
+    "en_subida",
+    "llegada_detectada",
+    "hora_lima",
+    "dia_semana",
+    "es_anomalia",
+    "particion",
+    "particion_version"
+   ]
+  },
+  "d4_llegadas": {
+   "filas": 340,
+   "por_fuente": {
+    "aumentado_f2b1": 123,
+    "aumentado_f2b2": 122,
+    "esp32": 22,
+    "thingspeak": 73
+   },
+   "por_particion": {
+    "consistencia": 63,
+    "embargo": 10,
+    "entrenamiento": 248,
+    "prueba": 19
+   },
+   "columnas": [
+    "fuente",
+    "sensorId",
+    "runId",
+    "tipo",
+    "eventoId",
+    "ts",
+    "fin_ts",
+    "artefacto_reanudacion",
+    "bitacora",
+    "hora_lima",
+    "dia_semana",
+    "valor",
+    "unidad",
+    "subida_pct",
+    "caudal_lpm",
+    "fuera_franja",
+    "criterio",
+    "horas_sin_llegada",
+    "intervalo_desde_anterior_h",
+    "version_reglas",
+    "tipo_anomalia",
+    "particion",
+    "particion_version"
+   ]
+  },
+  "d6_noches": {
+   "filas": 241,
+   "por_fuente": {
+    "aumentado_f2b1": 120,
+    "aumentado_f2b2": 120,
+    "esp32": 1
+   },
+   "por_particion": {
+    "consistencia": 64,
+    "embargo": 8,
+    "entrenamiento": 169
+   },
+   "columnas": [
+    "fuente",
+    "sensorId",
+    "runId",
+    "noche",
+    "ts",
+    "minutos_con_datos",
+    "cobertura",
+    "descenso_cm_compensado",
+    "descenso_cm_crudo",
+    "compensacion_origen",
+    "tasa_cm_h_compensada",
+    "distancia_media_cm",
+    "temp_inicio_c",
+    "temp_fin_c",
+    "hubo_subida",
+    "frac_fuga_lenta",
+    "frac_deriva_termica",
+    "etiqueta",
+    "particion",
+    "particion_version"
+   ]
+  },
+  "d8_termica": {
+   "filas": 7528,
+   "por_fuente": {
+    "aumentado_f2b1": 2880,
+    "aumentado_f2b2": 2880,
+    "esp32": 34,
+    "thingspeak": 1734
+   },
+   "por_particion": {
+    "consistencia": 1536,
+    "embargo": 216,
+    "entrenamiento": 5480,
+    "prueba": 296
+   },
+   "columnas": [
+    "fuente",
+    "sensorId",
+    "runId",
+    "ts",
+    "temp_aire_camara_c",
+    "nivel_pct",
+    "n_lecturas",
+    "tramo",
+    "temp_agua_real_c",
+    "temp_juliaca_c",
+    "temp_agua_estimada_provisional_c",
+    "horas_residencia",
+    "hora_lima",
+    "particion",
+    "particion_version"
+   ]
+  }
+ },
+ "esp32_tramos": {
+  "umbral_hueco_min": 2.0,
+  "tramos": 19,
+  "tramos_mayores_30_min": [
+   {
+    "tramo": 3,
+    "desde": 1791516677571,
+    "hasta": 1791520038095,
+    "lecturas": 672,
+    "validas": 102,
+    "minutos": 56.00873333333333
+   },
+   {
+    "tramo": 4,
+    "desde": 1792115172308,
+    "hasta": 1792124315261,
+    "lecturas": 1751,
+    "validas": 1694,
+    "minutos": 152.38255
+   },
+   {
+    "tramo": 5,
+    "desde": 1792716228794,
+    "hasta": 1792723029032,
+    "lecturas": 1360,
+    "validas": 1272,
+    "minutos": 113.3373
+   },
+   {
+    "tramo": 6,
+    "desde": 1793220324465,
+    "hasta": 1793236164195,
+    "lecturas": 3138,
+    "validas": 1978,
+    "minutos": 263.9955
+   },
+   {
+    "tramo": 8,
+    "desde": 1793241294435,
+    "hasta": 1793254429640,
+    "lecturas": 2627,
+    "validas": 1809,
+    "minutos": 218.92008333333334
+   },
+   {
+    "tramo": 9,
+    "desde": 1793256253907,
+    "hasta": 1793280764082,
+    "lecturas": 4902,
+    "validas": 4879,
+    "minutos": 408.5029166666667
+   },
+   {
+    "tramo": 10,
+    "desde": 1793283743334,
+    "hasta": 1793286982648,
+    "lecturas": 646,
+    "validas": 151,
+    "minutos": 53.988566666666664
+   },
+   {
+    "tramo": 11,
+    "desde": 1793287720896,
+    "hasta": 1793292204485,
+    "lecturas": 858,
+    "validas": 42,
+    "minutos": 74.72648333333333
+   },
+   {
+    "tramo": 16,
+    "desde": 1793296577248,
+    "hasta": 1793312657176,
+    "lecturas": 3166,
+    "validas": 0,
+    "minutos": 267.9988
+   }
+  ],
+  "huecos_mayores_5_min": 14,
+  "huecos_mayores_1_h": 4,
+  "hueco_max_h": 166.29105305555555
+ },
+ "esp32_llegada_tardia_a_kafka": {
+  "lecturas_con_mas_de_5_min": 7527,
+  "nota": "llegaron tarde a Kafka (puesta en marcha del puente, suspensiones de la PC). Plata usa el timestamp del ESP32 (Firebase): el atraso no crea huecos"
+ }
+}

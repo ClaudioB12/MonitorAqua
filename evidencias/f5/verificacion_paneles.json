@@ -1,0 +1,506 @@
+{
+ "resumen": {
+  "BI · real · 24 h": {
+   "datos": 16,
+   "sin datos": 5
+  },
+  "BI · aumentado · 28-sep a 28-oct": {
+   "datos": 19,
+   "sin datos": 2
+  },
+  "Pipeline · 24 h": {
+   "datos": 18,
+   "sin datos": 1
+  }
+ },
+ "paneles": [
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "Lecturas por minuto (promedio del periodo)",
+   "refId": "A",
+   "filas": 1,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "Lecturas válidas (%)",
+   "refId": "A",
+   "filas": 1,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "Sensores activos por origen (última hora del periodo)",
+   "refId": "A",
+   "filas": 5,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "Eventos de servicio en el periodo, por tipo (24 h por defecto)",
+   "refId": "A",
+   "filas": 2,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "Nivel del tanque (% y litros)",
+   "refId": "A",
+   "filas": 368,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "Geometría del tanque",
+   "refId": "A",
+   "filas": 1,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "Llegadas de agua y cortes",
+   "refId": "A",
+   "filas": 7,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "Horas entre llegadas",
+   "refId": "A",
+   "filas": 6,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "Caudal de llenado estimado",
+   "refId": "A",
+   "filas": 7,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "Distancia cruda vs compensada (DHT11)",
+   "refId": "A",
+   "filas": 368,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "Alertas de fuga",
+   "refId": "A",
+   "filas": 0,
+   "estado": "sin datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "Temperaturas: aire de la cámara, Juliaca y agua estimada (provisional)",
+   "refId": "A",
+   "filas": 184,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "Temperaturas: aire de la cámara, Juliaca y agua estimada (provisional)",
+   "refId": "B",
+   "filas": 19,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "Temperaturas: aire de la cámara, Juliaca y agua estimada (provisional)",
+   "refId": "C",
+   "filas": 48,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "Horas de residencia del agua",
+   "refId": "A",
+   "filas": 45,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "anotación: llegada_agua",
+   "refId": "A",
+   "filas": 7,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "anotación: corte_prolongado",
+   "refId": "A",
+   "filas": 0,
+   "estado": "sin datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "anotación: alerta_fuga",
+   "refId": "A",
+   "filas": 0,
+   "estado": "sin datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "anotación: autonomia_baja",
+   "refId": "A",
+   "filas": 0,
+   "estado": "sin datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "anotación: falla_sensor",
+   "refId": "A",
+   "filas": 49,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · real · 24 h",
+   "panel": "anotación: umbral_termico",
+   "refId": "A",
+   "filas": 0,
+   "estado": "sin datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "Lecturas por minuto (promedio del periodo)",
+   "refId": "A",
+   "filas": 1,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "Lecturas válidas (%)",
+   "refId": "A",
+   "filas": 1,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "Sensores activos por origen (última hora del periodo)",
+   "refId": "A",
+   "filas": 1,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "Eventos de servicio en el periodo, por tipo (24 h por defecto)",
+   "refId": "A",
+   "filas": 5,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "Nivel del tanque (% y litros)",
+   "refId": "A",
+   "filas": 6406,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "Geometría del tanque",
+   "refId": "A",
+   "filas": 4,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "Llegadas de agua y cortes",
+   "refId": "A",
+   "filas": 123,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "Horas entre llegadas",
+   "refId": "A",
+   "filas": 109,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "Caudal de llenado estimado",
+   "refId": "A",
+   "filas": 113,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "Distancia cruda vs compensada (DHT11)",
+   "refId": "A",
+   "filas": 6406,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "Alertas de fuga",
+   "refId": "A",
+   "filas": 1,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "Temperaturas: aire de la cámara, Juliaca y agua estimada (provisional)",
+   "refId": "A",
+   "filas": 3203,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "Temperaturas: aire de la cámara, Juliaca y agua estimada (provisional)",
+   "refId": "B",
+   "filas": 0,
+   "estado": "sin datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "Temperaturas: aire de la cámara, Juliaca y agua estimada (provisional)",
+   "refId": "C",
+   "filas": 3204,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "Horas de residencia del agua",
+   "refId": "A",
+   "filas": 3174,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "anotación: llegada_agua",
+   "refId": "A",
+   "filas": 113,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "anotación: corte_prolongado",
+   "refId": "A",
+   "filas": 10,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "anotación: alerta_fuga",
+   "refId": "A",
+   "filas": 1,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "anotación: autonomia_baja",
+   "refId": "A",
+   "filas": 4,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "anotación: falla_sensor",
+   "refId": "A",
+   "filas": 25,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "BI · aumentado · 28-sep a 28-oct",
+   "panel": "anotación: umbral_termico",
+   "refId": "A",
+   "filas": 0,
+   "estado": "sin datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Mensajes por segundo por tópico",
+   "refId": "A",
+   "filas": 755,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Lag por grupo de consumidores",
+   "refId": "A",
+   "filas": 267,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Filas de entrada por segundo, por consulta",
+   "refId": "A",
+   "filas": 307,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Duración del lote frente al intervalo del trigger (%)",
+   "refId": "A",
+   "filas": 307,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Filas descartadas por watermark",
+   "refId": "A",
+   "filas": 307,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Duplicados descartados (eventId)",
+   "refId": "A",
+   "filas": 307,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Minutos desde la última lectura, por origen",
+   "refId": "A",
+   "filas": 5,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Latencia de ingesta por origen: p50 y p95 (s)",
+   "refId": "A",
+   "filas": 5,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Latencia de ingesta por origen: p50 y p95 (s)",
+   "refId": "B",
+   "filas": 5,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Latencia p95 por origen (ventanas de 30 min)",
+   "refId": "A",
+   "filas": 71,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Mensajes por día por tópico",
+   "refId": "A",
+   "filas": 4,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Bytes por día por tópico",
+   "refId": "A",
+   "filas": 0,
+   "estado": "sin datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Tamaño actual por tópico",
+   "refId": "A",
+   "filas": 4,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Entrada de Spark (filas/s)",
+   "refId": "A",
+   "filas": 109,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Duración del lote (ms)",
+   "refId": "A",
+   "filas": 109,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Lag y mensajes/s del tópico real",
+   "refId": "A",
+   "filas": 267,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Lag y mensajes/s del tópico real",
+   "refId": "B",
+   "filas": 200,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "Lecturas del ESP32 por minuto (huecos = sin datos)",
+   "refId": "A",
+   "filas": 1441,
+   "estado": "datos",
+   "error": null
+  },
+  {
+   "escenario": "Pipeline · 24 h",
+   "panel": "anotación: falla_sensor",
+   "refId": "A",
+   "filas": 49,
+   "estado": "datos",
+   "error": null
+  }
+ ]
+}

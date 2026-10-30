@@ -1,0 +1,150 @@
+{
+ "generado_utc": "2026-10-29T05:59:16+00:00",
+ "tabla": "d2_autonomia",
+ "objetivo": "nivel_pct a 60 min",
+ "conjunto": "diseño (último 20 % del entrenamiento; consistencia para los aumentados)",
+ "k_tendencia": 12,
+ "particion": "p6.1",
+ "niveles": {
+  "consistencia": {
+   "n": 17820,
+   "sensores": [
+    "flota-zonaA-01",
+    "flota-zonaA-02",
+    "flota-zonaB-01",
+    "flota-zonaB-02"
+   ],
+   "predictores": {
+    "pred_persistencia": {
+     "n": 17820,
+     "n_mape": 17764,
+     "mape_minimo": 1.0,
+     "largo_bloque": 12,
+     "n_boot": 500,
+     "MAE": {
+      "valor": 2.674356727257206,
+      "ic95": [
+       2.4104025324490244,
+       2.9504370556978863
+      ]
+     },
+     "RMSE": {
+      "valor": 6.547118484269826,
+      "ic95": [
+       5.7068614100272335,
+       7.363713709473293
+      ]
+     },
+     "MAPE": {
+      "valor": 3.6889670147347955,
+      "ic95": [
+       3.313164131687756,
+       4.102419117536346
+      ]
+     }
+    },
+    "pred_tendencia": {
+     "n": 17820,
+     "n_mape": 17764,
+     "mape_minimo": 1.0,
+     "largo_bloque": 12,
+     "n_boot": 500,
+     "MAE": {
+      "valor": 3.2330110652918975,
+      "ic95": [
+       2.860544338250699,
+       3.6866674698184387
+      ]
+     },
+     "RMSE": {
+      "valor": 9.698936372505019,
+      "ic95": [
+       8.671886538320285,
+       10.769989691354422
+      ]
+     },
+     "MAPE": {
+      "valor": 3.878875048008531,
+      "ic95": [
+       3.4278295623145234,
+       4.342474332872739
+      ]
+     }
+    }
+   },
+   "uso": "consistencia (nunca métrica final)"
+  },
+  "thingspeak_real": {
+   "n": 6220,
+   "sensores": [
+    "thingspeak-1233810",
+    "thingspeak-1233815",
+    "thingspeak-283977",
+    "thingspeak-3418755"
+   ],
+   "predictores": {
+    "pred_persistencia": {
+     "n": 6220,
+     "n_mape": 6220,
+     "mape_minimo": 1.0,
+     "largo_bloque": 12,
+     "n_boot": 500,
+     "MAE": {
+      "valor": 0.6349544839228294,
+      "ic95": [
+       0.5379309251607717,
+       0.73695908516881
+      ]
+     },
+     "RMSE": {
+      "valor": 1.5588107831246882,
+      "ic95": [
+       1.2806538889845518,
+       1.8292241347171032
+      ]
+     },
+     "MAPE": {
+      "valor": 1.4182456677451982,
+      "ic95": [
+       1.198156893153813,
+       1.6577068054341888
+      ]
+     }
+    },
+    "pred_tendencia": {
+     "n": 6220,
+     "n_mape": 6220,
+     "mape_minimo": 1.0,
+     "largo_bloque": 12,
+     "n_boot": 500,
+     "MAE": {
+      "valor": 0.9445320411864672,
+      "ic95": [
+       0.818719300999985,
+       1.0859066385028802
+      ]
+     },
+     "RMSE": {
+      "valor": 2.268791089888028,
+      "ic95": [
+       1.894912880125686,
+       2.6333821077373925
+      ]
+     },
+     "MAPE": {
+      "valor": 2.1752886118479586,
+      "ic95": [
+       1.813653086281571,
+       2.557143970217467
+      ]
+     }
+    }
+   },
+   "uso": "real"
+  },
+  "esp32_real": {
+   "n": 0,
+   "nota": "sin datos en este conjunto"
+  }
+ }
+}

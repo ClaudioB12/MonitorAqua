@@ -1,0 +1,49 @@
+{
+ "version": "d4.1",
+ "fecha": "20261029",
+ "particion": "p6.1",
+ "config": {
+  "version": "d4.1",
+  "excluir": {
+   "artefacto_reanudacion": true,
+   "bitacora": [
+    "no_verificable"
+   ]
+  },
+  "fuera_de_alcance": {
+   "thingspeak-3418755": "tanque de agua de lluvia: sus llegadas son lluvias, no servicio de la red"
+  },
+  "fuentes": {
+   "detector_f43": true,
+   "subida_sostenida": [
+    "thingspeak"
+   ]
+  },
+  "modelo": {
+   "e_max_h": 72,
+   "horizonte_h": 96,
+   "iteraciones_ipf": 100,
+   "min_llegadas_entrenamiento": 5,
+   "weibull_min_intervalos": 10,
+   "agrupar_por_zona": [
+    "aumentado_f2b1",
+    "aumentado_f2b2"
+   ]
+  },
+  "frac_ajuste": 0.2,
+  "conforme": {
+   "alfa": 0.2,
+   "min_episodios": 5
+  },
+  "evaluacion": {
+   "min_episodios_ic": 5,
+   "min_episodios_evidencia": 10,
+   "horizontes_prob_h": [
+    6,
+    12,
+    24
+   ],
+   "n_boot": 500
+  }
+ }
+}

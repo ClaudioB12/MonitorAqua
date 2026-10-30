@@ -1,0 +1,2680 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://claudiob12.github.io/MonitorAqua/modelo-d8/">
+      
+      
+        <link rel="prev" href="../modelo-d6/">
+      
+      
+        <link rel="next" href="../arranque-diario/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>D8 · Temperatura y residencia - MonitorAqua — Proyecto Sello</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#modelo-d8-temperatura-del-agua-almacenada-y-horas-de-residencia" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-header__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MonitorAqua — Proyecto Sello
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              D8 · Temperatura y residencia
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-nav__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MonitorAqua — Proyecto Sello
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Producto U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto de la Unidad 2: pipeline en tiempo real
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stack-actual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stack y servicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta (S6-S7)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ingesta (S6-S7)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ingesta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta unificada (IoT y APIs)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventos-servicio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eventos de servicio (empresariales)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos-aumentados/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flota extrapolada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Streaming (S8)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observabilidad y costos (S9)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Observabilidad y costos (S9)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tableros/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tableros y alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../costos-escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Costos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset-modelos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset de los modelos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inferencia-en-vivo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inferencia en vivo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dimensiones U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D2 · Horas de autonomía
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D4 · Próxima llegada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D6 · Pérdida por fuga
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D8 · Temperatura y residencia
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D8 · Temperatura y residencia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-que-pregunta-responde-y-que-decision-habilita" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Qué pregunta responde y qué decisión habilita
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Datos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-como-se-estima-la-temperatura-del-agua-y-la-residencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Cómo se estima la temperatura del agua y la residencia
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-los-modelos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Los modelos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Los modelos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modelo-principal-inercia-de-primer-orden-con-el-aire-de-la-camara-y-open-meteo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelo principal: inercia de primer orden con el aire de la cámara y Open-Meteo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lineas-base-obligatorias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Líneas base (obligatorias)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-como-se-evito-mirar-la-prueba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cómo se evitó mirar la prueba
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-resultados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Resultados
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Resultados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#temperatura-del-agua-en-el-canal-real-mae-en-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temperatura del agua en el canal real (MAE en °C)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probabilidad-de-cruzar-un-umbral-en-las-proximas-12-h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probabilidad de cruzar un umbral en las próximas 12 h
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-leer-los-resultados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo leer los resultados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transferencia-a-juliaca-error-de-transferencia-no-medicion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transferencia a Juliaca (error de transferencia, NO medición)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Transferencia a Juliaca (error de transferencia, NO medición)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#la-causa-principal-del-error-de-transferencia-depende-del-volumen-y-del-aislamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La causa principal del error de transferencia: τ depende del volumen y del aislamiento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#horas-de-residencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Horas de residencia
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-precision-limitante-el-dht11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Precisión limitante: el DHT11
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-esp32-metrica-final-pendiente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. ESP32: métrica final pendiente
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-limitaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Limitaciones
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-uso-en-f7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Uso en F7
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-preguntas-probables-del-jurado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Preguntas probables del jurado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-reproducir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Reproducir
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#graficos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gráficos del notebook y del tablero en vivo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gráficos del notebook y del tablero en vivo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tablero-bi-en-vivo-f7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tablero BI en vivo (F7)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evidencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencia
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arranque-diario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arranque diario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guion-demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guion de la demo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Antecedentes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Antecedentes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitectura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura (diseño inicial)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dimensiones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones (U1 y U2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adecuacion-dimensiones-u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adecuación al hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Datos de muestra (U1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-que-pregunta-responde-y-que-decision-habilita" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Qué pregunta responde y qué decisión habilita
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Datos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-como-se-estima-la-temperatura-del-agua-y-la-residencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Cómo se estima la temperatura del agua y la residencia
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-los-modelos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Los modelos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Los modelos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modelo-principal-inercia-de-primer-orden-con-el-aire-de-la-camara-y-open-meteo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelo principal: inercia de primer orden con el aire de la cámara y Open-Meteo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lineas-base-obligatorias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Líneas base (obligatorias)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-como-se-evito-mirar-la-prueba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cómo se evitó mirar la prueba
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-resultados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Resultados
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Resultados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#temperatura-del-agua-en-el-canal-real-mae-en-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temperatura del agua en el canal real (MAE en °C)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probabilidad-de-cruzar-un-umbral-en-las-proximas-12-h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probabilidad de cruzar un umbral en las próximas 12 h
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-leer-los-resultados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cómo leer los resultados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transferencia-a-juliaca-error-de-transferencia-no-medicion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transferencia a Juliaca (error de transferencia, NO medición)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Transferencia a Juliaca (error de transferencia, NO medición)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#la-causa-principal-del-error-de-transferencia-depende-del-volumen-y-del-aislamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        La causa principal del error de transferencia: τ depende del volumen y del aislamiento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#horas-de-residencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Horas de residencia
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-precision-limitante-el-dht11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Precisión limitante: el DHT11
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-esp32-metrica-final-pendiente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. ESP32: métrica final pendiente
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-limitaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Limitaciones
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-uso-en-f7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Uso en F7
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-preguntas-probables-del-jurado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Preguntas probables del jurado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-reproducir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Reproducir
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#graficos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gráficos del notebook y del tablero en vivo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gráficos del notebook y del tablero en vivo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tablero-bi-en-vivo-f7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tablero BI en vivo (F7)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evidencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidencia
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="modelo-d8-temperatura-del-agua-almacenada-y-horas-de-residencia">Modelo D8: temperatura del agua almacenada y horas de residencia<a class="headerlink" href="#modelo-d8-temperatura-del-agua-almacenada-y-horas-de-residencia" title="Permanent link">&para;</a></h1>
+<p><strong>Dimensión D8 (Josué Ochoa).</strong> Versión <code>d8.1</code>, entrenada el 2026-10-29 con la partición <code>p6.2</code>.</p>
+<p><strong>Gráficos y evidencia:</strong> al final de la página, en <a href="#graficos">Gráficos del notebook y del tablero en vivo</a>.</p>
+<ul>
+<li><strong>Código:</strong> <code>batch/modelo_d8.py</code> (configuración en <code>batch/modelo_d8.yml</code>) y <code>batch/termico.py</code>, el modelo, sin
+  dependencias fuera de numpy, para F7.</li>
+<li><strong>Modelo guardado:</strong> <code>batch/modelos/d8/d8.1-20261029/</code> (<code>modelo.json</code> y <code>manifiesto.json</code>).</li>
+<li><strong>Evidencia:</strong> <code>docs/evidencias/f6-d8/</code>.</li>
+<li><strong>Plantilla:</strong> <code>docs/modelo-d2.md</code>, <code>docs/modelo-d4.md</code> y <code>docs/modelo-d6.md</code>, con las mismas reglas de evaluación.</li>
+</ul>
+<blockquote>
+<p><strong>Qué se puede afirmar y qué no.</strong>
+- <strong>El único dato real de temperatura del agua es el canal de ThingSpeak 3418755,</strong> un tanque de agua de lluvia en
+  el noroeste de Inglaterra. Allí el modelo se evalúa contra el agua medida: <strong>eso sí es una medición</strong>.
+- <strong>La evidencia real son 8 días de prueba de un solo canal</strong> (168 horas, más 13 días de ajuste). Alcanza para decir
+  que el método funciona en ese tanque, no para generalizar a otros tanques, estaciones ni climas.
+- <strong>En Juliaca no hay sensor de agua.</strong> Lo que se reporta para el ESP32 y la flota es un <strong>error de transferencia</strong>
+  (cuánto cambia la estimación según el modelo y sus parámetros), no una medición. El supuesto declarado es que el
+  tanque de Juliaca responde al aire como el del canal, aunque el tanque y el clima son distintos.
+- <strong>El τ = 24.3 h es el del tanque del canal 3418755.</strong> τ depende del volumen y del aislamiento del tanque; el
+  recipiente del ESP32 es mucho más pequeño y su τ real será menor (sección 6, "La causa principal del error de
+  transferencia").</p>
+</blockquote>
+<h2 id="1-que-pregunta-responde-y-que-decision-habilita">1. Qué pregunta responde y qué decisión habilita<a class="headerlink" href="#1-que-pregunta-responde-y-que-decision-habilita" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>¿A qué temperatura está el agua del tanque ahora y a cuánto estará en 6 y 12 horas? ¿Puede cruzar un umbral de
+riesgo (helada o agua tibia) en las próximas 12 horas? ¿Cuántas horas lleva el agua almacenada?</strong></p>
+</blockquote>
+<p>Con la respuesta, la familia o el administrador pueden decidir:</p>
+<ul>
+<li><strong>proteger el tanque y la tubería</strong> antes de una helada: en Juliaca las noches bajan de 0 °C en invierno;</li>
+<li><strong>renovar el agua</strong> cuando lleva muchas horas guardada y está tibia, que es cuando el cloro se pierde más rápido;</li>
+<li>y, junto con D2 y D4, <strong>cuándo conviene usar o reponer</strong> el agua.</li>
+</ul>
+<h2 id="2-datos">2. Datos<a class="headerlink" href="#2-datos" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Qué datos</th>
+<th>Agua medida</th>
+<th>Para qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ThingSpeak 3418755</strong></td>
+<td>70 días: aire dentro del tanque (<code>field2</code>), agua (<code>field3</code>, DS18B20), nivel; más <strong>Open-Meteo de su ubicación</strong> (53.45, −2.51), descargado con la misma API pública que Juliaca (<code>batch/datos/fuentes/f8_open_meteo_3418755.json</code>)</td>
+<td><strong>Sí</strong> (1,606 horas)</td>
+<td>Entrenar, ajustar y evaluar</td>
+</tr>
+<tr>
+<td><strong>Flota f2b.1 y f2b.2</strong></td>
+<td>Aire de la cámara simulado y Open-Meteo Juliaca (tabla oro <code>d8_termica</code>)</td>
+<td>No (el generador no simula el agua)</td>
+<td>Transferencia y residencia</td>
+</tr>
+<tr>
+<td><strong>ESP32</strong></td>
+<td>34 horas con aire de la cámara (DHT11) y Open-Meteo Juliaca</td>
+<td>No</td>
+<td>Transferencia (pendiente de la prueba real)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Partición p6.2 del canal:</strong> entrenamiento hasta 8 días antes del final, 24 h de embargo y prueba en los últimos
+  7 días.</li>
+<li><strong>Conjunto de ajuste:</strong> el último 20 % del entrenamiento (por tiempo). Ahí se elige el modelo principal y se
+  calibra la banda.</li>
+<li><strong>Horas con agua medida por conjunto:</strong> entrenamiento 1,131, ajuste 283, embargo 24, prueba 168.</li>
+<li><strong>Huecos del aire del canal (141 h):</strong> se rellenan con Open-Meteo (aire = 2.68 + 0.88 · Open-Meteo, ajustado en el
+  entrenamiento), igual que hará F7 cuando el DHT11 no transmita.</li>
+</ul>
+<h2 id="3-como-se-estima-la-temperatura-del-agua-y-la-residencia">3. Cómo se estima la temperatura del agua y la residencia<a class="headerlink" href="#3-como-se-estima-la-temperatura-del-agua-y-la-residencia" title="Permanent link">&para;</a></h2>
+<p><strong>El agua se simula desde el aire, nunca desde una medición del agua.</strong> En Juliaca no hay sensor de agua, así que el
+modelo no puede "corregirse" con el agua real; en el canal se evalúa igual, sin usarla como entrada.</p>
+<ul>
+<li><strong>Inercia de primer orden, paso de 1 h:</strong> F(t) = a · F(t−1) + (1 − a) · aire(t), con a = e^(−1/τ). τ es la
+  constante de tiempo: cuántas horas tarda el agua en seguir al aire.</li>
+<li><strong>Agua estimada</strong> = g₁ · F_τ(aire de la cámara) + g₂ · F_τ(aire de Open-Meteo) + c.</li>
+<li><strong>Cómo se ajusta:</strong> para cada τ de una rejilla de 2 a 120 h, las ganancias y la constante salen por mínimos
+    cuadrados en el entrenamiento; gana el τ con menor error.</li>
+<li><strong>Pronóstico a 6 y 12 h:</strong> los filtros siguen con el aire futuro = <strong>ciclo horario de los últimos 7 días + la
+  anomalía actual</strong>. Es la misma idea de la regla provisional; no se usa el aire futuro observado.</li>
+<li><strong>Banda P10-P90:</strong> predicción conforme con los residuos del conjunto de ajuste, por horizonte (0, 6 y 12 h).</li>
+<li><strong>Probabilidad de cruzar un umbral en 12 h:</strong> el máximo, entre las 12 horas, de la fracción de residuos del ajuste
+  que llevarían el pronóstico al otro lado del umbral.</li>
+</ul>
+<p><strong>Residencia (edad media del agua).</strong> Supone un tanque <strong>bien mezclado</strong>:</p>
+<ul>
+<li>cada llenado aporta agua de edad 0, en proporción al volumen renovado;</li>
+<li>el consumo saca agua de todas las edades por igual;</li>
+<li>la edad de todo el tanque sube 1 hora por hora.</li>
+</ul>
+<p><strong>Llenados:</strong> las llegadas de D4. Son las del detector congelado (tabla <code>d4_llegadas</code>) y los llenados por subida
+sostenida (el criterio de D2 y D4), que son los que se ven en los canales de ThingSpeak en %. La ventana de cada
+llenado se extiende hacia atrás hasta el mínimo de nivel de las 3 h previas, porque la subida sostenida se dispara
+cuando el agua ya entró.</p>
+<p><strong>El agua que ya estaba antes del primer llenado visto tiene edad desconocida.</strong> Por eso la residencia solo se informa
+cuando más del 90 % del agua tiene edad conocida.</p>
+<h2 id="4-los-modelos">4. Los modelos<a class="headerlink" href="#4-los-modelos" title="Permanent link">&para;</a></h2>
+<h3 id="modelo-principal-inercia-de-primer-orden-con-el-aire-de-la-camara-y-open-meteo">Modelo principal: inercia de primer orden con el aire de la cámara y Open-Meteo<a class="headerlink" href="#modelo-principal-inercia-de-primer-orden-con-el-aire-de-la-camara-y-open-meteo" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Variante</th>
+<th>Entradas</th>
+<th>τ (h)</th>
+<th>Ganancias</th>
+<th>Constante</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>aire_y_om (principal)</strong></td>
+<td>aire de la cámara + Open-Meteo</td>
+<td><strong>24.3</strong> (bootstrap de días: 22.7-26.3)</td>
+<td>0.45 · aire + 0.58 · Open-Meteo</td>
+<td>−0.49 °C</td>
+</tr>
+<tr>
+<td>solo_aire</td>
+<td>aire de la cámara</td>
+<td>27.9</td>
+<td>0.99 · aire</td>
+<td>−0.45 °C</td>
+</tr>
+<tr>
+<td>solo_om</td>
+<td>Open-Meteo</td>
+<td>22.7</td>
+<td>0.90 · Open-Meteo</td>
+<td>+2.05 °C</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Elección del principal:</strong> el de menor error en el ajuste (0.29 °C frente a 0.46 y 0.92), antes de mirar la
+  prueba.</li>
+<li><strong>Lectura física:</strong> el τ ajustado (~24 h) es casi el de la regla provisional (25.2 h), que se había deducido de la
+  amplitud (15 %) y el atraso (5-7 h) del mismo canal. Los dos caminos coinciden.</li>
+<li><strong>Las dos entradas se complementan:</strong></li>
+<li>el aire de la cámara capta el sol y el calor del día sobre el tanque;</li>
+<li>Open-Meteo, el clima de fondo;</li>
+<li>con las dos, el modelo no se deja arrastrar por el calentamiento del sol en el aire de la cámara.</li>
+<li><strong>Por qué no un modelo más complejo (ARX con muchos rezagos o GBT):</strong></li>
+<li>con un solo canal real y 70 días, cada parámetro extra es una oportunidad de sobreajuste;</li>
+<li>la inercia de primer orden tiene sentido físico (el agua es una masa térmica que sigue al aire con retraso);</li>
+<li>se explica con un número (τ);</li>
+<li>transfiere a Juliaca sin reentrenar;</li>
+<li>es un ARX con un rezago, en el que la ganancia de cada entrada es el coeficiente del aire de la cámara y de
+    Open-Meteo.</li>
+</ul>
+<h3 id="lineas-base-obligatorias">Líneas base (obligatorias)<a class="headerlink" href="#lineas-base-obligatorias" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Línea base</th>
+<th>Agua ahora</th>
+<th>Agua en 6 y 12 h</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>(a) Agua = aire actual</strong></td>
+<td>aire de la cámara ahora</td>
+<td>igual</td>
+</tr>
+<tr>
+<td><strong>(b) Agua = media del aire de las últimas 24 h</strong></td>
+<td>media de 24 h</td>
+<td>igual</td>
+</tr>
+<tr>
+<td><strong>(c) Inercia provisional de f4.4</strong></td>
+<td>primer orden, τ = 25.2 h, ganancia 1, solo aire (la regla <code>umbral_termico</code> congelada)</td>
+<td>ciclo + anomalía, como el modelo</td>
+</tr>
+</tbody>
+</table>
+<p>Las reglas congeladas no se tocaron: la línea base (c) usa los mismos parámetros que la regla (<code>streaming/reglas_servicio.yml</code>).</p>
+<h2 id="5-como-se-evito-mirar-la-prueba">5. Cómo se evitó mirar la prueba<a class="headerlink" href="#5-como-se-evito-mirar-la-prueba" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>El modelo, las tres variantes y τ</strong> se ajustan solo con la partición <code>entrenamiento</code> del canal, sin el último 20 %.</li>
+<li><strong>El principal y la banda</strong> se eligen y calibran en ese 20 % (ajuste).</li>
+<li><strong>La prueba</strong> son los últimos 7 días (p6.2), con 24 h de embargo. Se miró una sola vez, al final.</li>
+<li><strong>ESP32 y flota:</strong> nada de Juliaca se usó para ajustar. No hay agua medida que mirar.</li>
+</ul>
+<h2 id="6-resultados">6. Resultados<a class="headerlink" href="#6-resultados" title="Permanent link">&para;</a></h2>
+<p>Tablas completas en <code>docs/evidencias/f6-d8/tablas_d8.md</code>. Hay 13 días de ajuste y 8 de prueba (mínimo 7), así que la
+evidencia de temperatura es <strong>suficiente</strong>. Los IC son por bootstrap de bloques de 24 h.</p>
+<h3 id="temperatura-del-agua-en-el-canal-real-mae-en-c">Temperatura del agua en el canal real (MAE en °C)<a class="headerlink" href="#temperatura-del-agua-en-el-canal-real-mae-en-c" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Predictor</th>
+<th>Ajuste: ahora</th>
+<th>Ajuste: 12 h</th>
+<th><strong>Prueba: ahora</strong></th>
+<th><strong>Prueba: 6 h</strong></th>
+<th><strong>Prueba: 12 h</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Principal (aire + OM)</strong></td>
+<td><strong>0.29</strong> [0.21, 0.39]</td>
+<td><strong>0.57</strong> [0.42, 0.73]</td>
+<td><strong>0.16</strong> [0.10, 0.23]</td>
+<td><strong>0.24</strong> [0.17, 0.33]</td>
+<td><strong>0.41</strong> [0.31, 0.55]</td>
+</tr>
+<tr>
+<td>Solo aire</td>
+<td>0.46 [0.38, 0.61]</td>
+<td>0.57 [0.47, 0.70]</td>
+<td>0.91 [0.57, 1.36]</td>
+<td>0.91 [0.57, 1.36]</td>
+<td>0.95 [0.61, 1.39]</td>
+</tr>
+<tr>
+<td>Solo Open-Meteo</td>
+<td>0.92 [0.64, 1.17]</td>
+<td>1.12 [0.83, 1.35]</td>
+<td>1.79 [1.70, 2.03]</td>
+<td>1.75 [1.64, 2.04]</td>
+<td>1.73 [1.48, 2.09]</td>
+</tr>
+<tr>
+<td>(a) Aire actual</td>
+<td>0.98 [0.67, 1.32]</td>
+<td>1.06 [0.82, 1.31]</td>
+<td>0.22 [0.18, 0.26]</td>
+<td>0.35 [0.26, 0.48]</td>
+<td>0.47 [0.33, 0.70]</td>
+</tr>
+<tr>
+<td>(b) Media del aire 24 h</td>
+<td>0.51 [0.37, 0.66]</td>
+<td>0.81 [0.60, 1.03]</td>
+<td>0.41 [0.28, 0.63]</td>
+<td>0.52 [0.36, 0.82]</td>
+<td>0.64 [0.41, 0.98]</td>
+</tr>
+<tr>
+<td>(c) Provisional f4.4</td>
+<td>0.48 [0.29, 0.70]</td>
+<td>0.68 [0.51, 0.87]</td>
+<td>0.61 [0.46, 0.82]</td>
+<td>0.63 [0.49, 0.83]</td>
+<td>0.68 [0.51, 0.90]</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Banda P10-P90 del principal:</strong> en la prueba cubre el 100 % ahora, el 95 % a 6 h y el 89 % a 12 h. Su ancho es de
+0.9, 1.2 y 1.7 °C.</p>
+<h3 id="probabilidad-de-cruzar-un-umbral-en-las-proximas-12-h">Probabilidad de cruzar un umbral en las próximas 12 h<a class="headerlink" href="#probabilidad-de-cruzar-un-umbral-en-las-proximas-12-h" title="Permanent link">&para;</a></h3>
+<p><strong>Los umbrales configurados (4 y 25 °C) no se pueden evaluar:</strong> el agua del canal va de 7.8 a 18.7 °C y nunca los
+cruza (0 horas). Para medir si la probabilidad de cruce está bien calibrada se usa una <strong>rejilla de umbrales de
+evaluación</strong> (cada 0.5 °C, de 8 a 18.5 °C) y se suman los cruces de todos.</p>
+<table>
+<thead>
+<tr>
+<th>Lado</th>
+<th>Conjunto</th>
+<th>Orígenes (con cruce)</th>
+<th>Episodios</th>
+<th><strong>Modelo: Brier (skill)</strong></th>
+<th>(a) Aire actual</th>
+<th>(b) Media 24 h</th>
+<th>(c) Provisional</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hacia abajo</td>
+<td>Ajuste</td>
+<td>2,182 (258)</td>
+<td>23</td>
+<td><strong>0.066 (+0.42)</strong></td>
+<td>0.120 (−0.06)</td>
+<td>0.126 (−0.12)</td>
+<td>0.116 (−0.02)</td>
+</tr>
+<tr>
+<td>Hacia abajo</td>
+<td>Prueba</td>
+<td>492 (65)</td>
+<td>6</td>
+<td><strong>0.076 (+0.43)</strong></td>
+<td>0.134 (−0.02)</td>
+<td>0.240 (−0.82)</td>
+<td>0.264 (−1.00)</td>
+</tr>
+<tr>
+<td>Hacia arriba</td>
+<td>Ajuste</td>
+<td>4,039 (175)</td>
+<td>15</td>
+<td><strong>0.027 (+0.80)</strong></td>
+<td>0.070 (+0.47)</td>
+<td>0.056 (+0.58)</td>
+<td>0.065 (+0.51)</td>
+</tr>
+<tr>
+<td>Hacia arriba</td>
+<td>Prueba</td>
+<td>2,938 (97)</td>
+<td>7</td>
+<td><strong>0.019 (+0.88)</strong></td>
+<td>0.033 (+0.79)</td>
+<td>0.028 (+0.82)</td>
+<td>0.036 (+0.76)</td>
+</tr>
+</tbody>
+</table>
+<p>El skill se mide contra la frecuencia de cruce del entrenamiento. Las líneas base dan un sí o un no (cruza o no cruza
+en su pronóstico), sin probabilidad.</p>
+<h3 id="como-leer-los-resultados">Cómo leer los resultados<a class="headerlink" href="#como-leer-los-resultados" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>El modelo estima el agua con ~0.2-0.3 °C de error y la pronostica a 12 h con ~0.4-0.6 °C.</strong> Le gana a todas las
+   líneas base en el ajuste y en la prueba.</li>
+<li><strong>En la prueba, la línea base (a) se acerca</strong> (0.22 frente a 0.16 °C ahora; 0.47 frente a 0.41 a 12 h, con IC
+     que se solapan a 12 h). En los días fríos de octubre, el aire dentro del tanque casi coincide con el agua. En el
+     ajuste, en cambio, (a) se equivoca en 1 °C.</li>
+<li><strong>El modelo es el único bueno en los dos periodos.</strong></li>
+<li><strong>Una sola entrada no alcanza.</strong> "Solo aire" y "solo Open-Meteo" van bien en el ajuste, pero en la prueba se
+   desvían (−0.9 y +1.8 °C de sesgo): con el cambio de estación, cada entrada sola deja de representar al agua.
+   <strong>Combinadas, el sesgo de la prueba es de +0.1 °C.</strong></li>
+<li><strong>Lo que implica para Juliaca:</strong> cuando el ESP32 no transmite, F7 tendrá solo Open-Meteo, que es la variante
+     menos confiable. Es una limitación declarada.</li>
+<li><strong>La inercia provisional (c) era razonable, pero no ajustada:</strong> su τ es casi el correcto, pero sin ganancias ni la
+   segunda entrada se equivoca 0.5-0.7 °C. El modelo reduce ese error a la mitad o menos.</li>
+<li><strong>La banda es conservadora en la prueba</strong> (89-100 % frente al 80 % nominal): se calibró en un periodo más variable
+   (fines de septiembre).</li>
+<li><strong>Probabilidad de cruce:</strong></li>
+<li><strong>Bien calibrada</strong> (calibración global de +0.01 a +0.05) y con skill positivo en los dos lados.</li>
+<li><strong>Supera a las líneas base,</strong> que con un sí o un no se equivocan más (hacia abajo, sus skill son negativos).</li>
+<li><strong>Evidencia suficiente en el ajuste</strong> (23 y 15 episodios) e <strong>indicativa en la prueba</strong> (6 y 7).</li>
+<li><strong>Es la calibración del método, no la del riesgo real:</strong> los umbrales de 4 y 25 °C nunca ocurrieron en el canal.</li>
+</ol>
+<h3 id="transferencia-a-juliaca-error-de-transferencia-no-medicion">Transferencia a Juliaca (error de transferencia, NO medición)<a class="headerlink" href="#transferencia-a-juliaca-error-de-transferencia-no-medicion" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Fuente</th>
+<th>Horas</th>
+<th>Principal P05 / P50 / P95</th>
+<th>Provisional P50</th>
+<th>Diferencia absoluta media con la provisional</th>
+<th>Incertidumbre por parámetros (ancho P10-P90)</th>
+<th>Horas estimadas bajo 4 °C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flota f2b.1</td>
+<td>2,592</td>
+<td>8.7 / 10.3 / 11.7 °C</td>
+<td>10.5 °C</td>
+<td>0.86 °C</td>
+<td>0.50 °C</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Flota f2b.2</td>
+<td>2,592</td>
+<td>8.0 / 9.9 / 11.6 °C</td>
+<td>9.7 °C</td>
+<td>0.72 °C</td>
+<td>0.55 °C</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ESP32</td>
+<td>34</td>
+<td>9.8 / 10.4 / 12.6 °C</td>
+<td>12.7 °C</td>
+<td><strong>1.89 °C</strong></td>
+<td>0.63 °C</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Error de transferencia declarado:</strong> ~0.7-0.9 °C de diferencia con la regla provisional, más ~0.5-0.6 °C de
+  incertidumbre por los parámetros (bootstrap de días del canal).</li>
+<li><strong>El supuesto de fondo:</strong> que el tanque de Juliaca siga al aire como el del canal (mismo τ y mismas ganancias). Con
+  otro tamaño, color o aislamiento, τ cambia. Ese error <strong>no se puede medir sin un sensor de agua en Juliaca</strong>.</li>
+<li><strong>En el ESP32 la diferencia es mayor (1.9 °C).</strong> Sus horas son de la tarde, con la cámara a ~20 °C y Juliaca a ~8 °C.
+  La regla provisional sigue solo a la cámara; el modelo pesa también el aire exterior.</li>
+<li><strong>En septiembre y octubre la estimación nunca baja de 4 °C</strong> en ningún modelo. El riesgo de helada del agua se
+  concentra en el invierno (junio-agosto), fuera de estos datos.</li>
+</ul>
+<h4 id="la-causa-principal-del-error-de-transferencia-depende-del-volumen-y-del-aislamiento">La causa principal del error de transferencia: τ depende del volumen y del aislamiento<a class="headerlink" href="#la-causa-principal-del-error-de-transferencia-depende-del-volumen-y-del-aislamiento" title="Permanent link">&para;</a></h4>
+<p><strong>τ = 24.3 h es una propiedad del tanque del canal 3418755, no del agua.</strong> En un modelo de inercia de primer orden:</p>
+<blockquote>
+<p>τ = (masa de agua × calor específico) / (coeficiente de intercambio × área de las paredes) = ρ · c · V / (h · A)</p>
+</blockquote>
+<ul>
+<li><strong>El volumen aumenta τ:</strong> más agua es más inercia.</li>
+<li><strong>El área y un mal aislamiento lo reducen:</strong> más superficie y paredes delgadas intercambian calor más rápido.</li>
+<li><strong>Escala con el volumen:</strong> con forma y material parecidos, el área crece como V^(2/3), así que <strong>τ ∝ V^(1/3)</strong>.</li>
+</ul>
+<p><strong>Orden de magnitud del τ esperado.</strong> El volumen del tanque del canal no se publica: es un tanque de lluvia de 100 cm
+de alto, entre ~300 y ~1,000 L según la forma.</p>
+<table>
+<thead>
+<tr>
+<th>Recipiente</th>
+<th>τ esperado si el canal tiene 300 L</th>
+<th>Si tiene 1,000 L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1,100 L (geometría provisional del ESP32, <code>tanques.yml</code>)</td>
+<td>~38 h</td>
+<td>~25 h</td>
+</tr>
+<tr>
+<td>100 L</td>
+<td>~17 h</td>
+<td>~11 h</td>
+</tr>
+<tr>
+<td>20 L (balde)</td>
+<td>~10 h</td>
+<td>~7 h</td>
+</tr>
+<tr>
+<td>5 L</td>
+<td>~6 h</td>
+<td>~4 h</td>
+</tr>
+</tbody>
+</table>
+<p><strong>El recipiente de prueba del ESP32 es mucho más pequeño que la geometría provisional,</strong> del orden de un balde. Su τ
+real estaría entre ~4 y ~10 h, no en 24 h. Además, un recipiente de plástico delgado sin aislar intercambia calor más
+rápido, y eso lo baja todavía más.</p>
+<p><strong>Efecto: con τ = 24.3 h, el modelo aplicado al ESP32 respondería con retraso.</strong> Seguiría al aire unas 2-5 veces más
+lento que el agua real: subestimaría el calentamiento de la tarde y el enfriamiento de la noche. Medido con el aire de
+Juliaca de la flota (misma entrada, mismas ganancias, solo cambia τ):</p>
+<table>
+<thead>
+<tr>
+<th>τ real del recipiente</th>
+<th>Diferencia media con τ = 24.3 h</th>
+<th>P95</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>32 h</td>
+<td>0.16 °C</td>
+<td>0.34 °C</td>
+</tr>
+<tr>
+<td>12 h</td>
+<td>0.64 °C</td>
+<td>1.26 °C</td>
+</tr>
+<tr>
+<td>8 h</td>
+<td><strong>1.20 °C</strong></td>
+<td><strong>2.29 °C</strong></td>
+</tr>
+<tr>
+<td>5 h</td>
+<td><strong>1.99 °C</strong></td>
+<td><strong>3.75 °C</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Es la causa principal del error de transferencia:</strong> para un recipiente de 5-20 L, 1-2 °C de error medio y hasta
+  ~4 °C en las horas extremas. Es más que la incertidumbre de los parámetros (~0.5 °C) y que la diferencia con la
+  regla provisional (~0.8 °C).</li>
+<li><strong>También pesa en el riesgo:</strong> el retraso subestimaría la helada en un recipiente pequeño, que se enfría más rápido
+  que el modelo.</li>
+<li><strong>Cuándo se corrige:</strong> τ es el único parámetro que habría que reajustar por recipiente, y solo se puede medir con el
+  agua (sección 8).</li>
+</ul>
+<h3 id="horas-de-residencia">Horas de residencia<a class="headerlink" href="#horas-de-residencia" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Tanque</th>
+<th>Con edad conocida</th>
+<th>Mediana</th>
+<th>P90</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flota (8 tanques)</td>
+<td>6-57 % de los pasos</td>
+<td>24-77 h</td>
+<td>37-102 h</td>
+</tr>
+<tr>
+<td>ThingSpeak 1233810 (doméstico)</td>
+<td>22 %</td>
+<td>41 h</td>
+<td>56 h</td>
+</tr>
+<tr>
+<td>ThingSpeak 3418755 (lluvia)</td>
+<td>28 %</td>
+<td>29 h</td>
+<td>62 h</td>
+</tr>
+<tr>
+<td>ThingSpeak 1233815 y 283977</td>
+<td>0 % (no se llenaron en el periodo)</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>ESP32</td>
+<td>0 % (sin llenados reales)</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>La edad se conoce solo en una parte del tiempo.</strong> Hace falta que los llenados reemplacen el 90 % del agua que ya
+  estaba, y en tanques grandes que se renuevan poco eso tarda días.</li>
+<li><strong>Relación con la temperatura:</strong></li>
+<li><strong>En el canal real no hay relación</strong> (Spearman −0.08, 459 h): allí los "llenados" son lluvia fría, y el agua
+    nueva enfría el tanque.</li>
+<li><strong>En la flota, el agua más vieja está algo más tibia</strong> (+0.27): 9.6-9.8 °C con menos de 24 h frente a
+    10.4-10.7 °C con más de 48 h, porque el agua del tanque sigue al aire del día.</li>
+<li><strong>Se reporta como descripción, no como modelo.</strong></li>
+</ul>
+<h2 id="7-precision-limitante-el-dht11">7. Precisión limitante: el DHT11<a class="headerlink" href="#7-precision-limitante-el-dht11" title="Permanent link">&para;</a></h2>
+<p>El DHT11 tiene una precisión de <strong>±2 °C</strong> y, en algunos modelos, redondea a grados enteros. El efecto se midió en la
+prueba, alterando el aire del canal:</p>
+<table>
+<thead>
+<tr>
+<th>Alteración del aire de la cámara</th>
+<th>Principal (aire + OM)</th>
+<th>Solo aire</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sesgo de +2 °C</td>
+<td><strong>+0.90 °C</strong> en el agua estimada (MAE de 0.16 a 1.03)</td>
+<td>+1.98 °C</td>
+</tr>
+<tr>
+<td>Sesgo de −2 °C</td>
+<td><strong>−0.90 °C</strong></td>
+<td>−1.98 °C</td>
+</tr>
+<tr>
+<td>Redondeo a 1 °C</td>
+<td>+0.02 °C (despreciable)</td>
+<td>+0.04 °C</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>El sesgo del DHT11 es la precisión limitante,</strong> no el redondeo: con el modelo principal, un DHT11 descalibrado en
+  2 °C desplaza el agua estimada en ~0.9 °C. Es más que todo el error del modelo en la prueba (0.16 °C).</li>
+<li><strong>El redondeo casi no importa:</strong> la inercia de 24 h promedia los escalones.</li>
+<li><strong>Mitigación:</strong></li>
+<li>el modelo principal pesa el DHT11 solo en ~0.45, así que el sesgo llega a la mitad;</li>
+<li>un DHT11 se puede contrastar con Open-Meteo en las horas nocturnas sin sol, como chequeo de calibración en la
+    prueba real.</li>
+</ul>
+<h2 id="8-esp32-metrica-final-pendiente">8. ESP32: métrica final pendiente<a class="headerlink" href="#8-esp32-metrica-final-pendiente" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>No hay sensor de agua en el ESP32,</strong> así que no puede haber una métrica real de la temperatura del agua en Juliaca.</li>
+<li><strong>El DS18B20 es opcional; hoy no lo tenemos.</strong> Si se instala un termómetro sumergible (DS18B20, el del canal
+  3418755) en el recipiente durante la prueba en vivo, aunque sea por unos días:</li>
+<li>permite <strong>medir el agua en Juliaca</strong>, el primer dato real, y así el error de transferencia de verdad;</li>
+<li>permite <strong>ajustar el τ del recipiente</strong>: con 2-3 días de agua medida se reajusta τ (y, si hace falta, las
+    ganancias) con el mismo <code>ModeloTermico.ajustar</code>, sin cambiar el método.</li>
+</ul>
+<p>Sin él, D8 en Juliaca queda como estimación con el error de transferencia declarado.
+- <strong>La residencia del ESP32 se mide en vivo</strong> cuando haya llenados reales anotados en la bitácora.</p>
+<h2 id="9-limitaciones">9. Limitaciones<a class="headerlink" href="#9-limitaciones" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Un solo canal real, en otro clima, con 8 días de prueba:</strong> el tanque de 3418755 es de lluvia, en Inglaterra,
+  con otro tamaño y aislamiento. El método se valida con datos reales; los parámetros, en Juliaca, son un supuesto.</li>
+<li><strong>τ depende del recipiente:</strong> el del ESP32 es mucho más pequeño y su τ real sería de ~4-10 h, no 24 h. Es la
+  causa principal del error de transferencia (1-2 °C de media) y solo se corrige midiendo el agua (DS18B20, opcional).</li>
+<li><strong>Septiembre-octubre:</strong> no hay invierno ni verano en los datos. Los umbrales de riesgo (4 y 25 °C) no ocurrieron, así
+  que la probabilidad de cruce se calibró con umbrales de evaluación.</li>
+<li><strong>El volumen del tanque no entra en τ.</strong> Un tanque casi vacío cambia de temperatura más rápido que uno lleno.
+  Agregar el nivel como modulador de τ queda para d8.2.</li>
+<li><strong>Sin el DHT11, solo Open-Meteo:</strong> es la variante con más sesgo en la prueba (+1.8 °C). En Juliaca el ESP32 casi no
+  transmite de noche, justo cuando importa la helada.</li>
+<li><strong>Residencia:</strong> depende de detectar bien los llenados (D4) y de que el tanque esté bien mezclado; con estratificación
+  (agua nueva arriba, vieja abajo) la edad real del fondo es mayor.</li>
+</ul>
+<h2 id="10-uso-en-f7">10. Uso en F7<a class="headerlink" href="#10-uso-en-f7" title="Permanent link">&para;</a></h2>
+<p><code>batch/termico.py</code> (<code>ModeloTermico.desde_dict</code>) carga <code>batch/modelos/d8/d8.1-20261029/modelo.json</code>. Cada hora, por
+tanque:</p>
+<ol>
+<li><strong>Agua ahora:</strong></li>
+<li>con el DHT11 si hay lectura, y si no, con el aire de la cámara reconstruido desde Open-Meteo (amortiguación de 0.6,
+     el supuesto del generador);</li>
+<li>más Open-Meteo Juliaca, con el modelo principal;</li>
+<li>se muestra con su banda P10-P90.</li>
+<li><strong>Agua en 6 y 12 h:</strong> se pronostica con su banda.</li>
+<li><strong>Probabilidad de cruzar 4 °C (o 25 °C) en 12 h,</strong> con los residuos guardados del ajuste.</li>
+<li><strong>Convive con la regla <code>umbral_termico</code>,</strong> que sigue congelada y provisional: la regla avisa; el modelo da la
+     temperatura y la probabilidad.</li>
+<li><strong>Horas de residencia</strong> (edad media), cuando más del 90 % del agua tenga edad conocida.</li>
+<li><strong>Siempre rotulado:</strong> "estimación, sin sensor de agua; error de transferencia de 1-2 °C (τ del recipiente sin
+   medir)".</li>
+</ol>
+<h2 id="11-preguntas-probables-del-jurado">11. Preguntas probables del jurado<a class="headerlink" href="#11-preguntas-probables-del-jurado" title="Permanent link">&para;</a></h2>
+<p><strong>1. "¿Cómo saben la temperatura del agua si no la miden?"</strong>
+La estimamos desde el aire, con un modelo físico simple: el agua es una masa que sigue al aire con retraso, y tarda
+unas 24 horas en hacerlo. Lo entrenamos y probamos con el único tanque público que mide a la vez el aire y el agua:
+allí se equivoca en 0.16 °C ahora y 0.41 °C a 12 horas, en días que el modelo nunca vio. En Juliaca no lo podemos
+comprobar sin un termómetro en el agua, y lo declaramos como error de transferencia (1-2 °C para un recipiente
+pequeño). Son 8 días de prueba de un solo canal: alcanza para el método, no para generalizar.</p>
+<p><strong>2. "¿Por qué usan un tanque de Inglaterra para Juliaca?"</strong>
+Porque es el único dato real de temperatura del agua disponible, y la física es la misma: un volumen de agua que
+sigue al aire. Lo que cambia es la rapidez (τ), que depende del volumen y del aislamiento: el τ de 24 horas es el
+de ese tanque, y el recipiente del ESP32, mucho más pequeño, tendría un τ de unas 4-10 horas. Esa es la causa
+principal del error en Juliaca. Por eso lo reportamos aparte, como transferencia y no como medición. Si instalamos un
+DS18B20 (es opcional y hoy no lo tenemos), podríamos medir el agua y ajustar el τ del recipiente.</p>
+<p><strong>3. "¿Su modelo es mejor que la regla que ya tenían?"</strong>
+La regla provisional usaba τ = 25.2 h, deducido del mismo canal, y el ajuste dio 24.3 h: el razonamiento era
+correcto. Pero la regla seguía solo al aire de la cámara, sin ganancias. El modelo ajustado reduce el error de 0.6 a
+0.16 °C en la prueba, y también le gana a "agua = aire" y a la media de 24 horas.</p>
+<p><strong>4. "¿Cuánto afecta que el DHT11 sea un sensor barato?"</strong>
+El redondeo casi no afecta, porque la inercia promedia los escalones. Lo que sí afecta es la descalibración: si el
+DHT11 marca 2 °C de más, el agua estimada sube ~0.9 °C, que es más que todo el error del modelo. Por eso el modelo
+pesa el DHT11 solo a la mitad, junto con Open-Meteo, y proponemos chequear el DHT11 contra Open-Meteo de noche.</p>
+<p><strong>5. "¿El agua guardada más tiempo está más caliente?"</strong>
+En la flota, un poco: el agua de más de 48 horas está ~0.8 °C más tibia que la de menos de 24, porque sigue el aire
+del día. En el tanque real de lluvia no hay relación, porque allí lo que llega es lluvia fría que enfría el tanque.
+Calculamos la edad como la de un tanque bien mezclado, renovado por cada llegada de agua, y la reportamos como
+descripción, junto a la temperatura.</p>
+<h2 id="12-reproducir">12. Reproducir<a class="headerlink" href="#12-reproducir" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># Requiere la capa oro (d8_termica, d2_autonomia, d4_llegadas) y la plata (Open-Meteo Juliaca). Descarga una vez</span>
+<span class="c1"># Open-Meteo de la ubicación del canal 3418755 (batch/datos/fuentes/f8_open_meteo_3418755.json, no versionado)</span>
+.venv/Scripts/python<span class="w"> </span>batch/modelo_d8.py<span class="w">          </span><span class="c1"># ~35 s</span>
+</code></pre></div>
+<!-- graficos-notebook -->
+
+<h2 id="graficos">Gráficos del notebook y del tablero en vivo<a class="headerlink" href="#graficos" title="Permanent link">&para;</a></h2>
+<p>Los gráficos salen del notebook <code>notebooks/u2/d8_temperatura.ipynb</code>, que reproduce las cifras de esta página desde los modelos versionados, sin reentrenar. Las capturas del tablero BI son de F7 (<code>docs/evidencias/f7/</code>).</p>
+<p><img alt="D8, gráfico 1" src="../img/notebooks/d8_01.png" /></p>
+<p><em>Gráfico 1. Semana de prueba del canal 3418755: agua real (DS18B20) frente al modelo a 0 h y a 12 h y a la regla provisional f4.4. El modelo sigue al agua real; la regla provisional se atrasa y se aplana.</em></p>
+<p><img alt="D8, gráfico 2" src="../img/notebooks/d8_02.png" /></p>
+<p><em>Gráfico 2. Residuos del modelo y de la base “aire actual” a 0, 6 y 12 h. La base queda sesgada hacia valores negativos; el modelo se centra más cerca de cero y se ensancha con el horizonte.</em></p>
+<p><img alt="D8, gráfico 3" src="../img/notebooks/d8_03.png" /></p>
+<p><em>Gráfico 3. Cobertura de la banda P10-P90 en la prueba por variante. Solo la variante validada (aire + Open-Meteo) cubre más del 80 % en los tres horizontes; solo aire y solo Open-Meteo quedan muy por debajo.</em></p>
+<h3 id="tablero-bi-en-vivo-f7">Tablero BI en vivo (F7)<a class="headerlink" href="#tablero-bi-en-vivo-f7" title="Permanent link">&para;</a></h3>
+<p><img alt="Tabla F7 con datos reales." src="../evidencias/f7/real_d8_agua.png" /></p>
+<p><em>Tabla F7 con datos reales.</em></p>
+<p><img alt="Tabla F7 con la flota extrapolada." src="../evidencias/f7/aumentado_d8_agua.png" /></p>
+<p><em>Tabla F7 con la flota extrapolada.</em></p>
+<h2 id="evidencia">Evidencia<a class="headerlink" href="#evidencia" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../evidencias/f6-d8/">Evidencia de d8.1</a></li>
+<li><a href="../evidencias/f6-d8/tablas_d8/">Tablas completas de d8.1</a></li>
+<li><a href="../evidencias/f7/d8_3418755_variante_validada/">D8 en vivo sobre el canal 3418755</a></li>
+<li><a href="../inferencia-en-vivo/">Inferencia en vivo (F7)</a> y su <a href="../evidencias/f7/">evidencia</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.indexes", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

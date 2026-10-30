@@ -1,0 +1,50 @@
+{
+ "version": "d2.1",
+ "fecha": "20261029",
+ "modelo": "Holt (nivel + tendencia), batch/holt.py",
+ "entrada": "mediana del nivel % en bloques de 5 min (como d2_autonomia)",
+ "paso_ms": 300000,
+ "umbral_pct": 10,
+ "tope_horas": 72,
+ "parametros": {
+  "consistencia": {
+   "alpha": 1.0,
+   "beta": 0.03,
+   "mae_autonomia_entrenamiento_h": 14.772225852069335,
+   "casos_no_censurados_entrenamiento": 1726
+  },
+  "thingspeak_real": {
+   "alpha": 0.1,
+   "beta": 0.1,
+   "mae_autonomia_entrenamiento_h": 27.642033688220916,
+   "casos_no_censurados_entrenamiento": 394
+  },
+  "esp32_real": {
+   "alpha": 0.1,
+   "beta": 0.1,
+   "mae_autonomia_entrenamiento_h": 27.642033688220916,
+   "casos_no_censurados_entrenamiento": 394,
+   "origen": "parámetros de ThingSpeak real (el ESP32 no tiene datos de entrenamiento suficientes ni geometría medida)"
+  }
+ },
+ "uso_parametros": "ajustados por el error de autonomía en el entrenamiento: son los de F7",
+ "parametros_pronostico": {
+  "consistencia": {
+   "alpha": 0.7,
+   "beta": 0.4,
+   "mae_ajuste_medio": 1.8432977400886332
+  },
+  "thingspeak_real": {
+   "alpha": 1.0,
+   "beta": 0.0,
+   "mae_ajuste_medio": 0.42850602965991036
+  },
+  "esp32_real": {
+   "alpha": 1.0,
+   "beta": 0.0,
+   "mae_ajuste_medio": 0.42850602965991036,
+   "origen": "parámetros de ThingSpeak real (el ESP32 no tiene datos de entrenamiento suficientes ni geometría medida)"
+  }
+ },
+ "uso_parametros_pronostico": "ajustados por el nivel a 15-60 min; solo comparación (en ThingSpeak = persistencia)"
+}

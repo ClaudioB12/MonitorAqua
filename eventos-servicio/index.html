@@ -1,0 +1,2647 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://claudiob12.github.io/MonitorAqua/eventos-servicio/">
+      
+      
+        <link rel="prev" href="../ingesta/">
+      
+      
+        <link rel="next" href="../datos-aumentados/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Eventos de servicio (empresariales) - MonitorAqua — Proyecto Sello</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#eventos-de-servicio-f4" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-header__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MonitorAqua — Proyecto Sello
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Eventos de servicio (empresariales)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-nav__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MonitorAqua — Proyecto Sello
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Producto U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto de la Unidad 2: pipeline en tiempo real
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stack-actual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stack y servicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta (S6-S7)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ingesta (S6-S7)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ingesta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta unificada (IoT y APIs)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eventos de servicio (empresariales)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eventos de servicio (empresariales)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#topico-servicio-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tópico servicio-eventos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contrato" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contrato
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reglas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reglas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reglas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-252-h-en-umbral_termico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Por qué τ = 25.2 h en umbral_termico
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#por-que-procesamiento-con-estado-y-no-ventanas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Por qué procesamiento con estado y no ventanas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#congelamiento-de-reglas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Congelamiento de reglas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Validación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-consistencia-detector-generador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Consistencia detector-generador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-sensibilidad-streamingsensibilidadpy-generador-f2b1-3-semillas-2026-7-y-11-reglas-f43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Sensibilidad (streaming/sensibilidad.py, generador f2b.1, 3 semillas: 2026, 7 y 11, reglas f4.3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2b-f44-frente-a-f43-streamingcomparar_versionespy-mismos-datos-7-variantes-3-semillas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2b. f4.4 frente a f4.3 (streaming/comparar_versiones.py, mismos datos, 7 variantes × 3 semillas)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-rendimiento-real-bitacora-de-pruebas-con-el-esp32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Rendimiento real: bitácora de pruebas con el ESP32
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eventos-reales-detectados-historial-de-aqua-eventos-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Eventos reales detectados (historial de aqua-eventos-real)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prueba-en-vivo-con-el-esp32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prueba en vivo con el ESP32
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitaciones-conocidas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitaciones conocidas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pendientes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pendientes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos-aumentados/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flota extrapolada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Streaming (S8)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observabilidad y costos (S9)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Observabilidad y costos (S9)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tableros/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tableros y alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../costos-escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Costos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset-modelos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset de los modelos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inferencia-en-vivo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inferencia en vivo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dimensiones U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D2 · Horas de autonomía
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D4 · Próxima llegada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D6 · Pérdida por fuga
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D8 · Temperatura y residencia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arranque-diario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arranque diario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guion-demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guion de la demo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Antecedentes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Antecedentes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitectura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura (diseño inicial)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dimensiones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones (U1 y U2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adecuacion-dimensiones-u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adecuación al hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Datos de muestra (U1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#topico-servicio-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tópico servicio-eventos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contrato" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contrato
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reglas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reglas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reglas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-252-h-en-umbral_termico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Por qué τ = 25.2 h en umbral_termico
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#por-que-procesamiento-con-estado-y-no-ventanas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Por qué procesamiento con estado y no ventanas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#congelamiento-de-reglas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Congelamiento de reglas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Validación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-consistencia-detector-generador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Consistencia detector-generador
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-sensibilidad-streamingsensibilidadpy-generador-f2b1-3-semillas-2026-7-y-11-reglas-f43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Sensibilidad (streaming/sensibilidad.py, generador f2b.1, 3 semillas: 2026, 7 y 11, reglas f4.3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2b-f44-frente-a-f43-streamingcomparar_versionespy-mismos-datos-7-variantes-3-semillas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2b. f4.4 frente a f4.3 (streaming/comparar_versiones.py, mismos datos, 7 variantes × 3 semillas)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-rendimiento-real-bitacora-de-pruebas-con-el-esp32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Rendimiento real: bitácora de pruebas con el ESP32
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eventos-reales-detectados-historial-de-aqua-eventos-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Eventos reales detectados (historial de aqua-eventos-real)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prueba-en-vivo-con-el-esp32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prueba en vivo con el ESP32
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitaciones-conocidas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitaciones conocidas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pendientes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pendientes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="eventos-de-servicio-f4">Eventos de servicio (F4)<a class="headerlink" href="#eventos-de-servicio-f4" title="Permanent link">&para;</a></h1>
+<p>Cubre el criterio 1 de la rúbrica: eventos de negocio publicados y consumidos en vivo, con contrato de evento y
+tópico documentados.</p>
+<p>Spark detecta los eventos en vivo a partir de las lecturas de los tanques, los publica en <strong><code>servicio-eventos</code></strong> y
+los escribe en InfluxDB (measurement <code>eventos_servicio</code>) para las anotaciones de Grafana de F5. Un consumidor con
+grupo propio los lee en vivo y los valida contra el contrato.</p>
+<div class="highlight"><pre><span></span><code>aqua-eventos-real ─&gt; Spark (consulta eventos_servicio: watermark 7 min, dedup eventId, estado por sensor)
+                        ├─&gt; Kafka servicio-eventos (clave sensorId) ─&gt; consumidor_eventos.py (grupo aqua-servicio-consumidor)
+                        └─&gt; InfluxDB eventos_servicio (tiempo = inicioTs)
+</code></pre></div>
+<h2 id="topico-servicio-eventos">Tópico <code>servicio-eventos</code><a class="headerlink" href="#topico-servicio-eventos" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Particiones</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Retención</td>
+<td>7 días (<code>retention.ms = 604800000</code>)</td>
+</tr>
+<tr>
+<td>Clave</td>
+<td><code>sensorId</code>: todos los eventos de un tanque quedan en orden en la misma partición</td>
+</tr>
+<tr>
+<td>Valor</td>
+<td>JSON según <code>contratos/servicio_evento.schema.json</code></td>
+</tr>
+<tr>
+<td>Productor</td>
+<td><code>lambda26-aqua-streaming</code>, consulta <code>eventos_servicio</code> (checkpoint propio)</td>
+</tr>
+<tr>
+<td>Consumidor</td>
+<td><code>lambda26-aqua-consumidor-eventos</code>, grupo <strong><code>aqua-servicio-consumidor</code></strong>; su lag llega a Prometheus por kafka-exporter (<code>kafka_consumergroup_lag{consumergroup="aqua-servicio-consumidor"}</code>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="contrato">Contrato<a class="headerlink" href="#contrato" title="Permanent link">&para;</a></h2>
+<p><code>contratos/servicio_evento.schema.json</code> (JSON Schema 2020-12, <code>additionalProperties: false</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>eventoId</code></td>
+<td>string</td>
+<td><strong>determinístico</strong>: <code>&lt;tipo&gt;-&lt;sensorId&gt;-&lt;inicioTs&gt;</code>. Si Spark reprocesa un lote tras un reinicio, el evento sale con el mismo id y el consumidor lo descarta</td>
+</tr>
+<tr>
+<td><code>tipo</code></td>
+<td>enum</td>
+<td><code>llegada_agua</code>, <code>corte_prolongado</code>, <code>alerta_fuga</code>, <code>autonomia_baja</code>, <code>umbral_termico</code>, <code>falla_sensor</code></td>
+</tr>
+<tr>
+<td><code>sensorId</code>, <code>zona</code></td>
+<td>string</td>
+<td>tanque y zona (<code>ingesta/tanques.yml</code>)</td>
+</tr>
+<tr>
+<td><code>severidad</code></td>
+<td>enum</td>
+<td><code>info</code>, <code>advertencia</code>, <code>critica</code></td>
+</tr>
+<tr>
+<td><code>inicioTs</code>, <code>finTs</code></td>
+<td>int (epoch ms)</td>
+<td>intervalo de la evidencia, en tiempo de evento; <code>finTs ≥ inicioTs</code></td>
+</tr>
+<tr>
+<td><code>valor</code>, <code>umbral</code></td>
+<td>número o null</td>
+<td>lo observado y el umbral de la regla, en la misma <code>unidad</code></td>
+</tr>
+<tr>
+<td><code>unidad</code></td>
+<td>enum</td>
+<td><code>%</code>, <code>h</code>, <code>cm</code>, <code>°C</code>, <code>lecturas</code> (fija por tipo)</td>
+</tr>
+<tr>
+<td><code>origenLecturas</code></td>
+<td>enum</td>
+<td><code>real</code> (<code>aqua-eventos-real</code>) o <code>aumentado</code> (validación con la flota extrapolada)</td>
+</tr>
+<tr>
+<td><code>detectadoTs</code></td>
+<td>int (epoch ms)</td>
+<td>hora del reloj en que Spark lo detectó</td>
+</tr>
+<tr>
+<td><code>versionRegla</code></td>
+<td>string</td>
+<td>versión de <code>reglas_servicio.yml</code> (<code>f4.1</code>), o <code>provisional</code> para <code>umbral_termico</code></td>
+</tr>
+<tr>
+<td><code>detalle</code></td>
+<td>objeto (opcional)</td>
+<td>datos propios del tipo: caudal de llenado, fuera de franja, litros, tasa de descenso, temperatura del agua estimada, etc.</td>
+</tr>
+</tbody>
+</table>
+<p>Dos reglas que JSON Schema no expresa (<code>eventoId</code> = <code>tipo-sensorId-inicioTs</code> y <code>finTs ≥ inicioTs</code>) las valida
+<code>errores_servicio()</code> en <code>ingesta/comun.py</code>. La usan el validador y el consumidor.</p>
+<p><code>contratos/validar.py</code> agrega 12 ejemplos de servicio (3 válidos y 9 inválidos) a los 28 anteriores: <strong>0 fallos</strong>.</p>
+<h2 id="reglas">Reglas<a class="headerlink" href="#reglas" title="Permanent link">&para;</a></h2>
+<p>Los umbrales están en <code>streaming/reglas_servicio.yml</code> y la geometría en <code>ingesta/tanques.yml</code>. El detector <strong>relee
+ambos archivos cuando cambian</strong>; no hace falta reiniciar Spark. El nivel se calcula con la geometría:</p>
+<p><code>nivel_cm = sensor_al_fondo − distancia compensada</code>, con <code>distancia compensada = distancia × c(T) / c(20 °C)</code> y la
+temperatura del DHT11.</p>
+<p><strong>Compensación en el firmware (f4.4).</strong> El firmware del ESP32 (<code>firmware/esp32/MonitorAqua_esp32.ino</code>) ya convierte
+el tiempo de vuelo con <code>vSonido = 331.3 + 0.606 · T</code> del DHT11, o con 20 °C si el DHT11 falla. La <code>distanciaCm</code> que
+llega a Firebase <strong>ya viene compensada</strong>. Hasta f4.3 el detector la compensaba otra vez.</p>
+<ul>
+<li><strong>El efecto de la doble corrección:</strong> de −0.48 a +0.26 cm en el historial, a ~13 cm de distancia. A 50-100 cm, con
+  4-10 °C de enfriamiento nocturno, serían 0.35-1.76 cm por noche de cambio ficticio: el enfriamiento se ve como una
+  subida que tapa una fuga, del orden del umbral de <code>alerta_fuga</code> (0.8 cm).</li>
+<li><strong>La corrección:</strong> el tanque declara <code>compensacion_en_firmware: {desde}</code> en <code>ingesta/tanques.yml</code>. Desde esa fecha el
+  detector no compensa la distancia (<code>compensacionOrigen = firmware</code> en la capa plata). Antes de esa fecha la
+  compensación es <code>desconocida</code> y D6 excluye esas lecturas. La flota simulada (f2b.1/f2b.2) imita un sensor que <strong>no</strong>
+  compensa, así que en ella el detector sigue compensando.</li>
+<li><strong>Supuesto documentado: "desde el inicio" (1-oct).</strong> El equipo confirma la versión del firmware solo desde el
+  28-oct. Antes no hay registro, y los datos no permiten distinguirlo:</li>
+<li><strong>Sesiones con cambios de temperatura (15 y 22-oct, 4-8 °C):</strong> miden 4-17 cm, donde compensar o no cambia ≤ 0.1
+    cm, igual o menos que la resolución. El 22-oct, la distancia pasa de 16.3 a 16.2 cm con la temperatura bajando de
+    28.9 a 25.0 °C, lo que es compatible con compensación, pero es un solo décimo.</li>
+<li><strong>Sesiones a 137-215 cm (1 y 8-oct):</strong> la temperatura casi no varía (18.0-18.7 °C), así que solo habría un desfase
+    constante de ~0.3-0.6 cm, sin cambios ficticios.</li>
+<li><strong>Consecuencia:</strong> el supuesto no cambia ningún resultado.</li>
+<li><strong>Sensor, por periodo</strong> (<code>ingesta/tanques.yml</code> → <code>sensorModelo</code>, <code>sensor_desde</code>):</li>
+<li><strong>Hasta el 29-oct a las 09:22:23: HC-SR04,</strong> con rango válido de 2-400 cm y un firmware de la misma lógica que el
+    actual, pero con pulso de disparo de 10 µs y una sola medición por lectura. <strong>Todo el historial de diseño (1 al
+    29-oct en la mañana) es de este sensor.</strong> Sus lecturas de 4-17 cm están dentro de su rango, así que los ecos
+    alternos de 7 ↔ 17 cm que motivaron la regla de intermitencia <strong>no</strong> se explican por una zona ciega.</li>
+<li><strong>Desde el 29-oct a las 09:22:23: JSN-SR04T con placa AJ-SR04M,</strong> con rango válido de 25-450 cm (zona ciega de
+    ~20-25 cm) y el firmware de <code>firmware/esp32/</code> (pulso de 20 µs y mediana de 5 mediciones). Se instaló entre las 08:32
+    y las 09:22; <code>sensor_desde</code> es la primera lectura del salto de distancia (76.9 cm, tras 49.7 min sin datos).</li>
+<li><strong>La capa plata</strong> marca inválidas las lecturas fuera del rango del sensor vigente
+    (<code>distanciaCm_fuera_del_rango_del_sensor</code>). El detector congelado mantiene su filtro propio (2-450 cm y más allá
+    del fondo).</li>
+<li><strong>Lo leído desde la instalación hasta que se monte bien la sonda es diseño.</strong> La prueba real empieza en
+    <code>geometria_desde</code>. La sonda debe quedar al menos 25 cm sobre el nivel máximo.</li>
+</ul>
+<p>Antes de evaluar se descartan:</p>
+<ul>
+<li>las lecturas inválidas de F3;</li>
+<li>las distancias más allá del fondo;</li>
+<li>los sensores de prueba (<code>ingesta/sensores_prueba.yml</code>).</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Evento</th>
+<th>Regla</th>
+<th>Umbral (f4.4, congelado)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>llegada_agua</code></td>
+<td>La mediana móvil de 5 lecturas sube más de X % de la capacidad dentro de la ventana, y la subida se sostiene en 3 medianas seguidas (f4.2). Tras una falla del sensor la ventana se reinicia: el nivel de antes de la falla no sirve de referencia (f4.2). <strong>Llenado lento (f4.3):</strong> también hay llegada si la tendencia de 60 min (mediana de los primeros 10 min contra la de los últimos 5) sube 5 % o más, confirmada en 5 lecturas. <strong>Caudal de llenado estimado</strong> = subida × capacidad / Δt (L/min), fórmula de la adecuación de D4. <code>fueraDeFranja</code> si empieza fuera de la franja de la zona (± 1 h). <strong>Subida sostenida (f4.4)</strong>, solo en canales que informan nivel en % o m (ThingSpeak): la mediana de los últimos 15 min (por tiempo) supera en 10 pp su mínimo desde el último llenado, con al menos 2 lecturas; es el criterio de la adecuación de D4. <strong>Sin llegadas</strong> mientras el sensor está inestable o en la gracia tras una reconexión (f4.4)</td>
+<td>6 % en 15 min, o 5 % en 60 min (lento), o 10 pp sostenidos en 15 min (canales de nivel)</td>
+</tr>
+<tr>
+<td><code>corte_prolongado</code></td>
+<td>Horas desde la última <code>llegada_agua</code> (o desde el inicio del flujo). <code>detalle.posibleHuecoDeDatos</code> avisa si la lectura que dispara la regla llegó después de ≥ 1 h sin datos. <strong>Reanudación (f4.4):</strong> tras un hueco de más de 30 min se reinician las referencias y el reloj vuelve a contar desde la reconexión (<code>detalle.referencia = reanudacion</code>), salvo que ya hubiera un corte avisado, que sigue vigente</td>
+<td>30 h (intervalo típico ~24 h × 1.25); crítica desde 48 h</td>
+</tr>
+<tr>
+<td><code>alerta_fuga</code></td>
+<td>Cada noche (00:00-03:30 Lima, antes de la franja de llegada) sin llenado. El descenso de la distancia compensada debe superar dos cosas: (a) 3 × la incertidumbre del DHT11 (±0.36 % de la distancia, es decir ±0.18 cm a 50 cm) y un mínimo absoluto; (b) la tasa nocturna habitual del tanque más un margen. La tasa habitual es la media exponencial de las noches sin alerta. <strong>No se evalúan (f4.4)</strong> las noches con el sensor inestable o con una reconexión dentro de la ventana</td>
+<td>0.8 cm; base + 0.25 cm/h</td>
+</tr>
+<tr>
+<td><code>autonomia_baja</code></td>
+<td>El nivel cae bajo el umbral; se rearma al subir del nivel de rearme. La proyección en horas llega en F7</td>
+<td>20 % (crítica bajo 10 %); rearme 30 %</td>
+</tr>
+<tr>
+<td><code>umbral_termico</code></td>
+<td>Temperatura del agua estimada con inercia de primer orden desde el aire de la cámara (τ = 25.2 h). Se proyecta 6 h con el ciclo horario de Juliaca más la anomalía actual del aire y se avisa si cruza un umbral. <strong><code>versionRegla = provisional</code></strong> hasta el modelo de F6</td>
+<td>4 °C y 25 °C</td>
+</tr>
+<tr>
+<td><code>falla_sensor</code></td>
+<td>N lecturas de nivel inválidas seguidas (<code>-1</code>, fuera de rango o más allá del fondo). <strong>Histéresis (f4.2):</strong> no se rearma hasta tener 2 min de lecturas válidas seguidas, así un sensor intermitente es un solo episodio. <strong>Intermitencia (f4.4)</strong>, solo sensores de distancia: 4 lecturas inválidas o saltos de más de 3 cm entre lecturas seguidas en 5 min marcan el sensor <strong>inestable</strong> hasta 10 min de calma; mientras tanto no hay <code>llegada_agua</code> ni <code>autonomia_baja</code>, y al calmarse se reinician las referencias. Un llenado real cambia la distancia ~0.1 cm cada 5 s</td>
+<td>5 lecturas; rearme tras 2 min; inestable: 4 en 5 min, calma 10 min</td>
+</tr>
+</tbody>
+</table>
+<h3 id="por-que-252-h-en-umbral_termico">Por qué τ = 25.2 h en <code>umbral_termico</code><a class="headerlink" href="#por-que-252-h-en-umbral_termico" title="Permanent link">&para;</a></h3>
+<p>En ThingSpeak 3418755 el agua varía el 15 % de lo que varía el aire y va 5-7 h atrasada (adecuación de D8). Para un
+sistema de primer orden con el ciclo diario (ω = 2π/24 h):</p>
+<ul>
+<li>la amplitud de 15 % exige <code>ωτ = √(1/0.15² − 1) ≈ 6.6</code>, o sea τ ≈ 25 h;</li>
+<li>ese mismo τ da un atraso de <code>atan(ωτ)/ω ≈ 5.4 h</code>, dentro de lo medido.</li>
+</ul>
+<p>Los dos datos son coherentes con un solo parámetro.</p>
+<h3 id="por-que-procesamiento-con-estado-y-no-ventanas">Por qué procesamiento con estado y no ventanas<a class="headerlink" href="#por-que-procesamiento-con-estado-y-no-ventanas" title="Permanent link">&para;</a></h3>
+<p>Las reglas son máquinas de estado por tanque con horizontes largos y distintos entre sí:</p>
+<ul>
+<li>"horas desde la <strong>última</strong> llegada";</li>
+<li>"N inválidas <strong>seguidas</strong>";</li>
+<li>"esta noche frente a la tasa de las noches <strong>anteriores</strong>".</li>
+</ul>
+<p>Con ventanas habría que fijar una ventana de días para el corte y otra para cada regla, y ni "desde la última" ni
+"seguidas" se pueden expresar. <code>applyInPandasWithState</code> guarda por <code>sensorId</code> solo lo necesario (último llenado,
+rachas, medianas por minuto de la noche en curso, tasa nocturna habitual) y procesa cada lectura una vez.</p>
+<p>La lógica vive en <code>streaming/detector_servicio.py</code>, en Python puro y sin Spark: la misma clase corre en vivo, en la
+validación con datos aumentados y en pruebas locales. Va detrás del mismo watermark de 7 min y del mismo
+<code>dropDuplicatesWithinWatermark(eventId)</code> que <code>rapidas_agg</code>; Spark 4.2 acepta encadenar los dos operadores con estado.
+El estado no usa timeouts: el corte se evalúa con cada lectura.</p>
+<h2 id="congelamiento-de-reglas">Congelamiento de reglas<a class="headerlink" href="#congelamiento-de-reglas" title="Permanent link">&para;</a></h2>
+<p><strong>Las reglas quedan congeladas en la versión f4.4 desde el 2026-10-29 a las 17:53:25, hora de Lima
+(2026-10-29 22:53:25 UTC).</strong> Ese es el momento en que <code>lambda26-aqua-streaming</code> arrancó con f4.4, y queda registrado
+en <code>streaming/reglas_servicio.yml</code> → <code>congelamiento</code>.</p>
+<p><strong>Commit de congelamiento: <a href="https://github.com/ClaudioB12/MonitorAqua/commit/0cfb9b10b73878993d7260eae2cc09a031f05ef4"><code>0cfb9b10b73878993d7260eae2cc09a031f05ef4</code></a></strong> (rama <code>u2-f44</code>). Fija <code>streaming/reglas_servicio.yml</code> (f4.4),
+<code>streaming/detector_servicio.py</code> e <code>ingesta/tanques.yml</code> (<code>compensacion_en_firmware</code>) antes de cualquier prueba con
+medidas reales. El hash no puede ir dentro de su propio commit, porque escribirlo cambiaría el contenido; por eso se
+registra en un commit posterior que solo agrega estas líneas. Para verificarlo:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>diff<span class="w"> </span>0cfb9b1<span class="w"> </span>--<span class="w"> </span>streaming/reglas_servicio.yml<span class="w"> </span>streaming/detector_servicio.py
+<span class="c1"># solo debe mostrar la línea commit del bloque congelamiento; ninguna regla ni código del detector</span>
+</code></pre></div>
+<p><strong>Congelamiento anterior (f4.3):</strong> desde el 2026-10-28 23:37:40 (Lima), commit
+<a href="https://github.com/ClaudioB12/MonitorAqua/commit/b400e7d480363274665ece065db5ea07c66390db"><code>b400e7d</code></a>. Su periodo de
+rendimiento real nunca empezó (geometría del ESP32 provisional), así que no hay cifras de f4.3 que conservar. Los
+eventos que publicó (versionRegla f4.3) quedan como diseño.</p>
+<p><strong>Partición p6.2</strong> (<code>batch/particion_modelos_p6.2.yml</code>): el inicio de la prueba del ESP32 pasa a ser la más tardía
+entre este congelamiento y <code>geometria_desde</code>. p6.1 se conserva sin cambios para reproducir d2.1-d2.2 y d4.1. Es
+legítimo porque la prueba real del ESP32 nunca empezó: con p6.1 no había ningún dato en "prueba", así que mover su
+inicio no reutiliza ni descarta nada evaluado. La regeneración de plata y oro con p6.2 y la compensación corregida
+deja <strong>idénticas</strong> las tablas oro de flota y ThingSpeak (d2, d4, d6, d8), así que los resultados de D2 y D4 no
+cambian.</p>
+<ul>
+<li><strong>Conjunto de diseño.</strong> Todo lo real anterior a ese momento se usó para diseñar las reglas: el historial del ESP32
+  del 1 al 29 de octubre, la falla intermitente del HC-SR04 de esa noche y las llegadas de las 21:46 y las 23:08. Con
+  eso se hicieron f4.2, f4.3 y f4.4, así que <strong>no se usa para reportar rendimiento real</strong>. Se muestra aparte, como diseño.</li>
+<li><strong>Rendimiento real.</strong> Se calcula <strong>solo con lecturas y bitácora posteriores al congelamiento</strong> y, para cada sensor,
+  posteriores también al cambio a geometría real:</li>
+<li><strong>Inicio:</strong> la más tardía entre <code>congelamiento.desde</code> y <code>geometria_desde</code> del sensor en <code>ingesta/tanques.yml</code>.</li>
+<li><strong>Geometría provisional:</strong> mientras siga siendo provisional (<code>por_medir: true</code>), el sensor no tiene periodo de
+    rendimiento real. Sus niveles (llegada, autonomía) no son medidas reales.</li>
+<li><strong>Separación automática:</strong> <code>streaming/comparar_bitacora.py</code> lee las dos fechas y separa las partes por sí mismo.</li>
+<li><strong>Al cargar las medidas reales del recipiente:</strong> se ponen las medidas y <code>por_medir: false</code> en <code>tanques.yml</code>, junto
+    con la fecha y hora del cambio en <code>geometria_desde</code>.</li>
+<li><strong>Cambios futuros.</strong> Cualquier cambio de reglas exige una versión nueva y un congelamiento nuevo, y el rendimiento
+  real de esa versión vuelve a empezar desde su propio congelamiento.</li>
+</ul>
+<p>Historia de versiones:</p>
+<table>
+<thead>
+<tr>
+<th>Versión</th>
+<th>Cambio</th>
+<th>Motivo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>f4.1</td>
+<td>reglas iniciales</td>
+<td>—</td>
+</tr>
+<tr>
+<td>f4.2</td>
+<td><code>falla_sensor</code> con histéresis (rearme tras 2 min válidos); <code>llegada_agua</code> confirmada en 3 medianas y con ventana reiniciada tras una falla</td>
+<td>la falla intermitente real del 28-oct (conjunto de diseño): tormenta de <code>falla_sensor</code> y llegada falsa al recuperarse el sensor</td>
+</tr>
+<tr>
+<td><strong>f4.3</strong></td>
+<td><code>llegada_agua</code> también por <strong>llenado lento</strong>: tendencia de 60 min (mediana de los primeros 10 min contra la de los últimos 5) mayor o igual a 5 %, confirmada en 5 lecturas</td>
+<td>en Juliaca, con baja presión de red, los llenados lentos son lo común; con f4.2 un tanque de 2500 L a 5 L/min no llegaba al 6 % en 15 min y se perdía</td>
+</tr>
+<tr>
+<td><strong>f4.4</strong></td>
+<td>(1) <code>llegada_agua</code> por <strong>subida sostenida</strong> en canales de nivel (%/m); (2) <strong>intermitencia</strong> del HC-SR04: sensor inestable, sin llegadas ni autonomía baja; (3) <strong>reanudación</strong> tras huecos de datos: referencias y reloj del corte reiniciados, 15 min de gracia sin llegadas; y noches perturbadas fuera de <code>alerta_fuga</code></td>
+<td>las tres limitaciones conocidas de f4.3: llenados no vistos en ThingSpeak 1233810 (publica cada ~10 min, en %), llegadas falsas por ecos alternos (23:55 y 00:27 del 28-29 oct) y llegadas y cortes falsos al reconectarse el ESP32 tras días apagado</td>
+</tr>
+</tbody>
+</table>
+<p>f4.3 compara medianas, no el mínimo de la ventana. Una primera versión usaba el mínimo de 60 medianas como base, y con
+ruido ×2 la precisión de <code>llegada_atipica</code> bajaba de 0.92 a 0.75, porque el mínimo de una serie ruidosa es un extremo
+bajo que infla la "subida". Con medianas vuelve a 0.92 (ruido ×2) y 1.00 (ruido ×3), y los llenados lentos se
+detectan igual.</p>
+<h2 id="validacion">Validación<a class="headerlink" href="#validacion" title="Permanent link">&para;</a></h2>
+<p>Hay tres niveles de validación y <strong>no se mezclan</strong>:</p>
+<ol>
+<li><strong>Consistencia detector-generador</strong> (datos aumentados). El generador y el detector comparten definiciones: el
+   <code>-1</code> de falla, la franja horaria y la escala de los llenados. Esta cifra mide si el detector reconoce lo que el
+   generador inyectó con esas mismas definiciones: es <strong>consistencia de implementación, no rendimiento real</strong>.</li>
+<li><strong>Sensibilidad</strong>. Rompe a propósito esos supuestos compartidos y mide cuánto se degrada la consistencia.</li>
+<li><strong>Rendimiento real</strong>. Compara la bitácora de acciones en el tanque real con los eventos detectados, <strong>solo después
+   del congelamiento</strong>.</li>
+</ol>
+<p>Todas las proporciones llevan su intervalo de confianza de 95 % de Wilson. Con pocos episodios son muy anchos, y eso
+es parte del resultado.</p>
+<h3 id="1-consistencia-detector-generador">1. Consistencia detector-generador<a class="headerlink" href="#1-consistencia-detector-generador" title="Permanent link">&para;</a></h3>
+<p><strong>Corrida de referencia</strong> (<code>aqua-eventos-aumentados</code>, generador f2b.1, semilla 2026, reglas f4.3):</p>
+<ul>
+<li><strong>Mismo detector:</strong> <code>streaming/validar_detector.py</code> pasa las 172,800 lecturas por el mismo detector y el mismo
+  Spark, con <code>trigger(availableNow)</code> y <code>origenLecturas = aumentado</code>.</li>
+<li><strong>Salida aislada:</strong> publica en un tópico de prueba (<code>servicio-eventos-validacion-f4</code>, <strong>borrado al terminar</strong>) y en
+  un JSONL, sin escribir en InfluxDB.</li>
+<li><strong>Evaluación:</strong> <code>streaming/evaluar_detector.py</code> empareja eventos con episodios etiquetados del mismo sensor e
+  intervalo superpuesto (± 30 min).</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Anomalía etiquetada</th>
+<th>Evento</th>
+<th>Episodios</th>
+<th>Eventos</th>
+<th>Consistencia: precisión [IC 95 %]</th>
+<th>Consistencia: recall [IC 95 %]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fuga_lenta</code></td>
+<td><code>alerta_fuga</code></td>
+<td>5</td>
+<td>1</td>
+<td>0.00 [0.00-0.79]</td>
+<td>0.00 [0.00-0.43]</td>
+</tr>
+<tr>
+<td><code>corte_prolongado</code></td>
+<td><code>corte_prolongado</code></td>
+<td>1</td>
+<td>10</td>
+<td>0.20 [0.06-0.51]</td>
+<td>1.00 [0.21-1.00]</td>
+</tr>
+<tr>
+<td><code>llegada_atipica</code></td>
+<td><code>llegada_agua</code> fuera de franja</td>
+<td>4</td>
+<td>4</td>
+<td>1.00 [0.51-1.00]</td>
+<td>1.00 [0.51-1.00]</td>
+</tr>
+<tr>
+<td><code>falla_sensor</code></td>
+<td><code>falla_sensor</code></td>
+<td>25</td>
+<td>25</td>
+<td>1.00 [0.87-1.00]</td>
+<td>1.00 [0.87-1.00]</td>
+</tr>
+<tr>
+<td><code>deriva_termica</code></td>
+<td><code>alerta_fuga</code> <strong>falsa</strong></td>
+<td>3</td>
+<td>0</td>
+<td>—</td>
+<td>0 de 3 episodios con alerta falsa [0.00-0.56]</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Generador f2b.1 frente a f2b.2</strong> (semilla 7, la misma en los dos; reglas f4.3; mismo detector, fuera de Spark):</p>
+<p>f2b.2 (<code>ingesta/generador_f2b2.yml</code>) cambia dos supuestos del generador que, con f2b.1, castigaban al detector por
+diferencias de definición:</p>
+<ul>
+<li><strong>Fugas persistentes:</strong> duran de 1 a 4 días (1.5-4 L/h, un flotador o un goteo) y cruzan las noches, en lugar de
+  4-10 h a cualquier hora. Hay al menos 4 por corrida.</li>
+<li><strong>Llegadas omitidas etiquetadas:</strong> <strong>toda</strong> llegada que no ocurre se etiqueta como <code>corte_prolongado</code>, también el
+  8 % de días sin agua que f2b.1 dejaba sin etiqueta.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Anomalía → evento</th>
+<th>f2b.1: episodios</th>
+<th>f2b.1: precisión / recall</th>
+<th>f2b.2: episodios</th>
+<th>f2b.2: precisión / recall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fuga_lenta</code> → <code>alerta_fuga</code></td>
+<td>4</td>
+<td>0.50 [0.10-0.91] / 0.25 [0.05-0.70]</td>
+<td>4</td>
+<td><strong>0.86 [0.49-0.97] / 0.75 [0.30-0.95]</strong></td>
+</tr>
+<tr>
+<td><code>corte_prolongado</code> → <code>corte_prolongado</code></td>
+<td>1</td>
+<td>0.06 [0.01-0.28] / 1.00 [0.21-1.00]</td>
+<td>7</td>
+<td><strong>0.58 [0.32-0.81] / 1.00 [0.65-1.00]</strong></td>
+</tr>
+<tr>
+<td><code>llegada_atipica</code> → <code>llegada_agua</code> fuera de franja</td>
+<td>4</td>
+<td>1.00 [0.51-1.00] / 1.00 [0.51-1.00]</td>
+<td>4</td>
+<td>1.00 [0.51-1.00] / 1.00 [0.51-1.00]</td>
+</tr>
+<tr>
+<td><code>falla_sensor</code> → <code>falla_sensor</code></td>
+<td>26</td>
+<td>1.00 [0.87-1.00] / 1.00 [0.87-1.00]</td>
+<td>27</td>
+<td>1.00 [0.88-1.00] / 1.00 [0.88-1.00]</td>
+</tr>
+<tr>
+<td>todas las llegadas efectivas → <code>llegada_agua</code></td>
+<td>108</td>
+<td>recall 0.98 [0.94-0.99]</td>
+<td>110</td>
+<td>recall 1.00 [0.97-1.00]</td>
+</tr>
+<tr>
+<td><code>deriva_termica</code> → <code>alerta_fuga</code> falsa</td>
+<td>3</td>
+<td>0 de 3</td>
+<td>3</td>
+<td>0 de 3</td>
+</tr>
+</tbody>
+</table>
+<p>Runs: f2b.1 <code>r7-48fedbe6</code>, f2b.2 <code>r7-79a6b935</code>. En f2b.2, 2 llegadas omitidas cayeron dentro de una fuga larga y
+quedaron sin etiquetar (los episodios no se superponen); explican parte de los cortes "falsos". La corrida f2b.2 tiene
+16.2 % de eventos anómalos, porque las fugas largas y los cortes etiquetados ocupan mucho tiempo.</p>
+<p><strong>Cómo leerlo:</strong></p>
+<ul>
+<li><strong>Los 1.00 de <code>falla_sensor</code> y <code>llegada_atipica</code> son consistencia por construcción.</strong> El generador escribe <code>-1</code> y
+  el detector busca <code>-1</code>; el generador pone las atípicas a las 12-18 h y el detector marca fuera de franja lo que
+  está fuera de 4-8 h ± 1 h. Con 4 episodios, además, el IC va de 0.51 a 1.00.</li>
+<li><strong><code>alerta_fuga</code> y <code>corte_prolongado</code> mejoran mucho con f2b.2.</strong> Con f2b.1, buena parte de sus "errores" era
+  desacuerdo de definiciones (fugas diurnas cortas, llegadas omitidas sin etiquetar), no fallas del detector. Aun
+  así, son 4 y 7 episodios: los IC siguen siendo anchos.</li>
+<li><strong>Compensación térmica:</strong> las corridas con compensación y sin ella dan las mismas métricas (<code>--sin-compensacion</code>).
+  A 29-40 cm del sensor, la deriva en la ventana nocturna es de décimas de cm. Comparando con la distancia verdadera
+  (<code>distanciaRealCm</code>), la compensación elimina <strong>~70 %</strong> del error térmico en las tres noches con helada: −0.47,
+  −0.42 y −0.42 cm crudo, frente a −0.17, −0.09 y −0.14 cm compensado. Esto con el aire del generador (σ 0.2 °C), no
+  con el ±2 °C real del DHT11.</li>
+<li><strong><code>umbral_termico</code>:</strong> ningún evento; con τ = 25 h el agua no baja de 4 °C en 6 h.</li>
+</ul>
+<h3 id="2-sensibilidad-streamingsensibilidadpy-generador-f2b1-3-semillas-2026-7-y-11-reglas-f43">2. Sensibilidad (<code>streaming/sensibilidad.py</code>, generador f2b.1, 3 semillas: 2026, 7 y 11, reglas f4.3)<a class="headerlink" href="#2-sensibilidad-streamingsensibilidadpy-generador-f2b1-3-semillas-2026-7-y-11-reglas-f43" title="Permanent link">&para;</a></h3>
+<p>Conteos sumados de las tres semillas. "Llegadas (todas)" usa la agenda de suministro del generador: es el recall
+sobre <strong>todas</strong> las llegadas que subieron el tanque al menos 3 cm, normales y atípicas.</p>
+<table>
+<thead>
+<tr>
+<th>Variante</th>
+<th>Qué rompe</th>
+<th>Llegadas (todas), recall</th>
+<th><code>llegada_atipica</code> precisión / recall</th>
+<th><code>alerta_fuga</code> precisión (eventos)</th>
+<th><code>falla_sensor</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>base</td>
+<td>—</td>
+<td>0.99 [0.98-1.00] (333)</td>
+<td>1.00 / 1.00 (12 epis.)</td>
+<td>0.50 [0.19-0.81] (6)</td>
+<td>1.00 / 1.00 (76)</td>
+</tr>
+<tr>
+<td>ruido ×2</td>
+<td>σ y frecuencia de saltos del perfil real × 2</td>
+<td>0.99 [0.98-1.00]</td>
+<td>0.92 [0.67-0.99] / 1.00</td>
+<td>0.33 [0.12-0.65] (9)</td>
+<td>1.00 / 1.00</td>
+</tr>
+<tr>
+<td>ruido ×3</td>
+<td>× 3</td>
+<td>0.99 [0.98-1.00]</td>
+<td>1.00 / 1.00</td>
+<td><strong>0.17 [0.06-0.39] (18)</strong></td>
+<td>1.00 / 1.00</td>
+</tr>
+<tr>
+<td>llenado en el umbral</td>
+<td>5 L/min: un tanque de 2500 L sube solo 3 % en 15 min</td>
+<td><strong>1.00 [0.99-1.00]</strong> (f4.2: 0.73 [0.68-0.77])</td>
+<td>1.00 / 1.00 (f4.2: 0.83)</td>
+<td>0.50 (6)</td>
+<td>1.00 / 1.00</td>
+</tr>
+<tr>
+<td>borde de franja</td>
+<td>atípicas a las 8:00-9:30: fuera de tolerancia en la zona A, <strong>dentro</strong> en la zona B</td>
+<td>1.00 [0.98-1.00]</td>
+<td>1.00 / <strong>0.75 [0.47-0.91]</strong></td>
+<td>0.50 (6)</td>
+<td>1.00 / 1.00</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Qué se aprende:</strong></p>
+<ul>
+<li><strong>Llenados lentos:</strong> el criterio de f4.3 los recupera (0.73 → 1.00) sin perder precisión con ruido.</li>
+<li><strong>El ruido es el punto débil de <code>alerta_fuga</code>.</strong> Con ruido ×3, dos de cada tres alertas son falsas.</li>
+<li><strong>"Atípica" depende de la definición de franja.</strong> Si una llegada es atípica para el generador pero cae dentro de la
+  tolerancia del detector, no se marca.</li>
+<li><strong><code>falla_sensor</code> no se mueve en ninguna variante.</strong> No es robustez: el generador escribe el mismo <code>-1</code> que el
+  detector busca.</li>
+</ul>
+<h3 id="2b-f44-frente-a-f43-streamingcomparar_versionespy-mismos-datos-7-variantes-3-semillas">2b. f4.4 frente a f4.3 (<code>streaming/comparar_versiones.py</code>, mismos datos, 7 variantes × 3 semillas)<a class="headerlink" href="#2b-f44-frente-a-f43-streamingcomparar_versionespy-mismos-datos-7-variantes-3-semillas" title="Permanent link">&para;</a></h3>
+<p><strong>Lo que se puede demostrar:</strong> f4.4 elimina los falsos positivos <strong>conocidos</strong> del historial real (tabla siguiente).
+<strong>Lo que no:</strong> en los datos aumentados, f4.4 <strong>no es significativamente mejor ni peor</strong> que f4.3. Todos los IC 95 %
+de las dos versiones se solapan, en todas las variantes. Las diferencias de abajo son puntuales y se reportan para
+transparencia, no como mejora.</p>
+<p>Tablas completas en <code>docs/evidencias/f4/f4.4/tablas_f44.md</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Variante</th>
+<th>Métrica</th>
+<th>f4.3</th>
+<th>f4.4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>base</td>
+<td><code>alerta_fuga</code> precisión</td>
+<td>0.50 [0.19-0.81]</td>
+<td>0.75 [0.30-0.95]</td>
+</tr>
+<tr>
+<td>base</td>
+<td><code>llegada_atipica</code> precisión</td>
+<td>1.00 [0.76-1.00]</td>
+<td>0.92 [0.67-0.99]</td>
+</tr>
+<tr>
+<td>ruido ×2</td>
+<td><code>alerta_fuga</code> precisión</td>
+<td>0.33 [0.12-0.65]</td>
+<td>0.60 [0.23-0.88]</td>
+</tr>
+<tr>
+<td>ruido ×3</td>
+<td>llegadas (todas), recall</td>
+<td>0.99 [0.98-1.00]</td>
+<td>0.98 [0.96-0.99]</td>
+</tr>
+<tr>
+<td>ruido ×3</td>
+<td><code>llegada_atipica</code> precisión</td>
+<td>1.00 [0.76-1.00]</td>
+<td>0.86 [0.60-0.96]</td>
+</tr>
+<tr>
+<td>ruido ×3</td>
+<td><code>alerta_fuga</code> precisión / recall</td>
+<td>0.17 / 0.23</td>
+<td>0.33 / 0.15</td>
+</tr>
+<tr>
+<td>f2b.2</td>
+<td><code>alerta_fuga</code> precisión / recall</td>
+<td>0.80 [0.49-0.94] / 0.33 [0.14-0.61]</td>
+<td>0.90 [0.60-0.98] / 0.42 [0.19-0.68]</td>
+</tr>
+<tr>
+<td>f2b.2</td>
+<td><code>corte_prolongado</code> recall</td>
+<td>1.00 [0.83-1.00]</td>
+<td>0.95 [0.75-0.99]</td>
+</tr>
+<tr>
+<td><strong>f2b.3</strong></td>
+<td><code>alerta_fuga</code> precisión / recall</td>
+<td>0.80 [0.49-0.94] / 0.42 [0.19-0.68]</td>
+<td>0.86 [0.49-0.97] / 0.33 [0.14-0.61]</td>
+</tr>
+<tr>
+<td><strong>f2b.3</strong></td>
+<td><code>deriva_termica</code> → <code>alerta_fuga</code> falsa</td>
+<td>1 de 9</td>
+<td>0 de 9</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>f2b.3 imita al ESP32:</strong> el firmware compensa con un DHT11 de ±2 °C redondeado a grados enteros. f4.3 compensa por
+  segunda vez; f4.4 no.</li>
+<li>Con la doble compensación aparece 1 alerta de fuga falsa por deriva térmica (de 9 episodios), y con f4.4
+    ninguna.</li>
+<li>En <code>alerta_fuga</code> las dos versiones quedan dentro del mismo IC.</li>
+<li><strong>Por qué el efecto es chico aquí:</strong> la flota mide a 29-40 cm, donde la doble corrección es de décimas de cm. El
+    daño estimado de 0.35-1.76 cm por noche corresponde a 50-100 cm.</li>
+<li><strong>La razón para corregirla es física, no estadística:</strong> el firmware ya compensa (<code>firmware/esp32</code>), así que
+    compensar otra vez es un error de definición, aunque estos datos no alcancen para medirlo con significancia.</li>
+<li><strong>El costo observado:</strong> ~1 llegada atípica falsa más y, con ruido ×3, el 1-2 % de las llegadas que la intermitencia
+  confunde con ecos.</li>
+<li><strong><code>alerta_fuga</code> sube en algunas variantes:</strong> viene de no evaluar noches perturbadas, pero tampoco es significativo.</li>
+<li><strong>Por qué 4 eventos en la regla de intermitencia y no 3:</strong> con 3, el recall de llegadas con ruido ×3 caía a
+  0.92 [0.89-0.95], ya fuera del IC de f4.3, y la precisión de atípicas a 0.71. Con 4 el historial real queda igual
+  de limpio.</li>
+</ul>
+<p><strong>Historial real (conjunto de DISEÑO: con él se diseñó f4.4, no es rendimiento). Es la evidencia demostrable de f4.4:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Tanque</th>
+<th>f4.3</th>
+<th>f4.4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ESP32</td>
+<td>13 <code>llegada_agua</code>, 4 <code>corte_prolongado</code>, 3 <code>autonomia_baja</code>, 16 <code>falla_sensor</code></td>
+<td><strong>solo los 16 <code>falla_sensor</code></strong></td>
+</tr>
+<tr>
+<td>ThingSpeak 1233810 (nivel en %)</td>
+<td>0 llegadas, 1 corte</td>
+<td>31 llegadas (subida sostenida, ~1 cada 2 días y casi siempre 16:30-17:00), 19 cortes</td>
+</tr>
+<tr>
+<td>ThingSpeak 283977</td>
+<td>0 llegadas, 1 corte</td>
+<td>3 llegadas, 3 cortes</td>
+</tr>
+<tr>
+<td>ThingSpeak 3418755 (lluvia)</td>
+<td>49 llegadas, 16 cortes</td>
+<td>65 llegadas, 21 cortes</td>
+</tr>
+<tr>
+<td>1233815 y 480876</td>
+<td>—</td>
+<td>sin cambios</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Desaparecen los falsos positivos conocidos del ESP32:</strong> las llegadas de las 23:55 y las 00:27 (ecos alternos de
+  7 ↔ 17 cm) y las de 00:44, 01:12, 01:46 y 09:23.</li>
+<li><strong>Desaparecen también las de reconexión:</strong> 08-oct 22:33, 15-oct 20:48 y 22-oct 19:44, con sus cortes de 140-167 h.</li>
+<li><strong>Las de las 17:21 y 18:44 del 28-oct:</strong> eran el sensor manipulado (146 cm, fuera del recipiente, y luego
+  recolocado); suprimirlas es correcto.</li>
+<li><strong>Las de las 21:46 y 23:08 (<code>no_verificable</code> en la bitácora):</strong> también desaparecen, porque llegan en plena
+  inestabilidad: la recolocación desde 144 cm, y el regreso tras 10 min de <code>-1</code>, con lecturas de 4 a 18 cm alternadas
+  con <code>-1</code>. Es coherente con los datos, pero siguen sin verificar y no se cuentan como aciertos.</li>
+<li><strong>1233810:</strong> sus 31 llegadas usan el mismo criterio de llenado de D2 (<code>batch/modelo_d2.yml</code> → <code>llenado</code>).</li>
+<li><strong>La bitácora no tiene ninguna acción de llenado.</strong> Su única acción es la <code>falla</code> de las 22:50:29, registrada
+  a posteriori por el sistema. f4.4 la sigue detectando igual que f4.3: queda dentro del episodio <code>falla_sensor</code>
+  iniciado a las 22:13. Las otras dos filas son las <code>no_verificable</code> de las 21:46 y 23:08.</li>
+<li><strong>Con la compensación en el firmware, el historial da los mismos eventos.</strong> La corrección cambia distancias (y
+  <code>alerta_fuga</code> a partir de la prueba real), no los eventos de diseño.</li>
+</ul>
+<h3 id="3-rendimiento-real-bitacora-de-pruebas-con-el-esp32">3. Rendimiento real: bitácora de pruebas con el ESP32<a class="headerlink" href="#3-rendimiento-real-bitacora-de-pruebas-con-el-esp32" title="Permanent link">&para;</a></h3>
+<p><strong>Bitácora:</strong> <code>docs/evidencias/f4/bitacora_real.csv</code> tiene una fila por acción sobre el tanque real:</p>
+<ul>
+<li><strong>Campos:</strong> <code>timestamp</code> ISO con zona horaria, <code>accion</code> (llenado, vaciado, falla o no_verificable), <code>sensorId</code>,
+  <code>timestamp_fin</code> opcional, <code>observador</code> y <code>nota</code>.</li>
+<li><strong>Script:</strong> <code>streaming/comparar_bitacora.py</code> empareja cada acción con su evento (llenado → <code>llegada_agua</code>, vaciado →
+  <code>autonomia_baja</code>, falla → <code>falla_sensor</code>) dentro de −5/+20 min. Una falla anotada tarde se empareja con un episodio
+  <code>falla_sensor</code> ya activo, iniciado hasta 2 h antes.</li>
+<li><strong>Filas <code>no_verificable</code>:</strong> nadie sabe qué pasó. La fila y los eventos a ±5 min de ella quedan fuera del cálculo.
+  Los demás eventos del periodo sin acción anotada se listan como posibles falsos positivos.</li>
+<li><strong>Fuente de eventos:</strong> lo publicado en vivo en <code>servicio-eventos</code>, o <code>--reproceso</code>, que corre las reglas vigentes
+  sobre las lecturas reales de bronce.</li>
+<li><strong>Separación por congelamiento:</strong> el script divide la salida en <strong>conjunto de diseño</strong> y <strong>rendimiento real</strong>.</li>
+</ul>
+<p><strong>Estado al congelar (28-oct, 23:37:40):</strong></p>
+<ul>
+<li><strong>Conjunto de diseño:</strong> 1 acción (la falla del HC-SR04, registrada desde los datos, <code>observador = sistema</code>, <strong>no
+  independiente</strong>) y 2 filas <code>no_verificable</code>: las <code>llegada_agua</code> de las 21:46 y las 23:08. Por <strong>decisión del
+  equipo</strong> quedan como no verificables y fuera del cálculo.</li>
+</ul>
+<p>Lo que mostró ese caso: el HC-SR04 estaba <strong>intermitente</strong>, no muerto. Desde las 22:13 alternaba <code>-1</code> con lecturas
+  muy ruidosas (10-18 cm, picos de 383 cm, ~25 veces el σ del perfil real). Con f4.1 eso daba 47 <code>falla_sensor</code> en
+  todo el historial real del ESP32 y una llegada falsa al recuperarse el sensor. Con f4.2 o f4.3 son 9, y la falla de
+  esa noche es un solo episodio desde las 22:13. <strong>Nada de esto es rendimiento real:</strong> es el conjunto con el que se
+  diseñaron las reglas.
+- <strong>Rendimiento real: todavía no hay cifra.</strong> No hay acciones anotadas después del congelamiento. Sale de la prueba
+  en vivo con el recipiente.</p>
+<h2 id="eventos-reales-detectados-historial-de-aqua-eventos-real">Eventos reales detectados (historial de <code>aqua-eventos-real</code>)<a class="headerlink" href="#eventos-reales-detectados-historial-de-aqua-eventos-real" title="Permanent link">&para;</a></h2>
+<p>Al arrancar, la consulta procesó todo el historial del tópico (7,468 lecturas) y publicó 51 eventos con las reglas
+f4.1, todos válidos y con clave = <code>sensorId</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Evento</th>
+<th>Cantidad</th>
+<th>Qué son</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>falla_sensor</code></td>
+<td>43 (ESP32) + 1 (ThingSpeak 480876)</td>
+<td>rachas de <code>-1</code> y periodos con el sensor fuera del tanque. Con f4.2 o f4.3 bajan a 9 en el ESP32</td>
+</tr>
+<tr>
+<td><code>llegada_agua</code></td>
+<td>5 (ESP32, 22 y 28-oct)</td>
+<td>subidas de 6-10 % fuera de franja. Los caudales (14-111 L/min) usan la <strong>geometría provisional</strong></td>
+</tr>
+<tr>
+<td><code>corte_prolongado</code></td>
+<td>2 (ESP32, 140 y 167 h)</td>
+<td><strong>huecos de datos</strong>: el ESP32 midió en tandas; el <code>detalle</code> lo marca con <code>posibleHuecoDeDatos</code></td>
+</tr>
+</tbody>
+</table>
+<p>Los eventos ya publicados no se reescriben: cada uno lleva su <code>versionRegla</code> (f4.1, f4.2 o f4.3). Todos son anteriores
+al congelamiento, así que pertenecen al conjunto de diseño.</p>
+<h2 id="prueba-en-vivo-con-el-esp32">Prueba en vivo con el ESP32<a class="headerlink" href="#prueba-en-vivo-con-el-esp32" title="Permanent link">&para;</a></h2>
+<p><em>Pendiente.</em> Plan, con el JSN-SR04T montado al menos 25 cm sobre el nivel máximo:</p>
+<ol>
+<li><strong>Geometría:</strong> se cargan las medidas del recipiente en <code>ingesta/tanques.yml</code>, con <code>por_medir: false</code> y
+   <code>geometria_desde</code>. Desde esa hora empieza el periodo de prueba real (partición p6.2).</li>
+<li><strong>Llenado y vaciado:</strong> se llena y se vacía anotando cada acción en la bitácora, y se verifican <code>llegada_agua</code> y
+   <code>autonomia_baja</code> en Kafbat y en el consumidor.</li>
+<li><strong>Fuga controlada (D6):</strong> es el único episodio real etiquetado de fuga que tendrá el proyecto.</li>
+<li><strong>Preparación:</strong> un goteo constante con una llave de paso fina o un gotero, con el tanque sin consumo y sin
+     llenado previsto esa noche.</li>
+<li><strong>Caudal:</strong> se mide antes y después con una probeta o un recipiente graduado y un cronómetro (litros en un tiempo
+     dado), y se anota en L/h.</li>
+<li><strong>Duración:</strong> debe cubrir toda la franja 00:00-03:30, por ejemplo de 22:00 a 06:00.</li>
+<li><strong>Caudal recomendado:</strong> al menos 2.5 L/h, que en la consistencia de la flota se detecta en todas las noches
+     (17 de 17). Un segundo goteo de ~1.5 L/h mide el borde de la sensibilidad (<code>docs/modelo-d6.md</code>).</li>
+<li><strong>Bitácora:</strong> una fila con <code>accion = fuga</code>, <code>timestamp</code> (inicio), <code>timestamp_fin</code> (cierre), <code>observador</code> (una
+     persona, no "sistema") y en <code>nota</code> el caudal medido, por ejemplo "goteo 2.6 L/h, probeta 500 mL en 11.5 min".
+     <code>streaming/comparar_bitacora.py</code> la empareja con <code>alerta_fuga</code>. Su caudal es la verdad contra la que se mide la
+     tasa estimada por D6 en esa noche; la evaluación del ESP32 en <code>batch/modelo_d6.py</code> se completa cuando exista
+     el episodio.</li>
+</ol>
+<p>Es el primer dato de rendimiento real de las reglas congeladas y de D6.</p>
+<h2 id="operacion">Operación<a class="headerlink" href="#operacion" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># El detector corre dentro del job de Spark (5.ª consulta)</span>
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>infra/compose.yml<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build<span class="w"> </span>aqua-streaming<span class="w"> </span>aqua-consumidor-eventos
+docker<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>lambda26-aqua-consumidor-eventos<span class="w">            </span><span class="c1"># eventos en vivo, legibles</span>
+
+<span class="c1"># Releer todo el tópico (otro grupo; termina tras 10 s sin eventos)</span>
+docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--network<span class="w"> </span>lambda26-kafka-net<span class="w"> </span>-e<span class="w"> </span><span class="nv">KAFKA_BOOTSTRAP</span><span class="o">=</span>kafka:9092<span class="w"> </span>monitoraqua-ingesta:latest<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>python<span class="w"> </span>consumidor_eventos.py<span class="w"> </span>--desde-inicio<span class="w"> </span>--salir-tras-s<span class="w"> </span><span class="m">10</span>
+
+<span class="c1"># Validación con datos aumentados y evaluación</span>
+docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-w<span class="w"> </span>/app/streaming<span class="w"> </span>lambda26-aqua-streaming<span class="w"> </span>spark-submit<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--packages<span class="w"> </span>org.apache.spark:spark-sql-kafka-0-10_2.13:4.2.0<span class="w"> </span>validar_detector.py<span class="w"> </span><span class="o">[</span>--sin-compensacion<span class="o">]</span>
+.venv/Scripts/python<span class="w"> </span>streaming/evaluar_detector.py<span class="w"> </span>data/local/validacion/eventos_con_compensacion.jsonl
+</code></pre></div>
+<p>Al cambiar <code>ingesta/tanques.yml</code> (por ejemplo, con las medidas reales del tanque del ESP32) o
+<code>streaming/reglas_servicio.yml</code>, el detector aplica los valores nuevos en el siguiente lote.</p>
+<h2 id="limitaciones-conocidas">Limitaciones conocidas<a class="headerlink" href="#limitaciones-conocidas" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Corregida en f4.4 (se conserva como historia de f4.3).</strong> <code>llegada_agua</code> falsas por el sensor intermitente,
+  después del congelamiento de f4.3. Con las reglas f4.3 ya
+  congeladas, el HC-SR04 intermitente del ESP32 (lecturas válidas muy ruidosas alternadas con <code>-1</code>) produjo dos
+  <code>llegada_agua</code> falsas: 28-oct <strong>23:55:04</strong> (subida 9.8 %) y 29-oct <strong>00:27:14</strong> (subida 7.4 %), las dos por el
+  criterio rápido, más un <code>falla_sensor</code> a las 00:00:39.</li>
+<li><strong>Por qué pasan:</strong> la mediana de 5 y la confirmación de 3 medianas no alcanzan cuando el ruido del sensor
+    degradado es ~25 veces el del perfil real.</li>
+<li><strong>Las reglas congeladas no se cambian.</strong> Si esto se corrige, será con una versión <strong>f4.4</strong>, un congelamiento
+    nuevo (fecha, hora y commit) y un periodo de evaluación nuevo que empieza en ese congelamiento. El rendimiento
+    de f4.3 se sigue reportando con las reglas f4.3.</li>
+<li>
+<p><strong>Efecto en el rendimiento real:</strong> ninguno por ahora. Mientras la geometría del ESP32 sea provisional
+    (<code>por_medir</code>), no hay periodo de rendimiento real para ese sensor. Cuando lo haya, eventos como estos se
+    cuentan como falsos positivos si la bitácora no registra una acción a esa hora.</p>
+</li>
+<li>
+<p><strong>f4.4: llenado durante la inestabilidad.</strong> Si el HC-SR04 queda inestable justo mientras el tanque se llena,
+  ese llenado no se detecta: al calmarse, las referencias se reinician con el tanque ya lleno. Con ruido ×3 son el
+  1-2 % de las llegadas.</p>
+</li>
+<li><strong>f4.4: tras un hueco de datos no se sabe qué pasó.</strong> Una llegada ocurrida con el ESP32 apagado no se reporta: el
+  corte cuenta desde la reconexión (<code>referencia = reanudacion</code>), y no desde la última llegada vista.</li>
+<li>
+<p><strong>f4.4: subida sostenida en el tanque de lluvia.</strong> En 3418755 las llegadas pasan de 49 a 65, y son lluvias. Está
+  fuera del alcance de D4 (<code>batch/modelo_d4.yml</code> → <code>fuera_de_alcance</code>).</p>
+</li>
+<li>
+<p><strong>Zona ciega del sensor nuevo (desde el 29-oct, 09:22).</strong> El JSN-SR04T/AJ-SR04M no mide bien a menos de ~20-25 cm,
+  y la geometría provisional (pensada para el HC-SR04) pone el sensor a ~4 cm del rebose. Al cargar las medidas
+  reales, la sonda debe quedar al menos 25 cm sobre el nivel máximo. No afecta al historial de diseño, que es del
+  HC-SR04.</p>
+</li>
+<li><strong>El detector f4.4 filtra con 2-450 cm, no con el rango de cada sensor, y no hace falta una f4.5.</strong> Con la sonda bien
+  montada (al menos 25 cm sobre el nivel máximo), el JSN-SR04T nunca da lecturas en su zona ciega, así que los dos
+  filtros coinciden. <strong>Si durante la prueba real aparecen lecturas menores de 25 cm, se revisa el montaje antes de
+  interpretar los eventos.</strong> La capa plata ya las marca (<code>distanciaCm_fuera_del_rango_del_sensor</code>).</li>
+<li><strong>Eventos f4.3 de la mañana del 29-oct.</strong> Entre las 11:05 y las 12:30, f4.3 publicó 5 eventos con el ESP32
+  manipulado (nivel −7.5 %, subidas de 18-53 %). Son anteriores al congelamiento de f4.4: conjunto de diseño.</li>
+<li><strong>Las capas oro y la versión de reglas.</strong> <code>batch/capas.py</code> genera <code>d4_llegadas</code> con las reglas de <code>REGLAS_ORO</code>
+  (por defecto, las vigentes). Las regeneraciones del 29-oct fijaron f4.3 (<code>b400e7d</code>), que es la entrada de
+  d2.1-d2.2 y d4.1; una corrida sin esa variable usa f4.4 y es la entrada de d4.2.</li>
+</ul>
+<h2 id="pendientes">Pendientes<a class="headerlink" href="#pendientes" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Medidas reales del tanque del ESP32.</strong> <code>tanques.yml</code> tiene valores provisionales (<code>por_medir: true</code>); los
+  caudales y litros reales dependen de ellas.</li>
+<li><strong><code>alerta_fuga</code>:</strong> con fugas persistentes (generador f2b.2) la consistencia sube a 0.86 / 0.75, pero con 4 episodios: hacen falta más semillas f2b.2 para un IC útil. Es además la regla más sensible al ruido: con ruido ×3, 2 de cada 3 alertas son falsas.</li>
+<li><strong>Rendimiento real:</strong> todavía no hay ninguna acción en el periodo de rendimiento real. Empieza cuando se carguen
+  las medidas reales del recipiente (<code>geometria_desde</code>). Las cifras con IC útil requieren varias pruebas anotadas por una persona.</li>
+<li><strong><code>umbral_termico</code>:</strong> se reemplaza el modelo provisional por el de F6.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.indexes", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

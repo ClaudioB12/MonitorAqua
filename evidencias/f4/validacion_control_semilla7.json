@@ -1,0 +1,56 @@
+{
+ "metricas": [
+  {
+   "anomalia": "fuga_lenta",
+   "evento": "alerta_fuga",
+   "episodios": 4,
+   "eventos": 2,
+   "eventos_correctos": 1,
+   "episodios_detectados": 1,
+   "precision": 0.5,
+   "recall": 0.25
+  },
+  {
+   "anomalia": "corte_prolongado",
+   "evento": "corte_prolongado",
+   "episodios": 1,
+   "eventos": 13,
+   "eventos_correctos": 1,
+   "episodios_detectados": 1,
+   "precision": 0.077,
+   "recall": 1.0
+  },
+  {
+   "anomalia": "llegada_atipica",
+   "evento": "llegada_agua (fueraDeFranja)",
+   "episodios": 4,
+   "eventos": 4,
+   "eventos_correctos": 4,
+   "episodios_detectados": 4,
+   "precision": 1.0,
+   "recall": 1.0
+  },
+  {
+   "anomalia": "falla_sensor",
+   "evento": "falla_sensor",
+   "episodios": 26,
+   "eventos": 26,
+   "eventos_correctos": 26,
+   "episodios_detectados": 26,
+   "precision": 1.0,
+   "recall": 1.0
+  }
+ ],
+ "eventos_por_tipo": {
+  "llegada_agua": 108,
+  "falla_sensor": 26,
+  "corte_prolongado": 13,
+  "autonomia_baja": 10,
+  "alerta_fuga": 2
+ },
+ "deriva_termica": {
+  "episodios": 3,
+  "con_alerta_fuga_falsa": 0,
+  "ids": []
+ }
+}

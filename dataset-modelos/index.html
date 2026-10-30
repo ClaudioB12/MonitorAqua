@@ -1,0 +1,2530 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://claudiob12.github.io/MonitorAqua/dataset-modelos/">
+      
+      
+        <link rel="prev" href="../costos-escalado/">
+      
+      
+        <link rel="next" href="../inferencia-en-vivo/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Dataset de los modelos - MonitorAqua — Proyecto Sello</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dataset-para-los-modelos-f6" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-header__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MonitorAqua — Proyecto Sello
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Dataset de los modelos
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-nav__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MonitorAqua — Proyecto Sello
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Producto U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto de la Unidad 2: pipeline en tiempo real
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stack-actual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stack y servicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta (S6-S7)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ingesta (S6-S7)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ingesta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta unificada (IoT y APIs)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventos-servicio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eventos de servicio (empresariales)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos-aumentados/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flota extrapolada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Streaming (S8)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observabilidad y costos (S9)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Observabilidad y costos (S9)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tableros/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tableros y alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../costos-escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Costos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset de los modelos
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset de los modelos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-fuentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Fuentes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-capa-plata-batchdatosplatafuente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Capa plata (batch/datos/plata/fuente=*/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-huecos-del-esp32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Huecos del ESP32
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-capa-oro-batchdatosorotablafuente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Capa oro (batch/datos/oro/&lt;tabla&gt;/fuente=*/)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Capa oro (batch/datos/oro/&lt;tabla&gt;/fuente=*/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#diccionario-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diccionario de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-particion-batchparticion_modelosyml-version-p61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Partición (batch/particion_modelos.yml, versión p6.1)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-marco-de-evaluacion-batchevaluacionpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Marco de evaluación (batch/evaluacion.py)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-como-regenerar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Cómo regenerar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inferencia-en-vivo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inferencia en vivo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dimensiones U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D2 · Horas de autonomía
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D4 · Próxima llegada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D6 · Pérdida por fuga
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D8 · Temperatura y residencia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arranque-diario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arranque diario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guion-demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guion de la demo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Antecedentes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Antecedentes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitectura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura (diseño inicial)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dimensiones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones (U1 y U2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adecuacion-dimensiones-u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adecuación al hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Datos de muestra (U1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-fuentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Fuentes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-capa-plata-batchdatosplatafuente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Capa plata (batch/datos/plata/fuente=*/)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-huecos-del-esp32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Huecos del ESP32
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-capa-oro-batchdatosorotablafuente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Capa oro (batch/datos/oro/&lt;tabla&gt;/fuente=*/)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Capa oro (batch/datos/oro/&lt;tabla&gt;/fuente=*/)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#diccionario-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diccionario de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-particion-batchparticion_modelosyml-version-p61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Partición (batch/particion_modelos.yml, versión p6.1)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-marco-de-evaluacion-batchevaluacionpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Marco de evaluación (batch/evaluacion.py)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-como-regenerar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Cómo regenerar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="dataset-para-los-modelos-f6">Dataset para los modelos (F6)<a class="headerlink" href="#dataset-para-los-modelos-f6" title="Permanent link">&para;</a></h1>
+<p>Esta fase prepara los datos y el marco de evaluación <strong>comunes</strong> a los cuatro modelos (D2, D4, D6 y D8). Todavía no
+se entrena ningún modelo de dimensión: cada uno parte de estas tablas, de la misma partición y del mismo marco de
+evaluación.</p>
+<table>
+<thead>
+<tr>
+<th>Pieza</th>
+<th>Archivo</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Descarga de fuentes</td>
+<td><code>batch/descargar_fuentes.py</code></td>
+<td>Firebase, ThingSpeak y Open-Meteo → <code>batch/datos/fuentes/</code></td>
+</tr>
+<tr>
+<td>Capas plata y oro</td>
+<td><code>batch/capas.py</code> + <code>batch/oro.py</code></td>
+<td>Spark en batch → <code>batch/datos/plata/</code>, <code>batch/datos/oro/</code>, <code>calidad.json</code></td>
+</tr>
+<tr>
+<td>Partición</td>
+<td><code>batch/particion_modelos.yml</code> + <code>batch/particion.py</code></td>
+<td>Separación temporal única para todos</td>
+</tr>
+<tr>
+<td>Evaluación</td>
+<td><code>batch/evaluacion.py</code></td>
+<td>Métricas con IC por bootstrap, líneas base y reporte por nivel</td>
+</tr>
+<tr>
+<td>Evidencia</td>
+<td><code>docs/evidencias/f6/</code></td>
+<td><code>calidad.json</code> y las líneas base de D2</td>
+</tr>
+</tbody>
+</table>
+<p><code>batch/datos/</code> no se versiona; todo se regenera con los comandos del final.</p>
+<h2 id="1-fuentes">1. Fuentes<a class="headerlink" href="#1-fuentes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Fuente</th>
+<th>Cómo entra</th>
+<th>Periodo</th>
+<th>Filas crudas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ESP32 (Firebase <code>/board1/lecturas/historial</code>)</td>
+<td>API REST con el usuario de Firebase Auth; solo entradas del firmware (sin <code>origen</code>)</td>
+<td>2026-10-01 23:10 → 2026-10-29 00:56</td>
+<td>9,636</td>
+</tr>
+<tr>
+<td>Bronce de F3 (<code>data/local/bronce/</code>)</td>
+<td>Parquet de Kafka, todos los orígenes</td>
+<td>2026-10-28 → 2026-10-29</td>
+<td>9,186 (8,315 ESP32)</td>
+</tr>
+<tr>
+<td>ThingSpeak, 7 canales</td>
+<td>API pública: últimas 8,000 lecturas de cada canal; <strong>3418755 completo</strong> paginando hacia atrás (20,082 lecturas, 70 días)</td>
+<td>2026-07-26 → 2026-10-29</td>
+<td>68,082</td>
+</tr>
+<tr>
+<td>Open-Meteo Juliaca</td>
+<td>Archivo horario (ERA5, <code>archive-api</code>) desde el inicio de ThingSpeak; las últimas horas que el archivo aún no tiene salen del pronóstico con <code>past_days</code></td>
+<td>2026-07-25 → 2026-10-29</td>
+<td>2,304 + 22</td>
+</tr>
+<tr>
+<td>Flota extrapolada f2b.1</td>
+<td>Parquet <code>runId=r2026-45facae2</code> (semilla 2026)</td>
+<td>2026-09-28 → 2026-10-27</td>
+<td>172,800</td>
+</tr>
+<tr>
+<td>Flota extrapolada f2b.2</td>
+<td>Parquet <code>runId=r7-79a6b935</code> (semilla 7, <code>generador_f2b2.yml</code>)</td>
+<td>2026-09-28 → 2026-10-27</td>
+<td>172,800</td>
+</tr>
+</tbody>
+</table>
+<p>Todas las fechas están en hora de Lima. Las filas del ESP32 que están a la vez en Firebase y en el bronce se quedan
+una sola vez (ver plata).</p>
+<p><strong>SUNASS, INEI y SENAMHI no se incorporan.</strong> Ninguna dimensión U2 las necesita:</p>
+<ul>
+<li>D2, D4 y D6 trabajan sobre la serie de nivel de cada tanque.</li>
+<li>D8 toma el aire exterior de Open-Meteo, que es horario y cubre todo el periodo. SENAMHI solo daría estaciones
+  diarias o con huecos.</li>
+<li>SUNASS (continuidad de servicio por EPS) e INEI (hogares) son agregados anuales por ciudad. Sirven al Brief como
+  contexto y no como variable de un modelo horario. Quedan como fuentes batch de contexto para la sustentación (F8).</li>
+</ul>
+<h2 id="2-capa-plata-batchdatosplatafuente">2. Capa plata (<code>batch/datos/plata/fuente=*/</code>)<a class="headerlink" href="#2-capa-plata-batchdatosplatafuente" title="Permanent link">&para;</a></h2>
+<p>Una fila por lectura. Columnas: las del contrato, más las que agrega esta capa.</p>
+<ol>
+<li><strong>Unión</strong> de todas las fuentes en un esquema común. Cada fila guarda su <code>fuente</code> (<code>esp32</code>, <code>thingspeak</code>,
+   <code>open-meteo</code>, <code>ea-uk</code>, <code>usgs</code>, <code>aumentado_f2b1</code> o <code>aumentado_f2b2</code>) y su <code>origen_dato</code>, que dice por dónde llegó.</li>
+<li><strong>Deduplicado por <code>eventId</code></strong> (y <code>runId</code> en los aumentados). Si una lectura llegó por dos caminos, se conserva el
+   original: Firebase o la API antes que la copia de Kafka. Del bronce del ESP32 solo sobreviven 237 lecturas, las
+   posteriores a la descarga de Firebase. La copia en Kafka de los canales de ThingSpeak se descarta porque la API
+   completa los cubre.</li>
+<li><strong>Sin sensores de prueba:</strong> se excluyen los de <code>ingesta/sensores_prueba.yml</code> (<code>esp32-prueba-f3</code>).</li>
+<li><strong>Lecturas inválidas marcadas, no borradas:</strong> <code>lectura_valida</code> y <code>motivo_invalidez</code>. Las reglas de validez son las
+   mismas de F3 (<code>RANGOS</code> de <code>streaming/procesar_stream.py</code>), más una regla geométrica: la distancia no puede quedar
+   más allá del fondo del tanque.</li>
+<li><strong>Nivel:</strong> <code>distanciaCompensadaCm</code> (velocidad del sonido con el DHT11), <code>nivelPct</code>, <code>nivelCm</code> y <code>litros</code>. Se
+   calculan con la misma función del detector de F4 (<code>Detector.nivel</code>) y la geometría de <code>ingesta/tanques.yml</code>. Cada
+   fila guarda <code>geometria_version</code> (hash de su entrada en <code>tanques.yml</code>) y <code>geometria_por_medir</code>.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Fuente</th>
+<th>Sensores</th>
+<th>Filas plata</th>
+<th>Válidas</th>
+<th>Periodo (Lima)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>esp32</td>
+<td>1</td>
+<td>9,873</td>
+<td>67.8 %</td>
+<td>10-01 23:10 → 10-29 00:56</td>
+</tr>
+<tr>
+<td>thingspeak</td>
+<td>7</td>
+<td>68,082</td>
+<td>94.9 %</td>
+<td>07-26 18:58 → 10-29 00:36</td>
+</tr>
+<tr>
+<td>open-meteo</td>
+<td>1</td>
+<td>2,326</td>
+<td>100 %</td>
+<td>07-25 19:00 → 10-29 18:00</td>
+</tr>
+<tr>
+<td>ea-uk</td>
+<td>23</td>
+<td>434</td>
+<td>98.6 %</td>
+<td>10-28 15:15 → 10-29 00:15</td>
+</tr>
+<tr>
+<td>usgs</td>
+<td>10</td>
+<td>94</td>
+<td>100 %</td>
+<td>10-28 16:00 → 10-29 00:45</td>
+</tr>
+<tr>
+<td>aumentado_f2b1</td>
+<td>4</td>
+<td>172,800</td>
+<td>98.0 %</td>
+<td>09-28 00:00 → 10-27 23:59</td>
+</tr>
+<tr>
+<td>aumentado_f2b2</td>
+<td>4</td>
+<td>172,800</td>
+<td>98.2 %</td>
+<td>09-28 00:00 → 10-27 23:59</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>426,409</strong></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Por canal de ThingSpeak: 3418755 tiene 20,082 lecturas (100 % válidas). 1233810, 1233815 y 1272968 están al 100 % y
+3019316 al 99.5 %. 283977 (79.2 %) y 480876 (77.9 %) informan <code>nivelPct</code> fuera de 0-100 en ~21 % de sus lecturas.</p>
+<p><strong>Motivos de invalidez</strong></p>
+<table>
+<thead>
+<tr>
+<th>Fuente</th>
+<th>Motivo</th>
+<th>Lecturas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>esp32</td>
+<td><code>distanciaCm_mas_alla_del_fondo</code></td>
+<td>2,240</td>
+</tr>
+<tr>
+<td>esp32</td>
+<td><code>distanciaCm_-1</code> (HC-SR04 sin eco)</td>
+<td>900</td>
+</tr>
+<tr>
+<td>esp32</td>
+<td><code>humedadPct_fuera_de_rango</code></td>
+<td>31</td>
+</tr>
+<tr>
+<td>esp32</td>
+<td><code>distanciaCm_fuera_de_rango</code></td>
+<td>8</td>
+</tr>
+<tr>
+<td>thingspeak</td>
+<td><code>nivelPct_fuera_de_rango</code></td>
+<td>3,431</td>
+</tr>
+<tr>
+<td>thingspeak</td>
+<td><code>distanciaCm_-1</code></td>
+<td>39</td>
+</tr>
+<tr>
+<td>ea-uk</td>
+<td><code>caudalM3s_fuera_de_rango</code></td>
+<td>6</td>
+</tr>
+<tr>
+<td>aumentado f2b.1 / f2b.2</td>
+<td><code>distanciaCm_-1</code> · <code>humedadPct_fuera_de_rango</code> · <code>distanciaCm_mas_alla_del_fondo</code></td>
+<td>1,716 / 1,497 · 1,290 / 1,097 · 428 / 557</td>
+</tr>
+</tbody>
+</table>
+<p>El motivo más común en el ESP32, <code>distanciaCm_mas_alla_del_fondo</code>, <strong>depende de la geometría provisional</strong>
+(<code>por_medir: true</code>). Cuando el equipo mida el tanque, plata se regenera y esa cifra cambia; por eso cada fila guarda
+<code>geometria_version</code>. En los aumentados, los inválidos son las fallas que el generador inyecta a propósito
+(<code>falla_sensor</code>).</p>
+<h2 id="3-huecos-del-esp32">3. Huecos del ESP32<a class="headerlink" href="#3-huecos-del-esp32" title="Permanent link">&para;</a></h2>
+<p>El ESP32 escribe directo a Firebase por Wi-Fi, y la PC no interviene. Los huecos de Firebase son, por lo tanto,
+<strong>sesiones en que el ESP32 estuvo apagado</strong>, no suspensiones de la PC.</p>
+<table>
+<thead>
+<tr>
+<th>Sesión (Lima)</th>
+<th>Duración</th>
+<th>Lecturas</th>
+<th>Válidas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10-08 22:31 → 23:27</td>
+<td>56 min</td>
+<td>672</td>
+<td>102</td>
+</tr>
+<tr>
+<td>10-15 20:46 → 23:18</td>
+<td>152 min</td>
+<td>1,751</td>
+<td>1,694</td>
+</tr>
+<tr>
+<td>10-22 19:43 → 21:37</td>
+<td>113 min</td>
+<td>1,360</td>
+<td>1,272</td>
+</tr>
+<tr>
+<td>10-28 15:45 → 20:09</td>
+<td>264 min</td>
+<td>3,138</td>
+<td>1,978</td>
+</tr>
+<tr>
+<td>10-28 21:34 → 10-29 00:56</td>
+<td>202 min</td>
+<td>2,425</td>
+<td>1,635</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Tramos:</strong> con un umbral de 2 min hay 9 tramos continuos; 5 duran más de 30 min, y los otros son lecturas sueltas
+  (por ejemplo, la del 10-01 23:10). Hay 8 huecos de más de 5 min y 4 de más de 1 h. El mayor dura <strong>166 h</strong> (7 días):
+  el ESP32 se enciende una vez por semana, de tarde o de noche.</li>
+<li><strong>Huecos dentro de una sesión:</strong> cortes de Wi-Fi o rachas de <code>-1</code> del HC-SR04. Las lecturas inválidas cortan los
+  tramos de oro, que se construyen solo con lecturas válidas.</li>
+<li><strong>Suspensiones de la PC:</strong> solo afectan el camino Firebase → puente → Kafka. Del bronce del 28-oct, <strong>2,343
+  lecturas llegaron a Kafka con más de 5 min de atraso</strong>, recibidas entre las 17 y las 22 h con una mediana de 37 min.
+  Corresponden a la puesta en marcha del puente y a las suspensiones de la PC. Como plata usa el <code>timestamp</code> del
+  ESP32 (Firebase), ese atraso <strong>no crea huecos</strong> en el dataset.</li>
+<li><strong>Regla:</strong> nada se interpola entre tramos. Cada variable derivada (deltas, tendencia, agua estimada) se calcula
+  dentro de su tramo y queda vacía cuando no tiene datos suficientes. Los umbrales de hueco son 2 min en el ESP32,
+  3 min en la flota (paso de 1 min) y 4 veces el intervalo mediano en cada canal de ThingSpeak.</li>
+<li><strong>Consecuencia para los modelos:</strong> el tramo más largo del ESP32 dura 2.4 h. Un horizonte de 1 h con 1 h de
+  historia necesita 2 h continuas, y el conjunto de diseño del ESP32 (la noche del 28-oct) no las tiene. A 15 min sí
+  hay 8 puntos de evaluación (sección 6). <strong>El ESP32 necesita sesiones más largas</strong> para evaluar horizontes de una
+  hora.</li>
+</ul>
+<h2 id="4-capa-oro-batchdatosorotablafuente">4. Capa oro (<code>batch/datos/oro/&lt;tabla&gt;/fuente=*/</code>)<a class="headerlink" href="#4-capa-oro-batchdatosorotablafuente" title="Permanent link">&para;</a></h2>
+<p>Una tabla por dimensión, construida por sensor (y por corrida, en los aumentados) con <code>applyInPandas</code>. Los eventos
+salen de <strong>reprocesar plata con el detector congelado f4.3</strong> (<code>streaming/detector_servicio.py</code>), la misma clase que
+corre en vivo.</p>
+<table>
+<thead>
+<tr>
+<th>Tabla</th>
+<th>Grano</th>
+<th>Filas</th>
+<th>aumentado f2b.1 / f2b.2</th>
+<th>ThingSpeak</th>
+<th>ESP32</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>d2_autonomia</code></td>
+<td>5 min</td>
+<td>111,178</td>
+<td>34,399 / 34,400</td>
+<td>42,235</td>
+<td>144</td>
+</tr>
+<tr>
+<td><code>d4_llegadas</code></td>
+<td>1 evento</td>
+<td>335</td>
+<td>123 / 122</td>
+<td>76</td>
+<td>14</td>
+</tr>
+<tr>
+<td><code>d6_noches</code></td>
+<td>1 noche (00:00-03:30 Lima)</td>
+<td>241</td>
+<td>120 / 120</td>
+<td>—</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>d8_termica</code></td>
+<td>1 h</td>
+<td>7,506</td>
+<td>2,880 / 2,880</td>
+<td>1,726</td>
+<td>20</td>
+</tr>
+</tbody>
+</table>
+<p>ThingSpeak no aparece en D6:</p>
+<ul>
+<li>Los canales con nivel (1233810, 1233815, 283977, 480876 y 3418755) lo informan ya calculado (% o m), sin distancia
+  cruda que compensar.</li>
+<li>Los dos que miden distancia (1272968 y 3019316) no tienen geometría conocida (<code>modo: sin_nivel</code> en <code>tanques.yml</code>,
+  decisión de F4) ni temperatura. Tampoco tienen nivel en D2 ni D8: solo aportan su validez de lectura.</li>
+</ul>
+<p><strong>Notas por tabla</strong></p>
+<ul>
+<li><strong>D4:</strong> los 14 eventos del ESP32 incluyen los artefactos de reconexión y los dos falsos de f4.3 (23:55 y 00:27,
+  limitación conocida de F4). La columna <code>artefacto_reanudacion</code> marca los 7 que caen al inicio de una sesión, y
+  <code>bitacora</code> trae <code>no_verificable</code> en 21:46 y 23:08. <strong>Un modelo de D4 no debe aprender de las filas con
+  <code>artefacto_reanudacion = true</code>.</strong></li>
+<li><strong>D6:</strong> el ESP32 tiene una sola noche (28 → 29-oct): el ESP32 casi nunca está encendido de madrugada. D6 se
+  entrena con la flota (<code>etiqueta</code> = <code>fuga_lenta</code> / <code>deriva_termica</code>) y se valida en vivo.</li>
+<li><strong>D8:</strong> el canal 3418755 aporta 1,596 horas con aire y agua reales. En el ESP32 hay 20 horas con aire de la cámara,
+  Juliaca y residencia.</li>
+</ul>
+<h3 id="diccionario-de-datos">Diccionario de datos<a class="headerlink" href="#diccionario-de-datos" title="Permanent link">&para;</a></h3>
+<p>Columnas comunes a las cuatro tablas:</p>
+<table>
+<thead>
+<tr>
+<th>Columna</th>
+<th>Tipo</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fuente</code></td>
+<td>str (partición)</td>
+<td><code>esp32</code>, <code>thingspeak</code>, <code>aumentado_f2b1</code>, <code>aumentado_f2b2</code></td>
+</tr>
+<tr>
+<td><code>sensorId</code></td>
+<td>str</td>
+<td>Sensor del contrato</td>
+</tr>
+<tr>
+<td><code>runId</code></td>
+<td>str</td>
+<td>Corrida del generador (solo aumentados)</td>
+</tr>
+<tr>
+<td><code>ts</code></td>
+<td>int64</td>
+<td>Epoch ms (UTC) del inicio del paso, del evento o de la noche</td>
+</tr>
+<tr>
+<td><code>particion</code></td>
+<td>str</td>
+<td><code>entrenamiento</code>, <code>embargo</code>, <code>prueba</code> o <code>consistencia</code> (sección 5)</td>
+</tr>
+<tr>
+<td><code>particion_version</code></td>
+<td>str</td>
+<td>Versión de <code>particion_modelos.yml</code> (<code>p6.1</code>)</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>d2_autonomia</code></strong> (paso de 5 min, D2 autonomía)</p>
+<table>
+<thead>
+<tr>
+<th>Columna</th>
+<th>Tipo</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tramo</code></td>
+<td>int64</td>
+<td>Tramo continuo dentro del sensor (no se cruzan huecos)</td>
+</tr>
+<tr>
+<td><code>nivel_pct</code></td>
+<td>float64</td>
+<td>Mediana del nivel (%) en el paso</td>
+</tr>
+<tr>
+<td><code>litros</code></td>
+<td>float64</td>
+<td>Mediana del volumen (L); vacío si el tanque no tiene capacidad en <code>tanques.yml</code></td>
+</tr>
+<tr>
+<td><code>n_lecturas</code></td>
+<td>int64</td>
+<td>Lecturas válidas en el paso</td>
+</tr>
+<tr>
+<td><code>delta_pct_5min</code> / <code>delta_pct_1h</code></td>
+<td>float64</td>
+<td>Cambio del nivel desde el paso anterior y desde 12 pasos antes (mismo tramo)</td>
+</tr>
+<tr>
+<td><code>tendencia_pct_h_3h</code></td>
+<td>float64</td>
+<td>Pendiente (%/h) por mínimos cuadrados sobre las últimas 3 h del tramo (mínimo 6 pasos)</td>
+</tr>
+<tr>
+<td><code>en_subida</code></td>
+<td>bool</td>
+<td><code>delta_pct_5min &gt; 0.5</code></td>
+</tr>
+<tr>
+<td><code>llegada_detectada</code></td>
+<td>bool</td>
+<td>El detector f4.3 abrió una <code>llegada_agua</code> en este paso</td>
+</tr>
+<tr>
+<td><code>hora_lima</code> / <code>dia_semana</code></td>
+<td>float64 / int64</td>
+<td>Hora decimal en Lima; día (0 = lunes)</td>
+</tr>
+<tr>
+<td><code>tipo_anomalia</code> / <code>es_anomalia</code></td>
+<td>str / bool</td>
+<td>Etiqueta del generador (solo aumentados)</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>d4_llegadas</code></strong> (un evento por fila, D4 próxima llegada)</p>
+<table>
+<thead>
+<tr>
+<th>Columna</th>
+<th>Tipo</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tipo</code></td>
+<td>str</td>
+<td><code>llegada_agua</code> o <code>corte_prolongado</code></td>
+</tr>
+<tr>
+<td><code>eventoId</code></td>
+<td>str</td>
+<td>Identificador determinístico del detector (<code>tipo-sensorId-inicioTs</code>)</td>
+</tr>
+<tr>
+<td><code>fin_ts</code></td>
+<td>int64</td>
+<td>Fin del evento (epoch ms)</td>
+</tr>
+<tr>
+<td><code>hora_lima</code> / <code>dia_semana</code></td>
+<td>float64 / int64</td>
+<td>Hora y día del inicio, en Lima</td>
+</tr>
+<tr>
+<td><code>valor</code> / <code>unidad</code></td>
+<td>float64 / str</td>
+<td>Valor del evento (subida en % o horas sin llegada)</td>
+</tr>
+<tr>
+<td><code>subida_pct</code></td>
+<td>float64</td>
+<td>Subida del nivel en una llegada</td>
+</tr>
+<tr>
+<td><code>caudal_lpm</code></td>
+<td>float64</td>
+<td>Caudal de llenado estimado (L/min), si hay geometría</td>
+</tr>
+<tr>
+<td><code>fuera_franja</code></td>
+<td>bool</td>
+<td>La llegada cayó fuera de la franja habitual</td>
+</tr>
+<tr>
+<td><code>criterio</code></td>
+<td>str</td>
+<td>Criterio de f4.3 que confirmó la llegada: <code>rapido</code> o <code>lento</code> (vacío en <code>corte_prolongado</code>)</td>
+</tr>
+<tr>
+<td><code>horas_sin_llegada</code></td>
+<td>float64</td>
+<td>Para <code>corte_prolongado</code></td>
+</tr>
+<tr>
+<td><code>intervalo_desde_anterior_h</code></td>
+<td>float64</td>
+<td>Horas desde la llegada anterior <strong>sin artefacto</strong> del mismo sensor (objetivo natural de D4)</td>
+</tr>
+<tr>
+<td><code>artefacto_reanudacion</code></td>
+<td>bool</td>
+<td>Evento en los primeros 15 min de una sesión que sigue a más de 30 min sin lecturas: es la reconexión, no servicio real</td>
+</tr>
+<tr>
+<td><code>bitacora</code></td>
+<td>str</td>
+<td>Acción de <code>docs/evidencias/f4/bitacora_real.csv</code> a ±5 min (por ejemplo, <code>no_verificable</code>)</td>
+</tr>
+<tr>
+<td><code>version_reglas</code></td>
+<td>str</td>
+<td><code>f4.3</code></td>
+</tr>
+<tr>
+<td><code>tipo_anomalia</code></td>
+<td>str</td>
+<td>Etiqueta del generador más frecuente en la ventana del evento (solo aumentados)</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>d6_noches</code></strong> (una noche por fila, de 00:00 a 03:30 en Lima, D6 fuga)</p>
+<table>
+<thead>
+<tr>
+<th>Columna</th>
+<th>Tipo</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>noche</code></td>
+<td>str</td>
+<td>Fecha (Lima) de la noche</td>
+</tr>
+<tr>
+<td><code>minutos_con_datos</code> / <code>cobertura</code></td>
+<td>int64 / float64</td>
+<td>Minutos con lectura y su fracción de los 210 min</td>
+</tr>
+<tr>
+<td><code>descenso_cm_compensado</code> / <code>descenso_cm_crudo</code></td>
+<td>float64</td>
+<td>Mediana de los últimos 15 min menos la de los primeros 15 (distancia compensada y cruda; &gt; 0 = el agua bajó)</td>
+</tr>
+<tr>
+<td><code>tasa_cm_h_compensada</code></td>
+<td>float64</td>
+<td>Descenso compensado por hora</td>
+</tr>
+<tr>
+<td><code>distancia_media_cm</code></td>
+<td>float64</td>
+<td>Distancia compensada media</td>
+</tr>
+<tr>
+<td><code>temp_inicio_c</code> / <code>temp_fin_c</code></td>
+<td>float64</td>
+<td>Aire de la cámara al inicio y al final (la deriva térmica que corrige la compensación)</td>
+</tr>
+<tr>
+<td><code>hubo_subida</code></td>
+<td>bool</td>
+<td>Hubo una subida de más de 2 % entre dos lecturas seguidas. <strong>No sirve para filtrar llenados:</strong> los saltos del sensor la disparan en casi todas las noches de la flota; D6 usa la mediana de 15 min (<code>docs/modelo-d6.md</code>)</td>
+</tr>
+<tr>
+<td><code>frac_fuga_lenta</code> / <code>frac_deriva_termica</code></td>
+<td>float64</td>
+<td>Fracción de lecturas con esa etiqueta (aumentados)</td>
+</tr>
+<tr>
+<td><code>etiqueta</code></td>
+<td>str</td>
+<td><code>fuga_lenta</code>, <code>deriva_termica</code> o vacío (más de la mitad de la noche)</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>d8_termica</code></strong> (paso de 1 h, D8 temperatura y residencia)</p>
+<table>
+<thead>
+<tr>
+<th>Columna</th>
+<th>Tipo</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>temp_aire_camara_c</code></td>
+<td>float64</td>
+<td>Aire de la cámara (DHT11) o aire en el tanque (3418755 <code>field2</code>)</td>
+</tr>
+<tr>
+<td><code>temp_agua_real_c</code></td>
+<td>float64</td>
+<td>Agua medida (solo ThingSpeak 3418755, DS18B20 <code>field3</code>): el objetivo para validar D8</td>
+</tr>
+<tr>
+<td><code>temp_juliaca_c</code></td>
+<td>float64</td>
+<td>Aire exterior de Open-Meteo Juliaca (ESP32 y flota)</td>
+</tr>
+<tr>
+<td><code>temp_agua_estimada_provisional_c</code></td>
+<td>float64</td>
+<td>Primer orden con τ = 25.2 h de F4, dentro del tramo. <strong>Es la estimación provisional del detector</strong>, no el modelo de D8</td>
+</tr>
+<tr>
+<td><code>horas_residencia</code></td>
+<td>float64</td>
+<td>Horas desde la última <code>llegada_agua</code></td>
+</tr>
+<tr>
+<td><code>nivel_pct</code>, <code>n_lecturas</code>, <code>tramo</code>, <code>hora_lima</code></td>
+<td></td>
+<td>Como en D2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-particion-batchparticion_modelosyml-version-p61">5. Partición (<code>batch/particion_modelos.yml</code>, versión <code>p6.1</code>)<a class="headerlink" href="#5-particion-batchparticion_modelosyml-version-p61" title="Permanent link">&para;</a></h2>
+<p>Definida una sola vez para los cuatro modelos. Siempre temporal, nunca aleatoria.</p>
+<table>
+<thead>
+<tr>
+<th>Origen</th>
+<th>Entrenamiento / diseño</th>
+<th>Embargo</th>
+<th>Prueba</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ESP32</td>
+<td>Todo lo anterior a max(congelamiento f4.3 = 2026-10-28 23:37:40, <code>geometria_desde</code>)</td>
+<td>—</td>
+<td>Desde esa hora; <strong>intocable</strong> hasta la evaluación final</td>
+</tr>
+<tr>
+<td>ThingSpeak</td>
+<td>Hasta 8 días antes del final de cada canal</td>
+<td>24 h</td>
+<td>Últimos 7 días de cada canal</td>
+</tr>
+<tr>
+<td>Aumentados</td>
+<td>Primeros 21 días de cada corrida</td>
+<td>24 h</td>
+<td>No hay prueba: los últimos ~8 días son <code>consistencia</code> (nunca métrica final)</td>
+</tr>
+</tbody>
+</table>
+<p>Filas por partición (entrenamiento / embargo / prueba o consistencia):</p>
+<table>
+<thead>
+<tr>
+<th>Tabla</th>
+<th>ESP32</th>
+<th>ThingSpeak</th>
+<th>f2b.1</th>
+<th>f2b.2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>d2_autonomia</code></td>
+<td>144 / 0 / <strong>0</strong></td>
+<td>36,113 / 631 / 5,491</td>
+<td>24,065 / 1,141 / 9,193</td>
+<td>24,107 / 1,143 / 9,150</td>
+</tr>
+<tr>
+<td><code>d4_llegadas</code></td>
+<td>14 / 0 / <strong>0</strong></td>
+<td>54 / 0 / 22</td>
+<td>87 / 5 / 31</td>
+<td>85 / 5 / 32</td>
+</tr>
+<tr>
+<td><code>d6_noches</code></td>
+<td>1 / 0 / <strong>0</strong></td>
+<td>—</td>
+<td>84 / 4 / 32</td>
+<td>84 / 4 / 32</td>
+</tr>
+<tr>
+<td><code>d8_termica</code></td>
+<td>20 / 0 / <strong>0</strong></td>
+<td>1,404 / 24 / 298</td>
+<td>2,016 / 96 / 768</td>
+<td>2,016 / 96 / 768</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>El ESP32 todavía no tiene periodo de prueba.</strong> <code>tanques.yml</code> tiene <code>por_medir: true</code> y <code>geometria_desde: null</code>.
+  Cuando el equipo mida el tanque y fije <code>geometria_desde</code>, la prueba empieza sola en esa hora, sin tocar el YAML de la
+  partición.</li>
+<li><strong>Embargo:</strong> separa entrenamiento y prueba para que las ventanas móviles (1 h, 3 h) no vean el futuro.</li>
+<li>La columna <code>particion</code> de cada tabla oro ya trae la asignación. <code>batch/evaluacion.py</code> la respeta: las filas
+  <code>prueba</code> solo se leen con <code>final=True</code>.</li>
+</ul>
+<h2 id="6-marco-de-evaluacion-batchevaluacionpy">6. Marco de evaluación (<code>batch/evaluacion.py</code>)<a class="headerlink" href="#6-marco-de-evaluacion-batchevaluacionpy" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Métricas:</strong></li>
+<li>Regresión: MAE, RMSE y MAPE. El MAPE excluye los |y| menores que <code>mape_minimo</code> e informa cuántas filas quedaron.</li>
+<li>Clasificación: precisión, exhaustividad, F1 y exactitud, con los conteos.</li>
+<li><strong>IC 95 %:</strong> bootstrap de <strong>bloques móviles</strong>.</li>
+<li>Los errores consecutivos de una serie están correlacionados; remuestrear puntos sueltos daría intervalos
+    demasiado estrechos.</li>
+<li>Por defecto se usan bloques de 12 pasos (1 h en D2) en la regresión, y de 1 en la clasificación por evento o por
+    noche.</li>
+<li>Con menos de dos bloques de datos no se informa el IC.</li>
+<li><strong>Líneas base obligatorias</strong>, calculadas dentro de cada tramo:</li>
+<li><strong>Persistencia:</strong> ŷ(t+h) = y(t).</li>
+<li><strong>Tendencia lineal:</strong> recta de mínimos cuadrados sobre las últimas k observaciones, extrapolada h pasos.</li>
+<li>Todo modelo informa <code>mejora_vs_persistencia</code> y <code>mejora_vs_tendencia</code> (1 − MAE_modelo / MAE_base).</li>
+<li><strong>Reporte por nivel, nunca promediado entre niveles:</strong></li>
+<li><code>consistencia</code>: la flota, partición <code>consistencia</code>.</li>
+<li><code>thingspeak_real</code>.</li>
+<li><code>esp32_real</code>.</li>
+<li><strong>Conjuntos:</strong></li>
+<li><code>diseño</code> (por defecto): el último 20 % del entrenamiento de cada sensor, para elegir y ajustar.</li>
+<li><code>prueba</code>: solo con <code>final=True</code>.</li>
+<li><code>entrenamiento()</code> devuelve lo que queda para ajustar, sin la cola de diseño.</li>
+</ul>
+<p><strong>Demostración: líneas base de D2</strong> (nivel % a horizonte h, k = 12 pasos de 5 min, conjunto de diseño;
+<code>docs/evidencias/f6/lineas_base_d2_h60.json</code> y <code>_h15.json</code>)</p>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>h</th>
+<th>Predictor</th>
+<th>n</th>
+<th>MAE [IC 95 %]</th>
+<th>RMSE</th>
+<th>MAPE %</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>consistencia</td>
+<td>60 min</td>
+<td>persistencia</td>
+<td>17,820</td>
+<td>2.67 [2.41, 2.95]</td>
+<td>6.55</td>
+<td>3.69</td>
+</tr>
+<tr>
+<td>consistencia</td>
+<td>60 min</td>
+<td>tendencia</td>
+<td>17,820</td>
+<td>3.23 [2.86, 3.69]</td>
+<td>9.70</td>
+<td>3.88</td>
+</tr>
+<tr>
+<td>thingspeak_real</td>
+<td>60 min</td>
+<td>persistencia</td>
+<td>6,220</td>
+<td>0.64 [0.54, 0.74]</td>
+<td>1.56</td>
+<td>1.42</td>
+</tr>
+<tr>
+<td>thingspeak_real</td>
+<td>60 min</td>
+<td>tendencia</td>
+<td>6,220</td>
+<td>0.95 [0.82, 1.09]</td>
+<td>2.27</td>
+<td>2.18</td>
+</tr>
+<tr>
+<td>esp32_real</td>
+<td>60 min</td>
+<td>—</td>
+<td>0</td>
+<td>sin tramos de 2 h en el conjunto de diseño</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>consistencia</td>
+<td>15 min</td>
+<td>persistencia</td>
+<td>18,021</td>
+<td>0.73 [0.65, 0.81]</td>
+<td>2.30</td>
+<td>1.03</td>
+</tr>
+<tr>
+<td>thingspeak_real</td>
+<td>15 min</td>
+<td>persistencia</td>
+<td>4,281</td>
+<td>0.23 [0.18, 0.28]</td>
+<td>0.97</td>
+<td>0.32</td>
+</tr>
+<tr>
+<td>esp32_real</td>
+<td>15 min</td>
+<td>persistencia</td>
+<td>8</td>
+<td>0.87 (n &lt; 2 bloques: sin IC)</td>
+<td>1.14</td>
+<td>0.92</td>
+</tr>
+<tr>
+<td>esp32_real</td>
+<td>15 min</td>
+<td>tendencia</td>
+<td>8</td>
+<td>3.18 (sin IC)</td>
+<td>3.29</td>
+<td>3.41</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Lectura:</strong> la persistencia gana a la tendencia lineal en todos los niveles. El nivel de un tanque cambia a
+escalones (llenados) y la recta los extrapola mal. Es la vara que deberá superar el modelo de D2 en F6-D2.</p>
+<h2 id="7-como-regenerar">7. Cómo regenerar<a class="headerlink" href="#7-como-regenerar" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Fuentes (imagen de ingesta, credenciales en .env)</span>
+docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">:/repo"</span><span class="w"> </span>-w<span class="w"> </span>/repo/batch<span class="w"> </span>monitoraqua-ingesta:latest<span class="w"> </span>python<span class="w"> </span>descargar_fuentes.py
+<span class="c1"># 2. Flota f2b.2 en Parquet (si falta); f2b.1 ya está en batch/datos/aumentados/</span>
+.venv/Scripts/python<span class="w"> </span>ingesta/generador.py<span class="w"> </span>--config<span class="w"> </span>ingesta/generador_f2b2.yml<span class="w"> </span>--semilla<span class="w"> </span><span class="m">7</span><span class="w"> </span>--parquet
+<span class="c1"># 3. Plata, oro y calidad (Spark en batch, imagen de streaming; local[4] para no agotar la memoria de Docker)</span>
+<span class="nv">MSYS_NO_PATHCONV</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">:/repo"</span><span class="w"> </span>-w<span class="w"> </span>/repo<span class="w"> </span>-e<span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span>/repo/streaming:/repo/batch<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>monitoraqua-streaming:latest<span class="w"> </span>spark-submit<span class="w"> </span>--driver-memory<span class="w"> </span>3g<span class="w"> </span>batch/capas.py
+<span class="c1"># 4. Líneas base de D2</span>
+.venv/Scripts/python<span class="w"> </span>batch/evaluacion.py<span class="w"> </span>--demo-d2<span class="w"> </span>--horizonte-min<span class="w"> </span><span class="m">60</span>
+.venv/Scripts/python<span class="w"> </span>batch/evaluacion.py<span class="w"> </span>--demo-d2<span class="w"> </span>--horizonte-min<span class="w"> </span><span class="m">15</span>
+</code></pre></div>
+<p>El paso 3 tarda unos 2 min. Al leer el bronce, Spark avisa <code>FileNotFoundException ... origen=*</code>: es inofensivo. Se lee
+con un glob porque el <code>_spark_metadata</code> del sink de streaming guarda rutas del contenedor de streaming
+(<code>/datos/bronce</code>).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.indexes", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

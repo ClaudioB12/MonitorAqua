@@ -1,0 +1,3074 @@
+{
+ "meta": {
+  "version": "d2.1",
+  "fecha": "20261029",
+  "particion": "p6.1",
+  "fuentes": "2026-10-29T15:35:25+00:00",
+  "config": {
+   "version": "d2.1",
+   "umbral_pct": 10,
+   "umbrales_sensibilidad": [
+    25
+   ],
+   "tope_horas": 72,
+   "horizontes_min": [
+    15,
+    60
+   ],
+   "tendencia_k": 12,
+   "llenado": {
+    "subida_pp": 10,
+    "quieto_pp": 0.2,
+    "suavizado_pasos": 3
+   },
+   "frac_ajuste": 0.2,
+   "holt": {
+    "alpha": [
+     0.1,
+     0.2,
+     0.3,
+     0.5,
+     0.7,
+     0.8,
+     0.9,
+     0.95,
+     1.0
+    ],
+    "beta": [
+     0.0,
+     0.003,
+     0.01,
+     0.03,
+     0.1,
+     0.2,
+     0.4,
+     0.6
+    ]
+   },
+   "gbt": {
+    "maxDepth": [
+     2,
+     3,
+     5
+    ],
+    "maxIter": [
+     30,
+     60
+    ],
+    "stepSize": 0.1,
+    "semilla": 2026
+   },
+   "bootstrap": {
+    "n_boot": 1000,
+    "largo_bloque": 12
+   }
+  },
+  "filas": 111345
+ },
+ "holt": {
+  "elegidos": {
+   "consistencia": {
+    "alpha": 1.0,
+    "beta": 0.03,
+    "mae_autonomia_entrenamiento_h": 14.772225852069335,
+    "casos_no_censurados_entrenamiento": 1726
+   },
+   "thingspeak_real": {
+    "alpha": 0.1,
+    "beta": 0.1,
+    "mae_autonomia_entrenamiento_h": 27.642033688220916,
+    "casos_no_censurados_entrenamiento": 394
+   },
+   "esp32_real": {
+    "alpha": 0.1,
+    "beta": 0.1,
+    "mae_autonomia_entrenamiento_h": 27.642033688220916,
+    "casos_no_censurados_entrenamiento": 394,
+    "origen": "parámetros de ThingSpeak real (el ESP32 no tiene datos de entrenamiento suficientes ni geometría medida)"
+   }
+  },
+  "elegidos_pronostico": {
+   "consistencia": {
+    "alpha": 0.7,
+    "beta": 0.4,
+    "mae_ajuste_medio": 1.8432977400886332
+   },
+   "thingspeak_real": {
+    "alpha": 1.0,
+    "beta": 0.0,
+    "mae_ajuste_medio": 0.42850602965991036
+   },
+   "esp32_real": {
+    "alpha": 1.0,
+    "beta": 0.0,
+    "mae_ajuste_medio": 0.42850602965991036,
+    "origen": "parámetros de ThingSpeak real (el ESP32 no tiene datos de entrenamiento suficientes ni geometría medida)"
+   }
+  },
+  "grilla": [
+   {
+    "nivel": "consistencia",
+    "alpha": 0.1,
+    "beta": 0.0,
+    "mae_15": 2.844544244131139,
+    "mae_60": 4.913952012090802,
+    "objetivo_pronostico": 3.8792481281109703,
+    "mae_autonomia_h": 53.72223831595211
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.1,
+    "beta": 0.003,
+    "mae_15": 2.8765520327413636,
+    "mae_60": 5.011909098738664,
+    "objetivo_pronostico": 3.9442305657400136,
+    "mae_autonomia_h": 32.51103050231363
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.1,
+    "beta": 0.01,
+    "mae_15": 3.011441541441891,
+    "mae_60": 5.355850745324892,
+    "objetivo_pronostico": 4.183646143383392,
+    "mae_autonomia_h": 19.254491085903144
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.1,
+    "beta": 0.03,
+    "mae_15": 2.798461423897178,
+    "mae_60": 5.166418664278319,
+    "objetivo_pronostico": 3.982440044087748,
+    "mae_autonomia_h": 14.845465197841335
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.1,
+    "beta": 0.1,
+    "mae_15": 2.3478609178789744,
+    "mae_60": 4.779589929464899,
+    "objetivo_pronostico": 3.563725423671937,
+    "mae_autonomia_h": 17.460805412162802
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.1,
+    "beta": 0.2,
+    "mae_15": 2.1663415799510344,
+    "mae_60": 4.913004107658926,
+    "objetivo_pronostico": 3.53967284380498,
+    "mae_autonomia_h": 17.871765192609907
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.1,
+    "beta": 0.4,
+    "mae_15": 2.121599938383261,
+    "mae_60": 5.5346116107636405,
+    "objetivo_pronostico": 3.8281057745734506,
+    "mae_autonomia_h": 20.095847500921085
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.1,
+    "beta": 0.6,
+    "mae_15": 2.034964965481835,
+    "mae_60": 5.92034501367543,
+    "objetivo_pronostico": 3.9776549895786326,
+    "mae_autonomia_h": 20.510656601760026
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.2,
+    "beta": 0.0,
+    "mae_15": 1.7255541431870818,
+    "mae_60": 3.867728040180456,
+    "objetivo_pronostico": 2.7966410916837687,
+    "mae_autonomia_h": 53.72223831595211
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.2,
+    "beta": 0.003,
+    "mae_15": 1.7437955932769462,
+    "mae_60": 3.952263236345891,
+    "objetivo_pronostico": 2.8480294148114185,
+    "mae_autonomia_h": 32.015817135371194
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.2,
+    "beta": 0.01,
+    "mae_15": 1.8506128568924003,
+    "mae_60": 4.281036537661334,
+    "objetivo_pronostico": 3.0658246972768675,
+    "mae_autonomia_h": 19.108162062063535
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.2,
+    "beta": 0.03,
+    "mae_15": 1.7853634233871938,
+    "mae_60": 4.276697199117232,
+    "objetivo_pronostico": 3.031030311252213,
+    "mae_autonomia_h": 14.921394904616982
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.2,
+    "beta": 0.1,
+    "mae_15": 1.4744565359919024,
+    "mae_60": 3.856447459238111,
+    "objetivo_pronostico": 2.6654519976150066,
+    "mae_autonomia_h": 14.983590412643116
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.2,
+    "beta": 0.2,
+    "mae_15": 1.339458238920781,
+    "mae_60": 3.8590759648648625,
+    "objetivo_pronostico": 2.5992671018928215,
+    "mae_autonomia_h": 16.51235206350186
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.2,
+    "beta": 0.4,
+    "mae_15": 1.2202894720794961,
+    "mae_60": 4.140054535872972,
+    "objetivo_pronostico": 2.6801720039762342,
+    "mae_autonomia_h": 17.410621616574016
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.2,
+    "beta": 0.6,
+    "mae_15": 1.1292872976163317,
+    "mae_60": 4.222917281728551,
+    "objetivo_pronostico": 2.676102289672442,
+    "mae_autonomia_h": 17.50436817655505
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.3,
+    "beta": 0.0,
+    "mae_15": 1.3319259375564163,
+    "mae_60": 3.4850095872951017,
+    "objetivo_pronostico": 2.408467762425759,
+    "mae_autonomia_h": 53.72223831595211
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.3,
+    "beta": 0.003,
+    "mae_15": 1.351267400371946,
+    "mae_60": 3.5771065025945052,
+    "objetivo_pronostico": 2.4641869514832258,
+    "mae_autonomia_h": 31.84448519261437
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.3,
+    "beta": 0.01,
+    "mae_15": 1.4444040572784234,
+    "mae_60": 3.9065681545974047,
+    "objetivo_pronostico": 2.675486105937914,
+    "mae_autonomia_h": 19.050043792928548
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.3,
+    "beta": 0.03,
+    "mae_15": 1.4201905813110791,
+    "mae_60": 3.9527360972978762,
+    "objetivo_pronostico": 2.6864633393044777,
+    "mae_autonomia_h": 14.869775597639732
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.3,
+    "beta": 0.1,
+    "mae_15": 1.190396659577972,
+    "mae_60": 3.585769763647348,
+    "objetivo_pronostico": 2.38808321161266,
+    "mae_autonomia_h": 15.001356700168907
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.3,
+    "beta": 0.2,
+    "mae_15": 1.0355286684951308,
+    "mae_60": 3.4518684593011257,
+    "objetivo_pronostico": 2.2436985638981284,
+    "mae_autonomia_h": 15.782396459708524
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.3,
+    "beta": 0.4,
+    "mae_15": 0.9138390397851267,
+    "mae_60": 3.5788664117576348,
+    "objetivo_pronostico": 2.2463527257713807,
+    "mae_autonomia_h": 16.807938993761404
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.3,
+    "beta": 0.6,
+    "mae_15": 0.8611715465719866,
+    "mae_60": 3.675845847759526,
+    "objetivo_pronostico": 2.2685086971657564,
+    "mae_autonomia_h": 17.13153799322958
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.5,
+    "beta": 0.0,
+    "mae_15": 1.0172773126367847,
+    "mae_60": 3.1735550810624282,
+    "objetivo_pronostico": 2.0954161968496066,
+    "mae_autonomia_h": 53.72223831595211
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.5,
+    "beta": 0.003,
+    "mae_15": 1.0350171746799135,
+    "mae_60": 3.272618237490516,
+    "objetivo_pronostico": 2.153817706085215,
+    "mae_autonomia_h": 31.70571699404432
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.5,
+    "beta": 0.01,
+    "mae_15": 1.1129602557452158,
+    "mae_60": 3.5935038246289976,
+    "objetivo_pronostico": 2.3532320401871067,
+    "mae_autonomia_h": 19.000715258127258
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.5,
+    "beta": 0.03,
+    "mae_15": 1.1129692051626172,
+    "mae_60": 3.6671039647924863,
+    "objetivo_pronostico": 2.390036584977552,
+    "mae_autonomia_h": 14.81671447971792
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.5,
+    "beta": 0.1,
+    "mae_15": 0.9502420368702423,
+    "mae_60": 3.3485410558633095,
+    "objetivo_pronostico": 2.149391546366776,
+    "mae_autonomia_h": 15.013544715378895
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.5,
+    "beta": 0.2,
+    "mae_15": 0.8061250319704143,
+    "mae_60": 3.1571818621998706,
+    "objetivo_pronostico": 1.9816534470851423,
+    "mae_autonomia_h": 16.001341884932643
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.5,
+    "beta": 0.4,
+    "mae_15": 0.6967110700978194,
+    "mae_60": 3.1596007689308476,
+    "objetivo_pronostico": 1.9281559195143334,
+    "mae_autonomia_h": 16.58393984370648
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.5,
+    "beta": 0.6,
+    "mae_15": 0.6702248637888883,
+    "mae_60": 3.2713778206462827,
+    "objetivo_pronostico": 1.9708013422175856,
+    "mae_autonomia_h": 17.29642721223799
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.7,
+    "beta": 0.0,
+    "mae_15": 0.8856837979892492,
+    "mae_60": 3.04042045587357,
+    "objetivo_pronostico": 1.9630521269314096,
+    "mae_autonomia_h": 53.59738315952105
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.7,
+    "beta": 0.003,
+    "mae_15": 0.901382768779692,
+    "mae_60": 3.1410661544421234,
+    "objetivo_pronostico": 2.021224461610908,
+    "mae_autonomia_h": 31.645883515677806
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.7,
+    "beta": 0.01,
+    "mae_15": 0.9709723465555674,
+    "mae_60": 3.453752182598114,
+    "objetivo_pronostico": 2.2123622645768406,
+    "mae_autonomia_h": 18.979529815964298
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.7,
+    "beta": 0.03,
+    "mae_15": 0.978886670621037,
+    "mae_60": 3.530979488519706,
+    "objetivo_pronostico": 2.2549330795703715,
+    "mae_autonomia_h": 14.791781857016788
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.7,
+    "beta": 0.1,
+    "mae_15": 0.8459285838630703,
+    "mae_60": 3.238810992342814,
+    "objetivo_pronostico": 2.0423697881029423,
+    "mae_autonomia_h": 15.030683415783898
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.7,
+    "beta": 0.2,
+    "mae_15": 0.7295303031927537,
+    "mae_60": 3.0754605034782827,
+    "objetivo_pronostico": 1.9024954033355181,
+    "mae_autonomia_h": 15.882046096304895
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.7,
+    "beta": 0.4,
+    "mae_15": 0.6367461153768195,
+    "mae_60": 3.049849364800447,
+    "objetivo_pronostico": 1.8432977400886332,
+    "mae_autonomia_h": 16.719285715473493
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.7,
+    "beta": 0.6,
+    "mae_15": 0.6276681026211234,
+    "mae_60": 3.197073705884984,
+    "objetivo_pronostico": 1.9123709042530537,
+    "mae_autonomia_h": 18.172643486462512
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.8,
+    "beta": 0.0,
+    "mae_15": 0.8463285871248211,
+    "mae_60": 2.99924534927083,
+    "objetivo_pronostico": 1.9227869681978256,
+    "mae_autonomia_h": 53.555764774044036
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.8,
+    "beta": 0.003,
+    "mae_15": 0.8609770163316008,
+    "mae_60": 3.099889106793371,
+    "objetivo_pronostico": 1.9804330615624859,
+    "mae_autonomia_h": 31.626889330478882
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.8,
+    "beta": 0.01,
+    "mae_15": 0.9278080978020052,
+    "mae_60": 3.4096789041760776,
+    "objetivo_pronostico": 2.1687435009890415,
+    "mae_autonomia_h": 18.973044183664886
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.8,
+    "beta": 0.03,
+    "mae_15": 0.9385715799542751,
+    "mae_60": 3.4874735301294293,
+    "objetivo_pronostico": 2.213022555041852,
+    "mae_autonomia_h": 14.78369763439569
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.8,
+    "beta": 0.1,
+    "mae_15": 0.8155699487781997,
+    "mae_60": 3.205034585773923,
+    "objetivo_pronostico": 2.0103022672760615,
+    "mae_autonomia_h": 15.054482363123844
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.8,
+    "beta": 0.2,
+    "mae_15": 0.710513535946776,
+    "mae_60": 3.0572600503080576,
+    "objetivo_pronostico": 1.8838867931274168,
+    "mae_autonomia_h": 15.846403689887726
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.8,
+    "beta": 0.4,
+    "mae_15": 0.6330754686686141,
+    "mae_60": 3.059550524899158,
+    "objetivo_pronostico": 1.846312996783886,
+    "mae_autonomia_h": 17.05305530991392
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.8,
+    "beta": 0.6,
+    "mae_15": 0.6315499435939579,
+    "mae_60": 3.227639637935267,
+    "objetivo_pronostico": 1.9295947907646125,
+    "mae_autonomia_h": 18.526325832150153
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.9,
+    "beta": 0.0,
+    "mae_15": 0.8168189155763668,
+    "mae_60": 2.967714505242482,
+    "objetivo_pronostico": 1.8922667104094244,
+    "mae_autonomia_h": 53.555764774044036
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.9,
+    "beta": 0.003,
+    "mae_15": 0.8307681450304848,
+    "mae_60": 3.068417639053178,
+    "objetivo_pronostico": 1.9495928920418315,
+    "mae_autonomia_h": 31.612057845360358
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.9,
+    "beta": 0.01,
+    "mae_15": 0.8952739512242043,
+    "mae_60": 3.3747880672685993,
+    "objetivo_pronostico": 2.1350310092464015,
+    "mae_autonomia_h": 18.967900626632296
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.9,
+    "beta": 0.03,
+    "mae_15": 0.9082696180527533,
+    "mae_60": 3.453335774694036,
+    "objetivo_pronostico": 2.180802696373395,
+    "mae_autonomia_h": 14.777213065493628
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.9,
+    "beta": 0.1,
+    "mae_15": 0.7947599492655701,
+    "mae_60": 3.1811234507343786,
+    "objetivo_pronostico": 1.9879416999999744,
+    "mae_autonomia_h": 15.09973831573038
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.9,
+    "beta": 0.2,
+    "mae_15": 0.6998405076396335,
+    "mae_60": 3.0491216995489387,
+    "objetivo_pronostico": 1.874481103594286,
+    "mae_autonomia_h": 15.88607706897411
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.9,
+    "beta": 0.4,
+    "mae_15": 0.6385924219553001,
+    "mae_60": 3.0900582330390707,
+    "objetivo_pronostico": 1.8643253274971854,
+    "mae_autonomia_h": 17.414145403389593
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.9,
+    "beta": 0.6,
+    "mae_15": 0.6502198701246316,
+    "mae_60": 3.299047428428738,
+    "objetivo_pronostico": 1.9746336492766847,
+    "mae_autonomia_h": 18.96492849360218
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.95,
+    "beta": 0.0,
+    "mae_15": 0.8047963930558852,
+    "mae_60": 2.9545681586871884,
+    "objetivo_pronostico": 1.8796822758715368,
+    "mae_autonomia_h": 53.555764774044036
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.95,
+    "beta": 0.003,
+    "mae_15": 0.818530301228445,
+    "mae_60": 3.0555455714590503,
+    "objetivo_pronostico": 1.9370379363437475,
+    "mae_autonomia_h": 31.60582596752004
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.95,
+    "beta": 0.01,
+    "mae_15": 0.8823232852653161,
+    "mae_60": 3.3599806975631066,
+    "objetivo_pronostico": 2.1211519914142114,
+    "mae_autonomia_h": 18.96592379115128
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.95,
+    "beta": 0.03,
+    "mae_15": 0.896123263736031,
+    "mae_60": 3.4388238403608615,
+    "objetivo_pronostico": 2.1674735520484463,
+    "mae_autonomia_h": 14.774444941418079
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.95,
+    "beta": 0.1,
+    "mae_15": 0.7871223991727376,
+    "mae_60": 3.1719206617939073,
+    "objetivo_pronostico": 1.9795215304833225,
+    "mae_autonomia_h": 15.112682451097266
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.95,
+    "beta": 0.2,
+    "mae_15": 0.6972019786382022,
+    "mae_60": 3.048272936116168,
+    "objetivo_pronostico": 1.872737457377185,
+    "mae_autonomia_h": 15.897694036474368
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.95,
+    "beta": 0.4,
+    "mae_15": 0.6442651077411655,
+    "mae_60": 3.1120503677826132,
+    "objetivo_pronostico": 1.8781577377618894,
+    "mae_autonomia_h": 17.572182776721625
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 0.95,
+    "beta": 0.6,
+    "mae_15": 0.6641583449547278,
+    "mae_60": 3.348977609460741,
+    "objetivo_pronostico": 2.0065679772077343,
+    "mae_autonomia_h": 19.198736449874904
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 1.0,
+    "beta": 0.0,
+    "mae_15": 0.7945093082333767,
+    "mae_60": 2.942879574339689,
+    "objetivo_pronostico": 1.868694441286533,
+    "mae_autonomia_h": 53.555764774044036
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 1.0,
+    "beta": 0.003,
+    "mae_15": 0.8082212055637009,
+    "mae_60": 3.0441337101940205,
+    "objetivo_pronostico": 1.9261774578788606,
+    "mae_autonomia_h": 31.60018462906048
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 1.0,
+    "beta": 0.01,
+    "mae_15": 0.8711713202016359,
+    "mae_60": 3.3465837537940004,
+    "objetivo_pronostico": 2.1088775369978183,
+    "mae_autonomia_h": 18.96426582027343
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 1.0,
+    "beta": 0.03,
+    "mae_15": 0.8855808057658208,
+    "mae_60": 3.4257603195723942,
+    "objetivo_pronostico": 2.1556705626691075,
+    "mae_autonomia_h": 14.772225852069335
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 1.0,
+    "beta": 0.1,
+    "mae_15": 0.7810096160653515,
+    "mae_60": 3.1645070352608737,
+    "objetivo_pronostico": 1.9727583256631127,
+    "mae_autonomia_h": 15.14414284585699
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 1.0,
+    "beta": 0.2,
+    "mae_15": 0.6961150572967731,
+    "mae_60": 3.0498472298500214,
+    "objetivo_pronostico": 1.8729811435733974,
+    "mae_autonomia_h": 15.91158498609717
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 1.0,
+    "beta": 0.4,
+    "mae_15": 0.6517674178047014,
+    "mae_60": 3.138008860002825,
+    "objetivo_pronostico": 1.8948881389037633,
+    "mae_autonomia_h": 17.688103663293905
+   },
+   {
+    "nivel": "consistencia",
+    "alpha": 1.0,
+    "beta": 0.6,
+    "mae_15": 0.681384928899333,
+    "mae_60": 3.4075054113329424,
+    "objetivo_pronostico": 2.0444451701161377,
+    "mae_autonomia_h": 19.42004236656704
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.1,
+    "beta": 0.0,
+    "mae_15": 0.5196215331836069,
+    "mae_60": 0.8634151827621562,
+    "objetivo_pronostico": 0.6915183579728816,
+    "mae_autonomia_h": 41.9938663282572
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.1,
+    "beta": 0.003,
+    "mae_15": 0.5731014284148747,
+    "mae_60": 0.932168081321915,
+    "objetivo_pronostico": 0.7526347548683948,
+    "mae_autonomia_h": 31.378105132713674
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.1,
+    "beta": 0.01,
+    "mae_15": 0.5418438598946083,
+    "mae_60": 0.9119970948240849,
+    "objetivo_pronostico": 0.7269204773593465,
+    "mae_autonomia_h": 32.5809042846905
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.1,
+    "beta": 0.03,
+    "mae_15": 0.5085721048048163,
+    "mae_60": 0.9148028949008054,
+    "objetivo_pronostico": 0.7116874998528109,
+    "mae_autonomia_h": 29.81555161953638
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.1,
+    "beta": 0.1,
+    "mae_15": 0.4632330065968674,
+    "mae_60": 0.9664279168546452,
+    "objetivo_pronostico": 0.7148304617257564,
+    "mae_autonomia_h": 27.642033688220916
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.1,
+    "beta": 0.2,
+    "mae_15": 0.4421545912101166,
+    "mae_60": 1.0407690304127308,
+    "objetivo_pronostico": 0.7414618108114237,
+    "mae_autonomia_h": 30.560359199397084
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.1,
+    "beta": 0.4,
+    "mae_15": 0.4373294508691183,
+    "mae_60": 1.2055492564083359,
+    "objetivo_pronostico": 0.8214393536387271,
+    "mae_autonomia_h": 32.17921945563391
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.1,
+    "beta": 0.6,
+    "mae_15": 0.45701181245167716,
+    "mae_60": 1.3279840979867696,
+    "objetivo_pronostico": 0.8924979552192234,
+    "mae_autonomia_h": 32.91787122378889
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.2,
+    "beta": 0.0,
+    "mae_15": 0.35845623957284134,
+    "mae_60": 0.7423490071604181,
+    "objetivo_pronostico": 0.5504026233666297,
+    "mae_autonomia_h": 41.9938663282572
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.2,
+    "beta": 0.003,
+    "mae_15": 0.39961190512728484,
+    "mae_60": 0.8087863621732735,
+    "objetivo_pronostico": 0.6041991336502792,
+    "mae_autonomia_h": 31.461196444281306
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.2,
+    "beta": 0.01,
+    "mae_15": 0.39015590232402786,
+    "mae_60": 0.8033458702612972,
+    "objetivo_pronostico": 0.5967508862926625,
+    "mae_autonomia_h": 32.327075440305705
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.2,
+    "beta": 0.03,
+    "mae_15": 0.3707003604390444,
+    "mae_60": 0.8131266086710244,
+    "objetivo_pronostico": 0.5919134845550345,
+    "mae_autonomia_h": 29.339599847541415
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.2,
+    "beta": 0.1,
+    "mae_15": 0.3441755014128863,
+    "mae_60": 0.8579833713550897,
+    "objetivo_pronostico": 0.601079436383988,
+    "mae_autonomia_h": 28.951753879698135
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.2,
+    "beta": 0.2,
+    "mae_15": 0.3353213428474516,
+    "mae_60": 0.9258250404704111,
+    "objetivo_pronostico": 0.6305731916589313,
+    "mae_autonomia_h": 31.82939517444298
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.2,
+    "beta": 0.4,
+    "mae_15": 0.3535828978589691,
+    "mae_60": 1.0575604401232777,
+    "objetivo_pronostico": 0.7055716689911233,
+    "mae_autonomia_h": 32.39553737117299
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.2,
+    "beta": 0.6,
+    "mae_15": 0.3788817523329302,
+    "mae_60": 1.2002047935484899,
+    "objetivo_pronostico": 0.78954327294071,
+    "mae_autonomia_h": 32.362109675740925
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.3,
+    "beta": 0.0,
+    "mae_15": 0.3015424238704558,
+    "mae_60": 0.696601904039013,
+    "objetivo_pronostico": 0.4990721639547344,
+    "mae_autonomia_h": 41.9938663282572
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.3,
+    "beta": 0.003,
+    "mae_15": 0.33766520313622045,
+    "mae_60": 0.763248690160965,
+    "objetivo_pronostico": 0.5504569466485927,
+    "mae_autonomia_h": 31.692081054508208
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.3,
+    "beta": 0.01,
+    "mae_15": 0.33344923861245046,
+    "mae_60": 0.761957797402994,
+    "objetivo_pronostico": 0.5477035180077222,
+    "mae_autonomia_h": 32.2806504097756
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.3,
+    "beta": 0.03,
+    "mae_15": 0.32111028756701676,
+    "mae_60": 0.771983877027063,
+    "objetivo_pronostico": 0.5465470822970399,
+    "mae_autonomia_h": 29.342572352731064
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.3,
+    "beta": 0.1,
+    "mae_15": 0.3061185380121595,
+    "mae_60": 0.8144400538995591,
+    "objetivo_pronostico": 0.5602792959558593,
+    "mae_autonomia_h": 29.693139375802875
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.3,
+    "beta": 0.2,
+    "mae_15": 0.3055828238404873,
+    "mae_60": 0.8779579606270392,
+    "objetivo_pronostico": 0.5917703922337633,
+    "mae_autonomia_h": 31.743220397522123
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.3,
+    "beta": 0.4,
+    "mae_15": 0.32762242536285924,
+    "mae_60": 1.0194071711336594,
+    "objetivo_pronostico": 0.6735147982482593,
+    "mae_autonomia_h": 32.21810730017935
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.3,
+    "beta": 0.6,
+    "mae_15": 0.3575389539108201,
+    "mae_60": 1.1684203829993203,
+    "objetivo_pronostico": 0.7629796684550701,
+    "mae_autonomia_h": 31.401059888959566
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.5,
+    "beta": 0.0,
+    "mae_15": 0.2559434513264421,
+    "mae_60": 0.6592122517401894,
+    "objetivo_pronostico": 0.45757785153331576,
+    "mae_autonomia_h": 41.9938663282572
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.5,
+    "beta": 0.003,
+    "mae_15": 0.28798063078764047,
+    "mae_60": 0.7276464624417631,
+    "objetivo_pronostico": 0.5078135466147018,
+    "mae_autonomia_h": 32.61589052441313
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.5,
+    "beta": 0.01,
+    "mae_15": 0.28846456430953865,
+    "mae_60": 0.7273684057209931,
+    "objetivo_pronostico": 0.5079164850152659,
+    "mae_autonomia_h": 32.087503320389175
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.5,
+    "beta": 0.03,
+    "mae_15": 0.2836819218582762,
+    "mae_60": 0.7375269437333082,
+    "objetivo_pronostico": 0.5106044327957922,
+    "mae_autonomia_h": 29.685031973941555
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.5,
+    "beta": 0.1,
+    "mae_15": 0.28085798033406345,
+    "mae_60": 0.7887200144270556,
+    "objetivo_pronostico": 0.5347889973805595,
+    "mae_autonomia_h": 29.147493153451006
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.5,
+    "beta": 0.2,
+    "mae_15": 0.288328114422609,
+    "mae_60": 0.861146862789934,
+    "objetivo_pronostico": 0.5747374886062715,
+    "mae_autonomia_h": 31.538102961754056
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.5,
+    "beta": 0.4,
+    "mae_15": 0.32031646360783317,
+    "mae_60": 1.0246192225271826,
+    "objetivo_pronostico": 0.672467843067508,
+    "mae_autonomia_h": 31.90433874031475
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.5,
+    "beta": 0.6,
+    "mae_15": 0.3592614997025761,
+    "mae_60": 1.1959338091382736,
+    "objetivo_pronostico": 0.7775976544204248,
+    "mae_autonomia_h": 31.5271968728078
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.7,
+    "beta": 0.0,
+    "mae_15": 0.23699377248317285,
+    "mae_60": 0.6432155694735828,
+    "objetivo_pronostico": 0.44010467097837785,
+    "mae_autonomia_h": 41.81154822335025
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.7,
+    "beta": 0.003,
+    "mae_15": 0.2687132862230059,
+    "mae_60": 0.7142473781868383,
+    "objetivo_pronostico": 0.49148033220492204,
+    "mae_autonomia_h": 33.43771030228176
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.7,
+    "beta": 0.01,
+    "mae_15": 0.2712813593873427,
+    "mae_60": 0.7135983097064598,
+    "objetivo_pronostico": 0.4924398345469012,
+    "mae_autonomia_h": 32.12454205247923
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.7,
+    "beta": 0.03,
+    "mae_15": 0.27022359636356846,
+    "mae_60": 0.7257507888753769,
+    "objetivo_pronostico": 0.49798719261947266,
+    "mae_autonomia_h": 29.744613241243062
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.7,
+    "beta": 0.1,
+    "mae_15": 0.27541005115944317,
+    "mae_60": 0.7880509802867693,
+    "objetivo_pronostico": 0.5317305157231063,
+    "mae_autonomia_h": 29.14720576589429
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.7,
+    "beta": 0.2,
+    "mae_15": 0.2919136527156352,
+    "mae_60": 0.8758562401039169,
+    "objetivo_pronostico": 0.5838849464097761,
+    "mae_autonomia_h": 31.61791077895709
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.7,
+    "beta": 0.4,
+    "mae_15": 0.33328442786703233,
+    "mae_60": 1.0592454132068791,
+    "objetivo_pronostico": 0.6962649205369558,
+    "mae_autonomia_h": 31.979515614726754
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.7,
+    "beta": 0.6,
+    "mae_15": 0.3766419053843926,
+    "mae_60": 1.2422185713966052,
+    "objetivo_pronostico": 0.8094302383904989,
+    "mae_autonomia_h": 31.90469744698388
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.8,
+    "beta": 0.0,
+    "mae_15": 0.2312607030520154,
+    "mae_60": 0.6387234154982536,
+    "objetivo_pronostico": 0.4349920592751345,
+    "mae_autonomia_h": 41.81154822335025
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.8,
+    "beta": 0.003,
+    "mae_15": 0.26354538637080943,
+    "mae_60": 0.7114370076712876,
+    "objetivo_pronostico": 0.4874911970210485,
+    "mae_autonomia_h": 33.73019994266352
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.8,
+    "beta": 0.01,
+    "mae_15": 0.26707961890487003,
+    "mae_60": 0.7105518579932856,
+    "objetivo_pronostico": 0.4888157384490778,
+    "mae_autonomia_h": 32.195730910723356
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.8,
+    "beta": 0.03,
+    "mae_15": 0.26748165422229775,
+    "mae_60": 0.7240417723185912,
+    "objetivo_pronostico": 0.4957617132704445,
+    "mae_autonomia_h": 29.786597415962596
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.8,
+    "beta": 0.1,
+    "mae_15": 0.27641193750266646,
+    "mae_60": 0.7924251158912684,
+    "objetivo_pronostico": 0.5344185266969674,
+    "mae_autonomia_h": 28.972293745523036
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.8,
+    "beta": 0.2,
+    "mae_15": 0.2973237271702673,
+    "mae_60": 0.8880751013344905,
+    "objetivo_pronostico": 0.5926994142523789,
+    "mae_autonomia_h": 31.791169681562124
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.8,
+    "beta": 0.4,
+    "mae_15": 0.34201735975313796,
+    "mae_60": 1.0846477413418638,
+    "objetivo_pronostico": 0.7133325505475009,
+    "mae_autonomia_h": 31.891028622404885
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.8,
+    "beta": 0.6,
+    "mae_15": 0.3896504004076252,
+    "mae_60": 1.286038744926317,
+    "objetivo_pronostico": 0.8378445726669712,
+    "mae_autonomia_h": 31.737569555542954
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.9,
+    "beta": 0.0,
+    "mae_15": 0.22701284654484402,
+    "mae_60": 0.6354551855765785,
+    "objetivo_pronostico": 0.43123401606071127,
+    "mae_autonomia_h": 41.81154822335025
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.9,
+    "beta": 0.003,
+    "mae_15": 0.2606924112634826,
+    "mae_60": 0.7101993778992848,
+    "objetivo_pronostico": 0.48544589458138365,
+    "mae_autonomia_h": 33.94335576822561
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.9,
+    "beta": 0.01,
+    "mae_15": 0.26520105192696974,
+    "mae_60": 0.709266124148355,
+    "objetivo_pronostico": 0.48723358803766237,
+    "mae_autonomia_h": 32.250713341911585
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.9,
+    "beta": 0.03,
+    "mae_15": 0.26698049831353127,
+    "mae_60": 0.7244409922810455,
+    "objetivo_pronostico": 0.4957107452972884,
+    "mae_autonomia_h": 29.828990424421193
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.9,
+    "beta": 0.1,
+    "mae_15": 0.28043286328100275,
+    "mae_60": 0.7990858024466838,
+    "objetivo_pronostico": 0.5397593328638433,
+    "mae_autonomia_h": 28.810718079176784
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.9,
+    "beta": 0.2,
+    "mae_15": 0.30484761021070633,
+    "mae_60": 0.9022866768608754,
+    "objetivo_pronostico": 0.6035671435357909,
+    "mae_autonomia_h": 31.778974933865378
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.9,
+    "beta": 0.4,
+    "mae_15": 0.3565964208729703,
+    "mae_60": 1.1196966356920324,
+    "objetivo_pronostico": 0.7381465282825013,
+    "mae_autonomia_h": 31.962866073938535
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.9,
+    "beta": 0.6,
+    "mae_15": 0.412343809675937,
+    "mae_60": 1.3375645315909124,
+    "objetivo_pronostico": 0.8749541706334247,
+    "mae_autonomia_h": 31.889496029427175
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.95,
+    "beta": 0.0,
+    "mae_15": 0.2252898117577579,
+    "mae_60": 0.6342320504907307,
+    "objetivo_pronostico": 0.4297609311242443,
+    "mae_autonomia_h": 41.81154822335025
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.95,
+    "beta": 0.003,
+    "mae_15": 0.26030987138725364,
+    "mae_60": 0.7101749555327579,
+    "objetivo_pronostico": 0.48524241346000574,
+    "mae_autonomia_h": 34.02636935698274
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.95,
+    "beta": 0.01,
+    "mae_15": 0.26522486691847963,
+    "mae_60": 0.7093139409763077,
+    "objetivo_pronostico": 0.4872694039473937,
+    "mae_autonomia_h": 32.288238386721574
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.95,
+    "beta": 0.03,
+    "mae_15": 0.2677904640847353,
+    "mae_60": 0.7255955026143347,
+    "objetivo_pronostico": 0.496692983349535,
+    "mae_autonomia_h": 29.867582485138623
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.95,
+    "beta": 0.1,
+    "mae_15": 0.2834200510338822,
+    "mae_60": 0.8029726034869963,
+    "objetivo_pronostico": 0.5431963272604392,
+    "mae_autonomia_h": 28.954298843760995
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.95,
+    "beta": 0.2,
+    "mae_15": 0.30952913766705586,
+    "mae_60": 0.9121744877110849,
+    "objetivo_pronostico": 0.6108518126890704,
+    "mae_autonomia_h": 31.82197729358026
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.95,
+    "beta": 0.4,
+    "mae_15": 0.365836052668387,
+    "mae_60": 1.1384704514407735,
+    "objetivo_pronostico": 0.7521532520545803,
+    "mae_autonomia_h": 31.623671852862262
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 0.95,
+    "beta": 0.6,
+    "mae_15": 0.42548764513374154,
+    "mae_60": 1.3664172258623302,
+    "objetivo_pronostico": 0.8959524354980358,
+    "mae_autonomia_h": 31.92092681000393
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 1.0,
+    "beta": 0.0,
+    "mae_15": 0.22373161245991743,
+    "mae_60": 0.6332804468599033,
+    "objetivo_pronostico": 0.42850602965991036,
+    "mae_autonomia_h": 41.81154822335025
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 1.0,
+    "beta": 0.003,
+    "mae_15": 0.26113157409724325,
+    "mae_60": 0.7108067656895176,
+    "objetivo_pronostico": 0.48596916989338046,
+    "mae_autonomia_h": 34.100725319935755
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 1.0,
+    "beta": 0.01,
+    "mae_15": 0.26635098732417933,
+    "mae_60": 0.7099940348772168,
+    "objetivo_pronostico": 0.48817251110069804,
+    "mae_autonomia_h": 32.32296358320478
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 1.0,
+    "beta": 0.03,
+    "mae_15": 0.26978740409327717,
+    "mae_60": 0.7272996377837636,
+    "objetivo_pronostico": 0.4985435209385204,
+    "mae_autonomia_h": 29.91837649815701
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 1.0,
+    "beta": 0.1,
+    "mae_15": 0.2873968333187173,
+    "mae_60": 0.8084851836269845,
+    "objetivo_pronostico": 0.5479410084728509,
+    "mae_autonomia_h": 29.077911947280416
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 1.0,
+    "beta": 0.2,
+    "mae_15": 0.3157051471348733,
+    "mae_60": 0.9224953338115472,
+    "objetivo_pronostico": 0.6191002404732102,
+    "mae_autonomia_h": 31.771261664980738
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 1.0,
+    "beta": 0.4,
+    "mae_15": 0.3755502214572058,
+    "mae_60": 1.1583222768601318,
+    "objetivo_pronostico": 0.7669362491586688,
+    "mae_autonomia_h": 31.5087737796425
+   },
+   {
+    "nivel": "thingspeak_real",
+    "alpha": 1.0,
+    "beta": 0.6,
+    "mae_15": 0.4391772600884658,
+    "mae_60": 1.396676999898405,
+    "objetivo_pronostico": 0.9179271299934354,
+    "mae_autonomia_h": 32.11490827851715
+   }
+  ]
+ },
+ "gbt": {
+  "gbt_h15_consistencia": {
+   "grilla": [
+    {
+     "maxDepth": 2,
+     "maxIter": 30,
+     "mae_ajuste": 0.48768600031524095
+    },
+    {
+     "maxDepth": 2,
+     "maxIter": 60,
+     "mae_ajuste": 0.47920344067302156
+    },
+    {
+     "maxDepth": 3,
+     "maxIter": 30,
+     "mae_ajuste": 0.45643306462938465
+    },
+    {
+     "maxDepth": 3,
+     "maxIter": 60,
+     "mae_ajuste": 0.44198055339414377
+    },
+    {
+     "maxDepth": 5,
+     "maxIter": 30,
+     "mae_ajuste": 0.4235870987540647
+    },
+    {
+     "maxDepth": 5,
+     "maxIter": 60,
+     "mae_ajuste": 0.4212073758330895
+    }
+   ],
+   "elegido": {
+    "maxDepth": 5,
+    "maxIter": 60,
+    "mae_ajuste": 0.4212073758330895
+   },
+   "importancias_top8": {
+    "d1": 0.2128,
+    "l2": 0.1062,
+    "d3": 0.0901,
+    "y0": 0.0851,
+    "hora_sin": 0.0847,
+    "tend3h": 0.072,
+    "dia_semana": 0.0599,
+    "h_desde_llenado": 0.0457
+   },
+   "filas_entrenamiento_final": 47566
+  },
+  "gbt_h60_consistencia": {
+   "grilla": [
+    {
+     "maxDepth": 2,
+     "maxIter": 30,
+     "mae_ajuste": 2.051238548998699
+    },
+    {
+     "maxDepth": 2,
+     "maxIter": 60,
+     "mae_ajuste": 1.9660776977261576
+    },
+    {
+     "maxDepth": 3,
+     "maxIter": 30,
+     "mae_ajuste": 1.9379526938138458
+    },
+    {
+     "maxDepth": 3,
+     "maxIter": 60,
+     "mae_ajuste": 1.9340887396361288
+    },
+    {
+     "maxDepth": 5,
+     "maxIter": 30,
+     "mae_ajuste": 2.039331671183673
+    },
+    {
+     "maxDepth": 5,
+     "maxIter": 60,
+     "mae_ajuste": 2.1272186422668176
+    }
+   ],
+   "elegido": {
+    "maxDepth": 3,
+    "maxIter": 60,
+    "mae_ajuste": 1.9340887396361288
+   },
+   "importancias_top8": {
+    "hora_sin": 0.226,
+    "y0": 0.121,
+    "d1": 0.094,
+    "l3": 0.0817,
+    "l1": 0.0589,
+    "dia_semana": 0.0571,
+    "h_desde_llenado": 0.0566,
+    "sd12": 0.0513
+   },
+   "filas_entrenamiento_final": 47260
+  },
+  "gbt_h15_thingspeak": {
+   "grilla": [
+    {
+     "maxDepth": 2,
+     "maxIter": 30,
+     "mae_ajuste": 0.3435699436830208
+    },
+    {
+     "maxDepth": 2,
+     "maxIter": 60,
+     "mae_ajuste": 0.3424484293016713
+    },
+    {
+     "maxDepth": 3,
+     "maxIter": 30,
+     "mae_ajuste": 0.3375094633951519
+    },
+    {
+     "maxDepth": 3,
+     "maxIter": 60,
+     "mae_ajuste": 0.3386965708875614
+    },
+    {
+     "maxDepth": 5,
+     "maxIter": 30,
+     "mae_ajuste": 0.38702134724543863
+    },
+    {
+     "maxDepth": 5,
+     "maxIter": 60,
+     "mae_ajuste": 0.4281853122995784
+    }
+   ],
+   "elegido": {
+    "maxDepth": 3,
+    "maxIter": 30,
+    "mae_ajuste": 0.3375094633951519
+   },
+   "importancias_top8": {
+    "y0": 0.1845,
+    "sd12": 0.1139,
+    "hora_sin": 0.0902,
+    "l6": 0.0899,
+    "ma3": 0.0804,
+    "l1": 0.0774,
+    "l3": 0.0573,
+    "l2": 0.0529
+   },
+   "filas_entrenamiento_final": 21681
+  },
+  "gbt_h60_thingspeak": {
+   "grilla": [
+    {
+     "maxDepth": 2,
+     "maxIter": 30,
+     "mae_ajuste": 0.8043541907840157
+    },
+    {
+     "maxDepth": 2,
+     "maxIter": 60,
+     "mae_ajuste": 0.826805618832396
+    },
+    {
+     "maxDepth": 3,
+     "maxIter": 30,
+     "mae_ajuste": 0.8448762747084373
+    },
+    {
+     "maxDepth": 3,
+     "maxIter": 60,
+     "mae_ajuste": 0.8869203304782818
+    },
+    {
+     "maxDepth": 5,
+     "maxIter": 30,
+     "mae_ajuste": 0.9069499401154514
+    },
+    {
+     "maxDepth": 5,
+     "maxIter": 60,
+     "mae_ajuste": 0.9256107357579861
+    }
+   ],
+   "elegido": {
+    "maxDepth": 2,
+    "maxIter": 30,
+    "mae_ajuste": 0.8043541907840157
+   },
+   "importancias_top8": {
+    "l2": 0.1856,
+    "y0": 0.1613,
+    "sd12": 0.1425,
+    "l12": 0.1422,
+    "hora_cos": 0.0651,
+    "tend3h": 0.0475,
+    "ma12": 0.0464,
+    "d3": 0.0327
+   },
+   "filas_entrenamiento_final": 32439
+  }
+ },
+ "pronostico": {
+  "15": {
+   "final": {
+    "consistencia": {
+     "n": 18094,
+     "sensores": [
+      "flota-zonaA-01",
+      "flota-zonaA-02",
+      "flota-zonaB-01",
+      "flota-zonaB-02"
+     ],
+     "predictores": {
+      "pred_persistencia": {
+       "n": 18094,
+       "n_mape": 18038,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 0.7223939440455686,
+        "ic95": [
+         0.6466066284315766,
+         0.8008659176467611
+        ]
+       },
+       "RMSE": {
+        "valor": 2.2897220340478777,
+        "ic95": [
+         1.9571366060010111,
+         2.603839366167014
+        ]
+       },
+       "MAPE": {
+        "valor": 1.0242400520948967,
+        "ic95": [
+         0.9125386521573784,
+         1.1430572257333493
+        ]
+       }
+      },
+      "pred_tendencia": {
+       "n": 18094,
+       "n_mape": 18038,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 0.9911956481815107,
+        "ic95": [
+         0.8638917655072875,
+         1.1266595127326424
+        ]
+       },
+       "RMSE": {
+        "valor": 3.5049179372656125,
+        "ic95": [
+         3.0987828842667313,
+         3.91138223372538
+        ]
+       },
+       "MAPE": {
+        "valor": 1.2257296504420285,
+        "ic95": [
+         1.0734357212482002,
+         1.3837696191158266
+        ]
+       }
+      },
+      "pred_holt": {
+       "n": 18094,
+       "n_mape": 18038,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 0.8061723595230066,
+        "ic95": [
+         0.7328596069910306,
+         0.880140449990385
+        ]
+       },
+       "RMSE": {
+        "valor": 2.2631136927704447,
+        "ic95": [
+         1.9554354133074123,
+         2.5560699356622725
+        ]
+       },
+       "MAPE": {
+        "valor": 1.04069875878006,
+        "ic95": [
+         0.938257261939391,
+         1.1437800418577986
+        ]
+       },
+       "mejora_vs_persistencia": -0.11597330814854301,
+       "mejora_vs_tendencia": 0.18666676856174225
+      },
+      "pred_holt_pronostico": {
+       "n": 18094,
+       "n_mape": 18038,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 0.6379451567455064,
+        "ic95": [
+         0.5634933933961128,
+         0.7192617069636008
+        ]
+       },
+       "RMSE": {
+        "valor": 2.270645381422882,
+        "ic95": [
+         1.9669256957647374,
+         2.5587448085931475
+        ]
+       },
+       "MAPE": {
+        "valor": 0.8399597896771025,
+        "ic95": [
+         0.7436413445203819,
+         0.9442842207651315
+        ]
+       },
+       "mejora_vs_persistencia": 0.11690129464143884,
+       "mejora_vs_tendencia": 0.356388259052683
+      },
+      "pred_gbt": {
+       "n": 18094,
+       "n_mape": 18038,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 0.40958790770371073,
+        "ic95": [
+         0.3738257528794678,
+         0.4471324459948299
+        ]
+       },
+       "RMSE": {
+        "valor": 1.2814483796856517,
+        "ic95": [
+         1.0963440008193341,
+         1.4521208772786902
+        ]
+       },
+       "MAPE": {
+        "valor": 0.6646439266035585,
+        "ic95": [
+         0.5856173304560398,
+         0.7595424826936035
+        ]
+       },
+       "mejora_vs_persistencia": 0.4330130933685209,
+       "mejora_vs_tendencia": 0.5867739043697802
+      }
+     },
+     "uso": "consistencia (nunca métrica final)"
+    },
+    "thingspeak_real": {
+     "n": 3468,
+     "sensores": [
+      "thingspeak-1233810",
+      "thingspeak-1233815",
+      "thingspeak-283977",
+      "thingspeak-3418755",
+      "thingspeak-480876"
+     ],
+     "predictores": {
+      "pred_persistencia": {
+       "n": 3468,
+       "n_mape": 3468,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 0.7757163523644752,
+        "ic95": [
+         0.5751500687716263,
+         0.9911760134803922
+        ]
+       },
+       "RMSE": {
+        "valor": 2.783303184931608,
+        "ic95": [
+         2.2488592012394606,
+         3.364602780903023
+        ]
+       },
+       "MAPE": {
+        "valor": 0.8468725893535296,
+        "ic95": [
+         0.6225579809503153,
+         1.0846150986271434
+        ]
+       }
+      },
+      "pred_tendencia": {
+       "n": 3468,
+       "n_mape": 3468,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 1.0339896982375114,
+        "ic95": [
+         0.8029692504161456,
+         1.2907086561340775
+        ]
+       },
+       "RMSE": {
+        "valor": 2.9629102459180636,
+        "ic95": [
+         2.414800962202415,
+         3.5144006994126937
+        ]
+       },
+       "MAPE": {
+        "valor": 1.121486883982227,
+        "ic95": [
+         0.8621171899362114,
+         1.402187584829033
+        ]
+       }
+      },
+      "pred_holt": {
+       "n": 3468,
+       "n_mape": 3468,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 1.1844160124980136,
+        "ic95": [
+         0.9569606683187654,
+         1.4512797673560265
+        ]
+       },
+       "RMSE": {
+        "valor": 2.8008829644821875,
+        "ic95": [
+         2.3408776720127937,
+         3.315091118237205
+        ]
+       },
+       "MAPE": {
+        "valor": 1.2804158265225545,
+        "ic95": [
+         1.022406927834528,
+         1.5498937037284104
+        ]
+       },
+       "mejora_vs_persistencia": -0.5268674031271527,
+       "mejora_vs_tendencia": -0.14548144388373663
+      },
+      "pred_holt_pronostico": {
+       "n": 3468,
+       "n_mape": 3468,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 0.7757163523644752,
+        "ic95": [
+         0.5751500687716263,
+         0.9911760134803922
+        ]
+       },
+       "RMSE": {
+        "valor": 2.783303184931608,
+        "ic95": [
+         2.2488592012394606,
+         3.364602780903023
+        ]
+       },
+       "MAPE": {
+        "valor": 0.8468725893535296,
+        "ic95": [
+         0.6225579809503153,
+         1.0846150986271434
+        ]
+       },
+       "mejora_vs_persistencia": 0.0,
+       "mejora_vs_tendencia": 0.24978328731251032
+      },
+      "pred_gbt": {
+       "n": 3468,
+       "n_mape": 3468,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 0.9963757761423125,
+        "ic95": [
+         0.7653722043157821,
+         1.2517405851309387
+        ]
+       },
+       "RMSE": {
+        "valor": 2.9117340996729015,
+        "ic95": [
+         2.343553668720513,
+         3.487094081989101
+        ]
+       },
+       "MAPE": {
+        "valor": 1.0728205870096978,
+        "ic95": [
+         0.8223528501389394,
+         1.3507937254035924
+        ]
+       },
+       "mejora_vs_persistencia": -0.2844589044761545,
+       "mejora_vs_tendencia": 0.03637746310172507
+      }
+     },
+     "uso": "real"
+    },
+    "esp32_real": {
+     "n": 0,
+     "estado": "pendiente",
+     "razon": "sin periodo de prueba: ingesta/tanques.yml tiene la geometría del ESP32 provisional (por_medir: true, geometria_desde: null) y p6.1 solo abre la prueba desde max(congelamiento f4.3, geometria_desde)"
+    }
+   },
+   "esp32_noche_informativo": {
+    "n": 68,
+    "sensores": [
+     "esp32-tanque-real-01"
+    ],
+    "predictores": {
+     "pred_persistencia": {
+      "n": 68,
+      "n_mape": 68,
+      "mape_minimo": 1.0,
+      "largo_bloque": 12,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 0.2033382121703145,
+       "ic95": [
+        0.0032588902458658433,
+        0.3978363768683176
+       ]
+      },
+      "RMSE": {
+       "valor": 0.9189082996658248,
+       "ic95": [
+        0.012681113489725612,
+        1.2992309607591854
+       ]
+      },
+      "MAPE": {
+       "valor": 0.23345112037874718,
+       "ic95": [
+        0.0037410392416041397,
+        0.4567608931557211
+       ]
+      }
+     },
+     "pred_tendencia": {
+      "n": 68,
+      "n_mape": 68,
+      "mape_minimo": 1.0,
+      "largo_bloque": 12,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 0.5829710184242839,
+       "ic95": [
+        0.029983342283660563,
+        1.2056494297279496
+       ]
+      },
+      "RMSE": {
+       "valor": 1.3185524433527362,
+       "ic95": [
+        0.052183900724960576,
+        1.8679710058719505
+       ]
+      },
+      "MAPE": {
+       "valor": 0.666524611929482,
+       "ic95": [
+        0.03440087661384135,
+        1.3814533259166315
+       ]
+      }
+     },
+     "pred_holt": {
+      "n": 68,
+      "n_mape": 68,
+      "mape_minimo": 1.0,
+      "largo_bloque": 12,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 1.0535695407113785,
+       "ic95": [
+        0.43861500271609277,
+        1.6414300199874963
+       ]
+      },
+      "RMSE": {
+       "valor": 1.5468471753895991,
+       "ic95": [
+        0.6564166925198119,
+        2.093317202204508
+       ]
+      },
+      "MAPE": {
+       "valor": 1.2084081324682152,
+       "ic95": [
+        0.5034716057697702,
+        1.8832764684405094
+       ]
+      },
+      "mejora_vs_persistencia": -4.181365221353067,
+      "mejora_vs_tendencia": -0.8072417108470991
+     },
+     "pred_holt_pronostico": {
+      "n": 68,
+      "n_mape": 68,
+      "mape_minimo": 1.0,
+      "largo_bloque": 12,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 0.2033382121703145,
+       "ic95": [
+        0.0032588902458658433,
+        0.3978363768683176
+       ]
+      },
+      "RMSE": {
+       "valor": 0.9189082996658248,
+       "ic95": [
+        0.012681113489725612,
+        1.2992309607591854
+       ]
+      },
+      "MAPE": {
+       "valor": 0.23345112037874718,
+       "ic95": [
+        0.0037410392416041397,
+        0.4567608931557211
+       ]
+      },
+      "mejora_vs_persistencia": 0.0,
+      "mejora_vs_tendencia": 0.6512035663112059
+     },
+     "pred_gbt": {
+      "n": 68,
+      "n_mape": 68,
+      "mape_minimo": 1.0,
+      "largo_bloque": 12,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 0.5658795237904618,
+       "ic95": [
+        0.12268801133187154,
+        1.104369528911692
+       ]
+      },
+      "RMSE": {
+       "valor": 1.2849688993118307,
+       "ic95": [
+        0.12883764833948366,
+        1.9135469673598628
+       ]
+      },
+      "MAPE": {
+       "valor": 0.6481308901343604,
+       "ic95": [
+        0.14080885567620804,
+        1.2679020876425586
+       ]
+      },
+      "mejora_vs_persistencia": -1.7829472766116656,
+      "mejora_vs_tendencia": 0.029317914773908993
+     }
+    },
+    "uso": "diseño (informativo): partición entrenamiento de p6.1; NO es la métrica final del ESP32"
+   }
+  },
+  "60": {
+   "final": {
+    "consistencia": {
+     "n": 17887,
+     "sensores": [
+      "flota-zonaA-01",
+      "flota-zonaA-02",
+      "flota-zonaB-01",
+      "flota-zonaB-02"
+     ],
+     "predictores": {
+      "pred_persistencia": {
+       "n": 17887,
+       "n_mape": 17831,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 2.66220840787259,
+        "ic95": [
+         2.434957653533841,
+         2.9362738360684797
+        ]
+       },
+       "RMSE": {
+        "valor": 6.529508261066899,
+        "ic95": [
+         5.730028375271938,
+         7.421212829410543
+        ]
+       },
+       "MAPE": {
+        "valor": 3.673144681896918,
+        "ic95": [
+         3.307759730138136,
+         4.077879021403253
+        ]
+       }
+      },
+      "pred_tendencia": {
+       "n": 17887,
+       "n_mape": 17831,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 3.219413440471964,
+        "ic95": [
+         2.832648008391444,
+         3.630526427214791
+        ]
+       },
+       "RMSE": {
+        "valor": 9.677005050363805,
+        "ic95": [
+         8.691518824559449,
+         10.7102526309345
+        ]
+       },
+       "MAPE": {
+        "valor": 3.8630394318296464,
+        "ic95": [
+         3.4299653587284897,
+         4.32868103924509
+        ]
+       }
+      },
+      "pred_holt": {
+       "n": 17887,
+       "n_mape": 17831,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 3.09600594923335,
+        "ic95": [
+         2.842210034201434,
+         3.3988591494281155
+        ]
+       },
+       "RMSE": {
+        "valor": 6.929666256913999,
+        "ic95": [
+         6.17701806948182,
+         7.769810397017414
+        ]
+       },
+       "MAPE": {
+        "valor": 3.83688252598203,
+        "ic95": [
+         3.5362473104964463,
+         4.207501444042542
+        ]
+       },
+       "mejora_vs_persistencia": -0.16294649963464503,
+       "mejora_vs_tendencia": 0.038332290499639154
+      },
+      "pred_holt_pronostico": {
+       "n": 17887,
+       "n_mape": 17831,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 2.9296077911348433,
+        "ic95": [
+         2.5734190892961637,
+         3.3040209952420585
+        ]
+       },
+       "RMSE": {
+        "valor": 9.451006559825888,
+        "ic95": [
+         8.425255672945797,
+         10.525175557848364
+        ]
+       },
+       "MAPE": {
+        "valor": 3.5696375700401255,
+        "ic95": [
+         3.1769607990209177,
+         4.01784391906803
+        ]
+       },
+       "mejora_vs_persistencia": -0.10044269354401747,
+       "mejora_vs_tendencia": 0.09001815228013565
+      },
+      "pred_gbt": {
+       "n": 17887,
+       "n_mape": 17831,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 1.8448930780655333,
+        "ic95": [
+         1.6734262032095224,
+         2.0558505782017007
+        ]
+       },
+       "RMSE": {
+        "valor": 4.971174019538847,
+        "ic95": [
+         4.432199433550577,
+         5.543518324830844
+        ]
+       },
+       "MAPE": {
+        "valor": 2.89601592038981,
+        "ic95": [
+         2.5337841241787356,
+         3.3167741201422167
+        ]
+       },
+       "mejora_vs_persistencia": 0.3070065166160998,
+       "mejora_vs_tendencia": 0.42694745108752696
+      }
+     },
+     "uso": "consistencia (nunca métrica final)"
+    },
+    "thingspeak_real": {
+     "n": 4290,
+     "sensores": [
+      "thingspeak-1233810",
+      "thingspeak-1233815",
+      "thingspeak-283977",
+      "thingspeak-3418755",
+      "thingspeak-480876"
+     ],
+     "predictores": {
+      "pred_persistencia": {
+       "n": 4290,
+       "n_mape": 4290,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 1.1301542587412585,
+        "ic95": [
+         0.9287561361305361,
+         1.361285066025641
+        ]
+       },
+       "RMSE": {
+        "valor": 3.0800115545223696,
+        "ic95": [
+         2.5933304020970604,
+         3.580269436629051
+        ]
+       },
+       "MAPE": {
+        "valor": 1.9186957730253171,
+        "ic95": [
+         1.531907882724159,
+         2.3665952634557783
+        ]
+       }
+      },
+      "pred_tendencia": {
+       "n": 4290,
+       "n_mape": 4290,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 1.9930167564399976,
+        "ic95": [
+         1.6459701196839098,
+         2.3879132565695262
+        ]
+       },
+       "RMSE": {
+        "valor": 4.913163313531814,
+        "ic95": [
+         4.154621124521906,
+         5.702231124404842
+        ]
+       },
+       "MAPE": {
+        "valor": 3.1732115753961683,
+        "ic95": [
+         2.5871370662104765,
+         3.8826270145754487
+        ]
+       }
+      },
+      "pred_holt": {
+       "n": 4290,
+       "n_mape": 4290,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 1.7720408382469683,
+        "ic95": [
+         1.4838991549865894,
+         2.0974666640009643
+        ]
+       },
+       "RMSE": {
+        "valor": 3.819079389962041,
+        "ic95": [
+         3.147777774947989,
+         4.490120519618734
+        ]
+       },
+       "MAPE": {
+        "valor": 2.7693919039941117,
+        "ic95": [
+         2.309845741619456,
+         3.362237175461259
+        ]
+       },
+       "mejora_vs_persistencia": -0.5679636868515889,
+       "mejora_vs_tendencia": 0.11087509298604437
+      },
+      "pred_holt_pronostico": {
+       "n": 4290,
+       "n_mape": 4290,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 1.1301542587412585,
+        "ic95": [
+         0.9287561361305361,
+         1.361285066025641
+        ]
+       },
+       "RMSE": {
+        "valor": 3.0800115545223696,
+        "ic95": [
+         2.5933304020970604,
+         3.580269436629051
+        ]
+       },
+       "MAPE": {
+        "valor": 1.9186957730253171,
+        "ic95": [
+         1.531907882724159,
+         2.3665952634557783
+        ]
+       },
+       "mejora_vs_persistencia": 0.0,
+       "mejora_vs_tendencia": 0.43294292178456995
+      },
+      "pred_gbt": {
+       "n": 4290,
+       "n_mape": 4290,
+       "mape_minimo": 1.0,
+       "largo_bloque": 12,
+       "n_boot": 1000,
+       "MAE": {
+        "valor": 1.295977187041856,
+        "ic95": [
+         1.0962358124791134,
+         1.5289974264254302
+        ]
+       },
+       "RMSE": {
+        "valor": 3.0247542464815083,
+        "ic95": [
+         2.538704169563628,
+         3.4767224990246706
+        ]
+       },
+       "MAPE": {
+        "valor": 2.06232807122284,
+        "ic95": [
+         1.6881471436706923,
+         2.4967257684437856
+        ]
+       },
+       "mejora_vs_persistencia": -0.14672592437539222,
+       "mejora_vs_tendencia": 0.3497409478098018
+      }
+     },
+     "uso": "real"
+    },
+    "esp32_real": {
+     "n": 0,
+     "estado": "pendiente",
+     "razon": "sin periodo de prueba: ingesta/tanques.yml tiene la geometría del ESP32 provisional (por_medir: true, geometria_desde: null) y p6.1 solo abre la prueba desde max(congelamiento f4.3, geometria_desde)"
+    }
+   },
+   "esp32_noche_informativo": {
+    "n": 59,
+    "sensores": [
+     "esp32-tanque-real-01"
+    ],
+    "predictores": {
+     "pred_persistencia": {
+      "n": 59,
+      "n_mape": 59,
+      "mape_minimo": 1.0,
+      "largo_bloque": 12,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 0.4792216616703985,
+       "ic95": [
+        0.021301291890447358,
+        0.7625881242911537
+       ]
+      },
+      "RMSE": {
+       "valor": 1.3919635146122724,
+       "ic95": [
+        0.044447109248197614,
+        1.7959524261465496
+       ]
+      },
+      "MAPE": {
+       "valor": 0.5501395417467118,
+       "ic95": [
+        0.024430460786294565,
+        0.8754509698655619
+       ]
+      }
+     },
+     "pred_tendencia": {
+      "n": 59,
+      "n_mape": 59,
+      "mape_minimo": 1.0,
+      "largo_bloque": 12,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 1.422314598122035,
+       "ic95": [
+        0.11344873594251384,
+        3.062520641533739
+       ]
+      },
+      "RMSE": {
+       "valor": 2.7900256144080418,
+       "ic95": [
+        0.13921912314843285,
+        4.259937172251786
+       ]
+      },
+      "MAPE": {
+       "valor": 1.6327465723111563,
+       "ic95": [
+        0.13023366083141977,
+        3.5155699277224004
+       ]
+      }
+     },
+     "pred_holt": {
+      "n": 59,
+      "n_mape": 59,
+      "mape_minimo": 1.0,
+      "largo_bloque": 12,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 1.9641042098552062,
+       "ic95": [
+        0.8832533513123036,
+        2.761679630220412
+       ]
+      },
+      "RMSE": {
+       "valor": 2.4913475167611088,
+       "ic95": [
+        1.3134559023698844,
+        3.0140879092982416
+       ]
+      },
+      "MAPE": {
+       "valor": 2.253972666440983,
+       "ic95": [
+        1.0138183220384553,
+        3.168982749507416
+       ]
+      },
+      "mejora_vs_persistencia": -3.098529692937979,
+      "mejora_vs_tendencia": -0.3809210792383959
+     },
+     "pred_holt_pronostico": {
+      "n": 59,
+      "n_mape": 59,
+      "mape_minimo": 1.0,
+      "largo_bloque": 12,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 0.4792216616703985,
+       "ic95": [
+        0.021301291890447358,
+        0.7625881242911537
+       ]
+      },
+      "RMSE": {
+       "valor": 1.3919635146122724,
+       "ic95": [
+        0.044447109248197614,
+        1.7959524261465496
+       ]
+      },
+      "MAPE": {
+       "valor": 0.5501395417467118,
+       "ic95": [
+        0.024430460786294565,
+        0.8754509698655619
+       ]
+      },
+      "mejora_vs_persistencia": 0.0,
+      "mejora_vs_tendencia": 0.663069153404498
+     },
+     "pred_gbt": {
+      "n": 59,
+      "n_mape": 59,
+      "mape_minimo": 1.0,
+      "largo_bloque": 12,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 0.9406824301072406,
+       "ic95": [
+        0.3699398131522018,
+        1.330825084378408
+       ]
+      },
+      "RMSE": {
+       "valor": 1.4073514939738438,
+       "ic95": [
+        0.3898417755553697,
+        1.7848471628377007
+       ]
+      },
+      "MAPE": {
+       "valor": 1.0798314372264428,
+       "ic95": [
+        0.42454872766227947,
+        1.527758768528109
+       ]
+      },
+      "mejora_vs_persistencia": -0.9629380417161275,
+      "mejora_vs_tendencia": 0.33862562379006833
+     }
+    },
+    "uso": "diseño (informativo): partición entrenamiento de p6.1; NO es la métrica final del ESP32"
+   }
+  }
+ },
+ "autonomia": {
+  "10": {
+   "consistencia": {
+    "episodios": 83,
+    "llegan_al_umbral": 3,
+    "censurados": 80,
+    "origenes_evaluados": 1368,
+    "verdad_mayor_que_tope": 0,
+    "predictores": {
+     "pred_persistencia": {
+      "n": 1368,
+      "n_mape": 1335,
+      "mape_minimo": 1.0,
+      "n_grupos": 3,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 13.784249051499128,
+       "ic95": [
+        8.12936613083096,
+        15.811388531921196
+       ]
+      },
+      "RMSE": {
+       "valor": 21.122699545521588,
+       "ic95": [
+        17.472058062095158,
+        24.079714288818693
+       ]
+      },
+      "MAPE": {
+       "valor": 73.36149066015099,
+       "ic95": [
+        61.64316294465995,
+        95.07333579010397
+       ]
+      },
+      "sin_descenso_previsto": 0.19736842105263158
+     },
+     "pred_tendencia": {
+      "n": 1368,
+      "n_mape": 1335,
+      "mape_minimo": 1.0,
+      "n_grupos": 3,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 13.97050435628733,
+       "ic95": [
+        8.255069720633324,
+        16.458593329027043
+       ]
+      },
+      "RMSE": {
+       "valor": 21.661435522451676,
+       "ic95": [
+        17.689645364136528,
+        25.227021477540376
+       ]
+      },
+      "MAPE": {
+       "valor": 75.38419142938228,
+       "ic95": [
+        62.25303125948567,
+        99.8508964431982
+       ]
+      },
+      "sin_descenso_previsto": 0.19736842105263158
+     },
+     "pred_holt": {
+      "n": 1368,
+      "n_mape": 1335,
+      "mape_minimo": 1.0,
+      "n_grupos": 3,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 12.404159780003257,
+       "ic95": [
+        8.663790773927145,
+        15.243941397432465
+       ]
+      },
+      "RMSE": {
+       "valor": 18.68162915230437,
+       "ic95": [
+        16.512868520363043,
+        21.322688780268308
+       ]
+      },
+      "MAPE": {
+       "valor": 59.77760726314754,
+       "ic95": [
+        48.78050751677057,
+        75.47495826578235
+       ]
+      },
+      "sin_descenso_previsto": 0.21637426900584794,
+      "mejora_vs_persistencia": 0.1001207440709857,
+      "mejora_vs_tendencia": 0.11211796913968619
+     },
+     "pred_holt_pronostico": {
+      "n": 1368,
+      "n_mape": 1335,
+      "mape_minimo": 1.0,
+      "n_grupos": 3,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 14.649995100461478,
+       "ic95": [
+        8.249142462881942,
+        16.531802226106894
+       ]
+      },
+      "RMSE": {
+       "valor": 21.83309968992095,
+       "ic95": [
+        17.06904082353824,
+        24.81908799952452
+       ]
+      },
+      "MAPE": {
+       "valor": 80.29439934344875,
+       "ic95": [
+        69.2938810548587,
+        101.54994985703325
+       ]
+      },
+      "sin_descenso_previsto": 0.2054093567251462,
+      "mejora_vs_persistencia": -0.0628069070522339,
+      "mejora_vs_tendencia": -0.048637524232856055
+     },
+     "pred_gbt": {
+      "n": 1368,
+      "n_mape": 1335,
+      "mape_minimo": 1.0,
+      "n_grupos": 3,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 23.585971823652866,
+       "ic95": [
+        16.090899085815185,
+        25.606589021589745
+       ]
+      },
+      "RMSE": {
+       "valor": 31.386447036699504,
+       "ic95": [
+        25.371088025408476,
+        33.06095269532017
+       ]
+      },
+      "MAPE": {
+       "valor": 184.4703532685658,
+       "ic95": [
+        148.5020146056449,
+        217.39927459287185
+       ]
+      },
+      "sin_descenso_previsto": 0.37353801169590645,
+      "mejora_vs_persistencia": -0.7110813752373211,
+      "mejora_vs_tendencia": -0.6882691721174805
+     }
+    }
+   },
+   "thingspeak_real": {
+    "episodios": 137,
+    "llegan_al_umbral": 2,
+    "censurados": 135,
+    "origenes_evaluados": 138,
+    "verdad_mayor_que_tope": 0,
+    "predictores": {
+     "pred_persistencia": {
+      "n": 138,
+      "n_mape": 98,
+      "mape_minimo": 1.0,
+      "n_grupos": 2,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 29.6354473029652,
+       "ic95": [
+        24.44128222538606,
+        38.49608184707079
+       ]
+      },
+      "RMSE": {
+       "valor": 43.016996774245754,
+       "ic95": [
+        37.436684363810336,
+        51.15006628674926
+       ]
+      },
+      "MAPE": {
+       "valor": 1116.100996132515,
+       "ic95": [
+        392.7019968339218,
+        2755.8053945426595
+       ]
+      },
+      "sin_descenso_previsto": 0.38405797101449274
+     },
+     "pred_tendencia": {
+      "n": 138,
+      "n_mape": 98,
+      "mape_minimo": 1.0,
+      "n_grupos": 2,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 29.4295318177579,
+       "ic95": [
+        25.296304940818203,
+        36.48033060783152
+       ]
+      },
+      "RMSE": {
+       "valor": 43.16688395559583,
+       "ic95": [
+        38.69198730357781,
+        49.88247804858214
+       ]
+      },
+      "MAPE": {
+       "valor": 1056.3279659250832,
+       "ic95": [
+        385.1506531001793,
+        2577.6632083281984
+       ]
+      },
+      "sin_descenso_previsto": 0.391304347826087
+     },
+     "pred_holt": {
+      "n": 138,
+      "n_mape": 98,
+      "mape_minimo": 1.0,
+      "n_grupos": 2,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 35.5682752717164,
+       "ic95": [
+        26.5712302639664,
+        50.916175579054624
+       ]
+      },
+      "RMSE": {
+       "valor": 46.92573273501059,
+       "ic95": [
+        39.29945304268328,
+        57.652181628453725
+       ]
+      },
+      "MAPE": {
+       "valor": 1235.404553396157,
+       "ic95": [
+        774.367238348861,
+        2280.4224675033615
+       ]
+      },
+      "sin_descenso_previsto": 0.463768115942029,
+      "mejora_vs_persistencia": -0.20019363663046819,
+      "mejora_vs_tendencia": -0.2085912712432061
+     },
+     "pred_holt_pronostico": {
+      "n": 138,
+      "n_mape": 98,
+      "mape_minimo": 1.0,
+      "n_grupos": 2,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 64.1074879227053,
+       "ic95": [
+        62.90708812260536,
+        66.15522875816993
+       ]
+      },
+      "RMSE": {
+       "valor": 65.91325867442852,
+       "ic95": [
+        64.53694539719486,
+        68.19701151937885
+       ]
+      },
+      "MAPE": {
+       "valor": 2062.720789605665,
+       "ic95": [
+        1437.904562311665,
+        3478.970904805398
+       ]
+      },
+      "sin_descenso_previsto": 0.9492753623188406,
+      "mejora_vs_persistencia": -1.1632029801112864,
+      "mejora_vs_tendencia": -1.178338694604125
+     },
+     "pred_gbt": {
+      "n": 138,
+      "n_mape": 98,
+      "mape_minimo": 1.0,
+      "n_grupos": 2,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 46.55600952026215,
+       "ic95": [
+        38.75912412021237,
+        59.85657873211178
+       ]
+      },
+      "RMSE": {
+       "valor": 55.31018425606158,
+       "ic95": [
+        49.43385220154033,
+        64.10308409171806
+       ]
+      },
+      "MAPE": {
+       "valor": 1777.069761173319,
+       "ic95": [
+        1180.7357377534352,
+        3128.76021425839
+       ]
+      },
+      "sin_descenso_previsto": 0.6231884057971014,
+      "mejora_vs_persistencia": -0.5709568694650324,
+      "mejora_vs_tendencia": -0.581948697266399
+     }
+    }
+   },
+   "esp32_real": {
+    "estado": "pendiente",
+    "razon": "sin periodo de prueba: ingesta/tanques.yml tiene la geometría del ESP32 provisional (por_medir: true, geometria_desde: null) y p6.1 solo abre la prueba desde max(congelamiento f4.3, geometria_desde)"
+   }
+  },
+  "25": {
+   "consistencia": {
+    "episodios": 83,
+    "llegan_al_umbral": 3,
+    "censurados": 80,
+    "origenes_evaluados": 1183,
+    "verdad_mayor_que_tope": 0,
+    "predictores": {
+     "pred_persistencia": {
+      "n": 1183,
+      "n_mape": 1150,
+      "mape_minimo": 1.0,
+      "n_grupos": 3,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 14.24313485423568,
+       "ic95": [
+        8.47542983553398,
+        16.70359754088309
+       ]
+      },
+      "RMSE": {
+       "valor": 22.062844478946655,
+       "ic95": [
+        18.882437080446646,
+        25.483036554770877
+       ]
+      },
+      "MAPE": {
+       "valor": 99.40152652762343,
+       "ic95": [
+        74.10602518847725,
+        154.14185708920263
+       ]
+      },
+      "sin_descenso_previsto": 0.17328825021132713
+     },
+     "pred_tendencia": {
+      "n": 1183,
+      "n_mape": 1150,
+      "mape_minimo": 1.0,
+      "n_grupos": 3,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 14.234504058463118,
+       "ic95": [
+        8.663656374387037,
+        17.409117051393746
+       ]
+      },
+      "RMSE": {
+       "valor": 22.198681703085953,
+       "ic95": [
+        19.251013559330058,
+        26.367314921554417
+       ]
+      },
+      "MAPE": {
+       "valor": 101.50500863892363,
+       "ic95": [
+        72.40174955646467,
+        163.13280234394477
+       ]
+      },
+      "sin_descenso_previsto": 0.16906170752324598
+     },
+     "pred_holt": {
+      "n": 1183,
+      "n_mape": 1150,
+      "mape_minimo": 1.0,
+      "n_grupos": 3,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 13.23326903138399,
+       "ic95": [
+        9.581327271828776,
+        17.049227283671538
+       ]
+      },
+      "RMSE": {
+       "valor": 19.957515509646782,
+       "ic95": [
+        16.610354652842236,
+        24.156841597114543
+       ]
+      },
+      "MAPE": {
+       "valor": 72.27952321320778,
+       "ic95": [
+        48.31341354398866,
+        111.24725173020893
+       ]
+      },
+      "sin_descenso_previsto": 0.22738799661876585,
+      "mejora_vs_persistencia": 0.07090193508568599,
+      "mejora_vs_tendencia": 0.07033859577874402
+     },
+     "pred_holt_pronostico": {
+      "n": 1183,
+      "n_mape": 1150,
+      "mape_minimo": 1.0,
+      "n_grupos": 3,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 15.352419840020962,
+       "ic95": [
+        8.046825387001597,
+        17.919555089474283
+       ]
+      },
+      "RMSE": {
+       "valor": 23.393108242628486,
+       "ic95": [
+        17.46840123528121,
+        27.259007895319268
+       ]
+      },
+      "MAPE": {
+       "valor": 114.26901568605221,
+       "ic95": [
+        86.46204820366872,
+        178.78854466913327
+       ]
+      },
+      "sin_descenso_previsto": 0.19273034657650043,
+      "mejora_vs_persistencia": -0.07788208123687035,
+      "mejora_vs_tendencia": -0.07853563264068808
+     },
+     "pred_gbt": {
+      "n": 1183,
+      "n_mape": 1150,
+      "mape_minimo": 1.0,
+      "n_grupos": 3,
+      "n_boot": 1000,
+      "MAE": {
+       "valor": 24.67429852423111,
+       "ic95": [
+        16.556549047751407,
+        26.857806452085793
+       ]
+      },
+      "RMSE": {
+       "valor": 33.873037757535315,
+       "ic95": [
+        27.949274400532676,
+        37.93104433782294
+       ]
+      },
+      "MAPE": {
+       "valor": 229.86990851472143,
+       "ic95": [
+        165.55072700689587,
+        375.3819097848515
+       ]
+      },
+      "sin_descenso_previsto": 0.37616229923922234,
+      "mejora_vs_persistencia": -0.7323643128249513,
+      "mejora_vs_tendencia": -0.7334146959311179
+     }
+    }
+   },
+   "thingspeak_real": {
+    "episodios": 133,
+    "llegan_al_umbral": 0,
+    "censurados": 133,
+    "origenes_evaluados": 0,
+    "verdad_mayor_que_tope": 0
+   },
+   "esp32_real": {
+    "estado": "pendiente",
+    "razon": "sin periodo de prueba: ingesta/tanques.yml tiene la geometría del ESP32 provisional (por_medir: true, geometria_desde: null) y p6.1 solo abre la prueba desde max(congelamiento f4.3, geometria_desde)"
+   }
+  }
+ }
+}

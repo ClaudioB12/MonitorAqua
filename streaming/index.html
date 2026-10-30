@@ -1,0 +1,1864 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://claudiob12.github.io/MonitorAqua/streaming/">
+      
+      
+        <link rel="prev" href="../datos-aumentados/">
+      
+      
+        <link rel="next" href="../tableros/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Streaming (S8) - MonitorAqua — Proyecto Sello</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#speed-layer-spark-structured-streaming-f3" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-header__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MonitorAqua — Proyecto Sello
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Streaming (S8)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MonitorAqua — Proyecto Sello" class="md-nav__button md-logo" aria-label="MonitorAqua — Proyecto Sello" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MonitorAqua — Proyecto Sello
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ClaudioB12/MonitorAqua" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ClaudioB12/MonitorAqua
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Producto U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Producto de la Unidad 2: pipeline en tiempo real
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stack-actual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stack y servicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta (S6-S7)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ingesta (S6-S7)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ingesta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingesta unificada (IoT y APIs)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventos-servicio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eventos de servicio (empresariales)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos-aumentados/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flota extrapolada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Streaming (S8)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Streaming (S8)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#que-hace-con-cada-lectura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qué hace con cada lectura
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuatro-consultas-cada-una-con-su-checkpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuatro consultas, cada una con su checkpoint
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cuatro consultas, cada una con su checkpoint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-dos-watermarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Por qué dos watermarks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verificacion-en-vivo-2026-10-29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificación en vivo (2026-10-29)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operación
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observabilidad y costos (S9)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Observabilidad y costos (S9)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tableros/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tableros y alertas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../costos-escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Costos y escalado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Series de tiempo e inferencia (S10-S11)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataset-modelos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dataset de los modelos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inferencia-en-vivo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inferencia en vivo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones U2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dimensiones U2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D2 · Horas de autonomía
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D4 · Próxima llegada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D6 · Pérdida por fuga
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modelo-d8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D8 · Temperatura y residencia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operación
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operación
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arranque-diario/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arranque diario
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guion-demo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guion de la demo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Antecedentes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Antecedentes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arquitectura/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitectura (diseño inicial)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dimensiones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensiones (U1 y U2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adecuacion-dimensiones-u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adecuación al hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Datos de muestra (U1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#que-hace-con-cada-lectura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qué hace con cada lectura
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cuatro-consultas-cada-una-con-su-checkpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cuatro consultas, cada una con su checkpoint
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cuatro consultas, cada una con su checkpoint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#por-que-dos-watermarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Por qué dos watermarks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verificacion-en-vivo-2026-10-29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verificación en vivo (2026-10-29)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operación
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="speed-layer-spark-structured-streaming-f3">Speed layer: Spark Structured Streaming (F3)<a class="headerlink" href="#speed-layer-spark-structured-streaming-f3" title="Permanent link">&para;</a></h1>
+<p>Cubre el criterio 3 de la rúbrica: ventanas, watermarking y checkpointing verificados en vivo sobre datos reales.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código</td>
+<td><code>streaming/procesar_stream.py</code>, <code>streaming/influx.py</code></td>
+</tr>
+<tr>
+<td>Contenedor</td>
+<td><code>lambda26-aqua-streaming</code> (servicio <code>aqua-streaming</code> de <code>infra/compose.yml</code>, imagen <code>monitoraqua-streaming</code>)</td>
+</tr>
+<tr>
+<td>Versión</td>
+<td>PySpark <strong>4.2.0</strong>, Scala 2.13, Java 21, Python 3.10</td>
+</tr>
+<tr>
+<td>Conector</td>
+<td><code>org.apache.spark:spark-sql-kafka-0-10_2.13:4.2.0</code>, pasado con <code>spark-submit --packages</code> y descargado en la imagen al construirla</td>
+</tr>
+<tr>
+<td>Entrada</td>
+<td><code>aqua-eventos-real</code> (<code>startingOffsets = earliest</code> la primera vez; luego, lo que diga el checkpoint)</td>
+</tr>
+<tr>
+<td>Spark UI</td>
+<td>http://localhost:4043</td>
+</tr>
+<tr>
+<td>Checkpoints</td>
+<td>volumen <code>monitoraqua_spark_checkpoints</code> (<code>/checkpoints/&lt;consulta&gt;</code>)</td>
+</tr>
+<tr>
+<td>Bronce</td>
+<td><code>data/local/bronce/</code> (no versionado), Parquet <code>origen=…/fecha=…</code></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>infra/compose.yml<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build<span class="w"> </span>aqua-streaming
+docker<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>lambda26-aqua-streaming<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'"progress"'</span>
+</code></pre></div>
+<h2 id="que-hace-con-cada-lectura">Qué hace con cada lectura<a class="headerlink" href="#que-hace-con-cada-lectura" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Catálogo de procedencia.</strong> Conserva <code>origen</code>, <code>fuenteTipo</code>, <code>sensorId</code> y los metadatos de Kafka (partición,
+   offset, timestamp), y agrega:</li>
+<li><code>es_dato_real</code>: <code>fuenteTipo</code> es <code>iot-propio</code> o <code>api-publica</code>.</li>
+<li><code>latencia_ingesta_s</code>: <code>(ingestaTs − timestamp) / 1000</code>.</li>
+<li><code>tiempo_evento</code>: el <code>timestamp</code> como fecha y hora; es el tiempo de evento.</li>
+<li><strong>Calidad.</strong> <code>lectura_valida</code> y <code>motivo_invalidez</code> (el primer motivo que aplica):</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Motivo</th>
+<th>Regla</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sin_eventId_o_timestamp</code></td>
+<td>faltan los campos de identidad o de tiempo</td>
+</tr>
+<tr>
+<td><code>distanciaCm_-1</code></td>
+<td>código de falla del HC-SR04</td>
+</tr>
+<tr>
+<td><code>&lt;medida&gt;_fuera_de_rango</code></td>
+<td>distanciaCm 2-450 · nivelPct 0-100 · nivelM -10-100 · caudalM3s 0-10000 · temperaturaC -40-60 · humedadPct 0-100 · tempAguaC -5-45 · ph 0-14 · oxigenoMgL 0-25</td>
+</tr>
+<tr>
+<td><code>sin_medidas</code></td>
+<td>ninguna medida con valor</td>
+</tr>
+</tbody>
+</table>
+<p>Las inválidas <strong>se cuentan</strong> (<code>n_invalidas</code> en cada ventana) pero <strong>no entran</strong> a promedios, mínimos ni máximos.
+   En bronce se guardan con su motivo.</p>
+<h2 id="cuatro-consultas-cada-una-con-su-checkpoint">Cuatro consultas, cada una con su checkpoint<a class="headerlink" href="#cuatro-consultas-cada-una-con-su-checkpoint" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Consulta</th>
+<th>Fuentes</th>
+<th>Watermark</th>
+<th>Ventana</th>
+<th>Deduplicación</th>
+<th>Sumidero</th>
+<th>Trigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rapidas_agg</code></td>
+<td>esp32-fisico, thingspeak</td>
+<td><strong>7 min</strong></td>
+<td>1 min, se desliza cada 30 s</td>
+<td><code>dropDuplicatesWithinWatermark(eventId)</code></td>
+<td>InfluxDB <code>lecturas_agg</code> (<code>ventana=1m</code>)</td>
+<td>30 s</td>
+</tr>
+<tr>
+<td><code>lentas_agg</code></td>
+<td>ea-uk, usgs, open-meteo</td>
+<td><strong>90 min</strong></td>
+<td>15 min, fija</td>
+<td><code>dropDuplicatesWithinWatermark(eventId)</code></td>
+<td>InfluxDB <code>lecturas_agg</code> (<code>ventana=15m</code>)</td>
+<td>1 min</td>
+</tr>
+<tr>
+<td><code>esp32_detalle</code></td>
+<td>esp32-fisico, solo válidas</td>
+<td>7 min</td>
+<td>—</td>
+<td><code>dropDuplicatesWithinWatermark(eventId)</code></td>
+<td>InfluxDB <code>lecturas_esp32</code>, una lectura por punto, para el panel en vivo</td>
+<td>10 s</td>
+</tr>
+<tr>
+<td><code>bronce</code></td>
+<td>todas, válidas e inválidas</td>
+<td>—</td>
+<td>—</td>
+<td>no: es la copia cruda</td>
+<td>Parquet <code>origen=…/fecha=…</code></td>
+<td>1 min</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Etiquetas de <code>lecturas_agg</code>:</strong> <code>sensorId</code>, <code>origen</code>, <code>fuenteTipo</code> y <code>ventana</code>.</li>
+<li><strong>Campos de <code>lecturas_agg</code>:</strong> <code>n_total</code>, <code>n_validas</code>, <code>n_invalidas</code>, <code>es_dato_real</code>, la latencia media y máxima, la
+  media de cada medida y el mínimo/máximo de distancia y nivel.</li>
+<li><strong>Escritura en InfluxDB:</strong> un punto con el mismo measurement, etiquetas y tiempo reemplaza al anterior. Por eso el
+  modo <code>update</code>, que reescribe la ventana en cada lote, y el reproceso de un lote tras un reinicio no duplican datos.</li>
+<li><strong>Reintentos hacia InfluxDB</strong> (<code>streaming/influx.py</code>, desde el 2026-10-29):</li>
+<li><strong>Qué se reintenta:</strong> las fallas transitorias (DNS, conexión rechazada, tiempo agotado, HTTP 5xx o 429). Hasta 5
+    reintentos, con esperas de 1, 2, 4, 8 y 16 s (~31 s en total). Cada reintento deja una línea
+    <code>"status": "influx_reintento"</code> en el log.</li>
+<li><strong>Qué no:</strong> un 4xx (token o datos mal formados) falla de inmediato, porque reintentar no lo arregla.</li>
+<li><strong>Por qué:</strong> la madrugada del 2026-10-29 (00:45 Lima), una falla de DNS al escribir detuvo la consulta
+    <code>eventos_servicio</code> y, con ella, todo el job. El contenedor se reinició solo y retomó desde el checkpoint, sin
+    pérdida. Con los reintentos, una caída breve ya no detiene el job.</li>
+<li><strong>Si la caída dura más de ~31 s,</strong> el lote falla igual y el reinicio del contenedor lo recupera desde el
+    checkpoint, como antes.</li>
+<li><strong>Métricas de cada lote:</strong> un <code>StreamingQueryListener</code> las escribe en InfluxDB, measurement <code>spark_progreso</code>
+  (filas, filas/s, duración, <code>numRowsDroppedByWatermark</code>, <code>numDroppedDuplicateRows</code>, filas en estado), para la
+  observabilidad de F5.</li>
+</ul>
+<h3 id="por-que-dos-watermarks">Por qué dos watermarks<a class="headerlink" href="#por-que-dos-watermarks" title="Permanent link">&para;</a></h3>
+<p>Un watermark se calcula con el mayor tiempo de evento de <strong>toda</strong> la consulta. Si las fuentes rápidas y las lentas
+compartieran consulta, el ESP32 (tiempo real) empujaría el watermark y descartaría casi todo lo de EA y USGS, que llega
+con decenas de minutos de atraso. Atraso medido en Kafka el 2026-10-28, con el PC despierto:</p>
+<table>
+<thead>
+<tr>
+<th>Origen</th>
+<th>p50</th>
+<th>p90</th>
+<th>máx.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>esp32-fisico</td>
+<td>0.1 s</td>
+<td>0.2 s</td>
+<td>59 s</td>
+</tr>
+<tr>
+<td>thingspeak</td>
+<td>96 s</td>
+<td>152 s</td>
+<td>250 s</td>
+</tr>
+<tr>
+<td>open-meteo</td>
+<td>536 s</td>
+<td>538 s</td>
+<td>538 s</td>
+</tr>
+<tr>
+<td>ea-uk</td>
+<td>25 min</td>
+<td>26 min</td>
+<td>26 min</td>
+</tr>
+<tr>
+<td>usgs</td>
+<td>29 min</td>
+<td>54 min</td>
+<td>54 min</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Rápidas: 7 min, no 5.</strong> El colector consulta ThingSpeak cada 5 min, así que su atraso puede llegar a 5 min y
+  algo más; con 5 min se descartarían las lecturas que caen justo en el borde.</li>
+<li><strong>Lentas: 90 min.</strong> El mayor tiempo de evento lo pone Open-Meteo, con ~9 min de atraso, y USGS queda hasta ~45 min
+  por detrás de él: hay margen.</li>
+<li><strong>Cuando el PC se suspende:</strong> el puente se pone al día al despertar. Esa ráfaga entra completa en el primer lote,
+  porque el watermark que aplica es el del lote anterior, de antes de la suspensión.</li>
+</ul>
+<h2 id="verificacion-en-vivo-2026-10-29">Verificación en vivo (2026-10-29)<a class="headerlink" href="#verificacion-en-vivo-2026-10-29" title="Permanent link">&para;</a></h2>
+<p>Los registros crudos de estas pruebas (progreso de las consultas, consultas a InfluxDB con resultado, bronce y los 54
+duplicados) están en <a href="../evidencias/f3/"><code>evidencias/f3/</code></a>.</p>
+<p><strong>1. Ventanas.</strong> A los pocos segundos de arrancar, <code>lecturas_agg</code> ya tenía puntos de los cinco orígenes: esp32 1,101
+(1m) · thingspeak 342 (1m) · ea-uk 231 (15m) · usgs 51 (15m) · open-meteo 12 (15m). Ventana ESP32 de las 03:25 UTC:
+<code>n_total 6, n_validas 4, n_invalidas 2, distanciaCm_media 17.08 (17.0-17.1), latencia_ingesta_s_media 0.19</code>.</p>
+<p><strong>2. Checkpoint.</strong> El job se detuvo a las 03:25:57 y se reinició a las 03:27:08 UTC. Las cuatro consultas volvieron
+con el mismo <code>id</code>, o sea, el mismo checkpoint, y cada una retomó en el offset exacto donde había terminado:</p>
+<table>
+<thead>
+<tr>
+<th>Consulta</th>
+<th>Último lote antes</th>
+<th>Primer lote después</th>
+<th>Filas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>esp32_detalle</code></td>
+<td>batch 5, fin 6670 / 226 / 77</td>
+<td>batch 6, <strong>inicio 6670 / 226 / 77</strong></td>
+<td>24</td>
+</tr>
+<tr>
+<td><code>rapidas_agg</code></td>
+<td>batch 1, fin 6666 / 226 / 77</td>
+<td>batch 2, <strong>inicio 6666 / 226 / 77</strong></td>
+<td>28</td>
+</tr>
+<tr>
+<td><code>bronce</code></td>
+<td>batch 0, fin 6654 / 225 / 74</td>
+<td>batch 1, <strong>inicio 6654 / 225 / 74</strong></td>
+<td>44</td>
+</tr>
+<tr>
+<td><code>lentas_agg</code></td>
+<td>batch 0, fin 6654 / 225 / 74</td>
+<td>batch 1, <strong>inicio 6654 / 225 / 74</strong></td>
+<td>44</td>
+</tr>
+</tbody>
+</table>
+<p>Ni pérdida ni repetición: en bronce, cada par (partición, offset) de Kafka aparece <strong>exactamente una vez</strong>, sin
+huecos. Son 6,997 filas de los offsets 0-6687, 0-229 y 0-78.</p>
+<p><strong>3. Watermark.</strong> Se publicó a mano en <code>aqua-eventos-real</code> un evento con <code>timestamp</code> de hace 2 horas
+(<code>prueba-f3-tardio-f0c5fc05</code>, partición 1, offset 230). En el lote que lo contenía, <code>rapidas_agg</code> (batch 5) y
+<code>esp32_detalle</code> (batch 11) reportaron <strong><code>numRowsDroppedByWatermark = 1</code></strong>, con un watermark de
+2026-10-29T03:20:59Z. El evento no aparece en InfluxDB. Sí aparece en bronce, que no tiene watermark y guarda todo lo
+que llega.</p>
+<p><strong>4. Deduplicación.</strong> Se publicó dos veces el mismo <code>eventId</code> (<code>prueba-f3-duplicado-7c6dedcc</code>, offsets 231 y 232).
+<code>rapidas_agg</code> (batch 6) y <code>esp32_detalle</code> (batch 15) reportaron <strong><code>numDroppedDuplicateRows = 1</code></strong>. En InfluxDB cuenta
+una sola vez: <code>n_total = 1</code> en las dos ventanas deslizantes que lo contienen y un único punto de detalle. Bronce
+conserva las dos copias crudas.</p>
+<p>Además, en el primer lote la deduplicación descartó <strong>54 lecturas reales repetidas</strong>. Las había publicado dos veces
+el puente de la S08 al reenviar datos (offsets 1620-1727 de la partición 0).</p>
+<div class="admonition note">
+<p class="admonition-title">Sensores de prueba excluidos</p>
+<p>Las pruebas dejaron 3 mensajes en <code>aqua-eventos-real</code> (<code>sensorId = esp32-prueba-f3</code>, <code>eventId</code> con prefijo
+<code>prueba-f3-</code>), y también quedaron en el Parquet bronce. Kafka no permite borrar mensajes sueltos.</p>
+<p>La lista única de sensores de prueba es <strong><code>ingesta/sensores_prueba.yml</code></strong>, y todos la leen de ahí:</p>
+<ul>
+<li><strong>Spark:</strong> las consultas <code>rapidas_agg</code>, <code>lentas_agg</code> y <code>esp32_detalle</code> descartan esos <code>sensorId</code> antes de
+  agregar. El job lee el archivo montado al arrancar.</li>
+<li><strong>Bronce:</strong> conserva todo lo que llega, sin filtrar.</li>
+<li><strong>F4 (eventos de servicio) y la capa batch:</strong> deben filtrar con la misma lista. Al leer bronce, excluir
+  <code>sensorId</code> en la lista.</li>
+</ul>
+</div>
+<h2 id="operacion">Operación<a class="headerlink" href="#operacion" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Reinicio seguro:</strong> <code>docker restart lambda26-aqua-streaming</code> retoma desde el checkpoint.</li>
+<li><strong>Reprocesar desde cero:</strong> borrar el volumen <code>monitoraqua_spark_checkpoints</code> y <code>data/local/bronce/</code>. Al arrancar
+  sin checkpoint vuelve a leer desde <code>earliest</code>.</li>
+<li><strong>Cambiar watermarks o ventanas:</strong> van por variables de entorno (<code>WATERMARK_RAPIDO</code>, <code>WATERMARK_LENTO</code>). Un cambio
+  en la forma de una consulta con estado puede exigir un checkpoint nuevo.</li>
+<li><strong>Particiones del estado:</strong> <code>spark.sql.shuffle.partitions = 4</code>, que queda fijado en el checkpoint.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.indexes", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

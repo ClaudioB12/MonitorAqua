@@ -1,0 +1,513 @@
+{
+ "base": {
+  "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+  "metricas": [
+   {
+    "anomalia": "fuga_lenta",
+    "evento": "alerta_fuga",
+    "episodios": 13,
+    "eventos": 6,
+    "consistencia_precision": 0.5,
+    "consistencia_precision_ic95": [
+     0.188,
+     0.812
+    ],
+    "consistencia_recall": 0.231,
+    "consistencia_recall_ic95": [
+     0.082,
+     0.503
+    ]
+   },
+   {
+    "anomalia": "corte_prolongado",
+    "evento": "corte_prolongado",
+    "episodios": 3,
+    "eventos": 37,
+    "consistencia_precision": 0.108,
+    "consistencia_precision_ic95": [
+     0.043,
+     0.247
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.438,
+     1.0
+    ]
+   },
+   {
+    "anomalia": "llegada_atipica",
+    "evento": "llegada_agua (fueraDeFranja)",
+    "episodios": 12,
+    "eventos": 12,
+    "consistencia_precision": 1.0,
+    "consistencia_precision_ic95": [
+     0.757,
+     1.0
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.757,
+     1.0
+    ]
+   },
+   {
+    "anomalia": "falla_sensor",
+    "evento": "falla_sensor",
+    "episodios": 76,
+    "eventos": 76,
+    "consistencia_precision": 1.0,
+    "consistencia_precision_ic95": [
+     0.952,
+     1.0
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.952,
+     1.0
+    ]
+   }
+  ],
+  "deriva_termica": {
+   "episodios": 9,
+   "con_alerta_fuga_falsa": 0,
+   "ic95": [
+    0.0,
+    0.299
+   ]
+  },
+  "eventos_por_tipo": null,
+  "llegadas_efectivas": {
+   "llegadas": 333,
+   "detectadas": 331,
+   "recall": 0.994,
+   "recall_ic95": [
+    0.978,
+    0.998
+   ],
+   "eventos_llegada_agua": 331
+  },
+  "semillas": [
+   2026,
+   7,
+   11
+  ],
+  "runIds": [
+   "r2026-45facae2",
+   "r7-48fedbe6",
+   "r11-8cf2340a"
+  ],
+  "variante": {},
+  "llegadas_omitidas_sin_etiqueta": 0
+ },
+ "ruido_x2": {
+  "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+  "metricas": [
+   {
+    "anomalia": "fuga_lenta",
+    "evento": "alerta_fuga",
+    "episodios": 13,
+    "eventos": 9,
+    "consistencia_precision": 0.333,
+    "consistencia_precision_ic95": [
+     0.121,
+     0.646
+    ],
+    "consistencia_recall": 0.231,
+    "consistencia_recall_ic95": [
+     0.082,
+     0.503
+    ]
+   },
+   {
+    "anomalia": "corte_prolongado",
+    "evento": "corte_prolongado",
+    "episodios": 3,
+    "eventos": 36,
+    "consistencia_precision": 0.111,
+    "consistencia_precision_ic95": [
+     0.044,
+     0.253
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.438,
+     1.0
+    ]
+   },
+   {
+    "anomalia": "llegada_atipica",
+    "evento": "llegada_agua (fueraDeFranja)",
+    "episodios": 12,
+    "eventos": 13,
+    "consistencia_precision": 0.923,
+    "consistencia_precision_ic95": [
+     0.667,
+     0.986
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.757,
+     1.0
+    ]
+   },
+   {
+    "anomalia": "falla_sensor",
+    "evento": "falla_sensor",
+    "episodios": 76,
+    "eventos": 76,
+    "consistencia_precision": 1.0,
+    "consistencia_precision_ic95": [
+     0.952,
+     1.0
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.952,
+     1.0
+    ]
+   }
+  ],
+  "deriva_termica": {
+   "episodios": 9,
+   "con_alerta_fuga_falsa": 0,
+   "ic95": [
+    0.0,
+    0.299
+   ]
+  },
+  "eventos_por_tipo": null,
+  "llegadas_efectivas": {
+   "llegadas": 333,
+   "detectadas": 331,
+   "recall": 0.994,
+   "recall_ic95": [
+    0.978,
+    0.998
+   ],
+   "eventos_llegada_agua": 332
+  },
+  "semillas": [
+   2026,
+   7,
+   11
+  ],
+  "runIds": [
+   "r2026-800e35ca",
+   "r7-05703372",
+   "r11-5f720b39"
+  ],
+  "variante": {
+   "factor_ruido": 2.0
+  },
+  "llegadas_omitidas_sin_etiqueta": 0
+ },
+ "ruido_x3": {
+  "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+  "metricas": [
+   {
+    "anomalia": "fuga_lenta",
+    "evento": "alerta_fuga",
+    "episodios": 13,
+    "eventos": 18,
+    "consistencia_precision": 0.167,
+    "consistencia_precision_ic95": [
+     0.058,
+     0.392
+    ],
+    "consistencia_recall": 0.231,
+    "consistencia_recall_ic95": [
+     0.082,
+     0.503
+    ]
+   },
+   {
+    "anomalia": "corte_prolongado",
+    "evento": "corte_prolongado",
+    "episodios": 3,
+    "eventos": 36,
+    "consistencia_precision": 0.111,
+    "consistencia_precision_ic95": [
+     0.044,
+     0.253
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.438,
+     1.0
+    ]
+   },
+   {
+    "anomalia": "llegada_atipica",
+    "evento": "llegada_agua (fueraDeFranja)",
+    "episodios": 12,
+    "eventos": 12,
+    "consistencia_precision": 1.0,
+    "consistencia_precision_ic95": [
+     0.757,
+     1.0
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.757,
+     1.0
+    ]
+   },
+   {
+    "anomalia": "falla_sensor",
+    "evento": "falla_sensor",
+    "episodios": 76,
+    "eventos": 76,
+    "consistencia_precision": 1.0,
+    "consistencia_precision_ic95": [
+     0.952,
+     1.0
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.952,
+     1.0
+    ]
+   }
+  ],
+  "deriva_termica": {
+   "episodios": 9,
+   "con_alerta_fuga_falsa": 0,
+   "ic95": [
+    0.0,
+    0.299
+   ]
+  },
+  "eventos_por_tipo": null,
+  "llegadas_efectivas": {
+   "llegadas": 333,
+   "detectadas": 331,
+   "recall": 0.994,
+   "recall_ic95": [
+    0.978,
+    0.998
+   ],
+   "eventos_llegada_agua": 331
+  },
+  "semillas": [
+   2026,
+   7,
+   11
+  ],
+  "runIds": [
+   "r2026-c69811c2",
+   "r7-a24a27e4",
+   "r11-d7e871dd"
+  ],
+  "variante": {
+   "factor_ruido": 3.0
+  },
+  "llegadas_omitidas_sin_etiqueta": 0
+ },
+ "llenado_umbral": {
+  "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+  "metricas": [
+   {
+    "anomalia": "fuga_lenta",
+    "evento": "alerta_fuga",
+    "episodios": 13,
+    "eventos": 6,
+    "consistencia_precision": 0.5,
+    "consistencia_precision_ic95": [
+     0.188,
+     0.812
+    ],
+    "consistencia_recall": 0.231,
+    "consistencia_recall_ic95": [
+     0.082,
+     0.503
+    ]
+   },
+   {
+    "anomalia": "corte_prolongado",
+    "evento": "corte_prolongado",
+    "episodios": 3,
+    "eventos": 35,
+    "consistencia_precision": 0.114,
+    "consistencia_precision_ic95": [
+     0.045,
+     0.26
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.438,
+     1.0
+    ]
+   },
+   {
+    "anomalia": "llegada_atipica",
+    "evento": "llegada_agua (fueraDeFranja)",
+    "episodios": 12,
+    "eventos": 12,
+    "consistencia_precision": 1.0,
+    "consistencia_precision_ic95": [
+     0.757,
+     1.0
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.757,
+     1.0
+    ]
+   },
+   {
+    "anomalia": "falla_sensor",
+    "evento": "falla_sensor",
+    "episodios": 76,
+    "eventos": 76,
+    "consistencia_precision": 1.0,
+    "consistencia_precision_ic95": [
+     0.952,
+     1.0
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.952,
+     1.0
+    ]
+   }
+  ],
+  "deriva_termica": {
+   "episodios": 9,
+   "con_alerta_fuga_falsa": 0,
+   "ic95": [
+    0.0,
+    0.299
+   ]
+  },
+  "eventos_por_tipo": null,
+  "llegadas_efectivas": {
+   "llegadas": 333,
+   "detectadas": 333,
+   "recall": 1.0,
+   "recall_ic95": [
+    0.989,
+    1.0
+   ],
+   "eventos_llegada_agua": 333
+  },
+  "semillas": [
+   2026,
+   7,
+   11
+  ],
+  "runIds": [
+   "r2026-e25cf350",
+   "r7-66cf9dd6",
+   "r11-fc8554db"
+  ],
+  "variante": {
+   "caudal_llenado": 5.0
+  },
+  "llegadas_omitidas_sin_etiqueta": 0
+ },
+ "borde_franja": {
+  "que_mide": "consistencia detector-generador (definiciones compartidas), no rendimiento real",
+  "metricas": [
+   {
+    "anomalia": "fuga_lenta",
+    "evento": "alerta_fuga",
+    "episodios": 13,
+    "eventos": 6,
+    "consistencia_precision": 0.5,
+    "consistencia_precision_ic95": [
+     0.188,
+     0.812
+    ],
+    "consistencia_recall": 0.231,
+    "consistencia_recall_ic95": [
+     0.082,
+     0.503
+    ]
+   },
+   {
+    "anomalia": "corte_prolongado",
+    "evento": "corte_prolongado",
+    "episodios": 3,
+    "eventos": 25,
+    "consistencia_precision": 0.16,
+    "consistencia_precision_ic95": [
+     0.064,
+     0.347
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.438,
+     1.0
+    ]
+   },
+   {
+    "anomalia": "llegada_atipica",
+    "evento": "llegada_agua (fueraDeFranja)",
+    "episodios": 12,
+    "eventos": 9,
+    "consistencia_precision": 1.0,
+    "consistencia_precision_ic95": [
+     0.701,
+     1.0
+    ],
+    "consistencia_recall": 0.75,
+    "consistencia_recall_ic95": [
+     0.468,
+     0.911
+    ]
+   },
+   {
+    "anomalia": "falla_sensor",
+    "evento": "falla_sensor",
+    "episodios": 76,
+    "eventos": 76,
+    "consistencia_precision": 1.0,
+    "consistencia_precision_ic95": [
+     0.952,
+     1.0
+    ],
+    "consistencia_recall": 1.0,
+    "consistencia_recall_ic95": [
+     0.952,
+     1.0
+    ]
+   }
+  ],
+  "deriva_termica": {
+   "episodios": 9,
+   "con_alerta_fuga_falsa": 0,
+   "ic95": [
+    0.0,
+    0.299
+   ]
+  },
+  "eventos_por_tipo": null,
+  "llegadas_efectivas": {
+   "llegadas": 333,
+   "detectadas": 332,
+   "recall": 0.997,
+   "recall_ic95": [
+    0.983,
+    0.999
+   ],
+   "eventos_llegada_agua": 332
+  },
+  "semillas": [
+   2026,
+   7,
+   11
+  ],
+  "runIds": [
+   "r2026-deed6deb",
+   "r7-32c87bd7",
+   "r11-c759791d"
+  ],
+  "variante": {
+   "franja_atipica": [
+    8.0,
+    9.5
+   ]
+  },
+  "llegadas_omitidas_sin_etiqueta": 0
+ }
+}
