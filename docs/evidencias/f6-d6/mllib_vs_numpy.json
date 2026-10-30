@@ -1,0 +1,80 @@
+{
+ "que_es": "misma regresión logística entrenada con Spark MLlib (distribuido) y con numpy (inferencia en F7)",
+ "regParam_mllib": 0.0008032128514056225,
+ "l2_numpy": 1.0,
+ "noches_entrenamiento": 1245,
+ "iteraciones_mllib": 16,
+ "coeficientes": {
+  "intercepto": {
+   "numpy": -1.771,
+   "mllib": -1.771
+  },
+  "exceso_lph": {
+   "numpy": 2.2244,
+   "mllib": 2.2244
+  },
+  "exceso_prev_lph": {
+   "numpy": 0.3185,
+   "mllib": 0.3185
+  },
+  "estabilidad_lph": {
+   "numpy": 1.1474,
+   "mllib": 1.1474
+  },
+  "dT_dht_c": {
+   "numpy": 0.3303,
+   "mllib": 0.3303
+  },
+  "dT_juliaca_c": {
+   "numpy": 0.0565,
+   "mllib": 0.0565
+  },
+  "log_horas_llenado": {
+   "numpy": 0.4032,
+   "mllib": 0.4032
+  },
+  "ruido_cm": {
+   "numpy": 0.117,
+   "mllib": 0.117
+  }
+ },
+ "max_dif_coeficiente": 1.1971810032207486e-07,
+ "max_dif_probabilidad": 1.1325143900453583e-07,
+ "umbral": 0.7,
+ "evaluacion": {
+  "aumentado_f2b2": {
+   "numpy": {
+    "episodios": 14,
+    "recall_episodios": 0.929,
+    "recall_noches": 0.88,
+    "precision_noches": 0.548,
+    "noches_marcadas": 42
+   },
+   "mllib": {
+    "episodios": 14,
+    "recall_episodios": 0.929,
+    "recall_noches": 0.88,
+    "precision_noches": 0.548,
+    "noches_marcadas": 42
+   },
+   "noches_con_decision_distinta": 0
+  },
+  "aumentado_f2b3": {
+   "numpy": {
+    "episodios": 14,
+    "recall_episodios": 0.857,
+    "recall_noches": 0.8,
+    "precision_noches": 0.553,
+    "noches_marcadas": 38
+   },
+   "mllib": {
+    "episodios": 14,
+    "recall_episodios": 0.857,
+    "recall_noches": 0.8,
+    "precision_noches": 0.553,
+    "noches_marcadas": 38
+   },
+   "noches_con_decision_distinta": 0
+  }
+ }
+}

@@ -387,9 +387,27 @@ al congelamiento, así que pertenecen al conjunto de diseño.
 
 ## Prueba en vivo con el ESP32
 
-_Pendiente: cuando el HC-SR04 funcione, se cargan las medidas del recipiente en `ingesta/tanques.yml`, se llena y
-vacía anotando cada acción en la bitácora, y se registran `llegada_agua` y `autonomia_baja` en Kafbat y en el
-consumidor. Es el primer dato de rendimiento real de las reglas congeladas._
+_Pendiente._ Plan, con el JSN-SR04T montado al menos 25 cm sobre el nivel máximo:
+
+1. **Geometría:** se cargan las medidas del recipiente en `ingesta/tanques.yml`, con `por_medir: false` y
+   `geometria_desde`. Desde esa hora empieza el periodo de prueba real (partición p6.2).
+2. **Llenado y vaciado:** se llena y se vacía anotando cada acción en la bitácora, y se verifican `llegada_agua` y
+   `autonomia_baja` en Kafbat y en el consumidor.
+3. **Fuga controlada (D6):** es el único episodio real etiquetado de fuga que tendrá el proyecto.
+   - **Preparación:** un goteo constante con una llave de paso fina o un gotero, con el tanque sin consumo y sin
+     llenado previsto esa noche.
+   - **Caudal:** se mide antes y después con una probeta o un recipiente graduado y un cronómetro (litros en un tiempo
+     dado), y se anota en L/h.
+   - **Duración:** debe cubrir toda la franja 00:00-03:30, por ejemplo de 22:00 a 06:00.
+   - **Caudal recomendado:** al menos 2.5 L/h, que en la consistencia de la flota se detecta en todas las noches
+     (17 de 17). Un segundo goteo de ~1.5 L/h mide el borde de la sensibilidad (`docs/modelo-d6.md`).
+   - **Bitácora:** una fila con `accion = fuga`, `timestamp` (inicio), `timestamp_fin` (cierre), `observador` (una
+     persona, no "sistema") y en `nota` el caudal medido, por ejemplo "goteo 2.6 L/h, probeta 500 mL en 11.5 min".
+     `streaming/comparar_bitacora.py` la empareja con `alerta_fuga`. Su caudal es la verdad contra la que se mide la
+     tasa estimada por D6 en esa noche; la evaluación del ESP32 en `batch/modelo_d6.py` se completa cuando exista
+     el episodio.
+
+Es el primer dato de rendimiento real de las reglas congeladas y de D6.
 
 ## Operación
 

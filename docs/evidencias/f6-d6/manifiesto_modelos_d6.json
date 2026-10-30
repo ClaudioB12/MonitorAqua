@@ -1,0 +1,205 @@
+{
+ "version": "d6.1",
+ "generado": "2026-10-29T21:17:05-05:00",
+ "particion": "p6.2",
+ "reglas_linea_base": "f4.4",
+ "corridas": {
+  "f2b2": {
+   "entrenamiento": [
+    "r7-79a6b935",
+    "r2026-fd6cf793",
+    "r11-5426a59a",
+    "r13-274f4300",
+    "r17-a14080e3",
+    "r19-1760e7ef",
+    "r23-e7d40851",
+    "r29-3d100b4b",
+    "r31-369ece7f",
+    "r37-7f55e589",
+    "r41-b41e74ec",
+    "r43-79b14f3d"
+   ],
+   "evaluacion": [
+    "r101-cb33453c",
+    "r103-2cb0a542",
+    "r107-b0482c27",
+    "r109-cbc64ad5",
+    "r113-2e2a80a9",
+    "r127-b04915ef",
+    "r131-52ef7eb6",
+    "r137-543fa2f1",
+    "r139-8aa922e3",
+    "r149-14dadd66",
+    "r151-1bbcb584",
+    "r157-e637334f"
+   ]
+  },
+  "f2b3": {
+   "entrenamiento": [
+    "r7-5b9e7090",
+    "r2026-290a0e25",
+    "r11-983df4f3",
+    "r13-96ef3b8f",
+    "r17-29501b9c",
+    "r19-bd5b4ffb",
+    "r23-7160319a",
+    "r29-243402a5",
+    "r31-8c3aead7",
+    "r37-7ab33586",
+    "r41-ce109bf3",
+    "r43-cbf0b703"
+   ],
+   "evaluacion": [
+    "r101-30acfab8",
+    "r103-4f70f2c2",
+    "r107-5e87e7b7",
+    "r109-043407e3",
+    "r113-0dbc33d5",
+    "r127-8b71bc84",
+    "r131-a7af605b",
+    "r137-a4199349",
+    "r139-45728ce3",
+    "r149-ce54f739",
+    "r151-15f6ee84",
+    "r157-822186c1"
+   ]
+  }
+ },
+ "config": {
+  "version": "d6.1",
+  "franja_lima_h": [
+   0.0,
+   3.5
+  ],
+  "noche_valida": {
+   "cobertura_min": 0.6,
+   "sin_llenado_previo_h": 1,
+   "subida_llenado_pp": 2
+  },
+  "referencia": {
+   "noches": 7,
+   "minimo": 3
+  },
+  "estabilidad_noches": 5,
+  "semillas_entrenamiento": [
+   7,
+   2026,
+   11,
+   13,
+   17,
+   19,
+   23,
+   29,
+   31,
+   37,
+   41,
+   43
+  ],
+  "semillas_evaluacion": [
+   101,
+   103,
+   107,
+   109,
+   113,
+   127,
+   131,
+   137,
+   139,
+   149,
+   151,
+   157
+  ],
+  "flota": {
+   "f2b2": {
+    "config": "ingesta/generador_f2b2.yml"
+   },
+   "f2b3": {
+    "config": "ingesta/generador_f2b3.yml"
+   }
+  },
+  "modelo": {
+   "variables": [
+    "exceso_lph",
+    "exceso_prev_lph",
+    "estabilidad_lph",
+    "dT_dht_c",
+    "dT_juliaca_c",
+    "log_horas_llenado",
+    "ruido_cm"
+   ],
+   "l2": 1.0
+  },
+  "frac_ajuste": 0.2,
+  "conforme": {
+   "alfa": 0.2,
+   "min_n": 10
+  },
+  "horizontes_h": [
+   24,
+   168
+  ],
+  "evaluacion": {
+   "min_episodios_evidencia": 10,
+   "min_episodios_ic": 5,
+   "n_boot": 500
+  },
+  "thingspeak": {
+   "canales": [
+    "thingspeak-1233810",
+    "thingspeak-1233815",
+    "thingspeak-283977",
+    "thingspeak-480876"
+   ],
+   "fuera_de_alcance": {
+    "thingspeak-3418755": "tanque de agua de lluvia: se reporta aparte, como en D4"
+   },
+   "min_lecturas": 6,
+   "min_horas": 2.5,
+   "k_opciones": [
+    1,
+    3,
+    5,
+    7,
+    10
+   ]
+  },
+  "sensibilidad": {
+   "factor": 3,
+   "dht_cambio_c": 1.0,
+   "dht_max_c": 2.0,
+   "distancias_cm": [
+    25,
+    50,
+    100
+   ],
+   "tramo_hc_sr04": [
+    "2026-10-29T03:20:00-05:00",
+    "2026-10-29T08:00:00-05:00"
+   ],
+   "bloque_min": 15,
+   "n_sim": 1000
+  }
+ },
+ "entrenamiento": {
+  "umbral_elegido": 0.7,
+  "f1_ajuste": 0.631578947368421,
+  "factor_persistencia": {
+   "24": 0.6123036948371802,
+   "168": 0.23225457833069396
+  },
+  "noches_entrenamiento": 1245,
+  "fugas_entrenamiento": 124,
+  "noches_ajuste": 480,
+  "fugas_ajuste": 22,
+  "coeficientes": {
+   "intercepto": -1.771,
+   "exceso_lph": 2.224,
+   "exceso_prev_lph": 0.319,
+   "estabilidad_lph": 1.147,
+   "dT_dht_c": 0.33,
+   "dT_juliaca_c": 0.057,
+   "log_horas_llenado": 0.403,
+   "ruido_cm": 0.117
+  }
+ }
+}

@@ -6,13 +6,15 @@ u observó en el tanque real, así que estas cifras sí miden rendimiento real, 
 
 Bitácora (docs/evidencias/f4/bitacora_real.csv), una fila por acción:
   timestamp       ISO 8601 con zona horaria (p. ej. 2026-10-29T10:15:00-05:00): cuándo empezó la acción
-  accion          llenado | vaciado | falla
+  accion          llenado | vaciado | falla | fuga
   sensorId        por defecto esp32-tanque-real-01
-  timestamp_fin   opcional: cuándo terminó (vaciado completo, sensor reparado)
+  timestamp_fin   opcional: cuándo terminó (vaciado completo, sensor reparado, goteo cerrado)
   observador      quién la registró ("sistema" = registrada desde los datos, no es independiente)
   nota            texto libre
 
-Correspondencia: llenado -> llegada_agua, vaciado -> autonomia_baja, falla -> falla_sensor.
+Correspondencia: llenado -> llegada_agua, vaciado -> autonomia_baja, falla -> falla_sensor, fuga -> alerta_fuga.
+fuga (D6): goteo controlado con caudal medido; la nota lleva los L/h (p. ej. "goteo 2.0 L/h, probeta"). Debe
+cubrir la franja nocturna (00:00-03:30): la alerta_fuga empieza a las 00:00 y cae dentro de [timestamp, fin].
 accion = no_verificable: nadie puede decir qué pasó; la fila y los eventos a ±antes de ella quedan fuera del cálculo.
 
 Periodo de rendimiento real, por sensor: desde la más tardía entre el congelamiento de reglas
@@ -38,7 +40,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from evaluar_detector import wilson  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parents[1]
-CORRESPONDE = {"llenado": "llegada_agua", "vaciado": "autonomia_baja", "falla": "falla_sensor"}
+CORRESPONDE = {"llenado": "llegada_agua", "vaciado": "autonomia_baja", "falla": "falla_sensor", "fuga": "alerta_fuga"}
 FALLA_ACTIVA_MAX_MIN = 120  # una falla anotada tarde se empareja con un episodio iniciado hasta 2 h antes
 LIMA = timezone(timedelta(hours=-5))
 
@@ -60,7 +62,7 @@ def leer_bitacora(ruta):
             accion = r["accion"].strip().lower()
             if accion not in CORRESPONDE and accion != "no_verificable":
                 raise SystemExit(f"acción desconocida en la bitácora: {accion!r} "
-                                 "(usa llenado, vaciado, falla o no_verificable)")
+                                 "(usa llenado, vaciado, falla, fuga o no_verificable)")
             filas.append({"ts": ms(r["timestamp"].strip()), "accion": accion,
                           "sensorId": (r.get("sensorId") or "esp32-tanque-real-01").strip(),
                           "fin": ms(r["timestamp_fin"].strip()) if (r.get("timestamp_fin") or "").strip() else None,

@@ -205,7 +205,7 @@ Columnas comunes a las cuatro tablas:
 | `tasa_cm_h_compensada` | float64 | Descenso compensado por hora |
 | `distancia_media_cm` | float64 | Distancia compensada media |
 | `temp_inicio_c` / `temp_fin_c` | float64 | Aire de la cámara al inicio y al final (la deriva térmica que corrige la compensación) |
-| `hubo_subida` | bool | Hubo una subida de más de 2 % (llenado nocturno) |
+| `hubo_subida` | bool | Hubo una subida de más de 2 % entre dos lecturas seguidas. **No sirve para filtrar llenados:** los saltos del sensor la disparan en casi todas las noches de la flota; D6 usa la mediana de 15 min (`docs/modelo-d6.md`) |
 | `frac_fuga_lenta` / `frac_deriva_termica` | float64 | Fracción de lecturas con esa etiqueta (aumentados) |
 | `etiqueta` | str | `fuga_lenta`, `deriva_termica` o vacío (más de la mitad de la noche) |
 

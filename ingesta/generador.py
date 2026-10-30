@@ -318,6 +318,7 @@ def generar(cfg, perfil, run_id):
         filas.append({"t": t, "dist": dist, "dist_real": np.round(dist_real, 2), "nivel": nivel_pct,
                       "temp": temp, "hum": humedad, "etiqueta": etiqueta, "episodio": prog["episodio"][t],
                       "suministro": prog["suministro"][t],  # agenda de llegadas: la usa el análisis de sensibilidad
+                      "fuga_lph": prog["fuga_lph"][t],      # tasa real de la fuga (L/h): la verdad de D6
                       "omitidas_sin_etiqueta": prog["omitidas_sin_etiqueta"]})
     return tiempos, filas, prog["episodios"]
 

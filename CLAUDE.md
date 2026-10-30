@@ -210,6 +210,32 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
   - **Resultado:** flota: Weibull 1.6 h vs bases 2.1 h (IC solapados) y skill 0.64 vs 0.50 a 6 h; a 24 h gana la base
     "misma hora" (cambio de ritmo 25 -> 23.3 h; mejora d4.2: más peso a intervalos recientes). 1233810: 5 episodios,
     indicativo, ~20 h de error para todos, con sesgo de selección (29 % censurados). ESP32 pendiente. Detalle en `docs/modelo-d4.md`; evidencia en `docs/evidencias/f6-d4/`.
+- **Modelo D6, pérdida proyectada por fuga (F6-D6, d6.1):** `batch/modelo_d6.py` + `.yml` y `batch/fuga.py` (solo
+  numpy, para F7), ~4 min (caché de la flota en `batch/datos/d6_cache/`).
+  - **Noches:** franja 00:00-03:30 (la de `d6_noches` y `alerta_fuga`), con la función de la capa oro sobre la
+    distancia de plata (compensación en el firmware y sensor por periodo ya resueltos). La flota (f2b.2 y f2b.3) se
+    reconstruye con el mismo código: **12 semillas para entrenar y 12 distintas para evaluar** (las mismas en los dos
+    generadores: con una misma semilla tienen las mismas fugas); la semilla 7 de f2b.2 reproduce `d6_noches`
+    exactamente.
+    `hubo_subida` de la tabla oro no sirve (los saltos del sensor la disparan): el llenado se detecta con la mediana de
+    15 min.
+  - **Modelo:** tasa de Theil-Sen (L/h), referencia = mediana de las 7 noches válidas anteriores, exceso; regresión
+    logística IRLS-L2 (umbral 0.70 elegido en el ajuste); pérdida = P · exceso · H · f_H (persistencia f24 = 0.61,
+    f168 = 0.23) con banda conforme de Mondrian (por clase predicha). Bases: sin fuga, noche anterior y `alerta_fuga`
+    f4.4. **MLlib** (`batch/modelo_d6_mllib.py`, `LogisticRegression`) entrena el mismo modelo con coeficientes
+    iguales a 10⁻⁷: MLlib es el entrenamiento distribuido; numpy, la inferencia ligera en F7.
+  - **No hay ninguna fuga real etiquetada:** lo de la flota es **consistencia** (el generador crea las fugas), no
+    rendimiento real; en ThingSpeak gana "cero fuga". La primera evidencia real será la fuga controlada de la prueba en
+    vivo (`accion = fuga` en la bitácora).
+  - **Consistencia (semillas de evaluación, 14 episodios por generador):** recall por episodio 0.86-0.93 frente a
+    0.36-0.50 de la regla f4.4, con precisión 0.55 frente a 0.80-1.00 (compromiso). Error de la tasa 0.58-0.91 L/h
+    (mejor base 1.71-1.76). Pérdida a 24 h: nadie gana a "sin fuga" en todas las noches; en las noches con fuga,
+    23-31 L frente a 39-47. 7 días: 5 casos, no se usa en F7. ThingSpeak: indicativo (11 noches de prueba). Mínima
+    detectable práctica ~1.5-2 L/h (consumo nocturno y DHT11 a 100 cm). ESP32 pendiente.
+  - **Limitación principal y mejora d6.2:** la franja fija 00:00-03:30 no sirve cuando el agua llega de madrugada
+    (1233810: 52 de 59 noches con llenado; en Juliaca el suministro suele llegar de noche). En d6.2 la franja de
+    mínimo consumo se calcula por tanque con las horas de llegada de D4. Detalle en `docs/modelo-d6.md`; evidencia en
+    `docs/evidencias/f6-d6/`.
 
 ## Contrato del evento
 
