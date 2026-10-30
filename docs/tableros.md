@@ -1,4 +1,7 @@
-# Tableros de Grafana y alertas (F5)
+# Tableros de Grafana y alertas (F5, con las predicciones de F7)
+
+**F7:** los espacios reservados de cada fila ahora muestran las predicciones en vivo de los modelos de F6, y hay una
+fila nueva de pronóstico vs real. Cómo llega cada predicción del modelo al tablero: `docs/inferencia-en-vivo.md`.
 
 Cubre los criterios **6** (BI/ML distribuidas: tablero BI con KPIs del flujo en tiempo real, verificado en vivo) y
 **4** (observabilidad: panel operativo con métricas correlacionadas del pipeline).
@@ -20,6 +23,8 @@ Cubre los criterios **6** (BI/ML distribuidas: tablero BI con KPIs del flujo en 
 | `eventos_servicio` | sumidero de F4 | eventos con los numéricos de `detalle` aplanados (caudal, tasa, litros perdidos…) |
 | `latencia_ingesta` (F5) | consulta Spark `latencias` (sin estado) | latencia de ingesta por lectura y origen |
 | `spark_progreso` | listener de Spark (F3) | filas, duración del lote, descartes por watermark y duplicados, por consulta |
+| `predicciones` (F7) | Spark, consulta `predicciones` (`streaming/inferencia.py`) | predicciones de D2, D4, D6 y D8 por tanque: tags `dimension`, `version_modelo`, `tipo` (`estimacion`, `pronostico`, `verificacion`, `motivo`) |
+| `inferencia` (F7) | ídem, una por lote | latencia de la inferencia, lecturas, puntos escritos, recargas de modelos, errores |
 | `kafka_volumen` (F5) | servicio `aqua-volumen` (cada 5 min) | bytes en disco y mensajes por tópico |
 | `kafka_*` (Prometheus) | kafka-exporter | offsets por tópico y partición, lag y miembros por grupo |
 
@@ -55,17 +60,18 @@ este tablero porque son muchas; se activa a mano.
 | KPIs | Eventos de servicio por tipo | qué está pasando en el servicio en el periodo (24 h por defecto) |
 | D2 | Nivel del tanque (% y litros) | ¿cuánta agua hay? |
 | D2 | Geometría del tanque | aviso **"GEOMETRÍA POR MEDIR"** mientras `tanques.yml` tenga `por_medir: true`: % y litros son aproximados |
-| D2 | **F7 · Horas de autonomía proyectadas** | reservado |
+| D2 | **F7 · Horas de autonomía (perfil de consumo)** | autonomía P50 hasta 12 h ("más de 12 h"), banda calibrada, consumo medio como comparación, advertencia en ThingSpeak; o el motivo si no aplica |
 | D4 | Llegadas de agua y cortes | línea de tiempo de `llegada_agua` y `corte_prolongado` |
 | D4 | Horas entre llegadas | intervalo entre llegadas del mismo tanque |
 | D4 | Caudal de llenado estimado | L/min = subida × capacidad / Δt (adecuación de D4) |
-| D4 | **F7 · Hora estimada de la próxima llegada** | reservado |
+| D4 | **F7 · Próxima llegada del agua** | horas a la llegada más probable, ventana P10-P90 calibrada, probabilidad a 6/12/24 h; o el motivo |
 | D6 | Distancia cruda vs compensada | cuánto corrige la compensación con el DHT11 (±0.18 cm a 50 cm) |
 | D6 | Alertas de fuga | `alerta_fuga` con descenso, tasa, tasa habitual y litros perdidos |
-| D6 | **F7 · Pérdida proyectada** | reservado |
+| D6 | **F7 · Pérdida proyectada por fuga (última noche)** | tasa, exceso, P(fuga) y pérdida a 24 h con banda (complemento de `alerta_fuga`); o el motivo |
 | D8 | Temperaturas | aire de la cámara (DHT11), Juliaca (Open-Meteo, solo con `real`) y agua estimada (**provisional**, τ = 25.2 h) |
 | D8 | Horas de residencia del agua | horas desde el último llenado detectado |
-| D8 | **F7 · Hora de cruce del umbral térmico** | reservado |
+| D8 | **F7 · Agua estimada, cruce del umbral y residencia** | agua ahora y a 6/12 h con banda, P(cruzar 4 °C / 25 °C en 12 h), residencia (edad del agua) |
+| F7 · Pronóstico vs real | D2 · Nivel a 60 min: real vs pronosticado · D2 · Error del nivel · D4 · Error de la hora de llegada · D6 · Pérdida pronosticada vs observada · D8 · Agua real vs pronosticada | el **error en vivo** de las predicciones pasadas (puntos `verificacion`, en el instante objetivo) |
 
 ## B. "Salud del pipeline" (uid `monitoraqua-pipeline`), criterio 4
 
@@ -86,6 +92,7 @@ este tablero porque son muchas; se activa a mano.
 | Volumen | Bytes por día por tópico | ídem; hacen falta 2 días de mediciones de `aqua-volumen` (empezó el 2026-10-29) |
 | Volumen | Tamaño actual por tópico | bytes, mensajes retenidos y **bytes por mensaje** |
 | Correlación | Entrada de Spark · Duración del lote · Lag y mensajes/s · Lecturas del ESP32 por minuto | los cuatro sobre el mismo eje de tiempo, con el cursor compartido |
+| Inferencia en vivo (F7) | Latencia de la inferencia por lote (ms) · Predicciones escritas por lote | cuánto tardan los modelos en cada micro-lote (línea roja = trigger de 30 s) y cuántas predicciones y recargas de modelos hubo |
 
 **Lo que muestra la correlación con los datos del 28-oct:**
 
@@ -120,6 +127,7 @@ Grafana → Alerting.
 | **Lote de Spark más largo que su trigger** | máx. en 10 min de `batchDurationMs / trigger` > 100 %, por consulta, durante 5 min | si un lote dura más que su trigger, la consulta se atrasa lote tras lote. Hoy el máximo observado es ~75 % (`eventos_servicio`, trigger 10 s) | **alerta** (Spark sin progreso) |
 | **Latencia p95 de una fuente rápida > 420 s** | p95 en 30 min de `latencia_ingesta`, por origen (ESP32, ThingSpeak) | 420 s = watermark de las fuentes rápidas (7 min). Por encima, parte de esa fuente se descarta por tardía | OK |
 | **Falla de sensor activa** | lecturas inválidas del ESP32 en 5 min / total > 0.5 durante 2 min | mismo síntoma que el evento `falla_sensor` de F4, medido en vivo. Si no llega nada, ya salta "ESP32 sin datos" | OK |
+| **La consulta de predicciones dejó de escribir** (F7) | puntos de predicción en 30 min < 1, durante 5 min | ThingSpeak llega cada ~5 min y cada lote con tanques escribe predicciones o motivos: 30 min sin nada es la consulta caída o atascada | **alerta** |
 
 **Estado verificado el 2026-10-29:** las 5 reglas con salud `ok` y en `Normal`. Las multidimensionales evalúan cada
 consulta (6) y cada fuente rápida (2) por separado. Detalle en `docs/evidencias/f5/alertas_estado.json`.
@@ -166,7 +174,8 @@ curl -u admin:<clave> -o captura.png "http://localhost:43000/render/d/monitoraqu
 
 - **Geometría del ESP32:** con las medidas reales, el aviso "GEOMETRÍA POR MEDIR" pasa a "geometría real" sin tocar
   el tablero.
-- **Paneles reservados para F7:** horas de autonomía, próxima llegada, pérdida proyectada y cruce del umbral.
+- **Verificación de D8 contra el agua real (3418755) y de D4 con una llegada real:** pendientes de revisar el 31-oct
+  (`docs/inferencia-en-vivo.md`, `infra/evidencia_f7_pendiente.py`).
 - **Bytes por día:** se completa solo desde el 2026-10-30.
 - **Contact point:** las alertas no notifican a nadie (correo, Telegram); se ven en Grafana. Se define en F8 si hace
   falta.

@@ -116,7 +116,7 @@ def chequear_spark(max_s=180):
     if not ultimas:
         yield False, "Spark streaming (spark_progreso)", "sin progreso en la última hora"
         return
-    for consulta in ("rapidas_agg", "lentas_agg", "esp32_detalle", "bronce", "eventos_servicio"):
+    for consulta in ("rapidas_agg", "lentas_agg", "esp32_detalle", "bronce", "eventos_servicio", "predicciones"):
         t = ultimas.get(consulta)
         edad = time.time() - datetime.fromisoformat(t.replace("Z", "+00:00")).timestamp() if t else None
         yield (edad is not None and edad < max_s, f"Spark consulta {consulta}",

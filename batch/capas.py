@@ -292,7 +292,8 @@ def main():
     part = Particion(limites_thingspeak=lim_ts, inicio_corridas=ini_run)
 
     # Oro: por sensor (y corrida) con applyInPandas; solo tanques (ESP32, ThingSpeak, flota)
-    om = plata.filter("fuente = 'open-meteo'").select("timestamp", "temperaturaC").toPandas()
+    om = (plata.filter("fuente = 'open-meteo' and sensorId = 'open-meteo-juliaca'")  # no la ubicación de 3418755
+          .select("timestamp", "temperaturaC").toPandas())
     juliaca = pd.DataFrame({"hora": om["timestamp"] // 3_600_000 * 3_600_000, "temp_juliaca_c": om["temperaturaC"]}) \
         .groupby("hora", as_index=False).mean()
     tau = yaml.safe_load((RAIZ / "streaming" / "reglas_servicio.yml").read_text(encoding="utf-8"))["umbral_termico"]["tau_h"]

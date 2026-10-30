@@ -244,7 +244,7 @@
       "type": "influxdb",
       "uid": "influxdb"
      },
-     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"spark_progreso\" and r._field == \"batchDurationMs\")\n  |> map(fn: (r) => ({r with _value: float(v: r._value) / (if r.consulta == \"rapidas_agg\" or r.consulta == \"latencias\" then 30000.0 else if r.consulta == \"lentas_agg\" or r.consulta == \"bronce\" then 60000.0 else 10000.0) * 100.0}))\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)"
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"spark_progreso\" and r._field == \"batchDurationMs\")\n  |> map(fn: (r) => ({r with _value: float(v: r._value) / (if r.consulta == \"rapidas_agg\" or r.consulta == \"latencias\" or r.consulta == \"predicciones\" then 30000.0 else if r.consulta == \"lentas_agg\" or r.consulta == \"bronce\" then 60000.0 else 10000.0) * 100.0}))\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)"
     }
    ],
    "datasource": {
@@ -874,6 +874,125 @@
     "legend": {
      "displayMode": "list",
      "placement": "right"
+    }
+   }
+  },
+  {
+   "id": 23,
+   "type": "row",
+   "title": "Inferencia en vivo (F7, consulta predicciones)",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 62,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 24,
+   "type": "timeseries",
+   "title": "Latencia de la inferencia por lote (ms)",
+   "description": "Tiempo de los modelos de F6 en cada micro-lote de la consulta predicciones (trigger 30 s). La duración total del lote está en la fila Spark.",
+   "gridPos": {
+    "x": 0,
+    "y": 63,
+    "w": 12,
+    "h": 6
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"inferencia\" and r._field == \"duracion_ms\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ms",
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "red",
+        "value": 30000
+       }
+      ]
+     },
+     "custom": {
+      "thresholdsStyle": {
+       "mode": "line"
+      }
+     },
+     "displayName": "duración de la inferencia"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 25,
+   "type": "timeseries",
+   "title": "Predicciones escritas por lote",
+   "description": "Puntos de predicción al bucket real y al de aumentados, y recargas de modelos (cambio de archivo sin reiniciar el job).",
+   "gridPos": {
+    "x": 12,
+    "y": 63,
+    "w": 12,
+    "h": 6
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"inferencia\" and (r._field == \"puntos_real\" or r._field == \"puntos_aumentado\" or r._field == \"recargas\"))\n  |> aggregateWindow(every: v.windowPeriod, fn: sum, createEmpty: false)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "custom": {
+      "drawStyle": "bars",
+      "fillOpacity": 60
+     },
+     "displayName": "${__field.name}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
     }
    }
   }

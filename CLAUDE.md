@@ -114,7 +114,7 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
 - **Tableros y alertas (F5):** todo por provisioning.
   - **Tableros:** `dashboards/bi_salud_agua.json` (criterio 6) y `dashboards/pipeline_salud.json` (criterio 4), generados
     por `dashboards/generar_tableros.py`. **Nunca se editan a mano**: se cambia el script y se regenera.
-  - **Alertas:** `infra/grafana/provisioning/alerting/reglas_monitoraqua.yml` (5 reglas).
+  - **Alertas:** `infra/grafana/provisioning/alerting/reglas_monitoraqua.yml` (6 reglas; la sexta, de F7).
   - **Measurements nuevas:** `nivel_tanque`, `estado_tanque`, `latencia_ingesta` (consulta Spark `latencias`) y
     `kafka_volumen` (servicio `aqua-volumen`).
   - **Buckets:** los datos aumentados van al bucket **`monitoraqua_aumentados`** (sin vencimiento); lo real, a
@@ -254,6 +254,26 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
     mediría el agua y ajustaría τ.
   - **Residencia:** edad media del agua (tanque bien mezclado) con las llegadas de D4 (detector y subida sostenida);
     descriptiva. Detalle en `docs/modelo-d8.md`; evidencia en `docs/evidencias/f6-d8/`.
+- **Inferencia en vivo (F7):** consulta Spark `predicciones` (`procesar_stream.py`, foreachBatch, trigger 30 s,
+  checkpoint propio) sobre `aqua-eventos-real` y `aqua-eventos-aumentados`; la lógica en `streaming/inferencia.py`
+  (Python puro, mismas clases de F6: `perfil_consumo`, `llegadas`, `fuga`, `termico`, copiadas a la imagen).
+  - **Modelos:** `batch/modelos/` montado en `/app/config/modelos:ro`; se recargan al cambiar el archivo (mtime), sin
+    reiniciar; la versión va como tag `version_modelo`. **No se tocan sus parámetros ni las reglas f4.4.**
+  - **Estado por tanque:** `/checkpoints/predicciones_estado.json`, escrito después de InfluxDB con el `batchId` (un lote
+    repetido se ignora). Un error de la inferencia se registra (`inferencia_error`) y no detiene el job.
+  - **InfluxDB:** `predicciones` (tags `sensorId`, `origen`, `dimension`, `version_modelo`, `tipo` = estimacion /
+    pronostico en el instante objetivo / verificacion con el error en vivo / motivo cuando no aplica) e `inferencia`
+    (latencia por lote). Un campo no puede cambiar de tipo (InfluxDB responde 422).
+  - **Tablero BI:** tablas F7 en las filas D2-D8 y fila "Pronóstico vs real". Pipeline: fila "Inferencia en vivo".
+    Alerta "La consulta de predicciones dejó de escribir".
+  - **3418755:** el colector lee también `field2` (aire en el tanque) y Open-Meteo de su ubicación
+    (`open-meteo-canal3418755`): D8 en vivo usa ahí la variante validada y se verifica contra el agua real. La flota usa
+    "solo aire" (sesgo conocido −0.9 °C). Los consumidores de Juliaca filtran `sensorId = open-meteo-juliaca`.
+  - **Pendiente (31-oct):** evidencia de D8 contra el agua real de 3418755 y de D4 con una llegada real
+    (`infra/evidencia_f7_pendiente.py`).
+  - **Reiniciar el colector** republica lecturas lentas atrasadas (recarga de arranque): `lentas_agg` las descarta por
+    watermark (quedan en bronce). Antes de cambiar configuración o servicios de ingesta, consultar al usuario.
+  - Detalle en `docs/inferencia-en-vivo.md`; evidencia en `docs/evidencias/f7/`.
 
 ## Contrato del evento
 

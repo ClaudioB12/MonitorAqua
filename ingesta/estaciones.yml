@@ -20,7 +20,9 @@ fuentes:
       - {id: 1233810, nombre: "House Water Tank (24k L)", campos: {nivelPct: field1}}
       - {id: 1233815, nombre: "Veggie Water Tank (24k L)", campos: {nivelPct: field1}}
       - {id: 1272968, nombre: "WaterLevelMonitor", campos: {distanciaCm: field1}}
-      - {id: 3418755, nombre: "Rain water harvesting monitoring", campos: {nivelM: field1, tempAguaC: field3}, escalas: {nivelM: 0.01}}
+      # F7: field2 (aire dentro del tanque) como temperaturaC: con él, D8 estima el agua en vivo y la compara con
+      # field3 (DS18B20), el único dato real de agua (pronóstico vs real del tablero)
+      - {id: 3418755, nombre: "Rain water harvesting monitoring", campos: {nivelM: field1, temperaturaC: field2, tempAguaC: field3}, escalas: {nivelM: 0.01}}
       - {id: 3019316, nombre: "Nivel Carcamo", campos: {distanciaCm: field4}}
 
   # Environment Agency UK, cuenca "Thames from Hurley to Teddington" (23 estaciones, una cuenca,
@@ -82,3 +84,6 @@ fuentes:
     recarga_max_dias: 7
     ubicaciones:
       - {id: juliaca, lat: -15.49, lon: -70.13}
+      # F7: ubicación de ThingSpeak 3418755 (noroeste de Inglaterra), para que D8 en vivo use el modelo validado
+      # (aire de la cámara + Open-Meteo). sensorId open-meteo-canal3418755: no se mezcla con Juliaca
+      - {id: canal3418755, lat: 53.45, lon: -2.51}

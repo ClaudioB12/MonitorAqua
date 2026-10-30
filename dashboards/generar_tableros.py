@@ -61,10 +61,43 @@ def fila(titulo, y):
             "panels": []}
 
 
-def reservado_f7(que, dim, x, y, w=8, h=8):
-    return texto(f"F7 · {que}",
-                 f"### Reservado para F7\n**{que}** ({dim}).\n\nAquí irá la predicción de series de tiempo en vivo "
-                 f"(F7). Hasta entonces este espacio queda vacío a propósito.", x, y, w, h)
+def prediccion_f7(titulo, dim, campos, x, y, w, h, desc, unidades=None):
+    """F7: última predicción de cada tanque (measurement predicciones), con sus bandas, advertencias y el motivo
+    cuando el modelo no aplica. Una fila por tanque y versión del modelo."""
+    filtro = " or ".join(f'r._field == "{c}"' for c in campos + ["motivo"])
+    q = f'''
+from(bucket: "${{origen}}")
+  |> {RANGO}
+  |> filter(fn: (r) => r._measurement == "predicciones" and r.dimension == "{dim}" and (r.tipo == "estimacion" or r.tipo == "motivo"))
+  |> {SENSOR}
+  |> filter(fn: (r) => {filtro})
+  |> group(columns: ["sensorId", "_field"])
+  |> last()
+  |> map(fn: (r) => ({{r with _value: string(v: r._value)}}))
+  |> group()
+  |> pivot(rowKey: ["sensorId", "version_modelo"], columnKey: ["_field"], valueColumn: "_value")
+'''
+    # Sin "noValue": en una tabla, Grafana lo pondría en cada celda vacía (p. ej. las cifras de un tanque con motivo)
+    t = panel("table", titulo, x, y, w, h, [flux(q)], desc, None, {"showHeader": True, "cellHeight": "sm"})
+    orden = {"sensorId": 0, "version_modelo": 1, **{c: i + 2 for i, c in enumerate(campos)}, "motivo": len(campos) + 2}
+    t["transformations"] = [{"id": "organize", "options": {"indexByName": orden}}]
+    return t
+
+
+def verificacion_f7(titulo, dim, campos, x, y, w, h, desc, unidad):
+    """F7: pronóstico vs real. Los puntos 'verificacion' se escriben en el instante objetivo, cuando ya se conoce el
+    valor real: el error en vivo de cada predicción pasada."""
+    filtro = " or ".join(f'r._field == "{c}"' for c in campos)
+    return panel("timeseries", titulo, x, y, w, h, [flux(f'''
+from(bucket: "${{origen}}")
+  |> {RANGO}
+  |> filter(fn: (r) => r._measurement == "predicciones" and r.dimension == "{dim}" and r.tipo == "verificacion")
+  |> {SENSOR}
+  |> filter(fn: (r) => {filtro})
+  |> keep(columns: ["_time", "_value", "_field", "sensorId"])
+''')], desc, unidad, {"legend": {"displayMode": "table", "placement": "right", "calcs": ["mean", "count"]},
+                         "tooltip": {"mode": "multi"}},
+        {"custom": {"drawStyle": "points", "pointSize": 5}}, sin_datos="Sin verificaciones todavía en el periodo")
 
 
 def anotacion(nombre, tipo, color, bucket="${origen}", activa=True):
@@ -172,7 +205,12 @@ from(bucket: "${{origen}}")
         {"mappings": [{"type": "value", "options": {
             "por_medir": {"text": "GEOMETRÍA POR MEDIR", "color": "orange"},
             "real": {"text": "geometría real", "color": "green"}}}]}))
-    p.append(reservado_f7("Horas de autonomía proyectadas", "D2", 16, y))
+    p.append(prediccion_f7("F7 · Horas de autonomía (perfil de consumo)", "D2",
+                           ["autonomia_texto", "autonomia_p10_h", "autonomia_p90_h", "autonomia_consumo_medio_h",
+                            "nivel_pct", "advertencia"], 16, y, 8, 8,
+                           "D2 (d2.2): horas hasta el 10 % con el perfil de consumo P50, hasta 12 h (\"más de 12 h\" si "
+                           "la supera); banda P10-P90 calibrada; el consumo medio como comparación. En ThingSpeak el "
+                           "perfil tiende a ser optimista. Si no aplica, el motivo."))
     y += 8
 
     # D4 ----------------------------------------------------------------------------------------------------------
@@ -208,7 +246,11 @@ from(bucket: "${{origen}}")
   |> keep(columns: ["_time", "_value", "sensorId"])
 ''')], "Caudal = subida × capacidad / Δt (adecuación de D4). Con geometría provisional es aproximado.", "L/min",
         {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "multi"}}, {"custom": {"drawStyle": "points", "pointSize": 8}}))
-    p.append(reservado_f7("Hora estimada de la próxima llegada", "D4", 17, y + 4, 7, 4))
+    p.append(prediccion_f7("F7 · Próxima llegada del agua", "D4",
+                           ["horas_moda", "ventana_ini_h", "ventana_fin_h", "prob_6h", "prob_12h", "prob_24h"],
+                           17, y + 4, 7, 4,
+                           "D4 (d4.1): horas hasta la llegada más probable, ventana P10-P90 calibrada y probabilidad de "
+                           "llegada en 6/12/24 h. Si no aplica (tanque de lluvia, sin modelo), el motivo."))
     y += 8
 
     # D6 ----------------------------------------------------------------------------------------------------------
@@ -234,7 +276,12 @@ from(bucket: "${{origen}}")
   |> sort(columns: ["_time"], desc: true)
 ''')], "alerta_fuga: descenso nocturno (cm) sobre la distancia compensada; tasa frente a la tasa nocturna habitual.",
         None, {"showHeader": True}, sin_datos="Sin alertas de fuga en el periodo"))
-    p.append(reservado_f7("Pérdida proyectada", "D6", 18, y, 6, 8))
+    p.append(prediccion_f7("F7 · Pérdida proyectada por fuga (última noche)", "D6",
+                           ["noche", "tasa_lph", "exceso_lph", "p_fuga", "perdida_24h_l", "perdida_24h_p10_l",
+                            "perdida_24h_p90_l"], 18, y, 6, 8,
+                           "D6 (d6.1), una vez por noche: tasa nocturna (L/h), exceso sobre lo habitual, P(fuga) y "
+                           "pérdida a 24 h con su banda P10-P90 (sin la de 7 días). Complementa a alerta_fuga. Si no "
+                           "aplica (geometría provisional, canal sin distancia), el motivo."))
     y += 8
 
     # D8 ----------------------------------------------------------------------------------------------------------
@@ -251,7 +298,7 @@ from(bucket: "${{origen}}")
         flux(f'''
 from(bucket: "${{origen}}")
   |> {RANGO}
-  |> filter(fn: (r) => r._measurement == "lecturas_agg" and r.origen == "open-meteo" and r._field == "temperaturaC_media")
+  |> filter(fn: (r) => r._measurement == "lecturas_agg" and r.sensorId == "open-meteo-juliaca" and r._field == "temperaturaC_media")
   |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
   |> map(fn: (r) => ({{r with _field: "Juliaca (Open-Meteo)"}}))
 ''', "B"),
@@ -275,8 +322,35 @@ from(bucket: "${{origen}}")
   |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)
 ''')], "Horas desde el último llenado detectado (llegada_agua). Sin llenados detectados no hay valor.", "h",
         {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "multi"}}))
-    p.append(reservado_f7("Hora de cruce del umbral térmico", "D8", 18, y, 6, 8))
+    p.append(prediccion_f7("F7 · Agua estimada, cruce del umbral y residencia", "D8",
+                           ["agua_c", "agua_p10_c", "agua_p90_c", "agua_6h_c", "agua_12h_c", "agua_12h_p10_c",
+                            "agua_12h_p90_c", "prob_cruce_bajo_12h", "prob_cruce_alto_12h", "residencia_h",
+                            "advertencia"], 18, y, 6, 8,
+                           "D8 (d8.1): agua estimada ahora y a 6/12 h con banda P10-P90, probabilidad de cruzar 4 °C o "
+                           "25 °C en 12 h y residencia (edad media del agua). Estimación sin sensor de agua: error de "
+                           "transferencia de 1-2 °C."))
     y += 8
+
+    # F7: pronóstico vs real ----------------------------------------------------------------------------------------
+    p.append(fila("F7 · Pronóstico vs real (error en vivo de las predicciones pasadas)", y)); y += 1
+    p.append(verificacion_f7("D2 · Nivel a 60 min: real vs pronosticado", "D2", ["nivel_real_pct", "nivel_pred_pct"],
+                             0, y, 12, 7, "Cada pronóstico del nivel a 60 min, comparado con el nivel real cuando "
+                             "llegó ese instante.", "percent"))
+    p.append(verificacion_f7("D2 · Error del nivel a 60 min (pp)", "D2", ["error_pp"], 12, y, 12, 7,
+                             "Real − pronosticado. La leyenda muestra el error medio y cuántos pronósticos se "
+                             "verificaron.", "short"))
+    y += 7
+    p.append(verificacion_f7("D4 · Error de la hora de llegada (h)", "D4", ["error_h"], 0, y, 8, 7,
+                             "En cada llegada observada: llegada real − hora más probable del último pronóstico. "
+                             "Negativo = llegó antes.", "h"))
+    p.append(verificacion_f7("D6 · Pérdida a 24 h: pronosticada vs observada (L)", "D6",
+                             ["perdida_pred_l", "perdida_real_proxy_l"], 8, y, 8, 7,
+                             "La pérdida pronosticada en una noche frente al exceso observado la noche siguiente × 24 h "
+                             "(aproximación observable: no hay fugas reales etiquetadas).", "litre"))
+    p.append(verificacion_f7("D8 · Agua: real vs pronosticada (6 y 12 h)", "D8", ["agua_real_c", "agua_pred_c"],
+                             16, y, 8, 7, "Solo ThingSpeak 3418755 mide el agua (DS18B20): sus pronósticos a 6 y 12 "
+                             "h frente al agua real.", "celsius"))
+    y += 7
 
     variables = [
         {"name": "origen", "label": "origenLecturas", "type": "custom",
@@ -287,7 +361,8 @@ from(bucket: "${{origen}}")
         {"name": "sensorId", "label": "sensorId", "type": "query", "datasource": INFLUX, "refresh": 2,
          "multi": True, "includeAll": True, "allValue": ".*", "current": {"text": "All", "value": "$__all"},
          "query": 'import "influxdata/influxdb/schema"\nschema.tagValues(bucket: "${origen}", tag: "sensorId", '
-                  'predicate: (r) => r._measurement == "nivel_tanque", start: -120d)'},
+                  'predicate: (r) => r._measurement == "nivel_tanque" or r._measurement == "predicciones", '
+                  'start: -120d)'},
     ]
     anotaciones = [anotacion("llegada_agua", "llegada_agua", "blue"),
                    anotacion("corte_prolongado", "corte_prolongado", "red"),
@@ -296,7 +371,7 @@ from(bucket: "${{origen}}")
                    anotacion("falla_sensor", "falla_sensor", "#8e8e8e", activa=False),  # muchas: se activa a mano
                    anotacion("umbral_termico", "umbral_termico", "yellow")]
     return {"uid": "monitoraqua-bi", "title": "Salud del servicio de agua – Juliaca",
-            "tags": ["monitoraqua", "f5", "bi", "criterio-6"], "timezone": "America/Lima", "schemaVersion": 39,
+            "tags": ["monitoraqua", "f5", "f7", "bi", "criterio-6", "criterio-7"], "timezone": "America/Lima", "schemaVersion": 39,
             "version": 1, "editable": False, "graphTooltip": 1, "refresh": "30s",
             "time": {"from": "now-24h", "to": "now"},
             "templating": {"list": variables}, "annotations": {"list": anotaciones}, "panels": p}
@@ -305,7 +380,7 @@ from(bucket: "${{origen}}")
 # ---------------------------------------------------------------------------------------------------------------
 # B. Tablero "Salud del pipeline" (criterio 4)
 # ---------------------------------------------------------------------------------------------------------------
-TRIGGER_MS = ('(if r.consulta == "rapidas_agg" or r.consulta == "latencias" then 30000.0 '
+TRIGGER_MS = ('(if r.consulta == "rapidas_agg" or r.consulta == "latencias" or r.consulta == "predicciones" then 30000.0 '
               'else if r.consulta == "lentas_agg" or r.consulta == "bronce" then 60000.0 else 10000.0)')
 
 
@@ -476,6 +551,27 @@ from(bucket: "monitoraqua")
         {"legend": {"displayMode": "list", "placement": "right"}}))
     y += 5
 
+    p.append(fila("Inferencia en vivo (F7, consulta predicciones)", y)); y += 1
+    p.append(panel("timeseries", "Latencia de la inferencia por lote (ms)", 0, y, 12, 6, [flux(f'''
+from(bucket: "monitoraqua")
+  |> {RANGO}
+  |> filter(fn: (r) => r._measurement == "inferencia" and r._field == "duracion_ms")
+  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)
+''')], "Tiempo de los modelos de F6 en cada micro-lote de la consulta predicciones (trigger 30 s). La "
+       "duración total del lote está en la fila Spark.", "ms",
+        {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "multi"}},
+        {"thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": None}, {"color": "red", "value": 30000}]},
+         "custom": {"thresholdsStyle": {"mode": "line"}}}))
+    p.append(panel("timeseries", "Predicciones escritas por lote", 12, y, 12, 6, [flux(f'''
+from(bucket: "monitoraqua")
+  |> {RANGO}
+  |> filter(fn: (r) => r._measurement == "inferencia" and (r._field == "puntos_real" or r._field == "puntos_aumentado" or r._field == "recargas"))
+  |> aggregateWindow(every: v.windowPeriod, fn: sum, createEmpty: false)
+''')], "Puntos de predicción al bucket real y al de aumentados, y recargas de modelos (cambio de archivo sin "
+       "reiniciar el job).", "short", {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "multi"}},
+        {"custom": {"drawStyle": "bars", "fillOpacity": 60}}))
+    y += 6
+
     anotaciones = [anotacion("falla_sensor", "falla_sensor", "red", bucket="monitoraqua")]
     for a in anotaciones:  # en este tablero no hay variable sensorId
         a["target"]["query"] = a["target"]["query"].replace('  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n', "")
@@ -502,6 +598,13 @@ NOMBRES = {  # título del panel -> nombre de cada serie (variables de Grafana s
     "Entrada de Spark (filas/s)": "${__field.labels.consulta}",
     "Duración del lote (ms)": "${__field.labels.consulta}",
     "Lecturas del ESP32 por minuto (huecos = sin datos)": "lecturas del ESP32 por minuto",
+    "D2 · Nivel a 60 min: real vs pronosticado": "${__field.labels.sensorId} · ${__field.name}",
+    "D2 · Error del nivel a 60 min (pp)": "${__field.labels.sensorId}",
+    "D4 · Error de la hora de llegada (h)": "${__field.labels.sensorId}",
+    "D6 · Pérdida a 24 h: pronosticada vs observada (L)": "${__field.labels.sensorId} · ${__field.name}",
+    "D8 · Agua: real vs pronosticada (6 y 12 h)": "${__field.labels.sensorId} · ${__field.name}",
+    "Latencia de la inferencia por lote (ms)": "duración de la inferencia",
+    "Predicciones escritas por lote": "${__field.name}",
 }
 
 

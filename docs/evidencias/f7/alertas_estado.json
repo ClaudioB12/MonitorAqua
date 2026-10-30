@@ -1,0 +1,32 @@
+[
+ {
+  "regla": "ESP32 sin datos por más de 5 min",
+  "estado": "inactive",
+  "salud": "ok"
+ },
+ {
+  "regla": "Lag del consumidor de servicio-eventos sobre 10 mensajes",
+  "estado": "inactive",
+  "salud": "ok"
+ },
+ {
+  "regla": "Lote de Spark más largo que su trigger",
+  "estado": "inactive",
+  "salud": "ok"
+ },
+ {
+  "regla": "Latencia p95 de una fuente rápida sobre el watermark (420 s)",
+  "estado": "inactive",
+  "salud": "ok"
+ },
+ {
+  "regla": "Falla de sensor activa en el ESP32",
+  "estado": "inactive",
+  "salud": "ok"
+ },
+ {
+  "regla": "La consulta de predicciones dejó de escribir",
+  "estado": "inactive",
+  "salud": "ok"
+ }
+]

@@ -69,7 +69,8 @@ def inicio_franja(noche):
 
 def juliaca():
     """Enfriamiento de Open-Meteo Juliaca en la franja: T(00 h) - T(03 h) de cada fecha (Lima)."""
-    om = pd.read_parquet(RAIZ / "batch" / "datos" / "plata", filters=[("fuente", "=", "open-meteo")],
+    om = pd.read_parquet(RAIZ / "batch" / "datos" / "plata", filters=[("fuente", "=", "open-meteo"),
+                                                                      ("sensorId", "=", "open-meteo-juliaca")],
                          columns=["timestamp", "temperaturaC"])
     om["t"] = pd.to_datetime(om["timestamp"], unit="ms", utc=True).dt.tz_convert("America/Lima")
     om = om.groupby(om["t"].dt.floor("h"))["temperaturaC"].mean()

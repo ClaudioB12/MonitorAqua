@@ -19,6 +19,9 @@ S.builder.config('spark.jars.packages','org.apache.spark:spark-sql-kafka-0-10_2.
 
 WORKDIR /app/streaming
 COPY streaming/*.py ./
+# F7: los modelos de F6 que se usan en la inferencia en vivo (solo numpy). Sus parámetros NO van en la imagen: se
+# montan desde batch/modelos (infra/compose.yml) y se recargan si cambia el archivo.
+COPY batch/perfil_consumo.py batch/llegadas.py batch/fuga.py batch/termico.py ./
 
 CMD ["spark-submit", "--packages", "org.apache.spark:spark-sql-kafka-0-10_2.13:4.2.0", \
      "--driver-memory", "1g", "--conf", "spark.ui.port=4040", "procesar_stream.py"]

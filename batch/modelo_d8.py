@@ -279,7 +279,8 @@ def precision_dht(g, modelos):
 # --- 5. Transferencia a Juliaca --------------------------------------------------------------------------------
 
 def om_juliaca():
-    om = pd.read_parquet(RAIZ / "batch" / "datos" / "plata", filters=[("fuente", "=", "open-meteo")],
+    om = pd.read_parquet(RAIZ / "batch" / "datos" / "plata", filters=[("fuente", "=", "open-meteo"),
+                                                                      ("sensorId", "=", "open-meteo-juliaca")],
                          columns=["timestamp", "temperaturaC"])
     return om.groupby(om["timestamp"] // H * H)["temperaturaC"].mean().sort_index()
 

@@ -133,6 +133,8 @@ services:
       SENSORES_PRUEBA_PATH: /app/config/ingesta/sensores_prueba.yml
       TANQUES_PATH: /app/config/ingesta/tanques.yml
       REGLAS_SERVICIO_PATH: /app/config/streaming/reglas_servicio.yml
+      MODELOS_DIR: /app/config/modelos                       # F7: parámetros de los modelos de F6 (solo lectura)
+      KAFKA_TOPIC_AUMENTADOS: aqua-eventos-aumentados        # F7: la flota extrapolada para las predicciones
     ports:
       - "4043:4040"   # Spark UI del job (4042 es la de lambda26-pyspark)
     volumes:
@@ -142,6 +144,7 @@ services:
       # reglas_servicio.yml aunque el editor reemplace el archivo
       - ../ingesta:/app/config/ingesta:ro
       - ../streaming:/app/config/streaming:ro
+      - ../batch/modelos:/app/config/modelos:ro                                 # F7: se recargan al cambiar
       - ../data/local/validacion:/datos/validacion                          # salida de validar_detector.py
     depends_on:
       - influxdb

@@ -8,6 +8,8 @@ propio checkpoint:
   lentas_agg    ea-uk + usgs + open-meteo        watermark 90 min, ventanas de 15 min           -> InfluxDB lecturas_agg
   esp32_detalle cada lectura válida del ESP32     watermark 7 min                                -> InfluxDB lecturas_esp32
   bronce        todas las lecturas, válidas e inválidas, sin deduplicar                         -> Parquet origen/fecha
+  predicciones  (F7) tanques de aqua-eventos-real y de aqua-eventos-aumentados -> modelos de F6 en vivo
+                (streaming/inferencia.py)                                       -> InfluxDB predicciones, inferencia
 
 Las agregaciones y el detalle deduplican por eventId dentro del watermark (dropDuplicatesWithinWatermark).
 Las lecturas inválidas se cuentan (n_invalidas) pero no entran a los promedios, mínimos ni máximos.
@@ -36,6 +38,9 @@ CHECKPOINT_DIR = os.getenv("CHECKPOINT_DIR", "/checkpoints")
 BRONCE_DIR = os.getenv("BRONCE_DIR", "/datos/bronce")
 STARTING_OFFSETS = os.getenv("STARTING_OFFSETS", "earliest")  # solo aplica a un checkpoint nuevo
 SENSORES_PRUEBA_PATH = os.getenv("SENSORES_PRUEBA_PATH", "/app/config/sensores_prueba.yml")
+KAFKA_TOPIC_AUMENTADOS = os.getenv("KAFKA_TOPIC_AUMENTADOS", "aqua-eventos-aumentados")
+BUCKET_AUMENTADOS = os.getenv("INFLUX_BUCKET_AUMENTADOS", "monitoraqua_aumentados")
+ESTADO_PREDICCIONES = f"{os.getenv('CHECKPOINT_DIR', '/checkpoints')}/predicciones_estado.json"
 
 ORIGENES_RAPIDOS = ["esp32-fisico", "thingspeak"]
 ORIGENES_LENTOS = ["ea-uk", "usgs", "open-meteo"]
@@ -194,6 +199,60 @@ def a_influx_latencias(df, batch_id):
     log(status="influx_write", measurement="latencia_ingesta", batchId=batch_id, puntos=n)
 
 
+# --- F7: inferencia en vivo ------------------------------------------------------------------------------------
+ESQUEMA_PRED = StructType(ESQUEMA.fields + [StructField("runId", StringType())])
+COLUMNAS_PRED = ["sensorId", "origen", "fuenteTipo", "runId", "timestamp", "distanciaCm", "nivelPct", "nivelM",
+                 "temperaturaC", "tempAguaC"]
+_INFERENCIA = {"motor": None, "estado": None}
+
+
+def leer_para_predicciones(spark, excluidos):
+    """Tanques reales (aqua-eventos-real) y la flota extrapolada (aqua-eventos-aumentados), más Open-Meteo Juliaca
+    (lo usa D8). Lectura propia: los tanques de la flota no pasan por las demás consultas."""
+    crudo = (spark.readStream.format("kafka")
+             .option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP)
+             .option("subscribe", f"{KAFKA_TOPIC},{KAFKA_TOPIC_AUMENTADOS}")
+             .option("startingOffsets", "earliest").option("maxOffsetsPerTrigger", 20000)
+             .option("failOnDataLoss", "false").load())
+    ev = crudo.select(F.from_json(F.col("value").cast("string"), ESQUEMA_PRED).alias("e")).select("e.*")
+    ev = ev.filter(F.col("origen").isin("esp32-fisico", "thingspeak", "flota-extrapolada", "open-meteo"))
+    if excluidos:
+        ev = ev.filter(~F.col("sensorId").isin(excluidos))
+    return ev.select(*COLUMNAS_PRED)
+
+
+def a_predicciones(df, batch_id):
+    """Modelos de F6 sobre el micro-lote. El estado por tanque vive en ESTADO_PREDICCIONES, junto al checkpoint:
+    se escribe después de InfluxDB (escrituras idempotentes) y lleva el batchId, así que un lote repetido tras un
+    reinicio no cambia el estado dos veces."""
+    import inferencia
+    if _INFERENCIA["motor"] is None:
+        _INFERENCIA["motor"] = inferencia.Inferencia(inferencia.Registro(), _detector_nivel())
+        _INFERENCIA["estado"] = inferencia.cargar_estado(ESTADO_PREDICCIONES)
+        log(status="inferencia_estado_cargado", batchGuardado=_INFERENCIA["estado"].get("batch"),
+            tanques=len(_INFERENCIA["estado"].get("tanques", {})))
+    filas = [r.asDict() for r in df.collect()]
+    try:
+        salida, res = _INFERENCIA["motor"].procesar(filas, _INFERENCIA["estado"], batch_id)
+        n_real = influx.escribir(salida["real"]) if salida["real"] else 0
+        n_aum = influx.escribir(salida["aumentado"], bucket=BUCKET_AUMENTADOS) if salida["aumentado"] else 0
+    except Exception as ex:  # noqa: BLE001 - un error de la inferencia no debe detener el resto del pipeline
+        log(status="inferencia_error", batchId=batch_id, error=f"{type(ex).__name__}: {ex}")
+        _INFERENCIA["estado"] = inferencia.cargar_estado(ESTADO_PREDICCIONES)  # se descarta el estado a medias
+        influx.escribir([influx.linea("inferencia", {"consulta": "predicciones"},
+                                      {"errores": 1, "filas_lote": len(filas)}, time.time() * 1000)])
+        return
+    inferencia.guardar_estado(ESTADO_PREDICCIONES, _INFERENCIA["estado"])
+    for r in res.get("recargas", []):
+        log(status="modelo_recargado", batchId=batch_id, **r)
+    campos = {"duracion_ms": res["duracion_ms"], "lecturas": res["lecturas"], "puntos_real": n_real,
+              "puntos_aumentado": n_aum, "recargas": len(res.get("recargas", [])), "filas_lote": len(filas),
+              "repetido": bool(res.get("repetido")), "versiones": json.dumps(res.get("versiones", {}))}
+    influx.escribir([influx.linea("inferencia", {"consulta": "predicciones"}, campos, time.time() * 1000)])
+    log(status="influx_write", measurement="predicciones", batchId=batch_id, puntosReal=n_real, puntosAumentado=n_aum,
+        lecturas=res["lecturas"], duracionMs=res["duracion_ms"])
+
+
 class Progreso(StreamingQueryListener):
     """Progreso de cada micro-lote: al log y a InfluxDB (measurement spark_progreso) para la observabilidad."""
 
@@ -283,6 +342,11 @@ def main():
     (eventos_servicio(tanques_reales, "real").writeStream.queryName("eventos_servicio").outputMode("append")
         .foreachBatch(a_servicio(log=log)).option("checkpointLocation", cp("eventos_servicio"))
         .trigger(processingTime="10 seconds").start())
+
+    # F7: inferencia en vivo de los modelos de F6, con checkpoint propio
+    (leer_para_predicciones(spark, excluidos).writeStream.queryName("predicciones").outputMode("append")
+        .foreachBatch(a_predicciones).option("checkpointLocation", cp("predicciones"))
+        .trigger(processingTime="30 seconds").start())
 
     log(status="started", consultas=[q.name for q in spark.streams.active], kafkaTopic=KAFKA_TOPIC,
         sensoresPruebaExcluidos=excluidos,

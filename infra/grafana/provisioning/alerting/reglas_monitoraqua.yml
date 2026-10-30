@@ -164,3 +164,34 @@ groups:
         annotations:
           summary: "Más de la mitad de las lecturas del ESP32 son inválidas ({{ $values.B }})"
           description: "HC-SR04 con -1 o lecturas fuera de rango. Si además no llega nada, salta 'ESP32 sin datos'."
+
+      # 6. (F7) La consulta predicciones escribe en cada micro-lote con lecturas de tanques; ThingSpeak llega cada
+      #    ~5 min, así que 30 min sin ninguna predicción (ni motivo) significa la consulta caída o atascada.
+      - uid: ma-predicciones-sin-escribir
+        title: La consulta de predicciones dejó de escribir
+        condition: C
+        data:
+          - refId: A
+            relativeTimeRange: {from: 1800, to: 0}
+            datasourceUid: influxdb
+            model:
+              refId: A
+              query: |
+                from(bucket: "monitoraqua")
+                  |> range(start: -30m)
+                  |> filter(fn: (r) => r._measurement == "inferencia" and r._field == "puntos_real")
+                  |> group()
+                  |> sum()
+          - refId: B
+            datasourceUid: __expr__
+            model: {refId: B, type: reduce, expression: A, reducer: last, settings: {mode: replaceNN, replaceWithValue: 0}}
+          - refId: C
+            datasourceUid: __expr__
+            model: {refId: C, type: threshold, expression: B, conditions: [{evaluator: {type: lt, params: [1]}}]}
+        noDataState: Alerting
+        execErrState: Error
+        for: 5m
+        labels: {severidad: critica, criterio: "7"}
+        annotations:
+          summary: "La consulta predicciones no escribió ninguna predicción en 30 minutos"
+          description: "Revisar la consulta predicciones de lambda26-aqua-streaming (log: inferencia_estado_cargado, influx_write measurement=predicciones) y los modelos montados en /app/config/modelos."

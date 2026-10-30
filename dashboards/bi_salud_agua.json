@@ -4,8 +4,10 @@
  "tags": [
   "monitoraqua",
   "f5",
+  "f7",
   "bi",
-  "criterio-6"
+  "criterio-6",
+  "criterio-7"
  ],
  "timezone": "America/Lima",
  "schemaVersion": 39,
@@ -57,7 +59,7 @@
      "text": "All",
      "value": "$__all"
     },
-    "query": "import \"influxdata/influxdb/schema\"\nschema.tagValues(bucket: \"${origen}\", tag: \"sensorId\", predicate: (r) => r._measurement == \"nivel_tanque\", start: -120d)"
+    "query": "import \"influxdata/influxdb/schema\"\nschema.tagValues(bucket: \"${origen}\", tag: \"sensorId\", predicate: (r) => r._measurement == \"nivel_tanque\" or r._measurement == \"predicciones\", start: -120d)"
    }
   ]
  },
@@ -532,18 +534,55 @@
   },
   {
    "id": 10,
-   "type": "text",
-   "title": "F7 · Horas de autonomía proyectadas",
+   "type": "table",
+   "title": "F7 · Horas de autonomía (perfil de consumo)",
+   "description": "D2 (d2.2): horas hasta el 10 % con el perfil de consumo P50, hasta 12 h (\"más de 12 h\" si la supera); banda P10-P90 calibrada; el consumo medio como comparación. En ThingSpeak el perfil tiende a ser optimista. Si no aplica, el motivo.",
    "gridPos": {
     "x": 16,
     "y": 9,
     "w": 8,
     "h": 8
    },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D2\" and (r.tipo == \"estimacion\" or r.tipo == \"motivo\"))\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"autonomia_texto\" or r._field == \"autonomia_p10_h\" or r._field == \"autonomia_p90_h\" or r._field == \"autonomia_consumo_medio_h\" or r._field == \"nivel_pct\" or r._field == \"advertencia\" or r._field == \"motivo\")\n  |> group(columns: [\"sensorId\", \"_field\"])\n  |> last()\n  |> map(fn: (r) => ({r with _value: string(v: r._value)}))\n  |> group()\n  |> pivot(rowKey: [\"sensorId\", \"version_modelo\"], columnKey: [\"_field\"], valueColumn: \"_value\")"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
    "options": {
-    "mode": "markdown",
-    "content": "### Reservado para F7\n**Horas de autonomía proyectadas** (D2).\n\nAquí irá la predicción de series de tiempo en vivo (F7). Hasta entonces este espacio queda vacío a propósito."
-   }
+    "showHeader": true,
+    "cellHeight": "sm"
+   },
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "sensorId": 0,
+       "version_modelo": 1,
+       "autonomia_texto": 2,
+       "autonomia_p10_h": 3,
+       "autonomia_p90_h": 4,
+       "autonomia_consumo_medio_h": 5,
+       "nivel_pct": 6,
+       "advertencia": 7,
+       "motivo": 8
+      }
+     }
+    }
+   ]
   },
   {
    "id": 11,
@@ -687,18 +726,55 @@
   },
   {
    "id": 15,
-   "type": "text",
-   "title": "F7 · Hora estimada de la próxima llegada",
+   "type": "table",
+   "title": "F7 · Próxima llegada del agua",
+   "description": "D4 (d4.1): horas hasta la llegada más probable, ventana P10-P90 calibrada y probabilidad de llegada en 6/12/24 h. Si no aplica (tanque de lluvia, sin modelo), el motivo.",
    "gridPos": {
     "x": 17,
     "y": 22,
     "w": 7,
     "h": 4
    },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D4\" and (r.tipo == \"estimacion\" or r.tipo == \"motivo\"))\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"horas_moda\" or r._field == \"ventana_ini_h\" or r._field == \"ventana_fin_h\" or r._field == \"prob_6h\" or r._field == \"prob_12h\" or r._field == \"prob_24h\" or r._field == \"motivo\")\n  |> group(columns: [\"sensorId\", \"_field\"])\n  |> last()\n  |> map(fn: (r) => ({r with _value: string(v: r._value)}))\n  |> group()\n  |> pivot(rowKey: [\"sensorId\", \"version_modelo\"], columnKey: [\"_field\"], valueColumn: \"_value\")"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
    "options": {
-    "mode": "markdown",
-    "content": "### Reservado para F7\n**Hora estimada de la próxima llegada** (D4).\n\nAquí irá la predicción de series de tiempo en vivo (F7). Hasta entonces este espacio queda vacío a propósito."
-   }
+    "showHeader": true,
+    "cellHeight": "sm"
+   },
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "sensorId": 0,
+       "version_modelo": 1,
+       "horas_moda": 2,
+       "ventana_ini_h": 3,
+       "ventana_fin_h": 4,
+       "prob_6h": 5,
+       "prob_12h": 6,
+       "prob_24h": 7,
+       "motivo": 8
+      }
+     }
+    }
+   ]
   },
   {
    "id": 16,
@@ -792,18 +868,56 @@
   },
   {
    "id": 19,
-   "type": "text",
-   "title": "F7 · Pérdida proyectada",
+   "type": "table",
+   "title": "F7 · Pérdida proyectada por fuga (última noche)",
+   "description": "D6 (d6.1), una vez por noche: tasa nocturna (L/h), exceso sobre lo habitual, P(fuga) y pérdida a 24 h con su banda P10-P90 (sin la de 7 días). Complementa a alerta_fuga. Si no aplica (geometría provisional, canal sin distancia), el motivo.",
    "gridPos": {
     "x": 18,
     "y": 27,
     "w": 6,
     "h": 8
    },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D6\" and (r.tipo == \"estimacion\" or r.tipo == \"motivo\"))\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"noche\" or r._field == \"tasa_lph\" or r._field == \"exceso_lph\" or r._field == \"p_fuga\" or r._field == \"perdida_24h_l\" or r._field == \"perdida_24h_p10_l\" or r._field == \"perdida_24h_p90_l\" or r._field == \"motivo\")\n  |> group(columns: [\"sensorId\", \"_field\"])\n  |> last()\n  |> map(fn: (r) => ({r with _value: string(v: r._value)}))\n  |> group()\n  |> pivot(rowKey: [\"sensorId\", \"version_modelo\"], columnKey: [\"_field\"], valueColumn: \"_value\")"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
    "options": {
-    "mode": "markdown",
-    "content": "### Reservado para F7\n**Pérdida proyectada** (D6).\n\nAquí irá la predicción de series de tiempo en vivo (F7). Hasta entonces este espacio queda vacío a propósito."
-   }
+    "showHeader": true,
+    "cellHeight": "sm"
+   },
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "sensorId": 0,
+       "version_modelo": 1,
+       "noche": 2,
+       "tasa_lph": 3,
+       "exceso_lph": 4,
+       "p_fuga": 5,
+       "perdida_24h_l": 6,
+       "perdida_24h_p10_l": 7,
+       "perdida_24h_p90_l": 8,
+       "motivo": 9
+      }
+     }
+    }
+   ]
   },
   {
    "id": 20,
@@ -844,7 +958,7 @@
       "type": "influxdb",
       "uid": "influxdb"
      },
-     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"lecturas_agg\" and r.origen == \"open-meteo\" and r._field == \"temperaturaC_media\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> map(fn: (r) => ({r with _field: \"Juliaca (Open-Meteo)\"}))"
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"lecturas_agg\" and r.sensorId == \"open-meteo-juliaca\" and r._field == \"temperaturaC_media\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> map(fn: (r) => ({r with _field: \"Juliaca (Open-Meteo)\"}))"
     },
     {
      "refId": "C",
@@ -920,17 +1034,327 @@
   },
   {
    "id": 23,
-   "type": "text",
-   "title": "F7 · Hora de cruce del umbral térmico",
+   "type": "table",
+   "title": "F7 · Agua estimada, cruce del umbral y residencia",
+   "description": "D8 (d8.1): agua estimada ahora y a 6/12 h con banda P10-P90, probabilidad de cruzar 4 °C o 25 °C en 12 h y residencia (edad media del agua). Estimación sin sensor de agua: error de transferencia de 1-2 °C.",
    "gridPos": {
     "x": 18,
     "y": 36,
     "w": 6,
     "h": 8
    },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D8\" and (r.tipo == \"estimacion\" or r.tipo == \"motivo\"))\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"agua_c\" or r._field == \"agua_p10_c\" or r._field == \"agua_p90_c\" or r._field == \"agua_6h_c\" or r._field == \"agua_12h_c\" or r._field == \"agua_12h_p10_c\" or r._field == \"agua_12h_p90_c\" or r._field == \"prob_cruce_bajo_12h\" or r._field == \"prob_cruce_alto_12h\" or r._field == \"residencia_h\" or r._field == \"advertencia\" or r._field == \"motivo\")\n  |> group(columns: [\"sensorId\", \"_field\"])\n  |> last()\n  |> map(fn: (r) => ({r with _value: string(v: r._value)}))\n  |> group()\n  |> pivot(rowKey: [\"sensorId\", \"version_modelo\"], columnKey: [\"_field\"], valueColumn: \"_value\")"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
    "options": {
-    "mode": "markdown",
-    "content": "### Reservado para F7\n**Hora de cruce del umbral térmico** (D8).\n\nAquí irá la predicción de series de tiempo en vivo (F7). Hasta entonces este espacio queda vacío a propósito."
+    "showHeader": true,
+    "cellHeight": "sm"
+   },
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "sensorId": 0,
+       "version_modelo": 1,
+       "agua_c": 2,
+       "agua_p10_c": 3,
+       "agua_p90_c": 4,
+       "agua_6h_c": 5,
+       "agua_12h_c": 6,
+       "agua_12h_p10_c": 7,
+       "agua_12h_p90_c": 8,
+       "prob_cruce_bajo_12h": 9,
+       "prob_cruce_alto_12h": 10,
+       "residencia_h": 11,
+       "advertencia": 12,
+       "motivo": 13
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": 24,
+   "type": "row",
+   "title": "F7 · Pronóstico vs real (error en vivo de las predicciones pasadas)",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 44,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 25,
+   "type": "timeseries",
+   "title": "D2 · Nivel a 60 min: real vs pronosticado",
+   "description": "Cada pronóstico del nivel a 60 min, comparado con el nivel real cuando llegó ese instante.",
+   "gridPos": {
+    "x": 0,
+    "y": 45,
+    "w": 12,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D2\" and r.tipo == \"verificacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"nivel_real_pct\" or r._field == \"nivel_pred_pct\")\n  |> keep(columns: [\"_time\", \"_value\", \"_field\", \"sensorId\"])"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percent",
+     "custom": {
+      "drawStyle": "points",
+      "pointSize": 5
+     },
+     "noValue": "Sin verificaciones todavía en el periodo",
+     "displayName": "${__field.labels.sensorId} · ${__field.name}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "table",
+     "placement": "right",
+     "calcs": [
+      "mean",
+      "count"
+     ]
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 26,
+   "type": "timeseries",
+   "title": "D2 · Error del nivel a 60 min (pp)",
+   "description": "Real − pronosticado. La leyenda muestra el error medio y cuántos pronósticos se verificaron.",
+   "gridPos": {
+    "x": 12,
+    "y": 45,
+    "w": 12,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D2\" and r.tipo == \"verificacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"error_pp\")\n  |> keep(columns: [\"_time\", \"_value\", \"_field\", \"sensorId\"])"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "custom": {
+      "drawStyle": "points",
+      "pointSize": 5
+     },
+     "noValue": "Sin verificaciones todavía en el periodo",
+     "displayName": "${__field.labels.sensorId}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "table",
+     "placement": "right",
+     "calcs": [
+      "mean",
+      "count"
+     ]
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 27,
+   "type": "timeseries",
+   "title": "D4 · Error de la hora de llegada (h)",
+   "description": "En cada llegada observada: llegada real − hora más probable del último pronóstico. Negativo = llegó antes.",
+   "gridPos": {
+    "x": 0,
+    "y": 52,
+    "w": 8,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D4\" and r.tipo == \"verificacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"error_h\")\n  |> keep(columns: [\"_time\", \"_value\", \"_field\", \"sensorId\"])"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "h",
+     "custom": {
+      "drawStyle": "points",
+      "pointSize": 5
+     },
+     "noValue": "Sin verificaciones todavía en el periodo",
+     "displayName": "${__field.labels.sensorId}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "table",
+     "placement": "right",
+     "calcs": [
+      "mean",
+      "count"
+     ]
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 28,
+   "type": "timeseries",
+   "title": "D6 · Pérdida a 24 h: pronosticada vs observada (L)",
+   "description": "La pérdida pronosticada en una noche frente al exceso observado la noche siguiente × 24 h (aproximación observable: no hay fugas reales etiquetadas).",
+   "gridPos": {
+    "x": 8,
+    "y": 52,
+    "w": 8,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D6\" and r.tipo == \"verificacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"perdida_pred_l\" or r._field == \"perdida_real_proxy_l\")\n  |> keep(columns: [\"_time\", \"_value\", \"_field\", \"sensorId\"])"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "litre",
+     "custom": {
+      "drawStyle": "points",
+      "pointSize": 5
+     },
+     "noValue": "Sin verificaciones todavía en el periodo",
+     "displayName": "${__field.labels.sensorId} · ${__field.name}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "table",
+     "placement": "right",
+     "calcs": [
+      "mean",
+      "count"
+     ]
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 29,
+   "type": "timeseries",
+   "title": "D8 · Agua: real vs pronosticada (6 y 12 h)",
+   "description": "Solo ThingSpeak 3418755 mide el agua (DS18B20): sus pronósticos a 6 y 12 h frente al agua real.",
+   "gridPos": {
+    "x": 16,
+    "y": 52,
+    "w": 8,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D8\" and r.tipo == \"verificacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"agua_real_c\" or r._field == \"agua_pred_c\")\n  |> keep(columns: [\"_time\", \"_value\", \"_field\", \"sensorId\"])"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "celsius",
+     "custom": {
+      "drawStyle": "points",
+      "pointSize": 5
+     },
+     "noValue": "Sin verificaciones todavía en el periodo",
+     "displayName": "${__field.labels.sensorId} · ${__field.name}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "table",
+     "placement": "right",
+     "calcs": [
+      "mean",
+      "count"
+     ]
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
    }
   }
  ]

@@ -1,0 +1,15 @@
+# Recarga de un modelo sin reiniciar y reinicio desde el checkpoint (F7, 2026-10-30)
+
+## 1. Recarga: touch batch/modelos/d4/d4.1-20261029/modelo.json (solo la fecha; git no ve cambios)
+{"service": "aqua-streaming", "ts": 1793329380785, "status": "modelo_recargado", "batchId": 13, "dimension": "D4", "version": "d4.1-20261029", "archivo": "/app/config/modelos/d4/d4.1-20261029/modelo.json"}
+Contenedor sin reinicio entre el touch y la recarga (StartedAt 2026-10-30T02:56:37Z).
+
+## 2. Reinicio: docker restart lambda26-aqua-streaming (2026-10-30T03:03:19Z)
+{"service": "aqua-streaming", "ts": 1793329012338, "status": "query_started", "consulta": "predicciones", "id": "1f544693-d4cc-4af8-bfa7-056cb4f7047f", "runId": "f6439fc5-9feb-4ce2-91e3-1fd8b749d99a"}
+{"service": "aqua-streaming", "ts": 1793329420208, "status": "query_started", "consulta": "predicciones", "id": "1f544693-d4cc-4af8-bfa7-056cb4f7047f", "runId": "12c15f54-f60f-45ec-9ff4-e41b9e897e5d"}
+{"service": "aqua-streaming", "ts": 1793329013608, "status": "inferencia_estado_cargado", "batchGuardado": -1, "tanques": 0}
+{"service": "aqua-streaming", "ts": 1793329421614, "status": "inferencia_estado_cargado", "batchGuardado": 13, "tanques": 12}
+{"service": "aqua-streaming", "ts": 1793329380792, "status": "influx_write", "measurement": "predicciones", "batchId": 13, "puntosReal": 0, "puntosAumentado": 0, "lecturas": 6, "duracionMs": 52}
+{"service": "aqua-streaming", "ts": 1793329423662, "status": "influx_write", "measurement": "predicciones", "batchId": 14, "puntosReal": 0, "puntosAumentado": 0, "lecturas": 8, "duracionMs": 62}
+
+Mismo id de consulta (mismo checkpoint), runId nuevo; el estado se recarga con el último lote (13) y 12 tanques; el lote 14 trae solo lecturas nuevas (no reprocesa la flota).
