@@ -72,7 +72,7 @@ def main():
             res["error_abs_medio"] = sum(abs(x) for x in errores) / len(errores)
         out[nombre] = res
         print(nombre, "n =", len(filas), {k: round(v, 3) for k, v in res.items() if k.startswith("error")})
-    destino = RAIZ / "docs" / "evidencias" / "f7" / f"verificacion_en_vivo_{datetime.now().strftime('%Y%m%d')}.json"
+    destino = RAIZ / "docs" / "evidencias" / "f7" / f"verificacion_en_vivo_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%Mutc')}.json"
     destino.write_text(json.dumps(out, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
     print("guardado en", destino.relative_to(RAIZ))
 
