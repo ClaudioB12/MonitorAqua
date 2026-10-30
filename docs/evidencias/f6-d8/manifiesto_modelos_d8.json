@@ -1,0 +1,85 @@
+{
+ "version": "d8.1",
+ "generado": "2026-10-29T21:34:26-05:00",
+ "particion": "p6.2",
+ "canal": "thingspeak-3418755",
+ "open_meteo_canal": "batch/datos/fuentes/f8_open_meteo_3418755.json",
+ "regla_linea_base": {
+  "version_regla": "provisional",
+  "tau_h": 25.2,
+  "reglas": "f4.4"
+ },
+ "config": {
+  "version": "d8.1",
+  "canal_validacion": "thingspeak-3418755",
+  "ubicacion_canal": {
+   "latitude": 53.45,
+   "longitude": -2.51
+  },
+  "spin_up_h": 72,
+  "modelos": {
+   "aire_y_om": [
+    "aire",
+    "om"
+   ],
+   "solo_aire": [
+    "aire"
+   ],
+   "solo_om": [
+    "om"
+   ]
+  },
+  "taus_h": {
+   "desde": 2,
+   "hasta": 120,
+   "n": 60
+  },
+  "frac_ajuste": 0.2,
+  "conforme": {
+   "alfa": 0.2,
+   "min_n": 24
+  },
+  "horizontes_h": [
+   0,
+   6,
+   12
+  ],
+  "horizonte_cruce_h": 12,
+  "umbrales": {
+   "configurados": {
+    "bajo_c": 4.0,
+    "alto_c": 25.0
+   },
+   "rejilla_evaluacion": {
+    "desde_c": 8.0,
+    "hasta_c": 18.5,
+    "paso_c": 0.5
+   }
+  },
+  "evaluacion": {
+   "largo_bloque_h": 24,
+   "min_dias_evidencia": 7,
+   "min_eventos_cruce": 10,
+   "n_boot": 500
+  },
+  "juliaca": {
+   "amortiguacion_camara": 0.6
+  },
+  "dht11": {
+   "sesgo_c": 2.0,
+   "resolucion_c": 1.0
+  },
+  "residencia": {
+   "paso_min": 5,
+   "subida_min_pp": 0.2,
+   "bins_h": [
+    0,
+    12,
+    24,
+    48,
+    96,
+    1000
+   ]
+  }
+ }
+}

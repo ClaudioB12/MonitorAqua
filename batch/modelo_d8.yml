@@ -1,0 +1,45 @@
+# Configuración del modelo D8 (temperatura del agua almacenada y residencia). La lee batch/modelo_d8.py. La partición
+# es la vigente (p6.2) a través de la columna "particion" de la tabla oro d8_termica.
+version: "d8.1"
+
+canal_validacion: thingspeak-3418755   # único dato real de agua: field3 (DS18B20) con aire dentro del tanque (field2)
+ubicacion_canal: {latitude: 53.45, longitude: -2.51}   # noroeste de Inglaterra (adecuación de D8): su Open-Meteo
+spin_up_h: 72                          # horas de Open-Meteo antes del primer dato, para que los filtros arranquen
+
+modelos:                               # mismas ecuaciones, distintas entradas (se reportan todas)
+  aire_y_om: [aire, om]                # aire de la cámara/tanque (huecos rellenos con Open-Meteo) + Open-Meteo
+  solo_aire: [aire]
+  solo_om: [om]                        # lo que queda cuando el ESP32 no transmite (casi siempre de noche)
+taus_h: {desde: 2, hasta: 120, n: 60}  # rejilla de τ (geométrica)
+
+frac_ajuste: 0.2                       # último 20 % del entrenamiento: elige el modelo principal y calibra la banda
+conforme: {alfa: 0.20, min_n: 24}
+horizontes_h: [0, 6, 12]               # 0 = estimación actual
+horizonte_cruce_h: 12
+
+umbrales:
+  configurados: {bajo_c: 4.0, alto_c: 25.0}   # los de la regla umbral_termico (congelada, no se tocan)
+  # El agua del canal real va de 7.8 a 18.7 °C: nunca cruza 4 ni 25 °C. Para medir si la probabilidad de cruce está
+  # bien calibrada se usa una REJILLA de umbrales de evaluación dentro de ese rango y se suman los cruces de todos.
+  # (Los percentiles 10/90 del entrenamiento no sirven: el canal se enfría en otoño y en la prueba no hay cruces.)
+  rejilla_evaluacion: {desde_c: 8.0, hasta_c: 18.5, paso_c: 0.5}
+
+evaluacion:
+  largo_bloque_h: 24                   # bootstrap de bloques de un día
+  min_dias_evidencia: 7
+  min_eventos_cruce: 10
+  n_boot: 500
+
+juliaca:
+  # Para rellenar los huecos del DHT11 en Juliaca no hay una relación medida aire de la cámara ~ Open-Meteo: se usa
+  # la del generador (ingesta/generador.yml -> amortiguacion_camara): cámara = media + 0.6 · (exterior - media)
+  amortiguacion_camara: 0.6
+
+dht11:                                 # precisión limitante (sección 7 de docs/modelo-d8.md)
+  sesgo_c: 2.0
+  resolucion_c: 1.0
+
+residencia:
+  paso_min: 5                          # serie de nivel de d2_autonomia
+  subida_min_pp: 0.2                   # subida por paso que cuenta como agua nueva, dentro de una llegada de D4
+  bins_h: [0, 12, 24, 48, 96, 1000]

@@ -236,6 +236,24 @@ Colector APIs ┴─> Firebase RTDB (/board1/lecturas/historial) ─> puente ─
     (1233810: 52 de 59 noches con llenado; en Juliaca el suministro suele llegar de noche). En d6.2 la franja de
     mínimo consumo se calcula por tanque con las horas de llegada de D4. Detalle en `docs/modelo-d6.md`; evidencia en
     `docs/evidencias/f6-d6/`.
+- **Modelo D8, temperatura del agua y residencia (F6-D8, d8.1):** `batch/modelo_d8.py` + `.yml` y `batch/termico.py`
+  (solo numpy, para F7), ~35 s.
+  - **Datos:** el único dato real de agua es ThingSpeak 3418755 (tanque de lluvia en Inglaterra), con Open-Meteo de su
+    ubicación descargado una vez (`batch/datos/fuentes/f8_open_meteo_3418755.json`). En Juliaca (flota, ESP32) no hay
+    agua medida: se reporta **error de transferencia**, no medición.
+  - **Modelo:** inercia de primer orden ajustada, agua = g1·F_τ(aire cámara) + g2·F_τ(Open-Meteo) + c, simulada desde
+    el aire (nunca usa el agua medida); τ = 24.3 h (la provisional tenía 25.2); pronóstico 6/12 h con ciclo + anomalía;
+    banda conforme por horizonte. Bases: aire actual, media 24 h e inercia provisional f4.4.
+  - **Resultado (canal real, prueba de 8 días):** MAE 0.16 °C ahora, 0.24 a 6 h y 0.41 a 12 h, mejor que todas las
+    bases (la más cercana, "aire actual", 0.22 / 0.35 / 0.47). Solo aire o solo Open-Meteo se desvían en la prueba.
+    Umbrales 4/25 °C: nunca se cruzan en el canal; la probabilidad de cruce se calibra con una rejilla de umbrales de
+    evaluación (Brier con skill +0.4 / +0.9). DHT11: un sesgo de ±2 °C mueve el agua estimada ±0.9 °C (limitante); el
+    redondeo no importa. Transferencia a Juliaca: la causa principal es τ (∝ V^(1/3)): el recipiente del ESP32 es
+    mucho más pequeño (τ real ~4-10 h), lo que da 1-2 °C de error medio; además ~0.8 °C con la provisional y
+    ~0.5 °C por parámetros. Evidencia real: 8 días de prueba de un solo canal. DS18B20 opcional (no lo tenemos):
+    mediría el agua y ajustaría τ.
+  - **Residencia:** edad media del agua (tanque bien mezclado) con las llegadas de D4 (detector y subida sostenida);
+    descriptiva. Detalle en `docs/modelo-d8.md`; evidencia en `docs/evidencias/f6-d8/`.
 
 ## Contrato del evento
 
