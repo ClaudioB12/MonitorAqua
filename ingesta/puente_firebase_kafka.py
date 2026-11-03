@@ -44,6 +44,24 @@ MEDIDAS_ESP32 = ("distanciaCm", "humedadPct", "temperaturaC")
 ESPERA_MIN_S, ESPERA_MAX_S = 2, 60
 
 
+def lineas_sse(r):
+    """Líneas del stream SSE en tiempo lineal.
+
+    iter_lines(chunk_size=1) entregaba al instante las lecturas cortas, pero rearmaba la línea en cada
+    byte: tras un apagado largo, el estado inicial (una sola línea de varios MB) tardaba horas.
+    read1 devuelve lo que ya llegó sin esperar a llenar el bloque (Firebase no responde chunked, así
+    que iter_content(None) esperaría al cierre); la búsqueda del salto de línea empieza en lo nuevo.
+    """
+    buf, desde = bytearray(), 0
+    while trozo := r.raw.read1(65536, decode_content=True):
+        buf += trozo
+        while (i := buf.find(b"\n", desde)) >= 0:
+            yield buf[:i].decode("utf-8").rstrip("\r")
+            del buf[:i + 1]
+            desde = 0
+        desde = len(buf)
+
+
 class Estado:
     """Cursor (mayor timestamp publicado), piso y claves publicadas dentro de la ventana.
 
@@ -189,8 +207,7 @@ class Puente:
             r.raise_for_status()
             log(SERVICIO, status="streaming", path=FIREBASE_PATH, desdeTs=desde, **self.contadores)
             tipo = None
-            # chunk_size=1: con el valor por defecto una lectura corta queda retenida en el buffer
-            for linea in r.iter_lines(chunk_size=1, decode_unicode=True):
+            for linea in lineas_sse(r):
                 if self.sesion.por_vencer():
                     log(SERVICIO, status="reconnecting", motivo="token por vencer")
                     return

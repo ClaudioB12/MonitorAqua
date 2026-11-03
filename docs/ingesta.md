@@ -56,6 +56,14 @@ lecturas de las últimas H horas que no se hayan publicado.
 puente registra `status=error` y reintenta con espera creciente de 2 a 60 s. Si el error es de Kafka, recrea el
 productor. La lectura que no se pudo publicar no quedó en `vistas`, así que vuelve a llegar en el siguiente stream.
 
+**Lectura del stream tras un apagado largo (F8, 2026-11-03).** Al reconectar, Firebase manda todo lo acumulado
+desde `cursor - VENTANA_H` en **una sola línea** SSE. El puente leía con `iter_lines(chunk_size=1)`, que rearma la
+línea en cada byte (costo cuadrático): tras 4 días apagado (8 MB, ~30 000 lecturas) quedó horas al 100 % de CPU sin
+publicar, y hubo que destrabarlo con el backfill explícito. Ahora `lineas_sse()` lee con `raw.read1(65536)` (lo que ya
+llegó, sin esperar a llenar el bloque; Firebase no responde *chunked*, así que `iter_content(None)` esperaría al
+cierre) y parte las líneas en tiempo lineal: esas 100 h se procesan en ~3 s y las lecturas en vivo siguen saliendo al
+instante. Requiere `urllib3>=2.3`. Ya no hace falta un backfill después de un apagado largo.
+
 **Garantía:** al-menos-una-vez. Si el proceso muere entre publicar y guardar el estado (cada 5 s), una lectura puede
 repetirse; Spark deduplica por `eventId` (F3).
 
@@ -196,12 +204,14 @@ arrancar**, antes de su bucle normal:
    (`origen_estacion_timestamp`).
 
 **Qué llega a Kafka:**
+
 - Al encender la PC, el puente escucha desde su cursor del apagado menos 3 h. Toda lectura recargada con
   `timestamp` posterior llega a Kafka y al bronce, que es el caso normal: recargar la noche.
 - Si la recarga encuentra un hueco más viejo, por ejemplo de un día anterior, esas lecturas quedan **solo en
   Firebase**.
 
 **Configuración y prueba:**
+
 - Se desactiva con `RECARGA_ARRANQUE=0`.
 - Para probarla: `python colector_apis.py --solo-recarga --seco`.
 - Si una API falla durante la recarga, se registra y el colector sigue con su bucle normal.
@@ -219,6 +229,7 @@ escribió 597 claves nuevas.
 `auditar_ingesta.py` dio 0 `eventId` repetidos en Kafka.
 
 **Arreglos de la misma revisión,** que también afectan a las pasadas de la nube:
+
 - **EA UK:** sin `_limit` devolvía como máximo 500 lecturas por estación. Ahora pide `_limit=10000`.
 - **USGS:** sigue el enlace `next` cuando hay más de una página.
 
@@ -287,6 +298,7 @@ EDAD_MAX_H=7 python colector_apis.py --una-vez --ventana-min 360
 
 GitHub suele tardar en activar el cron de un workflow recién agregado, y en horas de carga atrasa o descarta
 ejecuciones. Esa noche y esa mañana estuvo **5 h sin ejecutar nada**. Por eso:
+
 - la ventana pasó de 2 h a 6 h el mismo día;
 - y, sobre todo, el colector local recarga al arrancar (sección anterior), así que la continuidad ya no depende
   de GitHub.
