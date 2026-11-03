@@ -7,6 +7,7 @@ GitHub Actions** como respaldo, cada 30 min si GitHub lo ejecuta (`docs/ingesta.
 lo demás está detenido: Kafka, el puente, Spark, InfluxDB y Grafana.
 
 Al encender:
+
 - el **colector local recarga** de cada API lo que falte desde la última lectura en Firebase
   (`docs/ingesta.md` → *Recarga al arranque*), sin depender del cron de GitHub;
 - el puente pasa a Kafka lo acumulado en Firebase;

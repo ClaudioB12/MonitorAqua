@@ -7,6 +7,7 @@
 | `manifiesto_modelos_d8.json` | Versión, fecha, partición (p6.2), canal, Open-Meteo usado, regla de la línea base y configuración |
 
 **Datos:**
+
 - **Tablas oro:** `d8_termica`, `d2_autonomia` y `d4_llegadas` (p6.2).
 - **Open-Meteo Juliaca:** de la capa plata.
 - **Open-Meteo de la ubicación del canal 3418755** (53.45, −2.51): misma API pública, descargado una vez en

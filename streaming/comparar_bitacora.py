@@ -79,7 +79,9 @@ def leer_eventos_kafka():
     c.seek_to_beginning()
     eventos = [json.loads(m.value) for m in c]
     c.close()
-    return eventos
+    import prueba  # F8: sin los eventos de los tanques de prueba (carga-*) que quedaron en el tópico real
+    excl = prueba.cargar(RAIZ / "ingesta" / "sensores_prueba.yml")
+    return [e for e in eventos if not prueba.es_prueba(e.get("sensorId"), *excl)]
 
 
 def reprocesar_bronce(sensores):

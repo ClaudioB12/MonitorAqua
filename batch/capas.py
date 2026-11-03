@@ -244,7 +244,9 @@ def main():
              .config("spark.sql.session.timeZone", "UTC").config("spark.sql.shuffle.partitions", "8")
              .config("spark.sql.execution.arrow.pyspark.enabled", "true").getOrCreate())
     spark.sparkContext.setLogLevel("WARN")
-    prueba = [s["sensorId"] for s in yaml.safe_load((RAIZ / "ingesta" / "sensores_prueba.yml").read_text(encoding="utf-8"))["sensores"]]
+    lista = yaml.safe_load((RAIZ / "ingesta" / "sensores_prueba.yml").read_text(encoding="utf-8"))
+    prueba = [s["sensorId"] for s in lista["sensores"]]
+    prefijos_prueba = [p["prefijo"] for p in lista.get("prefijos") or []]   # F8: carga-*
 
     # Fuentes -> esquema común
     partes = [a_spark(spark, fuente_esp32()), a_spark(spark, fuente_thingspeak()), a_spark(spark, fuente_open_meteo())]
@@ -273,6 +275,8 @@ def main():
     # Plata: deduplicado por eventId (prioridad: fuente original sobre la copia de Kafka), sin sensores de prueba
     prio = F.create_map(*[x for k, v in PRIORIDAD.items() for x in (F.lit(k), F.lit(v))])
     w = Window.partitionBy("eventId", F.coalesce("runId", F.lit(""))).orderBy(prio[F.col("origen_dato")], "timestamp")
+    for pref in prefijos_prueba:
+        todo = todo.filter(~F.col("sensorId").startswith(pref))
     dedup = (todo.filter(~F.col("sensorId").isin(prueba))
              .withColumn("_n", F.row_number().over(w)).filter("_n = 1").drop("_n")
              # ThingSpeak llega por la API completa: la copia de Kafka de esos mismos canales sobra

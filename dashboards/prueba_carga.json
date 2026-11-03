@@ -1,0 +1,312 @@
+{
+ "uid": "monitoraqua-carga",
+ "title": "Prueba de carga (F8)",
+ "tags": [
+  "monitoraqua",
+  "f8",
+  "criterio-5"
+ ],
+ "timezone": "America/Lima",
+ "schemaVersion": 39,
+ "version": 1,
+ "editable": false,
+ "graphTooltip": 1,
+ "refresh": "30s",
+ "time": {
+  "from": "now-3h",
+  "to": "now"
+ },
+ "templating": {
+  "list": []
+ },
+ "annotations": {
+  "list": []
+ },
+ "panels": [
+  {
+   "id": 26,
+   "type": "text",
+   "title": "Prueba de carga",
+   "gridPos": {
+    "x": 0,
+    "y": 0,
+    "w": 24,
+    "h": 3
+   },
+   "options": {
+    "mode": "markdown",
+    "content": "Tanques sintéticos `carga-NNNNN` (una lectura cada 5 s, como el ESP32) publicados en **aqua-carga-prueba** a 100, 500, 1,000, 2,000 y 5,000 eventos/s por el job `aqua-streaming-carga` (misma imagen que producción). No toca el tópico real. Resultado y criterios: `docs/costos-escalado.md`."
+   }
+  },
+  {
+   "id": 27,
+   "type": "timeseries",
+   "title": "Mensajes/s publicados en el tópico de prueba",
+   "description": "Tasa de llegada a Kafka (kafka-exporter).",
+   "gridPos": {
+    "x": 0,
+    "y": 3,
+    "w": 12,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "prometheus"
+     },
+     "expr": "sum(rate(kafka_topic_partition_current_offset{topic=\"aqua-carga-prueba\"}[1m]))",
+     "legendFormat": "eventos/s"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prometheus"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 28,
+   "type": "timeseries",
+   "title": "Lag de Spark por consulta (mensajes pendientes)",
+   "description": "latestOffset - endOffset de cada micro-lote. Si crece de lote en lote, la consulta no da abasto.",
+   "gridPos": {
+    "x": 12,
+    "y": 3,
+    "w": 12,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua_carga\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"spark_progreso\" and r._field == \"lagOffsets\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "displayName": "${__field.labels.consulta}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 29,
+   "type": "timeseries",
+   "title": "Duración del lote frente al intervalo del trigger (%)",
+   "description": "Sobre 100 % la consulta no termina un lote antes del siguiente trigger.",
+   "gridPos": {
+    "x": 0,
+    "y": 10,
+    "w": 12,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua_carga\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"spark_progreso\" and r._field == \"batchDurationMs\")\n  |> map(fn: (r) => ({r with _value: float(v: r._value) / (if r.consulta == \"rapidas_agg\" or r.consulta == \"latencias\" or r.consulta == \"predicciones\" then 30000.0 else if r.consulta == \"lentas_agg\" or r.consulta == \"bronce\" then 60000.0 else 10000.0) * 100.0}))\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percent",
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "red",
+        "value": 100
+       }
+      ]
+     },
+     "custom": {
+      "thresholdsStyle": {
+       "mode": "line"
+      }
+     },
+     "displayName": "${__field.labels.consulta}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 30,
+   "type": "timeseries",
+   "title": "Filas procesadas por segundo, por consulta",
+   "description": "processedRowsPerSecond de cada micro-lote.",
+   "gridPos": {
+    "x": 12,
+    "y": 10,
+    "w": 12,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua_carga\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"spark_progreso\" and r._field == \"processedRowsPerSecond\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "displayName": "${__field.labels.consulta}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 31,
+   "type": "timeseries",
+   "title": "Latencia de la inferencia por lote (ms)",
+   "description": "Tiempo de Inferencia.procesar en el driver (consulta predicciones, trigger 30 s).",
+   "gridPos": {
+    "x": 0,
+    "y": 17,
+    "w": 12,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua_carga\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"inferencia\" and r._field == \"duracion_ms\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "ms",
+     "displayName": "duración de la inferencia"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 32,
+   "type": "timeseries",
+   "title": "Filas por lote de la inferencia",
+   "description": "Tope de 20,000 filas por lote (maxOffsetsPerTrigger de la consulta predicciones).",
+   "gridPos": {
+    "x": 12,
+    "y": 17,
+    "w": 12,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua_carga\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"inferencia\" and r._field == \"filas_lote\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "displayName": "filas del lote"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  }
+ ]
+}

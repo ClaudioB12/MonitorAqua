@@ -2,6 +2,8 @@
 
 **Dimensión D4 (Wilbert Mayta).** Versión `d4.1`, entrenada el 2026-10-29 con la partición `p6.1`.
 
+**Gráficos y evidencia:** al final de la página, en [Gráficos del notebook y del tablero en vivo](#graficos).
+
 - **Código:** `batch/modelo_d4.py` (configuración en `batch/modelo_d4.yml`) y `batch/llegadas.py`, el modelo, sin
   dependencias, para F7.
 - **Evidencia:** `docs/evidencias/f6-d4/`.
@@ -12,6 +14,7 @@
 > **¿A qué hora va a llegar el agua al tanque la próxima vez, y en qué ventana de horas es probable que llegue?**
 
 Con la respuesta, la familia o el administrador pueden decidir:
+
 - si conviene **guardar agua** antes de una llegada que tardará;
 - **a qué hora estar atentos** para llenar recipientes o encender una bomba;
 - y, junto con D2 (las horas de autonomía), si el agua que queda **alcanza hasta la próxima llegada**: si la
@@ -29,12 +32,14 @@ Con la respuesta, la familia o el administrador pueden decidir:
 **Por qué hace falta el complemento:** el detector congelado f4.3 **no detecta los llenados de los canales de
 ThingSpeak que informan el nivel en %** (1233810, 1233815, 283977). En 1233810, el tanque doméstico de 24,000 L, la
 subida sostenida encuentra 36 llenados casi diarios, y el detector, ninguno.
+
 - Las reglas congeladas no se tocan.
 - Es un hallazgo para una futura versión del detector (f4.4).
 - Sin el complemento, el único tanque real con llegadas sería 3418755, que recoge **agua de lluvia**: sus
   "llegadas" son lluvias, no servicio de agua.
 
 **Llegadas excluidas** (se reportan aparte, sección 7):
+
 - las marcadas `artefacto_reanudacion`: la reconexión del ESP32 después de un hueco, que el detector ve como
   llegada;
 - las `no_verificable` de la bitácora.
@@ -92,6 +97,7 @@ hora siguiente? Esa probabilidad depende de dos cosas, y el modelo las multiplic
 Los dos factores se estiman a la vez con un ajuste iterativo (IPF) sobre las horas en riesgo del entrenamiento.
 
 **Qué devuelve,** desde la distribución de la próxima llegada:
+
 - la **hora más probable** (la moda);
 - la mediana;
 - una **ventana P10-P90**;
@@ -102,6 +108,7 @@ así que se agrupa **por zona** (A y B). Esto bajó el error de Kaplan-Meier de 
 2.4 h a 1.6 h. En ThingSpeak cada tanque tiene su propio modelo.
 
 **Ventana calibrada:**
+
 - La ventana P10-P90 se ajusta con **predicción conforme** sobre el **conjunto de ajuste** (el último 20 % del
   entrenamiento), usando un modelo entrenado sin ese ajuste.
 - La ventana calibrada es `[P10 − q, P90 + q]`.
@@ -202,6 +209,7 @@ Con el detector f4.3, ThingSpeak real no tiene ningún tanque evaluable: el dete
      probablemente subestima la dificultad real.
 
 **Conclusión:** el modelo queda entrenado, evaluado y listo para F7.
+
 - **Flota:** supera ligeramente a las líneas base en la hora y claramente en la probabilidad a 6-12 h.
 - **Tanque real de la red (1233810):** no hay evidencia suficiente (5 intervalos). Nada acierta bien la hora; el
   modelo solo evita el error grande de las líneas base en la probabilidad. Se reporta tal cual.
@@ -328,3 +336,41 @@ censurados), porque los datos terminan con intervalos largos abiertos. Por eso s
 ```bash
 .venv/Scripts/python batch/modelo_d4.py          # ~2 min; usa batch/datos/oro (d2_autonomia y d4_llegadas)
 ```
+
+<!-- graficos-notebook -->
+
+## Gráficos del notebook y del tablero en vivo {#graficos}
+
+Los gráficos salen del notebook `notebooks/u2/d4_llegadas.ipynb`, que reproduce las cifras de esta página desde los modelos versionados, sin reentrenar. Las capturas del tablero BI son de F7 (`docs/evidencias/f7/`).
+
+![D4, gráfico 1](img/notebooks/d4_01.png)
+
+*Gráfico 1. Horas hasta la próxima llegada, predichas frente a reales, en la flota (consistencia). Weibull sigue la diagonal; la línea paralela desplazada son llegadas que el modelo ubica en el ciclo siguiente (~24 h de error). A la derecha, los residuos: Weibull más concentrado en cero que la base “misma hora”.*
+
+![D4, gráfico 2](img/notebooks/d4_02.png)
+
+*Gráfico 2. Cobertura de la ventana P10-P90 de la próxima llegada, antes y después de calibrar, por serie. Las series “fuera de alcance” (3418755) no se calibran y quedan en cero después: se reportan aparte.*
+
+![D4, gráfico 3](img/notebooks/d4_03.png)
+
+*Gráfico 3. En vivo (F7): error de la hora de llegada (real − pronosticada) en el tanque flota-zonaB-02. La mayoría queda cerca de cero; las barras de −21 h son llegadas que el modelo esperaba un día después.*
+
+### Tablero BI en vivo (F7)
+
+![Tabla F7 con datos reales.](evidencias/f7/real_d4_proxima_llegada.png)
+
+*Tabla F7 con datos reales.*
+
+![Tabla F7 con la flota extrapolada.](evidencias/f7/aumentado_d4_proxima_llegada.png)
+
+*Tabla F7 con la flota extrapolada.*
+
+![Fila “Pronóstico vs real” con datos reales: error de la hora de llegada.](evidencias/f7/real_vs_real_d4_error.png)
+
+*Fila “Pronóstico vs real” con datos reales: error de la hora de llegada.*
+
+## Evidencia
+
+- [Evidencia de d4.1](evidencias/f6-d4/README.md)
+- [Tablas completas de d4.1](evidencias/f6-d4/tablas_d4.md)
+- [Inferencia en vivo (F7)](inferencia-en-vivo.md) y su [evidencia](evidencias/f7/README.md)

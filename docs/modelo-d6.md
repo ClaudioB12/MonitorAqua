@@ -2,6 +2,8 @@
 
 **Dimensión D6 (Joel Huillca).** Versión `d6.1`, entrenada el 2026-10-29 con la partición `p6.2`.
 
+**Gráficos y evidencia:** al final de la página, en [Gráficos del notebook y del tablero en vivo](#graficos).
+
 - **Código:** `batch/modelo_d6.py` (configuración en `batch/modelo_d6.yml`) y `batch/fuga.py`, el modelo, sin
   dependencias fuera de numpy, para F7.
 - **Modelo guardado:** `batch/modelos/d6/d6.1-20261029/` (`modelo.json` y `manifiesto.json`).
@@ -20,6 +22,7 @@
 > perderá en las próximas 24 horas y en los próximos 7 días si nadie hace nada?**
 
 Con la respuesta, la familia o el administrador pueden decidir:
+
 - si conviene **revisar el flotador, las uniones o la llave** del tanque, antes de que la pérdida crezca;
 - **cuánta agua cuesta no arreglarlo**, en litros a 24 h y a 7 días, con un rango creíble;
 - y, junto con D2 (autonomía), si la fuga **acorta las horas de agua** que quedan.
@@ -35,6 +38,7 @@ Con la respuesta, la familia o el administrador pueden decidir:
 
 **Base común: la tabla oro `d6_noches`.** Cada noche se arma con la misma función de la capa oro (`batch/oro.py` →
 `d6`) sobre la distancia de la capa plata. Esa distancia ya respeta dos cosas:
+
 - **`compensacion_en_firmware`:** la distancia del ESP32 no se compensa dos veces.
 - **El sensor vigente en cada periodo:** HC-SR04 o JSN-SR04T, cada uno con su rango válido (`ingesta/tanques.yml` →
   `sensorModelo`).
@@ -42,6 +46,7 @@ Con la respuesta, la familia o el administrador pueden decidir:
 Una noche con dos sensores, o con compensación desconocida, no se usa.
 
 **Por qué varias corridas por modelo de generador y no solo la de la tabla oro:**
+
 - La tabla oro tiene una corrida de f2b.2 (semilla 7), y en su partición de consistencia solo hay 2 noches con
   fuga. Con eso no se puede medir nada.
 - Las demás semillas se reconstruyen con el mismo código.
@@ -61,10 +66,12 @@ modelo usa el nivel directamente.
 ## 3. Cómo se estima la tasa y la pérdida
 
 **Franja nocturna: 00:00 a 03:30 (Lima).**
+
 - Es la misma de `d6_noches` y de la regla `alerta_fuga` congelada.
 - Es la de menor consumo (pesos 0.1-0.2 del perfil horario) y termina antes de la franja de llegada más temprana.
 
 **Noche válida.** Debe cumplir tres condiciones:
+
 - al menos 60 % de los minutos con lectura;
 - ningún llenado en la franja ni en la hora anterior;
 - un solo sensor, con la compensación conocida.
@@ -118,6 +125,7 @@ La regresión logística (IRLS con penalización L2, clases equilibradas) da P(f
 **Umbral:** P ≥ **0.70**. Se eligió en el conjunto de ajuste (mayor F1, 0.63), nunca en la evaluación.
 
 **Cómo se leen los coeficientes:**
+
 - **Pesa sobre todo el exceso,** como debe ser.
 - **La estabilidad sube la probabilidad** porque, si la noche anterior ya tenía fuga, la serie de noches previas se
   vuelve inestable.
@@ -125,6 +133,7 @@ La regresión logística (IRLS con penalización L2, clases equilibradas) da P(f
   descenso. Ninguna deriva térmica de la evaluación dio una alarma (0 de 12 en cada modelo de generador).
 
 **Por qué una regresión logística y no un GBT de MLlib:**
+
 - **Hay pocos positivos:** 124 noches con fuga en el entrenamiento. Un GBT con tan pocos positivos aprende ruido.
 - **Es explicable:** cada coeficiente se puede defender frente al jurado, como en la tabla de arriba.
 - **Es calibrable:** da una probabilidad, que es justo lo que pide la pérdida esperada (P · exceso · H).
@@ -144,10 +153,12 @@ pérdida, así que su `regParam` es la L2 de numpy dividida por la suma de los p
 | Métricas de evaluación | idénticas (`docs/evidencias/f6-d6/mllib_vs_numpy.json`) |
 
 **Reparto de papeles:**
+
 - **MLlib es el entrenamiento distribuido:** escala a la flota completa y a más corridas sin cambiar el código.
 - **numpy es la inferencia ligera en F7:** aplicar 7 coeficientes a una noche no necesita Spark.
 
 Los dos dan el mismo modelo.
+
 - Lo que el modelo necesita no es flexibilidad, sino una **tasa bien estimada** (Theil-Sen) y una **referencia por
   tanque**.
 
@@ -219,6 +230,7 @@ La línea base (a) nunca avisa: recall 0.
 | 7 días, solo noches con fuga | f2b.2 / f2b.3 | **5** | 41.8 / 70.2 | 133.6 / 133.6 | 167.2 / 105.0 | 195.2 / 133.6 |
 
 **Banda P10-P90 a 24 h:**
+
 - **Todas las noches:** cubre el 90 % (f2b.2) y el 87 % (f2b.3).
 - **Noches con fuga:** cubre el **75 % [55-88]** (f2b.2) y el **58 % [39-76]** (f2b.3).
 - **Ancho mediano:** ~0 L, porque la mayoría de las noches no tiene fuga y la banda es estrecha.
@@ -290,6 +302,7 @@ hora con la geometría **provisional** del ESP32 (11 L/cm):
 | **Consumo nocturno** (flota) | P95 del exceso en las noches sin fuga del entrenamiento | **1.55-1.59 L/h** |
 
 **La mínima detectable práctica es ~1.5-2 L/h:**
+
 - **Lo que manda:** la variación del consumo nocturno y, a 100 cm, el DHT11. El ruido del sensor pesa poco.
 - **Coincide con la evaluación:** el modelo detecta la mitad de las noches con fugas de 1.5-2.5 L/h y casi todas las
   de más de 2.5 L/h.
@@ -389,3 +402,41 @@ principal. En la versión d6.2 la franja se calcula por tanque, con las horas de
 MSYS_NO_PATHCONV=1 docker run --rm -v "$PWD:/repo" -w /repo -e PYTHONPATH=/repo/batch monitoraqua-streaming \
   spark-submit --driver-memory 2g batch/modelo_d6_mllib.py
 ```
+
+<!-- graficos-notebook -->
+
+## Gráficos del notebook y del tablero en vivo {#graficos}
+
+Los gráficos salen del notebook `notebooks/u2/d6_fugas.ipynb`, que reproduce las cifras de esta página desde los modelos versionados, sin reentrenar. Las capturas del tablero BI son de F7 (`docs/evidencias/f7/`).
+
+![D6, gráfico 1](img/notebooks/d6_01.png)
+
+*Gráfico 1. Pérdida a 24 h proyectada frente a la real en la flota, separando noches con y sin fuga. A la derecha, los residuos en las noches con fuga: el modelo se centra más cerca de cero que la regla f4.4, que subestima la pérdida.*
+
+![D6, gráfico 2](img/notebooks/d6_02.png)
+
+*Gráfico 2. Cobertura de la banda P10-P90 de la pérdida a 24 h, por generador. Con todas las noches supera el 80 %; en las noches con fuga cae a 75 % (f2b.2) y 59 % (f2b.3).*
+
+![D6, gráfico 3](img/notebooks/d6_03.png)
+
+*Gráfico 3. En vivo (F7): pérdida a 24 h observada (aproximada) frente a la pronosticada, tanque flota-zonaA-01. El pronóstico se queda corto en las noches de fuga más grandes.*
+
+### Tablero BI en vivo (F7)
+
+![Tabla F7 con datos reales.](evidencias/f7/real_d6_perdida.png)
+
+*Tabla F7 con datos reales.*
+
+![Tabla F7 con la flota extrapolada.](evidencias/f7/aumentado_d6_perdida.png)
+
+*Tabla F7 con la flota extrapolada.*
+
+![Fila “Pronóstico vs real” con datos reales.](evidencias/f7/real_vs_real_d6.png)
+
+*Fila “Pronóstico vs real” con datos reales.*
+
+## Evidencia
+
+- [Evidencia de d6.1](evidencias/f6-d6/README.md)
+- [Tablas completas de d6.1](evidencias/f6-d6/tablas_d6.md)
+- [Inferencia en vivo (F7)](inferencia-en-vivo.md) y su [evidencia](evidencias/f7/README.md)

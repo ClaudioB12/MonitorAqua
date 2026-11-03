@@ -1,6 +1,7 @@
 # D8 en vivo en ThingSpeak 3418755 con la variante validada (2026-10-30)
 
 **Qué se comprueba:**
+
 - Desde el redespliegue de las 03:38 UTC, D8 en vivo usa en 3418755 la variante validada (aire de la cámara + Open-Meteo
   de su ubicación, 53.45, −2.51), no "solo aire".
 - Su estimación del agua se compara con el agua real del canal (DS18B20, `field3` → `tempAguaC`).
@@ -14,6 +15,7 @@
 | **04:00** | **`aire_y_om`** (validada) | **8.94 °C** | 8.37-9.29 | 10.17 °C | **10.19 °C** (03:54:41 y 04:03:49) | **−1.25 °C** |
 
 **Lectura honesta:**
+
 - **Lo que ya está comprobado:** el canal tomó la variante validada en la primera hora completa tras el redespliegue.
   Desde entonces no emite el motivo "esperando Open-Meteo de su ubicación".
 - **El error de la primera hora no mide el modelo:**

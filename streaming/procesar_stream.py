@@ -73,14 +73,17 @@ ESQUEMA = StructType([
 
 
 def sensores_prueba():
-    """sensorId de prueba excluidos de los agregados (lista única: ingesta/sensores_prueba.yml)."""
-    import yaml
-    try:
-        with open(SENSORES_PRUEBA_PATH, encoding="utf-8") as f:
-            return [s["sensorId"] for s in (yaml.safe_load(f) or {}).get("sensores", [])]
-    except FileNotFoundError:
+    """Sensores de prueba excluidos de los agregados (lista única: ingesta/sensores_prueba.yml): (sensorId, prefijos)."""
+    import prueba
+    if not os.path.exists(SENSORES_PRUEBA_PATH):
         log(status="aviso", motivo=f"sin lista de sensores de prueba en {SENSORES_PRUEBA_PATH}")
-        return []
+    return prueba.cargar(SENSORES_PRUEBA_PATH)
+
+
+def sin_prueba(df, excluidos):
+    import prueba
+    cond = prueba.filtro_spark(F.col("sensorId"), *excluidos)
+    return df if cond is None else df.filter(cond)
 
 
 def log(**campos):
@@ -169,6 +172,8 @@ def _detector_nivel():
     global _DETECTOR_NIVEL
     if _DETECTOR_NIVEL is None:
         from servicio_spark import REGLAS_PATH, TANQUES_PATH
+        import config_cache
+        config_cache.instalar()  # F8: YAML con libyaml y caché entre procesos
         from detector_servicio import Configuracion, Detector
         _DETECTOR_NIVEL = Detector(Configuracion(REGLAS_PATH, TANQUES_PATH))
     return _DETECTOR_NIVEL
@@ -216,9 +221,7 @@ def leer_para_predicciones(spark, excluidos):
              .option("failOnDataLoss", "false").load())
     ev = crudo.select(F.from_json(F.col("value").cast("string"), ESQUEMA_PRED).alias("e")).select("e.*")
     ev = ev.filter(F.col("origen").isin("esp32-fisico", "thingspeak", "flota-extrapolada", "open-meteo"))
-    if excluidos:
-        ev = ev.filter(~F.col("sensorId").isin(excluidos))
-    return ev.select(*COLUMNAS_PRED)
+    return sin_prueba(ev, excluidos).select(*COLUMNAS_PRED)
 
 
 def a_predicciones(df, batch_id):
@@ -253,6 +256,15 @@ def a_predicciones(df, batch_id):
         lecturas=res["lecturas"], duracionMs=res["duracion_ms"])
 
 
+def _lag(fuente):
+    """Mensajes pendientes de una fuente Kafka del micro-lote: latestOffset - endOffset, sumado por partición."""
+    def offsets(o):
+        o = json.loads(o) if isinstance(o, str) else (o or {})
+        return {(t, p): v for t, parts in o.items() if isinstance(parts, dict) for p, v in parts.items()}
+    ult, fin = offsets(fuente.get("latestOffset")), offsets(fuente.get("endOffset"))
+    return sum(max(0, v - fin.get(k, v)) for k, v in ult.items())
+
+
 class Progreso(StreamingQueryListener):
     """Progreso de cada micro-lote: al log y a InfluxDB (measurement spark_progreso) para la observabilidad."""
 
@@ -271,6 +283,9 @@ class Progreso(StreamingQueryListener):
             "numRowsDroppedByWatermark": sum(o.get("numRowsDroppedByWatermark", 0) for o in ops),
             "numDroppedDuplicateRows": sum(o.get("customMetrics", {}).get("numDroppedDuplicateRows", 0) for o in ops),
             "numRowsTotalEstado": sum(o.get("numRowsTotal", 0) for o in ops),
+            # F8: lag de la consulta = último offset disponible en Kafka - último procesado (Spark no confirma offsets
+            # en un grupo, así que kafka-exporter no lo ve)
+            "lagOffsets": sum(_lag(s) for s in p.get("sources", [])),
         }
         watermark = p.get("eventTime", {}).get("watermark")
         log(status="progress", consulta=p.get("name"), watermark=watermark,
@@ -303,7 +318,7 @@ def main():
     cp = lambda nombre: f"{CHECKPOINT_DIR}/{nombre}"  # noqa: E731
     excluidos = sensores_prueba()
     # Bronce guarda todo lo que llega; los agregados y el detalle no cuentan los sensores de prueba
-    reales = ev.filter(~F.col("sensorId").isin(excluidos)) if excluidos else ev
+    reales = sin_prueba(ev, excluidos)
 
     rapidas = (reales.filter(F.col("origen").isin(ORIGENES_RAPIDOS))
                  .withWatermark("tiempo_evento", WATERMARK_RAPIDO)

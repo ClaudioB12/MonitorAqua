@@ -151,7 +151,51 @@ services:
     networks:
       - lambda26-kafka-net
 
+  # --- Prueba de carga (F8): el mismo job sobre un tópico de prueba. Solo con --profile carga -----------------------
+  # Tópico aqua-carga-prueba, bucket monitoraqua_carga, checkpoint y bronce propios: no toca el tópico real ni sus
+  # salidas. Preparación y etapas: infra/prueba_carga.py
+  aqua-streaming-carga:
+    image: monitoraqua-streaming:latest
+    container_name: lambda26-aqua-streaming-carga
+    profiles: [carga]
+    # CARGA_MASTER: núcleos de Spark local (local[*] = todos). Con local[*] y 24 núcleos, la primera corrida murió por
+    # falta de memoria junto al job de producción (docs/costos-escalado.md)
+    command: ["spark-submit", "--master", "${CARGA_MASTER:-local[*]}", "--packages",
+              "org.apache.spark:spark-sql-kafka-0-10_2.13:4.2.0", "--driver-memory", "1g",
+              "--conf", "spark.ui.port=4040", "procesar_stream.py"]
+    env_file: ../.env
+    environment:
+      KAFKA_BOOTSTRAP: kafka:9092
+      KAFKA_TOPIC: ${CARGA_TOPICO:-aqua-carga-prueba}
+      KAFKA_TOPIC_AUMENTADOS: ${CARGA_TOPICO:-aqua-carga-prueba}
+      # Los eventos de servicio de los tanques de prueba van a su propio tópico, nunca a servicio-eventos (en la
+      # corrida del 30-oct, sin esta línea, el .env los mandó al tópico real: docs/evidencias/f8/)
+      KAFKA_TOPIC_SERVICIO: ${CARGA_TOPICO:-aqua-carga-prueba}-servicio
+      STARTING_OFFSETS: latest
+      INFLUX_URL_INTERNA: http://influxdb:8086
+      INFLUX_BUCKET: monitoraqua_carga
+      INFLUX_BUCKET_AUMENTADOS: monitoraqua_carga
+      CHECKPOINT_DIR: /checkpoints
+      BRONCE_DIR: /datos/bronce
+      SENSORES_PRUEBA_PATH: /app/config/ingesta/sensores_prueba.yml
+      TANQUES_PATH: /app/config/carga/tanques.yml          # tanques de producción + carga-NNNNN
+      REGLAS_SERVICIO_PATH: /app/config/streaming/reglas_servicio.yml
+      MODELOS_DIR: /app/config/modelos
+    ports:
+      - "4044:4040"
+    volumes:
+      - monitoraqua_carga_checkpoints:/checkpoints
+      - monitoraqua_carga_bronce:/datos/bronce
+      - ../ingesta:/app/config/ingesta:ro
+      - ../streaming:/app/config/streaming:ro
+      - ../batch/modelos:/app/config/modelos:ro
+      - ../data/local/carga:/app/config/carga:ro
+    networks:
+      - lambda26-kafka-net
+
 volumes:
+  monitoraqua_carga_checkpoints:
+  monitoraqua_carga_bronce:
   monitoraqua_spark_checkpoints:
   monitoraqua_ingesta_estado:
   monitoraqua_influxdb_data:

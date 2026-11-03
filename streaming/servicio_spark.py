@@ -43,6 +43,8 @@ def _detector():
     """Un detector por proceso Python de Spark; relee la configuración cuando cambia el archivo."""
     global _DETECTOR
     if _DETECTOR is None:
+        import config_cache
+        config_cache.instalar()  # F8: YAML con libyaml y caché entre procesos
         from detector_servicio import Configuracion, Detector
         _DETECTOR = Detector(Configuracion(REGLAS_PATH, TANQUES_PATH))
     return _DETECTOR

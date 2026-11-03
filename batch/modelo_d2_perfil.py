@@ -204,7 +204,8 @@ def predecir_gbt(df, carpeta):
 
 # --- Evaluación ---------------------------------------------------------------------------------------------------
 
-def evaluar_nivel(df, d2, minutos):
+def evaluar_nivel(df, d2, minutos, con_tabla=False):
+    """con_tabla=True devuelve también los pares real/predicho por nivel (notebooks de sustentación: R² y gráficos)."""
     h = minutos // 5
     base = ev.lineas_base(d2, "nivel_pct", m.PASO_MS, h, CFG["tendencia_k"], grupo=m.SERIE)
     cols = {f"pred_perfil_{minutos}": "pred_perfil", f"pred_holt_d21_{minutos}": "pred_holt_d21",
@@ -217,7 +218,7 @@ def evaluar_nivel(df, d2, minutos):
     res = ev.reporte(final, NIVEL, largo_bloque=bs["largo_bloque"], n_boot=bs["n_boot"])
     if final["esp32_real"].empty:
         res["esp32_real"] = {"n": 0, "estado": "pendiente", "razon": m.ESP32_PENDIENTE}
-    return res
+    return (res, final) if con_tabla else res
 
 
 def evaluar_autonomia(df, u, cal):
@@ -284,7 +285,7 @@ def capacidades():
     return {sid: g.get("capacidad_l") for sid, g in tq.items()}
 
 
-def evaluar_consumo(df, perfiles):
+def evaluar_consumo(df, perfiles, con_tabla=False):
     """Cuánto se consumirá en las próximas H horas, comparado con lo que bajó de verdad el nivel. A diferencia de la
     autonomía, el consumo se observa siempre: solo se excluyen los pasos dentro de un llenado detectado (ahí el
     consumo queda tapado por el agua que entra) y la ventana se marca "con llenado". Real y previsto se suman sobre
@@ -359,7 +360,7 @@ def evaluar_consumo(df, perfiles):
             bloque["predictores"][pnom] = r
         res.setdefault(nivel, {})[str(horas)] = bloque
     res["esp32_real"] = {"estado": "pendiente", "razon": m.ESP32_PENDIENTE}
-    return res
+    return (res, t) if con_tabla else res  # con_tabla: ventanas real/previsto (notebooks de sustentación)
 
 
 # --- Tablas -------------------------------------------------------------------------------------------------------

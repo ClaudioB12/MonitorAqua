@@ -7,6 +7,7 @@
 | `manifiesto_modelos_d2.2.json` | Versión, fecha, base d2.1 usada y configuración |
 
 **Cómo se generó:**
+
 - Mismo snapshot de datos que d2.1 (`../manifiesto_fuentes_d2.json`).
 - Holt y los GBT de d2.1 se re-aplicaron desde `batch/modelos/d2/d2.1-20261029/` **sin reentrenar**.
 - El perfil se aprendió solo con la partición de entrenamiento de p6.1.

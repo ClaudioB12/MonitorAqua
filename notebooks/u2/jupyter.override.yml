@@ -1,0 +1,22 @@
+# Jupyter de U1 (pyspark/compose.yml) preparado para los notebooks de sustentación U2, sin modificar los archivos de U1:
+#   - raíz de Jupyter en /work, con el repositorio completo montado en /work/MonitorAqua (U1 queda en
+#     /work/MonitorAqua/pyspark y los notebooks U2 en /work/MonitorAqua/notebooks/u2);
+#   - unido a la red del stack (lambda26-kafka-net) para leer InfluxDB (sección "En vivo").
+#
+# Desde la raíz del repo:
+#   docker compose -f pyspark/compose.yml -f notebooks/u2/jupyter.override.yml up -d
+# Jupyter: http://localhost:4489/lab?token=sintoken  ->  MonitorAqua/notebooks/u2/
+# (las rutas relativas se resuelven desde pyspark/, el directorio del primer archivo: ".." es la raíz del repo)
+services:
+  pyspark:
+    working_dir: /work
+    volumes:
+      - "..:/work/MonitorAqua"
+    networks:
+      - default
+      - lambda26-kafka-net
+
+networks:
+  lambda26-kafka-net:
+    external: true
+    name: lambda26-kafka-net

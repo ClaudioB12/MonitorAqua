@@ -37,7 +37,9 @@ def metricas(d, marca):
             "noches_marcadas": int(marca.sum())}
 
 
-def main():
+def comparar(spark=None):
+    """Entrena la logística con MLlib y la compara con la de numpy. Devuelve el resumen (no escribe nada); con
+    spark=None crea su propia sesión local y la cierra al terminar."""
     version = CFG["version"]
     destino = sorted((RAIZ / "batch" / "modelos" / "d6").glob(f"{version}-*"))[-1]
     m = json.loads((destino / "modelo.json").read_text(encoding="utf-8"))["clasificador"]
@@ -50,8 +52,10 @@ def main():
     pos = n.loc[ent, "y"].mean()
     n["w"] = np.where(n["y"] == 1, 0.5 / pos, 0.5 / (1 - pos))
 
-    spark = SparkSession.builder.master("local[2]").appName("f6-d6-mllib").getOrCreate()
-    spark.sparkContext.setLogLevel("ERROR")
+    propia = spark is None
+    if propia:
+        spark = SparkSession.builder.master("local[2]").appName("f6-d6-mllib").getOrCreate()
+        spark.sparkContext.setLogLevel("ERROR")
     filas = [(Vectors.dense(z), float(y), float(w)) for z, y, w in zip(Z[ent.to_numpy()], n.loc[ent, "y"], n.loc[ent, "w"])]
     df = spark.createDataFrame(filas, ["features", "label", "weight"])
     reg = CFG["modelo"]["l2"] / float(n.loc[ent, "w"].sum())
@@ -77,11 +81,17 @@ def main():
         out["evaluacion"][fuente] = {"numpy": metricas(d, (d["p_fuga"] >= umbral).to_numpy()),
                                      "mllib": metricas(d, (d["p_mllib"] >= umbral).to_numpy()),
                                      "noches_con_decision_distinta": int(((d["p_fuga"] >= umbral) != (d["p_mllib"] >= umbral)).sum())}
+    if propia:
+        spark.stop()
+    return out
+
+
+def main():
+    out = comparar()
     evid = RAIZ / "docs" / "evidencias" / "f6-d6" / "mllib_vs_numpy.json"
     evid.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     print(json.dumps({"service": "f6-d6-mllib", "status": "listo", "max_dif_coeficiente": out["max_dif_coeficiente"],
                       "max_dif_probabilidad": out["max_dif_probabilidad"]}), flush=True)
-    spark.stop()
 
 
 if __name__ == "__main__":

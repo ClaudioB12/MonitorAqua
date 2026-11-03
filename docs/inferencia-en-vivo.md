@@ -63,6 +63,7 @@ aumentados ────────┘    checkpoint propio)              · est
 ## Measurement `predicciones`
 
 **Tags:**
+
 - `sensorId`, `origen` (`esp32-fisico`, `thingspeak` o `flota-extrapolada`), `origenLecturas` y `runId` (flota);
 - `dimension` (D2, D4, D6 o D8);
 - `version_modelo`;
@@ -100,6 +101,7 @@ llenados de los canales en %.
 | Flota | aplica | aplica (por zona) | aplica | aplica (variante solo aire) |
 
 **Otros motivos:**
+
 - **D4:** "esperando la primera llegada observada en el stream".
 - **D6:** "faltan noches de referencia (n de 3)", "noche no válida: hubo llenado" o "noche no válida: cobertura x %".
 - **D8:** "edad desconocida: falta un llenado que renueve el agua" (en la residencia).
@@ -138,6 +140,7 @@ Las predicciones están en las mismas filas que los KPIs en vivo de cada dimensi
 | D8 | **F7 · Agua estimada, cruce del umbral y residencia**: agua ahora y a 6/12 h con banda, P(cruce), residencia | temperaturas, horas de residencia |
 
 **Fila nueva "F7 · Pronóstico vs real":**
+
 - **D2:** el nivel real frente al pronosticado a 60 min, y su error.
 - **D4:** el error de la hora de llegada.
 - **D6:** la pérdida pronosticada frente a la observada.
@@ -158,6 +161,18 @@ Las predicciones están en las mismas filas que los KPIs en vivo de cada dimensi
   real en 30 min, durante 5 min; sin datos también es alerta. ThingSpeak llega cada ~5 min, así que 30 min sin nada
   es la consulta caída.
 
+![Latencia de la inferencia por lote](evidencias/f7/pipeline_latencia_inferencia.png)
+
+*Latencia de la inferencia por lote, con la línea del trigger de 30 s.*
+
+![Predicciones escritas por lote](evidencias/f7/pipeline_predicciones_por_lote.png)
+
+*Predicciones escritas por lote, al bucket real y al de aumentados.*
+
+Las tablas F7 de cada dimensión, con datos reales y con la flota, están al final de su página:
+[D2](modelo-d2.md#graficos), [D4](modelo-d4.md#graficos), [D6](modelo-d6.md#graficos) y [D8](modelo-d8.md#graficos).
+Evidencia completa: [F7](evidencias/f7/README.md).
+
 ## Verificación en vivo (2026-10-30, `docs/evidencias/f7/`)
 
 | Qué | Resultado |
@@ -170,6 +185,7 @@ Las predicciones están en las mismas filas que los KPIs en vivo de cada dimensi
 | **Capturas** | las 4 tablas F7 (real y aumentado), pronóstico vs real (D2, D4, D6) y la latencia de la inferencia |
 
 **La caída del primer despliegue no perdió lecturas** (`caida_sin_perdida.md`):
+
 - **Checkpoints:** las 7 consultas retomaron desde su checkpoint, con el mismo id.
 - **Bronce:** completo (ESP32: 479 de ~480 lecturas en 02:40-03:20 UTC, hueco máximo de 10 s).
 - **Watermark:** las consultas rápidas no descartaron nada.

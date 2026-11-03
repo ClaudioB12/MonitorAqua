@@ -2,6 +2,8 @@
 
 **Dimensión D2 (Claudio Bustinza).** Dos versiones, las dos con la partición `p6.1`:
 
+**Gráficos y evidencia:** al final de la página, en [Gráficos del notebook y del tablero en vivo](#graficos).
+
 | Versión | Modelo principal | Código | Evidencia |
 |---|---|---|---|
 | `d2.1` (commit `6f9bcae`) | Holt (nivel + tendencia) | `batch/modelo_d2.py`, `batch/holt.py` | `docs/evidencias/f6-d2/` |
@@ -17,6 +19,7 @@ partición. **La sección 12 resume qué cambió en d2.2 y compara las dos versi
 "Casi vacío" es un umbral configurable; por defecto, el **10 %** del nivel.
 
 La respuesta sirve para decidir **a tiempo**:
+
 - **Si la autonomía es baja y no se espera agua pronto** (eso lo dice D4): avisar a la familia o al administrador
   para que raciones, pidas una cisterna o llenes el tanque mientras hay servicio.
 - **Si la autonomía es alta:** no hay que hacer nada.
@@ -79,6 +82,7 @@ ruido del sensor) y la **velocidad** a la que viene cambiando. Tiene dos perilla
 - **beta:** qué tan rápido se cambia de opinión sobre la velocidad. Un beta chico = una velocidad con memoria larga.
 
 **Por qué Holt:**
+
 - **Da justo lo que necesita la autonomía:** un nivel y una velocidad. Con la regla de tres de arriba sale la
   respuesta.
 - **Es liviano:** guarda dos números por tanque y se actualiza con cada lectura. Encaja con el streaming de F7, y
@@ -101,6 +105,7 @@ ThingSpeak.
 
 `GBTRegressor` es un conjunto de **árboles de decisión** entrenados uno tras otro, cada uno corrigiendo los errores
 del anterior. Pronostica **cuánto cambiará el nivel** en 15 y en 60 min a partir de:
+
 - las lecturas recientes y sus diferencias;
 - las medias móviles;
 - la hora del día y el día de la semana;
@@ -111,6 +116,7 @@ del anterior. Pronostica **cuánto cambiará el nivel** en 15 y en 60 min a part
 MLlib que exige la rúbrica (criterio 7). Para la autonomía se usa su pronóstico a 60 min como velocidad de bajada.
 
 Variables más importantes según el propio modelo:
+
 - **Flota:** la hora del día y el último cambio.
 - **ThingSpeak:** el nivel actual, la variabilidad reciente y los rezagos.
 
@@ -266,6 +272,7 @@ números por tanque, se actualiza con cada lectura en streaming y se puede expli
 
 **4. "¿Cómo saben que no hay fuga de información entre entrenamiento y prueba?"**
 La separación es temporal, nunca aleatoria, y se define una sola vez para los cuatro modelos (`p6.1`).
+
 - Hay un día de embargo entre el entrenamiento y la prueba.
 - Los hiperparámetros se eligieron solo con el último 20 % del entrenamiento.
 - La prueba se usó una vez, al final.
@@ -314,6 +321,7 @@ d2.2 deja de mirar solo la última hora y aprende **cómo consume cada tanque a 
    - La banda P10-P90 es el rango de horas que el tablero puede mostrar.
 
 **Líneas base de la autonomía en d2.2:**
+
 - **Consumo medio:** nivel disponible sobre el umbral dividido entre el consumo medio por hora del tanque. En % es
   lo mismo que "litros disponibles / litros por hora", porque la capacidad es constante.
 - **Holt d2.1:** el modelo principal de la versión anterior, con sus parámetros guardados y sin reajustar.
@@ -324,6 +332,7 @@ La persistencia sigue como línea base del **pronóstico de nivel** a 15 y 60 mi
 que son muy pocos. El C-index usa **todos**, también los censurados: entre dos momentos, si uno se vació antes,
 ¿el modelo le dio menos horas? Para un caso censurado sabemos que aguantó *al menos* hasta el llenado, y eso basta
 para compararlo con los que se vaciaron antes.
+
 - 1 = siempre ordena bien; 0.5 = azar.
 - Se calcula con un origen por hora (los de cada 5 min del mismo episodio son casi iguales).
 - El IC remuestrea episodios completos.
@@ -423,6 +432,7 @@ consumo de las próximas horas, acierta la autonomía, que es el nivel disponibl
 **la evidencia principal de D2 es el pronóstico del consumo, y la autonomía al 10 % queda como cifra indicativa**.
 
 **Cómo se mide:**
+
 - Desde cada hora del conjunto final se compara el consumo previsto para las próximas 6, 12 y 24 h con lo que bajó
   de verdad el nivel.
 - El consumo durante un llenado no se observa, porque lo tapa el agua que entra. Esos pasos se excluyen del real y
@@ -447,6 +457,7 @@ consumo medio 103 L y perfil **74 L** de error en la flota; 1,279 L y **1,060 L*
 en `docs/evidencias/f6-d2/d2.2/tablas_d2.2.md`.
 
 **Cómo leerlo:**
+
 1. **Con la evidencia que sí se observa, el perfil es el mejor pronóstico del consumo:**
    - En la flota gana con claridad en los tres horizontes.
    - En ThingSpeak queda primero a 6 y 12 h, pero con intervalos que se solapan con el consumo medio, y empata a
@@ -489,6 +500,7 @@ al 50 %, con los mismos modelos (configurable en `batch/modelo_d2_perfil.yml` �
 **Ningún umbral tiene evidencia suficiente todavía.** El que más se acerca es el **50 % en la flota**, con 5
 episodios: es el único con un IC por episodio calculable, y aun así está por debajo de los 10. Mientras no haya más
 vaciados reales, la evidencia más sólida sobre el **orden** de los modelos es el **C-index por tanque al 10 %**:
+
 - usa 1,463 orígenes en la flota y 304 en ThingSpeak, contando los censurados;
 - y confirma consumo medio ≈ perfil ≫ Holt d2.1.
 
@@ -505,11 +517,13 @@ llenado antes de llegar al umbral, así que entre los que sí llegan sobran los 
 censurados castiga a cualquier modelo basado en el consumo típico: en esos casos todos parecen optimistas.
 
 Por eso:
+
 - **El MAE en no censurados no basta.** El C-index, que usa los censurados, es el complemento necesario.
 - **La banda no cubre ningún caso al 50 %.** Está centrada en el consumo típico, y estos casos son los atípicamente
   rápidos.
 
 **Qué haría falta para tener evidencia suficiente:**
+
 - **Más semanas de datos reales:** ThingSpeak ya trae ~2 meses por canal y aun así tiene pocos vaciados.
 - **El ESP32 con geometría medida** y sesiones con consumo y llenados.
 - **Un umbral alto, como el 50 %, como cifra de control:** se cruza más seguido, aunque con el sesgo descrito.
@@ -537,6 +551,7 @@ Hasta entonces, la autonomía de F7 se muestra como **estimación con su banda**
    los censurados, confirma el orden: d2.2 ≫ d2.1.
 
 **Decisión para F7** (tomada por el equipo el 2026-10-29, después de evaluar el consumo previsto):
+
 - **Modelo principal:** el **perfil de consumo**, porque es el mejor en la evidencia que sí se observa (el consumo
   previsto). El **consumo medio** queda como **comparación**. La tabla de autonomía, donde ganaba el consumo medio,
   descansa en 2-3 episodios sesgados.
@@ -617,6 +632,7 @@ vacían rápido, y eso hace que cualquier modelo de consumo típico parezca opti
 Para medir la autonomía real, el tanque tiene que vaciarse hasta el umbral sin que llegue agua. Casi siempre llega
 agua antes, y los episodios que sí llegan son los de **vaciado rápido**: los de consumo lento quedan cortados por un
 relleno. Si evaluáramos solo esos casos, cualquier modelo de consumo típico parecería optimista. Por eso:
+
 - la autonomía se usa como cifra indicativa;
 - la evidencia principal es el **pronóstico del consumo**, que se observa en cientos de ventanas de varios tanques;
 - usamos el **C-index**, que incluye los casos censurados;
@@ -639,3 +655,51 @@ por eso cada una tiene su propia línea base.
 docker run --rm -v "$PWD:/repo" -w /repo -e PYTHONPATH=/repo/batch monitoraqua-streaming:latest \
     spark-submit --driver-memory 3g batch/modelo_d2_perfil.py          # ~2 min; usa los modelos de d2.1
 ```
+
+<!-- graficos-notebook -->
+
+## Gráficos del notebook y del tablero en vivo {#graficos}
+
+Los gráficos salen del notebook `notebooks/u2/d2_autonomia.ipynb`, que reproduce las cifras de esta página desde los modelos versionados, sin reentrenar. Las capturas del tablero BI son de F7 (`docs/evidencias/f7/`).
+
+![D2, gráfico 1](img/notebooks/d2_01.png)
+
+*Gráfico 1. Consumo previsto a 12 h frente al real, en % de la capacidad. A la izquierda la flota (consistencia), a la derecha ThingSpeak real. La diagonal es el acierto perfecto: el perfil P50 sigue la diagonal en la flota y el consumo medio queda en franjas horizontales; en ThingSpeak los dos se quedan cortos cuando el consumo real es alto.*
+
+![D2, gráfico 2](img/notebooks/d2_02.png)
+
+*Gráfico 2. Residuos (previsto − real) del consumo a 12 h. En la flota el perfil está más concentrado que el consumo medio; en ThingSpeak los dos se agrupan cerca de cero, con una cola negativa: subestiman el consumo, por eso el perfil es optimista ahí.*
+
+![D2, gráfico 3](img/notebooks/d2_03.png)
+
+*Gráfico 3. Nivel a 60 min en la semana de prueba del canal 3418755: real, perfil d2.2 y persistencia. A una hora el perfil y la persistencia casi se superponen; es el empate que muestra la tabla de pronóstico de nivel.*
+
+![D2, gráfico 4](img/notebooks/d2_04.png)
+
+*Gráfico 4. Cobertura de la banda P10-P90 de la autonomía antes y después de la calibración conforme. La línea marca el 80 % nominal: en ThingSpeak sube de 59 % a 77 %.*
+
+![D2, gráfico 5](img/notebooks/d2_05.png)
+
+*Gráfico 5. En vivo (F7): nivel a 60 min real frente al pronosticado por la consulta de Spark, tanque flota-zonaA-01.*
+
+### Tablero BI en vivo (F7)
+
+![Tabla F7 con datos reales: el ESP32 muestra el motivo (geometría provisional) en vez de una cifra; ThingSpeak, “más de 12 h”.](evidencias/f7/real_d2_autonomia.png)
+
+*Tabla F7 con datos reales: el ESP32 muestra el motivo (geometría provisional) en vez de una cifra; ThingSpeak, “más de 12 h”.*
+
+![Tabla F7 con la flota extrapolada, con la cifra y su banda.](evidencias/f7/aumentado_d2_autonomia.png)
+
+*Tabla F7 con la flota extrapolada, con la cifra y su banda.*
+
+![Fila “Pronóstico vs real” con datos reales: nivel a 60 min.](evidencias/f7/real_vs_real_d2_nivel.png)
+
+*Fila “Pronóstico vs real” con datos reales: nivel a 60 min.*
+
+## Evidencia
+
+- [Evidencia de d2.1](evidencias/f6-d2/README.md)
+- [Tablas completas de d2.1](evidencias/f6-d2/tablas_d2.md)
+- [Evidencia de d2.2](evidencias/f6-d2/d2.2/README.md)
+- [Tablas completas de d2.2](evidencias/f6-d2/d2.2/tablas_d2.2.md)
+- [Inferencia en vivo (F7)](inferencia-en-vivo.md) y su [evidencia](evidencias/f7/README.md)

@@ -13,6 +13,7 @@ MonitorAqua instala sensores en los tanques y responde estas preguntas con una a
 
 ## Páginas del sitio
 
+- **[Producto U2](u2.md)** — El pipeline en tiempo real tal como está desplegado: arquitectura, capacidades S6-S11, las cuatro dimensiones U2 y la evidencia de cada criterio de la rúbrica.
 - **[Brief](brief.md)** — Datos del equipo, dominio del proyecto, usuarios, arquitectura elegida y fuentes de datos.
 - **[Arquitectura](arquitectura.md)** — Diagrama Lambda completo, nodo maestro, tecnologías por etapa, estado real del despliegue, esquemas JSON y el flujo de un dato de extremo a extremo.
 - **[Dimensiones](dimensiones.md)** — Las 8 dimensiones del proyecto (4 en batch U1, 4 en streaming U2), con sus fichas completas, alcance y trazabilidad del simulador.

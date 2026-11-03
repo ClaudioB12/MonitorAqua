@@ -2,6 +2,8 @@
 
 **Dimensión D8 (Josué Ochoa).** Versión `d8.1`, entrenada el 2026-10-29 con la partición `p6.2`.
 
+**Gráficos y evidencia:** al final de la página, en [Gráficos del notebook y del tablero en vivo](#graficos).
+
 - **Código:** `batch/modelo_d8.py` (configuración en `batch/modelo_d8.yml`) y `batch/termico.py`, el modelo, sin
   dependencias fuera de numpy, para F7.
 - **Modelo guardado:** `batch/modelos/d8/d8.1-20261029/` (`modelo.json` y `manifiesto.json`).
@@ -26,6 +28,7 @@
 > riesgo (helada o agua tibia) en las próximas 12 horas? ¿Cuántas horas lleva el agua almacenada?**
 
 Con la respuesta, la familia o el administrador pueden decidir:
+
 - **proteger el tanque y la tubería** antes de una helada: en Juliaca las noches bajan de 0 °C en invierno;
 - **renovar el agua** cuando lleva muchas horas guardada y está tibia, que es cuando el cloro se pierde más rápido;
 - y, junto con D2 y D4, **cuándo conviene usar o reponer** el agua.
@@ -63,6 +66,7 @@ modelo no puede "corregirse" con el agua real; en el canal se evalúa igual, sin
   que llevarían el pronóstico al otro lado del umbral.
 
 **Residencia (edad media del agua).** Supone un tanque **bien mezclado**:
+
 - cada llenado aporta agua de edad 0, en proporción al volumen renovado;
 - el consumo saca agua de todas las edades por igual;
 - la edad de todo el tanque sube 1 hora por hora.
@@ -358,3 +362,38 @@ descripción, junto a la temperatura.
 # Open-Meteo de la ubicación del canal 3418755 (batch/datos/fuentes/f8_open_meteo_3418755.json, no versionado)
 .venv/Scripts/python batch/modelo_d8.py          # ~35 s
 ```
+
+<!-- graficos-notebook -->
+
+## Gráficos del notebook y del tablero en vivo {#graficos}
+
+Los gráficos salen del notebook `notebooks/u2/d8_temperatura.ipynb`, que reproduce las cifras de esta página desde los modelos versionados, sin reentrenar. Las capturas del tablero BI son de F7 (`docs/evidencias/f7/`).
+
+![D8, gráfico 1](img/notebooks/d8_01.png)
+
+*Gráfico 1. Semana de prueba del canal 3418755: agua real (DS18B20) frente al modelo a 0 h y a 12 h y a la regla provisional f4.4. El modelo sigue al agua real; la regla provisional se atrasa y se aplana.*
+
+![D8, gráfico 2](img/notebooks/d8_02.png)
+
+*Gráfico 2. Residuos del modelo y de la base “aire actual” a 0, 6 y 12 h. La base queda sesgada hacia valores negativos; el modelo se centra más cerca de cero y se ensancha con el horizonte.*
+
+![D8, gráfico 3](img/notebooks/d8_03.png)
+
+*Gráfico 3. Cobertura de la banda P10-P90 en la prueba por variante. Solo la variante validada (aire + Open-Meteo) cubre más del 80 % en los tres horizontes; solo aire y solo Open-Meteo quedan muy por debajo.*
+
+### Tablero BI en vivo (F7)
+
+![Tabla F7 con datos reales.](evidencias/f7/real_d8_agua.png)
+
+*Tabla F7 con datos reales.*
+
+![Tabla F7 con la flota extrapolada.](evidencias/f7/aumentado_d8_agua.png)
+
+*Tabla F7 con la flota extrapolada.*
+
+## Evidencia
+
+- [Evidencia de d8.1](evidencias/f6-d8/README.md)
+- [Tablas completas de d8.1](evidencias/f6-d8/tablas_d8.md)
+- [D8 en vivo sobre el canal 3418755](evidencias/f7/d8_3418755_variante_validada.md)
+- [Inferencia en vivo (F7)](inferencia-en-vivo.md) y su [evidencia](evidencias/f7/README.md)

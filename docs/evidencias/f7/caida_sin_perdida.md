@@ -1,6 +1,7 @@
 # Caída del primer despliegue de F7: no se perdieron lecturas (2026-10-30)
 
 **Qué pasó:**
+
 - **Causa:** a las 02:53:40 UTC, la consulta nueva `predicciones` lanzó una excepción (InfluxDB respondió 422: un campo
   con dos tipos).
 - **Efecto:** el `foreachBatch` sin protección detuvo **todo el job**, no solo esa consulta, y el contenedor se

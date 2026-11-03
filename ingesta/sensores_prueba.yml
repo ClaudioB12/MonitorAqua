@@ -2,10 +2,20 @@
 # Kafka no permite borrar mensajes sueltos. Todo consumidor de datos reales los excluye desde aquí:
 #   - Spark (streaming/procesar_stream.py): rapidas_agg, lentas_agg, esp32_detalle; bronce los conserva crudos.
 #   - Eventos de servicio (F4) y capa batch (F6): filtrar sensorId en esta lista al leer Kafka o bronce.
+#   - Consumidor de eventos (ingesta/consumidor_eventos.py) y cargas a InfluxDB (streaming/cargar_historico_influx.py).
 # Si se agrega un sensor de prueba, se agrega aquí y se reinicia el job de Spark.
+# "prefijos" excluye a todo sensorId que empiece así (F8): tanques sintéticos de la prueba de carga.
 
 sensores:
   - sensorId: esp32-prueba-f3
     motivo: pruebas de watermark y deduplicación de F3 (2026-10-29)
     eventId_prefijo: prueba-f3-
     mensajes: 3   # aqua-eventos-real, partición 1, offsets 230-232
+
+prefijos:
+  - prefijo: carga-
+    motivo: tanques sintéticos de la prueba de carga de F8 (infra/prueba_carga.py)
+    # El 30-oct, 04:03-04:32 UTC, el job de prueba publicó 120 eventos de servicio de tanques carga-* en el tópico
+    # REAL servicio-eventos (partición 0 offsets 81-137, 1 offsets 6-48, 2 offsets 0-19), mezclados con los reales.
+    # Vencen con la retención de 7 días (~2026-11-06). Ver docs/eventos-servicio.md.
+    eventos_servicio: 120

@@ -581,7 +581,65 @@ from(bucket: "monitoraqua")
             "annotations": {"list": anotaciones}, "panels": p}
 
 
+def tablero_carga():
+    """F8: prueba de carga (infra/prueba_carga.py). Mismo job sobre aqua-carga-prueba, bucket monitoraqua_carga."""
+    p, y = [], 0
+    leyenda = {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "multi"}}
+
+    def spark(campo, fn="max"):
+        return flux(f'''
+from(bucket: "monitoraqua_carga")
+  |> {RANGO}
+  |> filter(fn: (r) => r._measurement == "spark_progreso" and r._field == "{campo}")
+  |> aggregateWindow(every: v.windowPeriod, fn: {fn}, createEmpty: false)
+''')
+    p.append(texto("Prueba de carga", "Tanques sintéticos `carga-NNNNN` (una lectura cada 5 s, como el ESP32) publicados "
+                   "en **aqua-carga-prueba** a 100, 500, 1,000, 2,000 y 5,000 eventos/s por el job "
+                   "`aqua-streaming-carga` (misma imagen que producción). No toca el tópico real. Resultado y "
+                   "criterios: `docs/costos-escalado.md`.", 0, y, 24, 3)); y += 3
+    p.append(panel("timeseries", "Mensajes/s publicados en el tópico de prueba", 0, y, 12, 7, [prom(
+        'sum(rate(kafka_topic_partition_current_offset{topic="aqua-carga-prueba"}[1m]))', "eventos/s")],
+        "Tasa de llegada a Kafka (kafka-exporter).", "short", leyenda))
+    p.append(panel("timeseries", "Lag de Spark por consulta (mensajes pendientes)", 12, y, 12, 7, [spark("lagOffsets")],
+                   "latestOffset - endOffset de cada micro-lote. Si crece de lote en lote, la consulta no da abasto.",
+                   "short", leyenda))
+    y += 7
+    p.append(panel("timeseries", "Duración del lote frente al intervalo del trigger (%)", 0, y, 12, 7, [flux(f'''
+from(bucket: "monitoraqua_carga")
+  |> {RANGO}
+  |> filter(fn: (r) => r._measurement == "spark_progreso" and r._field == "batchDurationMs")
+  |> map(fn: (r) => ({{r with _value: float(v: r._value) / {TRIGGER_MS} * 100.0}}))
+  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)
+''')], "Sobre 100 % la consulta no termina un lote antes del siguiente trigger.", "percent", leyenda,
+        {"thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": None}, {"color": "red", "value": 100}]},
+         "custom": {"thresholdsStyle": {"mode": "line"}}}))
+    p.append(panel("timeseries", "Filas procesadas por segundo, por consulta", 12, y, 12, 7,
+                   [spark("processedRowsPerSecond", "mean")], "processedRowsPerSecond de cada micro-lote.", "short",
+                   leyenda))
+    y += 7
+    p.append(panel("timeseries", "Latencia de la inferencia por lote (ms)", 0, y, 12, 7, [flux(f'''
+from(bucket: "monitoraqua_carga")
+  |> {RANGO}
+  |> filter(fn: (r) => r._measurement == "inferencia" and r._field == "duracion_ms")
+  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)
+''')], "Tiempo de Inferencia.procesar en el driver (consulta predicciones, trigger 30 s).", "ms", leyenda))
+    p.append(panel("timeseries", "Filas por lote de la inferencia", 12, y, 12, 7, [flux(f'''
+from(bucket: "monitoraqua_carga")
+  |> {RANGO}
+  |> filter(fn: (r) => r._measurement == "inferencia" and r._field == "filas_lote")
+  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)
+''')], "Tope de 20,000 filas por lote (maxOffsetsPerTrigger de la consulta predicciones).", "short", leyenda))
+    return {"uid": "monitoraqua-carga", "title": "Prueba de carga (F8)", "tags": ["monitoraqua", "f8", "criterio-5"],
+            "timezone": "America/Lima", "schemaVersion": 39, "version": 1, "editable": False, "graphTooltip": 1,
+            "refresh": "30s", "time": {"from": "now-3h", "to": "now"}, "templating": {"list": []},
+            "annotations": {"list": []}, "panels": p}
+
+
 NOMBRES = {  # título del panel -> nombre de cada serie (variables de Grafana sobre las etiquetas de Flux)
+    "Lag de Spark por consulta (mensajes pendientes)": "${__field.labels.consulta}",
+    "Filas procesadas por segundo, por consulta": "${__field.labels.consulta}",
+    "Latencia de la inferencia por lote (ms)": "duración de la inferencia",
+    "Filas por lote de la inferencia": "filas del lote",
     "Nivel del tanque (% y litros)": "${__field.labels.sensorId} · ${__field.name}",
     "Geometría del tanque": "${__field.labels.sensorId}",
     "Horas entre llegadas": "${__field.labels.sensorId}",
@@ -616,7 +674,8 @@ def nombrar(t):
 
 
 def main():
-    for nombre, t in (("bi_salud_agua.json", nombrar(tablero_bi())), ("pipeline_salud.json", nombrar(tablero_pipeline()))):
+    for nombre, t in (("bi_salud_agua.json", nombrar(tablero_bi())), ("pipeline_salud.json", nombrar(tablero_pipeline())),
+                      ("prueba_carga.json", nombrar(tablero_carga()))):
         (AQUI / nombre).write_text(json.dumps(t, ensure_ascii=False, indent=1), encoding="utf-8")
         print(nombre, len([x for x in t["panels"] if x["type"] not in ("row", "text")]), "paneles")
 

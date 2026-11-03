@@ -12,14 +12,54 @@ theme:
     accent: cyan
   features:
     - navigation.sections
+    - navigation.indexes
     - content.code.copy
+    - search.highlight
 
+# F8: el nav sigue la estructura de la plantilla U2 (lambda26/docs/proyecto-sello/u2-producto.md): producto, capacidades
+# S6-S11 en orden, las cuatro dimensiones U2 y la operación del stack. Las evidencias (docs/evidencias/) se enlazan desde
+# las páginas; no van en el nav.
 nav:
   - Inicio: index.md
   - Brief: brief.md
-  - Arquitectura: arquitectura.md
-  - Dimensiones: dimensiones.md
-  - Datos: datos.md
+  - Producto U2:
+      - u2.md
+      - Stack y servicios: stack-actual.md
+  - Ingesta (S6-S7):
+      - Ingesta unificada (IoT y APIs): ingesta.md
+      - Eventos de servicio (empresariales): eventos-servicio.md
+      - Flota extrapolada: datos-aumentados.md
+  - Streaming (S8): streaming.md
+  - Observabilidad y costos (S9):
+      - Tableros y alertas: tableros.md
+      - Costos y escalado: costos-escalado.md
+  - Series de tiempo e inferencia (S10-S11):
+      - Dataset de los modelos: dataset-modelos.md
+      - Inferencia en vivo: inferencia-en-vivo.md
+  - Dimensiones U2:
+      - D2 · Horas de autonomía: modelo-d2.md
+      - D4 · Próxima llegada: modelo-d4.md
+      - D6 · Pérdida por fuga: modelo-d6.md
+      - D8 · Temperatura y residencia: modelo-d8.md
+  - Operación:
+      - Arranque diario: arranque-diario.md
+      - Guion de la demo: guion-demo.md
+  - Antecedentes:
+      - Arquitectura (diseño inicial): arquitectura.md
+      - Dimensiones (U1 y U2): dimensiones.md
+      - Adecuación al hardware: adecuacion-dimensiones-u2.md
+      - Datos de muestra (U1): datos.md
+
+exclude_docs: |
+  referencias/
+
+not_in_nav: |
+  plan-fusion-u2.md
+  evidencias/**
+
+plugins:
+  - search:
+      lang: es
 
 markdown_extensions:
   - pymdownx.superfences:
@@ -29,3 +69,9 @@ markdown_extensions:
           format: !!python/name:pymdownx.superfences.fence_code_format
   - admonition
   - tables
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.tasklist:
+      custom_checkbox: true

@@ -8,6 +8,7 @@
 | `mllib_vs_numpy.json` | El mismo modelo entrenado con Spark MLlib (`batch/modelo_d6_mllib.py`): coeficientes, probabilidades y métricas de evaluación frente a numpy (diferencias de ~10⁻⁷, ninguna decisión distinta) |
 
 **Datos:**
+
 - **Plata y oro (`d6_noches`):** regeneradas el 29-oct con p6.2, la compensación en el firmware y el sensor por
   periodo.
 - **Flota:** f2b.2 y f2b.3 reconstruidas con el mismo código de la capa oro: 12 semillas de entrenamiento y 12

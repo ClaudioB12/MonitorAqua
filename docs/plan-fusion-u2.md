@@ -35,6 +35,7 @@ fusión tuvo conflictos.
 | 10 | `u2-colector-nube` | No (`CLAUDE.md` se combina solo) | Colector en la nube y recarga al arranque, reintentos a InfluxDB, `docs/arranque-diario.md` |
 
 **Conflictos esperados:**
+
 - **`CLAUDE.md`:** es el único archivo que tocan las dos ramas hermanas. Hoy git lo combina solo, porque los
   cambios están en secciones distintas.
   - Con los commits pendientes (recarga al arranque en `u2-colector-nube` y d2.2 en `u2-fase6-d2`), las dos ramas
@@ -80,5 +81,6 @@ fusión tuvo conflictos.
 7. **Las ramas `u2-fase*` no se borran:** son la evidencia de cada fase. Opcionalmente, una etiqueta por fase.
 
 **Si algo sale mal:**
+
 - **Antes del push:** `git update-ref refs/heads/main pre-fusion-u2` deja `main` como estaba.
 - **Después del push:** se revierten los commits de fusión. No se reescribe el historial publicado.

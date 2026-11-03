@@ -86,7 +86,9 @@ def eventos_kafka():
     c.seek_to_beginning()
     evs = [json.loads(m.value) for m in c]
     c.close()
-    return list({e["eventoId"]: e for e in evs}.values())
+    import prueba  # F8: sin los eventos de los tanques de prueba (carga-*) que quedaron en el tópico real
+    excl = prueba.cargar(RAIZ / "ingesta" / "sensores_prueba.yml")
+    return list({e["eventoId"]: e for e in evs if not prueba.es_prueba(e.get("sensorId"), *excl)}.values())
 
 
 def cargar_real(det):

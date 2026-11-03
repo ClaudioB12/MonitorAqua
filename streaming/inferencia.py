@@ -52,6 +52,10 @@ OM_JULIACA = "open-meteo-juliaca"
 # D8: Open-Meteo de la ubicación de cada tanque. Con él, la variante validada (aire de la cámara + Open-Meteo); sin él,
 # "solo aire". La flota no tiene: sus fechas son simuladas (28-sep a 28-oct), anteriores al Open-Meteo del stream.
 OM_DE_TANQUE = {"esp32-tanque-real-01": OM_JULIACA, "thingspeak-3418755": "open-meteo-canal3418755"}
+# F8: arranque en caliente de D8. Si un tanque real tiene menos de 48 h de filtro (tanque nuevo, checkpoint perdido o
+# cambio de variante), se rehace el filtro con las horas anteriores que guarda el bronce
+BRONCE_DIR = os.getenv("BRONCE_DIR", "/datos/bronce")
+HORAS_CALIENTE = 48
 
 
 def hora_lima(ts):
@@ -452,7 +456,9 @@ class Inferencia:
         agua_real = e["agua_acc"][0] / e["agua_acc"][1] if e["agua_acc"][1] else None
         variante = "aire_y_om" if c["om_propio"] else "solo_aire"
         if e.get("variante_d8") != variante:  # cambio de variante (otro τ): los filtros térmicos empiezan de nuevo
-            e.update(variante_d8=variante, F={}, horas_filtro=0, aire_h=[], om_h=[], hora_h=[])
+            e.update(variante_d8=variante, F={}, horas_filtro=0, aire_h=[], om_h=[], hora_h=[], d8_caliente=False)
+        if c["origen_l"] == "real" and e["horas_filtro"] < HORAS_CALIENTE and not e.get("d8_caliente"):
+            self._calentar_d8(e, c, hora, variante, m)
         om = c["om"].get(str(hora))
         if variante == "aire_y_om" and om is None:
             if not e["om_h"] and not c["om"]:
@@ -512,6 +518,49 @@ class Inferencia:
                        "-0.9 °C y MAE 0.91 °C en la prueba de F6 (la validada: 0.16 °C)")
         campos["advertencia"] = "; ".join(adv)
         self._punto(c, "D8", "estimacion", campos, hora + H)
+
+    def _calentar_d8(self, e, c, hora, variante, m):
+        """Rehace el filtro térmico con las HORAS_CALIENTE horas anteriores a `hora` (medias horarias del aire del
+        tanque y de su Open-Meteo, leídas del bronce), sin emitir puntos. Se intenta una vez por tanque y variante."""
+        e["d8_caliente"] = True
+        try:
+            import pyarrow.compute as pc
+            import pyarrow.dataset as ds
+            dset = ds.dataset(BRONCE_DIR, format="parquet", partitioning="hive")
+            desde = hora - HORAS_CALIENTE * H
+
+            def horarias(sensor):
+                t = dset.to_table(columns=["timestamp", "temperaturaC"],
+                                  filter=(pc.field("sensorId") == sensor) & (pc.field("timestamp") >= desde)
+                                  & (pc.field("timestamp") < hora)).to_pydict()
+                acc = {}
+                for ts, v in zip(t["timestamp"], t["temperaturaC"]):
+                    if v is not None and v != -1:
+                        a = acc.setdefault(ts // H * H, [0.0, 0])
+                        a[0] += v
+                        a[1] += 1
+                return {h: s / n for h, (s, n) in acc.items()}
+            aire = horarias(c["sid"])
+            om_hist = horarias(c["om_propio"]) if variante == "aire_y_om" else {}
+        except Exception as ex:  # noqa: BLE001 - sin bronce (o sin datos) el filtro arranca en frío, como antes
+            e["d8_caliente_motivo"] = f"{type(ex).__name__}: {ex}"
+            return
+        if not aire:
+            return
+        mod = self.reg.objeto("D8", variante, lambda: ModeloTermico.desde_dict(m["modelos"][variante]))
+        a = math.exp(-1.0 / mod.tau)
+        F, aire_h, om_h, hora_h, om_ult = {}, [], [], [], None
+        for h in sorted(aire):
+            om_ult = om_hist.get(h, om_ult)
+            om = om_ult if om_ult is not None else aire[h]
+            for ent, u in (("aire", aire[h]), ("om", om)):
+                if ent in mod.entradas:
+                    F[ent] = u if ent not in F else a * F[ent] + (1 - a) * u
+            aire_h.append(aire[h])
+            om_h.append(om)
+            hora_h.append(int(h // H % 24))
+        e.update(F=F, horas_filtro=len(aire_h), aire_h=aire_h[-168:], om_h=om_h[-168:], hora_h=hora_h[-168:],
+                 d8_caliente_desde=min(aire))
 
     @staticmethod
     def _prob_cruce(mod, fut, umbral, lado):

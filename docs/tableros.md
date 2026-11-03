@@ -157,6 +157,30 @@ En el tablero BI con `aumentado`, los conteos de eventos (113 `llegada_agua`, 25
 | `pipeline_latencia.png` | tabla de latencias p50 y p95 por origen |
 | `alertas.png` | lista de reglas: 5, provisionadas, todas en Normal |
 
+![Tablero BI con datos reales, últimas 24 h](evidencias/f5/bi_real_24h.png)
+
+*Tablero BI "Salud del servicio de agua – Juliaca" con datos reales, últimas 24 h.*
+
+![Tablero BI con la flota, 30 días](evidencias/f5/bi_aumentado_30d.png)
+
+*El mismo tablero con la flota extrapolada (`origen = aumentado`), 28-sep a 28-oct.*
+
+![Tres días de flota-zonaA-02](evidencias/f5/bi_aumentado_fuga_zonaA02.png)
+
+*Tres días de `flota-zonaA-02` con la flota extrapolada.*
+
+![Tablero de salud del pipeline, 24 h](evidencias/f5/pipeline_24h.png)
+
+*Tablero "Salud del pipeline", últimas 24 h.*
+
+![Latencias p50 y p95 por origen](evidencias/f5/pipeline_latencia.png)
+
+*Latencias de ingesta p50 y p95 por origen.*
+
+![Reglas de alerta](evidencias/f5/alertas.png)
+
+*Reglas de alerta en F5 (eran 5; F7 agregó la sexta). Evidencia completa: [F5](evidencias/f5/README.md).*
+
 ```bash
 # Regenerar tableros (y Grafana los recarga solo en ~10 s)
 .venv/Scripts/python dashboards/generar_tableros.py
