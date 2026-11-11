@@ -1,0 +1,1214 @@
+{
+ "uid": "monitoraqua-d4",
+ "title": "D4 · Llegada del agua (sensor real)",
+ "tags": [
+  "monitoraqua",
+  "d4",
+  "bi"
+ ],
+ "timezone": "America/Lima",
+ "schemaVersion": 39,
+ "version": 6,
+ "editable": false,
+ "graphTooltip": 1,
+ "refresh": "10s",
+ "time": {
+  "from": "now-7d",
+  "to": "now+1d"
+ },
+ "templating": {
+  "list": [
+   {
+    "name": "origen",
+    "label": "origenLecturas",
+    "type": "custom",
+    "query": "real : monitoraqua, aumentado : monitoraqua_aumentados",
+    "current": {
+     "text": "real",
+     "value": "monitoraqua"
+    },
+    "options": [
+     {
+      "text": "real",
+      "value": "monitoraqua",
+      "selected": true
+     },
+     {
+      "text": "aumentado",
+      "value": "monitoraqua_aumentados",
+      "selected": false
+     }
+    ]
+   },
+   {
+    "name": "sensorId",
+    "label": "sensorId",
+    "type": "query",
+    "datasource": {
+     "type": "influxdb",
+     "uid": "influxdb"
+    },
+    "refresh": 2,
+    "multi": true,
+    "includeAll": true,
+    "allValue": ".*",
+    "current": {
+     "text": [
+      "esp32-tanque-real-01"
+     ],
+     "value": [
+      "esp32-tanque-real-01"
+     ]
+    },
+    "query": "import \"influxdata/influxdb/schema\"\nschema.tagValues(bucket: \"${origen}\", tag: \"sensorId\", predicate: (r) => r._measurement == \"nivel_tanque\", start: -120d)"
+   }
+  ]
+ },
+ "annotations": {
+  "list": [
+   {
+    "name": "llegada_agua",
+    "datasource": {
+     "type": "influxdb",
+     "uid": "influxdb"
+    },
+    "enable": true,
+    "iconColor": "blue",
+    "target": {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"eventos_servicio\" and r.tipo == \"llegada_agua\" and r._field == \"valor\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> map(fn: (r) => ({_time: r._time, text: \"llegada_agua · \" + r.sensorId + \" · \" + string(v: r._value), tags: r.severidad}))"
+    }
+   },
+   {
+    "name": "Predicción d4.1 (ventana 80 %)",
+    "datasource": {
+     "type": "influxdb",
+     "uid": "influxdb"
+    },
+    "enable": true,
+    "iconColor": "orange",
+    "target": {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: -60d)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D4\" and r.tipo == \"estimacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"objetivo_ts\" or r._field == \"ventana_ini_ts\" or r._field == \"ventana_fin_ts\" or r._field == \"horas_moda\" or r._field == \"prob_6h\")\n  |> group(columns: [\"sensorId\", \"_field\"])\n  |> last()\n  |> keep(columns: [\"_time\", \"sensorId\", \"_field\", \"_value\"])\n  |> group()\n  |> pivot(rowKey: [\"sensorId\", \"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n  |> map(fn: (r) => ({\n      _time: time(v: int(v: r.ventana_ini_ts) * 1000000),\n      timeEnd: time(v: int(v: r.ventana_fin_ts) * 1000000),\n      text: \"Predicción d4.1 · \" + r.sensorId + \" · llegada más probable en \" + string(v: r.horas_moda)\n            + \" h · ventana 80 % · P(llega en 6 h) = \" + string(v: r.prob_6h),\n      tags: \"prediccion\"}))"
+    },
+    "mappings": {
+     "time": {
+      "source": "field",
+      "value": "_time"
+     },
+     "timeEnd": {
+      "source": "field",
+      "value": "timeEnd"
+     },
+     "text": {
+      "source": "field",
+      "value": "text"
+     },
+     "tags": {
+      "source": "field",
+      "value": "tags"
+     }
+    }
+   },
+   {
+    "name": "Llegada más probable (d4.1)",
+    "datasource": {
+     "type": "influxdb",
+     "uid": "influxdb"
+    },
+    "enable": true,
+    "iconColor": "red",
+    "target": {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: -60d)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D4\" and r.tipo == \"estimacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"objetivo_ts\")\n  |> group(columns: [\"sensorId\"])\n  |> last()\n  |> group()\n  |> map(fn: (r) => ({_time: time(v: int(v: r._value) * 1000000),\n      text: \"Llegada más probable (d4.1) · \" + r.sensorId, tags: \"prediccion\"}))"
+    }
+   },
+   {
+    "name": "Pronósticos pasados (verificados)",
+    "datasource": {
+     "type": "influxdb",
+     "uid": "influxdb"
+    },
+    "enable": true,
+    "iconColor": "purple",
+    "target": {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D4\" and r.tipo == \"verificacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"llegada_pred_ts\" or r._field == \"error_h\")\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n  |> group()\n  |> map(fn: (r) => ({_time: time(v: int(v: r.llegada_pred_ts) * 1000000),\n      text: \"Pronóstico verificado · \" + r.sensorId + \" · error \" + string(v: r.error_h) + \" h\",\n      tags: \"pronostico\"}))"
+    }
+   }
+  ]
+ },
+ "panels": [
+  {
+   "id": 1,
+   "type": "row",
+   "title": "En vivo · sensor real",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 0,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 2,
+   "type": "stat",
+   "title": "Última lectura recibida hace",
+   "description": "Segundos desde la última lectura. Verde: llega en vivo (el ESP32 publica cada 5 s); rojo: más de 5 min sin datos.",
+   "gridPos": {
+    "x": 0,
+    "y": 1,
+    "w": 4,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: -30d)\n  |> filter(fn: (r) => r._measurement == \"nivel_tanque\" and r._field == \"nivelPct\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group()\n  |> last()\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: int(v: now()) - int(v: r._time)) / 1000000000.0}))"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "s",
+     "decimals": 0,
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 60
+       },
+       {
+        "color": "red",
+        "value": 300
+       }
+      ]
+     },
+     "noValue": "Sin lecturas"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 3,
+   "type": "stat",
+   "title": "Nivel actual",
+   "description": "Último nivel calculado con la geometría del tanque (provisional).",
+   "gridPos": {
+    "x": 4,
+    "y": 1,
+    "w": 4,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: -30d)\n  |> filter(fn: (r) => r._measurement == \"nivel_tanque\" and r._field == \"nivelPct\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group()\n  |> last()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percent",
+     "decimals": 1,
+     "noValue": "Sin lecturas"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 4,
+   "type": "stat",
+   "title": "Litros actuales",
+   "description": "Litros = nivel × capacidad (1100 L, provisional).",
+   "gridPos": {
+    "x": 8,
+    "y": 1,
+    "w": 4,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: -30d)\n  |> filter(fn: (r) => r._measurement == \"nivel_tanque\" and r._field == \"litros\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group()\n  |> last()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "litre",
+     "decimals": 0,
+     "noValue": "Sin lecturas"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 5,
+   "type": "stat",
+   "title": "Distancia medida",
+   "description": "Del sensor a la superficie del agua, compensada por temperatura en el firmware. Menos de 25 cm = zona ciega del JSN-SR04T.",
+   "gridPos": {
+    "x": 12,
+    "y": 1,
+    "w": 4,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: -30d)\n  |> filter(fn: (r) => r._measurement == \"nivel_tanque\" and r._field == \"distanciaCm\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group()\n  |> last()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "suffix: cm",
+     "decimals": 1,
+     "noValue": "Sin lecturas"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 6,
+   "type": "stat",
+   "title": "Temperatura del aire",
+   "description": "Aire de la cámara del tanque (DHT11, ±2 °C).",
+   "gridPos": {
+    "x": 16,
+    "y": 1,
+    "w": 4,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: -30d)\n  |> filter(fn: (r) => r._measurement == \"nivel_tanque\" and r._field == \"temperaturaC\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group()\n  |> last()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "celsius",
+     "decimals": 1,
+     "noValue": "Sin lecturas"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 7,
+   "type": "stat",
+   "title": "Última llegada de agua",
+   "description": "Hace cuánto se detectó la última llegada (últimos 30 días).",
+   "gridPos": {
+    "x": 20,
+    "y": 1,
+    "w": 4,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: -30d)\n  |> filter(fn: (r) => r._measurement == \"eventos_servicio\" and r.tipo == \"llegada_agua\" and r._field == \"valor\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group()\n  |> last()\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: int(v: r._time)) / 1000000.0}))"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "dateTimeFromNow",
+     "noValue": "Sin llegadas en 30 días"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 8,
+   "type": "row",
+   "title": "Llegadas de agua en el periodo elegido",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 5,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 9,
+   "type": "stat",
+   "title": "Llegadas detectadas",
+   "description": "Eventos llegada_agua del detector en el periodo.",
+   "gridPos": {
+    "x": 0,
+    "y": 6,
+    "w": 8,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"eventos_servicio\" and r.tipo == \"llegada_agua\" and r._field == \"valor\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group()\n  |> count()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "none",
+     "noValue": "Sin llegadas"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 10,
+   "type": "stat",
+   "title": "Intervalo mediano entre llegadas",
+   "description": "Mediana de las horas entre dos llegadas seguidas.",
+   "gridPos": {
+    "x": 8,
+    "y": 6,
+    "w": 8,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"eventos_servicio\" and r.tipo == \"llegada_agua\" and r._field == \"valor\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group(columns: [\"sensorId\"])\n  |> sort(columns: [\"_time\"])\n  |> elapsed(unit: 1m)\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: r.elapsed) / 60.0}))\n  |> group()\n  |> median()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "h",
+     "decimals": 1,
+     "noValue": "Se necesitan 2 llegadas"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 11,
+   "type": "stat",
+   "title": "Caudal de llenado mediano",
+   "description": "Mediana del caudal estimado de cada llegada. En el ESP32 es aproximado (geometría provisional).",
+   "gridPos": {
+    "x": 16,
+    "y": 6,
+    "w": 8,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"eventos_servicio\" and r.tipo == \"llegada_agua\" and r._field == \"caudalLlenadoLpm\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group()\n  |> median()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "L/min",
+     "decimals": 1,
+     "noValue": "Sin caudal"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 12,
+   "type": "row",
+   "title": "Lo observado",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 10,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 13,
+   "type": "timeseries",
+   "title": "Nivel del tanque (%) con las llegadas marcadas",
+   "description": "Subida brusca = llegada de agua (marca azul); bajada gradual = consumo. Franja naranja = ventana del 80 % de la próxima llegada predicha por d4.1; marca roja = hora más probable; marca morada = dónde se había pronosticado una llegada ya verificada.",
+   "gridPos": {
+    "x": 0,
+    "y": 11,
+    "w": 16,
+    "h": 9
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"nivel_tanque\" and r._field == \"nivelPct\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"sensorId\"])"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percent",
+     "min": 0,
+     "max": 100,
+     "noValue": "Sin nivel en el periodo",
+     "displayName": "${__field.labels.sensorId}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 14,
+   "type": "barchart",
+   "title": "A qué hora del día llega el agua",
+   "description": "Llegadas por hora de Lima (UTC-5).",
+   "gridPos": {
+    "x": 16,
+    "y": 11,
+    "w": 8,
+    "h": 9
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"eventos_servicio\" and r.tipo == \"llegada_agua\" and r._field == \"valor\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> map(fn: (r) => ({hora: (int(v: r._time) / 3600000000000 - 5) % 24, _value: 1}))\n  |> group(columns: [\"hora\"])\n  |> sum()\n  |> group()\n  |> sort(columns: [\"hora\"])\n  |> map(fn: (r) => ({hora: string(v: r.hora) + \" h\", llegadas: r._value}))"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "none"
+    },
+    "overrides": []
+   },
+   "options": {
+    "xField": "hora",
+    "orientation": "vertical",
+    "showValue": "auto",
+    "legend": {
+     "showLegend": false
+    }
+   }
+  },
+  {
+   "id": 15,
+   "type": "table",
+   "title": "Llegadas detectadas",
+   "description": "Cada llegada: cuánto subió el nivel (% de la capacidad), en cuántos minutos y con qué caudal.",
+   "gridPos": {
+    "x": 0,
+    "y": 20,
+    "w": 16,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"eventos_servicio\" and r.tipo == \"llegada_agua\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"valor\" or r._field == \"caudalLlenadoLpm\" or r._field == \"duracionMin\")\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n  |> group()\n  |> keep(columns: [\"_time\", \"sensorId\", \"valor\", \"duracionMin\", \"caudalLlenadoLpm\", \"severidad\"])\n  |> rename(columns: {_time: \"hora\", valor: \"subida_pct\", duracionMin: \"duracion_min\", caudalLlenadoLpm: \"caudal_L_min\"})\n  |> sort(columns: [\"hora\"], desc: true)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
+   "options": {
+    "showHeader": true,
+    "cellHeight": "sm"
+   }
+  },
+  {
+   "id": 16,
+   "type": "timeseries",
+   "title": "Horas entre llegadas",
+   "description": "Horas desde la llegada anterior.",
+   "gridPos": {
+    "x": 16,
+    "y": 20,
+    "w": 8,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"eventos_servicio\" and r.tipo == \"llegada_agua\" and r._field == \"valor\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group(columns: [\"sensorId\"])\n  |> sort(columns: [\"_time\"])\n  |> elapsed(unit: 1m)\n  |> map(fn: (r) => ({_time: r._time, sensorId: r.sensorId, _value: float(v: r.elapsed) / 60.0}))"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "h",
+     "custom": {
+      "drawStyle": "points",
+      "pointSize": 8
+     },
+     "noValue": "Se necesitan 2 llegadas",
+     "displayName": "${__field.labels.sensorId}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 17,
+   "type": "row",
+   "title": "Predicción · próxima llegada del agua (modelo d4.1)",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 27,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 18,
+   "type": "table",
+   "title": "Hora estimada de la próxima llegada",
+   "description": "Última predicción de cada tanque: hora de cálculo + horas hasta la llegada más probable (moda) y la ventana del 80 % (P10-P90 calibrada con conformal). prob_6h / prob_12h: probabilidad de que llegue en las próximas 6 / 12 h.",
+   "gridPos": {
+    "x": 0,
+    "y": 28,
+    "w": 14,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: -60d)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D4\" and r.tipo == \"estimacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"horas_moda\" or r._field == \"ventana_ini_h\" or r._field == \"ventana_fin_h\" or r._field == \"prob_6h\" or r._field == \"prob_12h\")\n  |> group(columns: [\"sensorId\", \"_field\"])\n  |> last()\n  |> keep(columns: [\"_time\", \"sensorId\", \"_field\", \"_value\"])\n  |> group()\n  |> pivot(rowKey: [\"sensorId\", \"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n  |> map(fn: (r) => ({\n      sensorId: r.sensorId,\n      calculada: r._time,\n      llegada_probable: time(v: int(v: r._time) + int(v: float(v: r.horas_moda) * 3600000000000.0)),\n      ventana_desde: time(v: int(v: r._time) + int(v: float(v: r.ventana_ini_h) * 3600000000000.0)),\n      ventana_hasta: time(v: int(v: r._time) + int(v: float(v: r.ventana_fin_h) * 3600000000000.0)),\n      prob_6h: float(v: r.prob_6h),\n      prob_12h: float(v: r.prob_12h)}))"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "decimals": 2
+    },
+    "overrides": []
+   },
+   "options": {
+    "showHeader": true,
+    "cellHeight": "sm"
+   },
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "sensorId": 0,
+       "llegada_probable": 1,
+       "ventana_desde": 2,
+       "ventana_hasta": 3,
+       "prob_6h": 4,
+       "prob_12h": 5,
+       "calculada": 6
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": 19,
+   "type": "table",
+   "title": "Detalle del modelo y motivo",
+   "description": "D4 (d4.1): horas hasta la llegada más probable, ventana P10-P90 calibrada y probabilidad de llegada en 6/12/24 h. Si no aplica (tanque de lluvia, sin modelo), el motivo.",
+   "gridPos": {
+    "x": 14,
+    "y": 28,
+    "w": 10,
+    "h": 7
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: -60d)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D4\" and (r.tipo == \"estimacion\" or r.tipo == \"motivo\"))\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"horas_moda\" or r._field == \"ventana_ini_h\" or r._field == \"ventana_fin_h\" or r._field == \"prob_6h\" or r._field == \"prob_12h\" or r._field == \"prob_24h\" or r._field == \"motivo\")\n  |> group(columns: [\"sensorId\", \"_field\"])\n  |> last()\n  |> map(fn: (r) => ({r with _value: string(v: r._value)}))\n  |> group()\n  |> pivot(rowKey: [\"sensorId\", \"version_modelo\"], columnKey: [\"_field\"], valueColumn: \"_value\")"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
+   "options": {
+    "showHeader": true,
+    "cellHeight": "sm"
+   },
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "sensorId": 0,
+       "version_modelo": 1,
+       "horas_moda": 2,
+       "ventana_ini_h": 3,
+       "ventana_fin_h": 4,
+       "prob_6h": 5,
+       "prob_12h": 6,
+       "prob_24h": 7,
+       "motivo": 8
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": 20,
+   "type": "row",
+   "title": "Pronóstico vs real · ¿acertó el modelo? (como In [11] del notebook)",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 35,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 21,
+   "type": "stat",
+   "title": "Pronósticos verificados",
+   "description": "Cuántas predicciones ya tienen su llegada real para compararlas.",
+   "gridPos": {
+    "x": 0,
+    "y": 36,
+    "w": 6,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D4\" and r.tipo == \"verificacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"error_h\")\n  |> map(fn: (r) => ({r with _value: if float(v: r._value) < 0.0 then -float(v: r._value) else float(v: r._value)}))\n  |> group()\n  |> count()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "none",
+     "noValue": "Sin verificaciones en el periodo"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 22,
+   "type": "stat",
+   "title": "Error promedio en vivo (MAE)",
+   "description": "Promedio de |hora real − hora pronosticada|, en horas.",
+   "gridPos": {
+    "x": 6,
+    "y": 36,
+    "w": 6,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D4\" and r.tipo == \"verificacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"error_h\")\n  |> map(fn: (r) => ({r with _value: if float(v: r._value) < 0.0 then -float(v: r._value) else float(v: r._value)}))\n  |> group()\n  |> mean()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "h",
+     "decimals": 2,
+     "noValue": "Sin verificaciones en el periodo"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 23,
+   "type": "stat",
+   "title": "Llegadas dentro de la ventana del 80 %",
+   "description": "Porcentaje de llegadas reales que cayeron dentro de la ventana predicha (meta: 80 %).",
+   "gridPos": {
+    "x": 12,
+    "y": 36,
+    "w": 6,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D4\" and r.tipo == \"verificacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"dentro_ventana\")\n  |> map(fn: (r) => ({r with _value: if r._value == true then 100.0 else 0.0}))\n  |> group()\n  |> mean()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percent",
+     "decimals": 1,
+     "noValue": "Sin verificaciones en el periodo"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 24,
+   "type": "table",
+   "title": "Error por tanque",
+   "description": "MAE en vivo por tanque (igual que la tabla de In [11]).",
+   "gridPos": {
+    "x": 18,
+    "y": 36,
+    "w": 6,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D4\" and r.tipo == \"verificacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"error_h\")\n  |> map(fn: (r) => ({r with _value: if float(v: r._value) < 0.0 then -float(v: r._value) else float(v: r._value)}))\n  |> group(columns: [\"sensorId\"])\n  |> reduce(identity: {verificados: 0, suma: 0.0},\n            fn: (r, accumulator) => ({verificados: accumulator.verificados + 1, suma: accumulator.suma + r._value}))\n  |> map(fn: (r) => ({sensorId: r.sensorId, verificados: r.verificados, MAE_h: r.suma / float(v: r.verificados)}))\n  |> group()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "decimals": 2
+    },
+    "overrides": []
+   },
+   "options": {
+    "showHeader": true,
+    "cellHeight": "sm"
+   }
+  },
+  {
+   "id": 25,
+   "type": "table",
+   "title": "Cada pronóstico frente a la llegada real",
+   "description": "Una fila por llegada verificada: cuándo dijo el modelo que llegaría, cuándo llegó y el error en horas (positivo = llegó más tarde de lo pronosticado).",
+   "gridPos": {
+    "x": 0,
+    "y": 40,
+    "w": 14,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D4\" and r.tipo == \"verificacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"llegada_real_ts\" or r._field == \"llegada_pred_ts\" or r._field == \"error_h\" or r._field == \"dentro_ventana\")\n  |> keep(columns: [\"_time\", \"sensorId\", \"_field\", \"_value\"])\n  |> map(fn: (r) => ({r with _value: string(v: r._value)}))\n  |> group()\n  |> pivot(rowKey: [\"_time\", \"sensorId\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n  |> map(fn: (r) => ({\n      sensorId: r.sensorId,\n      pronosticada: time(v: int(v: float(v: r.llegada_pred_ts)) * 1000000),\n      llego: time(v: int(v: float(v: r.llegada_real_ts)) * 1000000),\n      error_h: float(v: r.error_h),\n      dentro_ventana: r.dentro_ventana}))\n  |> sort(columns: [\"llego\"], desc: true)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "decimals": 2
+    },
+    "overrides": []
+   },
+   "options": {
+    "showHeader": true,
+    "cellHeight": "sm"
+   }
+  },
+  {
+   "id": 26,
+   "type": "timeseries",
+   "title": "Error de cada pronóstico (h)",
+   "description": "Cada punto es una llegada verificada: error = hora real − hora pronosticada. Cerca de 0 = acierto; los puntos lejos de 0 son los días de corte (llegó al día siguiente).",
+   "gridPos": {
+    "x": 14,
+    "y": 40,
+    "w": 10,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D4\" and r.tipo == \"verificacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"error_h\")\n  |> keep(columns: [\"_time\", \"_value\", \"_field\", \"sensorId\"])"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "h",
+     "custom": {
+      "drawStyle": "points",
+      "pointSize": 5
+     },
+     "noValue": "Sin verificaciones todavía en el periodo",
+     "displayName": "${__field.labels.sensorId}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "table",
+     "placement": "right",
+     "calcs": [
+      "mean",
+      "count"
+     ]
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 27,
+   "type": "row",
+   "title": "Qué se infiere de cada vista",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 48,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 28,
+   "type": "text",
+   "title": "Lectura del tablero",
+   "gridPos": {
+    "x": 0,
+    "y": 49,
+    "w": 24,
+    "h": 12
+   },
+   "options": {
+    "mode": "markdown",
+    "content": "**En vivo.** Si *Última lectura recibida hace* está en **verde** (menos de 1 min), toda la cadena funciona:\nESP32 → Firebase → puente → Kafka → Spark → InfluxDB → Grafana. En **rojo** (más de 5 min), el sensor dejó de\npublicar: sin WiFi o sin energía. El nivel, los litros y la distancia son la última foto del tanque.\n\n**Nivel del tanque.** Una **subida brusca** del nivel es una **llegada de agua** (marca azul): el servicio de la red\nvolvió. Una **bajada gradual** es el consumo de la casa. Los picos aislados hacia abajo son ecos falsos del sensor\nultrasónico, que el detector descarta con la mediana de 5 lecturas. Los tramos rectos y planos son huecos: el\nsensor no envió datos.\n\n**Llegadas detectadas e intervalo mediano.** Cuántas veces llegó el agua en el periodo y cada cuánto tiempo:\nes el **ritmo del servicio** en ese tanque. Si el intervalo es estable, la próxima llegada se puede anticipar\n(es lo que aprende el modelo d4.1 en el notebook).\n\n**A qué hora del día llega.** La franja horaria en la que llega el agua. En Juliaca el suministro suele llegar de\nmadrugada; con pocas llegadas observadas, el gráfico es todavía indicativo.\n\n**Caudal de llenado.** Qué tan rápido entra el agua (L/min = subida × capacidad / minutos). Un caudal bajo indica\nbaja presión de red. En el ESP32 es **aproximado**: la geometría del tanque es provisional (por medir).\n\n**Predicción de la próxima llegada (modelo d4.1).** En el gráfico de nivel: **franja naranja** = ventana del 80 %,\n**marca roja** = hora más probable, **marca morada** = dónde se había pronosticado una llegada ya\nverificada (compárala con la marca azul real). La fila **Pronóstico vs real** da el error de cada\npronóstico, el MAE en vivo y el % de llegadas dentro de la ventana, igual que In [11] del notebook. Spark aplica el modelo cada 15 min: con las horas desde la\núltima llegada y la hora del día calcula la **hora más probable** de la próxima llegada, la **ventana del 80 %**\n(P10-P90 calibrada) y la **probabilidad** de que llegue en 6 y 12 h. Si el agua no llega dentro de la ventana, es\nseñal de un corte. Con *origenLecturas = aumentado* y *sensorId = All* se ve la flota; en *real*, el tanque\nThingSpeak 1233810. Donde el modelo no aplica (ESP32 con pocas llegadas, tanque de lluvia) se muestra el **motivo**.\nLa validación y las métricas están en el notebook `notebooks/u2/d4_llegadas.ipynb`."
+   }
+  }
+ ]
+}
