@@ -1,0 +1,956 @@
+{
+ "uid": "monitoraqua-d6",
+ "title": "D6 · Pérdida por fuga",
+ "tags": [
+  "monitoraqua",
+  "d6",
+  "bi"
+ ],
+ "timezone": "America/Lima",
+ "schemaVersion": 39,
+ "version": 1,
+ "editable": false,
+ "graphTooltip": 1,
+ "refresh": "10s",
+ "time": {
+  "from": "now-7d",
+  "to": "now"
+ },
+ "templating": {
+  "list": [
+   {
+    "name": "origen",
+    "label": "origenLecturas",
+    "type": "custom",
+    "query": "real : monitoraqua, aumentado : monitoraqua_aumentados",
+    "current": {
+     "text": "real",
+     "value": "monitoraqua"
+    },
+    "options": [
+     {
+      "text": "real",
+      "value": "monitoraqua",
+      "selected": true
+     },
+     {
+      "text": "aumentado",
+      "value": "monitoraqua_aumentados",
+      "selected": false
+     }
+    ]
+   },
+   {
+    "name": "sensorId",
+    "label": "sensorId",
+    "type": "query",
+    "datasource": {
+     "type": "influxdb",
+     "uid": "influxdb"
+    },
+    "refresh": 2,
+    "multi": true,
+    "includeAll": true,
+    "allValue": ".*",
+    "current": {
+     "text": [
+      "All"
+     ],
+     "value": [
+      "$__all"
+     ]
+    },
+    "query": "import \"influxdata/influxdb/schema\"\nschema.tagValues(bucket: \"${origen}\", tag: \"sensorId\", predicate: (r) => r._measurement == \"nivel_tanque\", start: -120d)"
+   }
+  ]
+ },
+ "annotations": {
+  "list": [
+   {
+    "name": "llegada_agua",
+    "datasource": {
+     "type": "influxdb",
+     "uid": "influxdb"
+    },
+    "enable": true,
+    "iconColor": "blue",
+    "target": {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"eventos_servicio\" and r.tipo == \"llegada_agua\" and r._field == \"valor\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> map(fn: (r) => ({_time: r._time, text: \"llegada_agua · \" + r.sensorId + \" · \" + string(v: r._value), tags: r.severidad}))"
+    }
+   },
+   {
+    "name": "alerta_fuga",
+    "datasource": {
+     "type": "influxdb",
+     "uid": "influxdb"
+    },
+    "enable": true,
+    "iconColor": "red",
+    "target": {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"eventos_servicio\" and r.tipo == \"alerta_fuga\" and r._field == \"valor\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> map(fn: (r) => ({_time: r._time, text: \"alerta_fuga · \" + r.sensorId + \" · \" + string(v: r._value), tags: r.severidad}))"
+    }
+   }
+  ]
+ },
+ "panels": [
+  {
+   "id": 1,
+   "type": "row",
+   "title": "En vivo · distancia y última noche",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 0,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 2,
+   "type": "stat",
+   "title": "Última lectura recibida hace",
+   "description": "Segundos desde la última lectura. Verde: llega en vivo; rojo: más de 5 min sin datos.",
+   "gridPos": {
+    "x": 0,
+    "y": 1,
+    "w": 4,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: -30d)\n  |> filter(fn: (r) => r._measurement == \"nivel_tanque\" and r._field == \"distanciaCm\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group()\n  |> last()\n  |> map(fn: (r) => ({_time: r._time, _value: float(v: int(v: now()) - int(v: r._time)) / 1000000000.0}))"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "s",
+     "decimals": 0,
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 60
+       },
+       {
+        "color": "red",
+        "value": 300
+       }
+      ]
+     },
+     "noValue": "Sin lecturas"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 3,
+   "type": "stat",
+   "title": "Distancia compensada",
+   "description": "Del sensor al agua, corregida por la temperatura del aire (DHT11).",
+   "gridPos": {
+    "x": 4,
+    "y": 1,
+    "w": 4,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: -30d)\n  |> filter(fn: (r) => r._measurement == \"nivel_tanque\" and r._field == \"distanciaCompensadaCm\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group()\n  |> last()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "suffix: cm",
+     "decimals": 1,
+     "noValue": "Sin lecturas"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 4,
+   "type": "stat",
+   "title": "Temperatura del aire",
+   "description": "DHT11 de la cámara del tanque (±2 °C): es la que se usa para compensar.",
+   "gridPos": {
+    "x": 8,
+    "y": 1,
+    "w": 4,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: -30d)\n  |> filter(fn: (r) => r._measurement == \"nivel_tanque\" and r._field == \"temperaturaC\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group()\n  |> last()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "celsius",
+     "decimals": 1,
+     "noValue": "Sin lecturas"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 5,
+   "type": "stat",
+   "title": "P(fuga) de la última noche",
+   "description": "Probabilidad de fuga del modelo d6.1 (umbral de decisión 0,70).",
+   "gridPos": {
+    "x": 12,
+    "y": 1,
+    "w": 4,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: -30d)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r._field == \"p_fuga\" and r.dimension == \"D6\" and r.tipo == \"estimacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group()\n  |> last()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit",
+     "decimals": 0,
+     "min": 0,
+     "max": 1,
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 0.4
+       },
+       {
+        "color": "red",
+        "value": 0.7
+       }
+      ]
+     },
+     "noValue": "Sin noche evaluada (ver motivo)"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 6,
+   "type": "stat",
+   "title": "Pérdida proyectada a 24 h",
+   "description": "Litros que se perderían en 24 h si la fuga sigue (P × exceso × 24 h × persistencia).",
+   "gridPos": {
+    "x": 16,
+    "y": 1,
+    "w": 4,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: -30d)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r._field == \"perdida_24h_l\" and r.dimension == \"D6\" and r.tipo == \"estimacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group()\n  |> last()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "litre",
+     "decimals": 1,
+     "noValue": "Sin noche evaluada"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 7,
+   "type": "stat",
+   "title": "Alertas de fuga",
+   "description": "Eventos alerta_fuga del detector f4.4 en el periodo elegido.",
+   "gridPos": {
+    "x": 20,
+    "y": 1,
+    "w": 4,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"eventos_servicio\" and r.tipo == \"alerta_fuga\" and r._field == \"valor\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group()\n  |> count()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "none",
+     "noValue": "0"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 8,
+   "type": "row",
+   "title": "Lo observado",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 5,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 9,
+   "type": "timeseries",
+   "title": "Distancia cruda vs compensada (con llegadas y alertas de fuga)",
+   "description": "Más distancia = menos agua. La fuga se busca de noche sobre la compensada; marca azul = llegada de agua, marca roja = alerta_fuga.",
+   "gridPos": {
+    "x": 0,
+    "y": 6,
+    "w": 16,
+    "h": 9
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"nivel_tanque\" and (r._field == \"distanciaCm\" or r._field == \"distanciaCompensadaCm\"))\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\", \"sensorId\"])"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "suffix: cm",
+     "noValue": "Sin distancia en el periodo",
+     "displayName": "${__field.labels.sensorId} · ${__field.name}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 10,
+   "type": "table",
+   "title": "Alertas de fuga",
+   "description": "Descenso nocturno (cm), su tasa frente a la tasa nocturna habitual y los litros estimados.",
+   "gridPos": {
+    "x": 16,
+    "y": 6,
+    "w": 8,
+    "h": 9
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"eventos_servicio\" and r.tipo == \"alerta_fuga\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"valor\" or r._field == \"tasaCmH\" or r._field == \"baseCmH\" or r._field == \"litrosPerdidos\")\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n  |> group()\n  |> keep(columns: [\"_time\", \"sensorId\", \"severidad\", \"valor\", \"tasaCmH\", \"baseCmH\", \"litrosPerdidos\"])\n  |> rename(columns: {_time: \"hora\", valor: \"descenso_cm\"})\n  |> sort(columns: [\"hora\"], desc: true)"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
+   "options": {
+    "showHeader": true,
+    "cellHeight": "sm"
+   }
+  },
+  {
+   "id": 11,
+   "type": "row",
+   "title": "Predicción · pérdida por fuga (modelo d6.1, una vez por noche)",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 15,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 12,
+   "type": "timeseries",
+   "title": "Tasa nocturna, referencia y exceso por noche (L/h)",
+   "description": "Cada punto es una noche: la tasa de bajada (L/h), la referencia (mediana de las noches anteriores) y el exceso = tasa − referencia. Un exceso sostenido es lo que el modelo convierte en P(fuga).",
+   "gridPos": {
+    "x": 0,
+    "y": 16,
+    "w": 14,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D6\" and r.tipo == \"estimacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"tasa_lph\" or r._field == \"referencia_lph\" or r._field == \"exceso_lph\")\n  |> keep(columns: [\"_time\", \"_value\", \"_field\", \"sensorId\"])"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "custom": {
+      "drawStyle": "points",
+      "pointSize": 8
+     },
+     "noValue": "Sin noches evaluadas en el periodo",
+     "displayName": "${__field.labels.sensorId} · ${__field.name}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom"
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 13,
+   "type": "table",
+   "title": "Última noche por tanque (y motivo si no aplica)",
+   "description": "D6 (d6.1): tasa nocturna, exceso, P(fuga) y pérdida a 24 h con su banda P10-P90. Si no aplica (geometría provisional, canal sin distancia, faltan noches), el motivo.",
+   "gridPos": {
+    "x": 14,
+    "y": 16,
+    "w": 10,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D6\" and (r.tipo == \"estimacion\" or r.tipo == \"motivo\"))\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"noche\" or r._field == \"tasa_lph\" or r._field == \"exceso_lph\" or r._field == \"p_fuga\" or r._field == \"perdida_24h_l\" or r._field == \"perdida_24h_p10_l\" or r._field == \"perdida_24h_p90_l\" or r._field == \"motivo\")\n  |> group(columns: [\"sensorId\", \"_field\"])\n  |> last()\n  |> map(fn: (r) => ({r with _value: string(v: r._value)}))\n  |> group()\n  |> pivot(rowKey: [\"sensorId\", \"version_modelo\"], columnKey: [\"_field\"], valueColumn: \"_value\")"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
+   "options": {
+    "showHeader": true,
+    "cellHeight": "sm"
+   },
+   "transformations": [
+    {
+     "id": "organize",
+     "options": {
+      "indexByName": {
+       "sensorId": 0,
+       "version_modelo": 1,
+       "noche": 2,
+       "tasa_lph": 3,
+       "exceso_lph": 4,
+       "p_fuga": 5,
+       "perdida_24h_l": 6,
+       "perdida_24h_p10_l": 7,
+       "perdida_24h_p90_l": 8,
+       "motivo": 9
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": 14,
+   "type": "row",
+   "title": "Pronóstico vs real · ¿acertó el modelo?",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 24,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 15,
+   "type": "stat",
+   "title": "Noches verificadas",
+   "description": "Noches cuya pérdida pronosticada ya tiene la noche siguiente para compararla.",
+   "gridPos": {
+    "x": 0,
+    "y": 25,
+    "w": 6,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D6\" and r.tipo == \"verificacion\" and r._field == \"error_l\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group()\n  |> count()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "none",
+     "noValue": "Sin verificaciones en el periodo"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 16,
+   "type": "stat",
+   "title": "Error medio de la pérdida a 24 h (MAE)",
+   "description": "Promedio de |pérdida observada (aprox.) − pronosticada| en litros.",
+   "gridPos": {
+    "x": 6,
+    "y": 25,
+    "w": 6,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D6\" and r.tipo == \"verificacion\" and r._field == \"error_l\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> map(fn: (r) => ({r with _value: if float(v: r._value) < 0.0 then -float(v: r._value) else float(v: r._value)}))\n  |> group()\n  |> mean()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "litre",
+     "decimals": 1,
+     "noValue": "Sin verificaciones en el periodo"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 17,
+   "type": "stat",
+   "title": "Sesgo (observado − pronosticado)",
+   "description": "Negativo: el modelo pronosticó más pérdida de la que se observó.",
+   "gridPos": {
+    "x": 12,
+    "y": 25,
+    "w": 6,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D6\" and r.tipo == \"verificacion\" and r._field == \"error_l\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> group()\n  |> mean()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "litre",
+     "decimals": 1,
+     "noValue": "Sin verificaciones en el periodo"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 18,
+   "type": "table",
+   "title": "Error por tanque",
+   "description": "MAE de la pérdida a 24 h por tanque.",
+   "gridPos": {
+    "x": 18,
+    "y": 25,
+    "w": 6,
+    "h": 4
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D6\" and r.tipo == \"verificacion\" and r._field == \"error_l\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> map(fn: (r) => ({r with _value: if float(v: r._value) < 0.0 then -float(v: r._value) else float(v: r._value)}))\n  |> group(columns: [\"sensorId\"])\n  |> reduce(identity: {verificadas: 0, suma: 0.0},\n            fn: (r, accumulator) => ({verificadas: accumulator.verificadas + 1, suma: accumulator.suma + r._value}))\n  |> map(fn: (r) => ({sensorId: r.sensorId, verificadas: r.verificadas, MAE_l: r.suma / float(v: r.verificadas)}))\n  |> group()"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "decimals": 1
+    },
+    "overrides": []
+   },
+   "options": {
+    "showHeader": true,
+    "cellHeight": "sm"
+   }
+  },
+  {
+   "id": 19,
+   "type": "timeseries",
+   "title": "Pérdida a 24 h: pronosticada vs observada (L)",
+   "description": "La pérdida pronosticada en una noche frente al exceso observado la noche siguiente × 24 h (aproximación observable: no hay fugas reales etiquetadas).",
+   "gridPos": {
+    "x": 0,
+    "y": 29,
+    "w": 12,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D6\" and r.tipo == \"verificacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"perdida_pred_l\" or r._field == \"perdida_real_proxy_l\")\n  |> keep(columns: [\"_time\", \"_value\", \"_field\", \"sensorId\"])"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "litre",
+     "custom": {
+      "drawStyle": "points",
+      "pointSize": 5
+     },
+     "noValue": "Sin verificaciones todavía en el periodo",
+     "displayName": "${__field.labels.sensorId} · ${__field.name}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "table",
+     "placement": "right",
+     "calcs": [
+      "mean",
+      "count"
+     ]
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 20,
+   "type": "timeseries",
+   "title": "Error de la pérdida a 24 h (L)",
+   "description": "Observado − pronosticado. Cerca de 0 = acierto.",
+   "gridPos": {
+    "x": 12,
+    "y": 29,
+    "w": 12,
+    "h": 8
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D6\" and r.tipo == \"verificacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"error_l\")\n  |> keep(columns: [\"_time\", \"_value\", \"_field\", \"sensorId\"])"
+    }
+   ],
+   "datasource": {
+    "type": "influxdb",
+    "uid": "influxdb"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "litre",
+     "custom": {
+      "drawStyle": "points",
+      "pointSize": 5
+     },
+     "noValue": "Sin verificaciones todavía en el periodo",
+     "displayName": "${__field.labels.sensorId} · ${__field.name}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "table",
+     "placement": "right",
+     "calcs": [
+      "mean",
+      "count"
+     ]
+    },
+    "tooltip": {
+     "mode": "multi"
+    }
+   }
+  },
+  {
+   "id": 21,
+   "type": "row",
+   "title": "Qué se infiere de cada vista",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 37,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 22,
+   "type": "text",
+   "title": "Lectura del tablero",
+   "gridPos": {
+    "x": 0,
+    "y": 38,
+    "w": 24,
+    "h": 12
+   },
+   "options": {
+    "mode": "markdown",
+    "content": "**En vivo.** Si *Última lectura recibida hace* está en **verde**, la cadena ESP32 → Firebase → puente → Kafka → Spark →\nInfluxDB → Grafana funciona. La distancia es del sensor al agua: **más distancia = menos agua**.\n\n**Distancia cruda vs compensada.** El ultrasónico mide con la velocidad del sonido, que cambia con la temperatura. La\ndistancia **compensada** corrige con el aire del DHT11 (× c(T)/c(20 °C)); la fuga se busca sobre la compensada para que\nun cambio de temperatura no parezca una bajada del nivel.\n\n**Noches.** La fuga se mide de **00:00 a 03:30**, cuando casi no hay consumo: si el nivel baja de noche más que en las\nnoches habituales, sobra un **exceso** (L/h). El modelo d6.1 convierte ese exceso en **P(fuga)** y en la **pérdida\nproyectada a 24 h**, con su banda P10-P90. Una llegada de agua (marca azul) no es fuga.\n\n**Alertas de fuga.** La regla del detector f4.4 (marca roja): descenso nocturno por encima de la tasa habitual. El\nmodelo la complementa con una probabilidad y con litros.\n\n**Pronóstico vs real.** No hay fugas reales etiquetadas: la pérdida pronosticada en una noche se compara con el exceso\nobservado la noche siguiente × 24 h (aproximación observable).\n\n**Modelo.** d6.1 en `batch/modelo_d6.py` (y `batch/modelo_d6_mllib.py`); validación en `docs/modelo-d6.md`. Con\ngeometría provisional (ESP32) o un canal que informa nivel y no distancia, la tabla muestra el **motivo**."
+   }
+  }
+ ]
+}
