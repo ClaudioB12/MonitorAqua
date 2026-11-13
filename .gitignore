@@ -31,3 +31,5 @@ batch/datos/
 batch/modelos/**/gbt_*/
 # Credenciales del firmware del ESP32 (Wi-Fi, Firebase): nunca a git; se versiona solo el .ino
 firmware/esp32/secrets.h
+code_ino/**/secrets.h
+Sesiones - Unidad 2 Bigdata/
