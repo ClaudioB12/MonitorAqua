@@ -245,10 +245,10 @@ from(bucket: "monitoraqua_aumentados")
          "d4.1; marca roja = hora más probable; marca morada = dónde se había pronosticado una llegada ya "
          "verificada.", "percent", LEYENDA,
         {"min": 0, "max": 100}, sin_datos="Sin nivel en el periodo"))
-    # Sin esto Grafana une con una recta la última lectura antes de un hueco y la primera después (parecía que el
-    # sensor midió un nivel constante durante días). Con insertNulls la línea medida se corta en huecos de más de 1 h:
-    # ahí queda la franja gris "Sensor sin conexión" y, si se cargó, la reconstrucción punteada.
-    p[-1]["fieldConfig"]["defaults"]["custom"] = {"insertNulls": 3600000, "spanNulls": False}
+    # La línea medida se dibuja continua (une la última lectura antes de un hueco con la primera después). Los huecos
+    # del sensor quedan marcados por la franja gris "Sensor sin conexión"; los largos, además, con la reconstrucción
+    # punteada (datos agregados). Así un tramo recto dentro de una franja gris se lee como "sin datos", no como medición.
+    p[-1]["fieldConfig"]["defaults"]["custom"] = {"spanNulls": True}
     p[-1]["fieldConfig"]["overrides"] = [{
         "matcher": {"id": "byRegexp", "options": ".*reconstruido.*"},
         "properties": [{"id": "custom.lineStyle", "value": {"fill": "dash", "dash": [8, 6]}},
@@ -436,7 +436,7 @@ from(bucket: "${origen}")
     ]
     return {"uid": "monitoraqua-d4", "title": "D4 · Llegada del agua (sensor real)",
             "tags": ["monitoraqua", "d4", "bi"], "timezone": "America/Lima", "schemaVersion": 39,
-            "version": 10, "editable": False, "graphTooltip": 1, "refresh": "10s",
+            "version": 11, "editable": False, "graphTooltip": 1, "refresh": "10s",
             "time": {"from": "now-7d", "to": "now+1d"},
             "templating": {"list": variables},
             "annotations": {"list": [anotacion("llegada_agua", "llegada_agua", "blue"), anotacion_prediccion(),
