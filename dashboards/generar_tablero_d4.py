@@ -13,8 +13,8 @@ Fuentes (InfluxDB, escritas por el job de Spark):
 """
 import json
 
-from generar_tableros import (AQUI, INFLUX, RANGO, SENSOR, anotacion, fila, flux, panel, prediccion_f7, texto,
-                              verificacion_f7)
+from generar_tableros import (AQUI, INFLUX, RANGO, SENSOR, anotacion, fila, flux, panel, prediccion_f7, prom,
+                              texto, verificacion_f7)
 
 LEYENDA = {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "multi"}}
 PUNTOS = {"custom": {"drawStyle": "points", "pointSize": 8}}
@@ -31,7 +31,7 @@ INFERENCIA = """
 ESP32 → Firebase → puente → Kafka → Spark → InfluxDB → Grafana. En **rojo** (más de 5 min), el sensor dejó de
 publicar: sin WiFi o sin energía. El nivel, los litros y la distancia son la última foto del tanque.
 
-**Nivel del tanque.** Una **subida brusca** del nivel es una **llegada de agua** (marca azul): el servicio de la red
+**Huecos del sensor.** La **franja gris** marca cuándo el ESP32 no envió lecturas (sin WiFi o sin energía). La **línea verde punteada** son **datos agregados**: su **reconstrucción rotulada** (días análogos del mismo sensor, `u3/reconstruir_huecos_esp32.py`): sirve para ver la serie continua, pero **no es una medición** y no entra en ninguna métrica.\n\n**Nivel del tanque.** Una **subida brusca** del nivel es una **llegada de agua** (marca azul): el servicio de la red
 volvió. Una **bajada gradual** es el consumo de la casa. Los picos aislados hacia abajo son ecos falsos del sensor
 ultrasónico, que el detector descarta con la mediana de 5 lecturas. Los tramos rectos y planos son huecos: el
 sensor no envió datos.
@@ -52,6 +52,10 @@ baja presión de red. En el ESP32 es **aproximado**: la geometría del tanque es
 señal de un corte. Con *origenLecturas = aumentado* y *sensorId = All* se ve la flota; en *real*, el tanque
 ThingSpeak 1233810. Donde el modelo no aplica (ESP32 con pocas llegadas, tanque de lluvia) se muestra el **motivo**.
 La validación y las métricas están en el notebook `notebooks/u2/d4_llegadas.ipynb`.
+
+**U3 · Ejecución integrada.** La fila U3 muestra la última corrida de `u3/d4_ejecucion_integrada.py`: latencia de
+ingesta del ESP32 y horas entre llegadas como **p50 y p95** (el promedio se ve solo para mostrar cuánto engaña), el
+error del modelo en producción y la **antigüedad** de la corrida: si está en rojo, los valores son de hace días.
 """
 
 
@@ -111,6 +115,28 @@ from(bucket: "${origen}")
 '''
     return {"name": "Llegada más probable (d4.1)", "datasource": INFLUX, "enable": True, "iconColor": "red",
             "target": flux(q)}
+
+
+def anotacion_sin_conexion():
+    """Franja gris donde el ESP32 no envió lecturas por más de 30 min: el hueco queda a la vista como un hecho, no
+    como un error del tablero (la línea punteada, si existe, es su reconstrucción rotulada)."""
+    q = f'''
+from(bucket: "monitoraqua")
+  |> {RANGO}
+  |> filter(fn: (r) => r._measurement == "nivel_tanque" and r._field == "nivelPct" and r.sensorId == "esp32-tanque-real-01")
+  |> aggregateWindow(every: 1m, fn: last, createEmpty: false)
+  |> elapsed(unit: 1m)
+  |> filter(fn: (r) => r.elapsed > 30)
+  |> map(fn: (r) => ({{_time: time(v: int(v: r._time) - r.elapsed * 60000000000), timeEnd: r._time,
+      text: "Sensor sin conexión: " + string(v: r.elapsed / 60) + " h " + string(v: r.elapsed % 60) + " min sin lecturas",
+      tags: "sin_conexion"}}))
+'''
+    return {"name": "Sensor sin conexión", "datasource": INFLUX, "enable": True, "iconColor": "#8E9AA6",
+            "target": flux(q),
+            "mappings": {"time": {"source": "field", "value": "_time"},
+                         "timeEnd": {"source": "field", "value": "timeEnd"},
+                         "text": {"source": "field", "value": "text"},
+                         "tags": {"source": "field", "value": "tags"}}}
 
 
 def anotacion_pronosticos_pasados():
@@ -206,10 +232,28 @@ from(bucket: "${{origen}}")
   |> {SENSOR}
   |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
   |> keep(columns: ["_time", "_value", "sensorId"])
-''')], "Subida brusca = llegada de agua (marca azul); bajada gradual = consumo. Franja naranja = ventana del "
-         "80 % de la próxima llegada predicha por d4.1; marca roja = hora más probable; marca morada = "
-         "dónde se había pronosticado una llegada ya verificada.", "percent", LEYENDA,
+'''), flux(f'''
+from(bucket: "monitoraqua_aumentados")
+  |> {RANGO}
+  |> filter(fn: (r) => r._measurement == "nivel_tanque" and r._field == "nivelPct")
+  |> filter(fn: (r) => r.sensorId =~ /^(${{sensorId:regex}})-reconstruido$/)
+  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+  |> keep(columns: ["_time", "_value", "sensorId"])
+''', "B")], "Subida brusca = llegada de agua (marca azul); bajada gradual = consumo. Línea verde PUNTEADA = "
+         "DATOS AGREGADOS: RECONSTRUCCIÓN rotulada de los huecos del sensor (no es una medición; u3/reconstruir_huecos_esp32.py); "
+         "franja gris = sensor sin conexión. Franja naranja = ventana del 80 % de la próxima llegada predicha por "
+         "d4.1; marca roja = hora más probable; marca morada = dónde se había pronosticado una llegada ya "
+         "verificada.", "percent", LEYENDA,
         {"min": 0, "max": 100}, sin_datos="Sin nivel en el periodo"))
+    # Sin esto Grafana une con una recta la última lectura antes de un hueco y la primera después (parecía que el
+    # sensor midió un nivel constante durante días). Con insertNulls la línea medida se corta en huecos de más de 1 h:
+    # ahí queda la franja gris "Sensor sin conexión" y, si se cargó, la reconstrucción punteada.
+    p[-1]["fieldConfig"]["defaults"]["custom"] = {"insertNulls": 3600000, "spanNulls": False}
+    p[-1]["fieldConfig"]["overrides"] = [{
+        "matcher": {"id": "byRegexp", "options": ".*reconstruido.*"},
+        "properties": [{"id": "custom.lineStyle", "value": {"fill": "dash", "dash": [8, 6]}},
+                       {"id": "color", "value": {"mode": "fixed", "fixedColor": "green"}},
+                       {"id": "displayName", "value": "${__field.labels.sensorId} (datos agregados, no medido)"}]}]
     p.append(panel("barchart", "A qué hora del día llega el agua", 16, y, 8, 9, [flux(LLEGADAS + ''' and r._field == "valor")
   |> ''' + SENSOR + '''
   |> map(fn: (r) => ({hora: (int(v: r._time) / 3600000000000 - 5) % 24, _value: 1}))
@@ -334,6 +378,43 @@ from(bucket: "${origen}")
     p.append(err)
     y += 8
 
+    # U3 (DataOps): resultados de la última ejecución integrada de D4 (u3/d4_ejecucion_integrada.py), publicados en el
+    # Pushgateway (job monitoraqua_d4) y leídos de Prometheus. Percentiles en vez del promedio (S13, 3.4).
+    p.append(fila("U3 · Ejecución integrada de D4 (DataOps: compuertas, percentiles, manifiesto)", y)); y += 1
+    G = 'job="monitoraqua_d4"'
+    p.append(panel("stat", "Latencia de ingesta del ESP32: p50 frente a p95", 0, y, 6, 5, [
+        prom(f"monitoraqua_d4_latencia_ingesta_esp32_p50_s{{{G}}}", "p50 (lectura típica)", "A"),
+        prom(f"monitoraqua_d4_latencia_ingesta_esp32_p95_s{{{G}}}", "p95 (las más lentas)", "B"),
+        prom(f"monitoraqua_d4_latencia_ingesta_esp32_promedio_s{{{G}}}", "promedio (engaña)", "C")],
+        "Segundos entre la medición del ESP32 y su llegada al puente. El p50 es lo que vive una lectura típica; "
+        "el p95, las atrasadas por reconexiones. El promedio se muestra solo para ver cuánto engaña.", "s",
+        {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "colorMode": "none",
+         "graphMode": "none", "textMode": "value_and_name"}, {"decimals": 1}, sin_datos="Sin ejecución integrada"))
+    p.append(panel("stat", "Horas entre llegadas: p50 frente a p95", 6, y, 6, 5, [
+        prom(f"monitoraqua_d4_intervalo_llegadas_p50_h{{{G}}}", "p50 (espera típica)", "A"),
+        prom(f"monitoraqua_d4_intervalo_llegadas_p95_h{{{G}}}", "p95 (cortes)", "B")],
+        "KPI de tiempo de D4. Compuerta de plausibilidad: p50 entre 6 y 48 h (servicio diario intermitente).", "h",
+        {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "colorMode": "none",
+         "graphMode": "none", "textMode": "value_and_name"}, {"decimals": 1}, sin_datos="Sin ejecución integrada"))
+    p.append(panel("stat", "Error del modelo en producción (flota)", 12, y, 4, 5, [
+        prom(f"monitoraqua_d4_mae_vivo_flota_h{{{G}}}", "MAE en vivo", "A")],
+        "MAE en vivo de la hora de llegada (F7) en la flota. Debe repetirse corrida a corrida: si cambia, es una "
+        "regresión.", "h", STAT, {"decimals": 2}, sin_datos="Sin ejecución integrada"))
+    p.append(panel("stat", "Lecturas procesadas por el stream", 16, y, 4, 5, [
+        prom(f"monitoraqua_d4_stream_filas_total{{{G}}}", "filas", "A")],
+        "Filas que entraron en la ventana fija de streaming de la última ejecución integrada.", "none", STAT,
+        sin_datos="Sin ejecución integrada"))
+    p.append(panel("stat", "Antigüedad de la última ejecución", 20, y, 4, 5, [
+        prom(f"time() - monitoraqua_d4_ultima_ejecucion_timestamp{{{G}}}", "antigüedad", "A")],
+        "Hace cuánto corrió la ejecución integrada. El Pushgateway conserva el último valor: sin este panel, una "
+        "ejecución de hace días parece viva.", "s", SEMAFORO,
+        {"decimals": 0, "color": {"mode": "thresholds"},
+         "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": None},
+                                                      {"color": "orange", "value": 86400},
+                                                      {"color": "red", "value": 259200}]}},
+        sin_datos="Sin ejecución integrada"))
+    y += 5
+
     p.append(fila("Qué se infiere de cada vista", y)); y += 1
     p.append(texto("Lectura del tablero", INFERENCIA.strip(), 0, y, 24, 12))
 
@@ -355,11 +436,12 @@ from(bucket: "${origen}")
     ]
     return {"uid": "monitoraqua-d4", "title": "D4 · Llegada del agua (sensor real)",
             "tags": ["monitoraqua", "d4", "bi"], "timezone": "America/Lima", "schemaVersion": 39,
-            "version": 6, "editable": False, "graphTooltip": 1, "refresh": "10s",
+            "version": 10, "editable": False, "graphTooltip": 1, "refresh": "10s",
             "time": {"from": "now-7d", "to": "now+1d"},
             "templating": {"list": variables},
             "annotations": {"list": [anotacion("llegada_agua", "llegada_agua", "blue"), anotacion_prediccion(),
-                                     anotacion_mas_probable(), anotacion_pronosticos_pasados()]},
+                                     anotacion_mas_probable(), anotacion_pronosticos_pasados(),
+                                     anotacion_sin_conexion()]},
             "panels": p}
 
 

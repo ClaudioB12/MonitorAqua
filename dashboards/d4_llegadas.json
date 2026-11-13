@@ -8,7 +8,7 @@
  ],
  "timezone": "America/Lima",
  "schemaVersion": 39,
- "version": 6,
+ "version": 10,
  "editable": false,
  "graphTooltip": 1,
  "refresh": "10s",
@@ -150,6 +150,41 @@
       "uid": "influxdb"
      },
      "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"predicciones\" and r.dimension == \"D4\" and r.tipo == \"verificacion\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> filter(fn: (r) => r._field == \"llegada_pred_ts\" or r._field == \"error_h\")\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n  |> group()\n  |> map(fn: (r) => ({_time: time(v: int(v: r.llegada_pred_ts) * 1000000),\n      text: \"Pronóstico verificado · \" + r.sensorId + \" · error \" + string(v: r.error_h) + \" h\",\n      tags: \"pronostico\"}))"
+    }
+   },
+   {
+    "name": "Sensor sin conexión",
+    "datasource": {
+     "type": "influxdb",
+     "uid": "influxdb"
+    },
+    "enable": true,
+    "iconColor": "#8E9AA6",
+    "target": {
+     "refId": "A",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"nivel_tanque\" and r._field == \"nivelPct\" and r.sensorId == \"esp32-tanque-real-01\")\n  |> aggregateWindow(every: 1m, fn: last, createEmpty: false)\n  |> elapsed(unit: 1m)\n  |> filter(fn: (r) => r.elapsed > 30)\n  |> map(fn: (r) => ({_time: time(v: int(v: r._time) - r.elapsed * 60000000000), timeEnd: r._time,\n      text: \"Sensor sin conexión: \" + string(v: r.elapsed / 60) + \" h \" + string(v: r.elapsed % 60) + \" min sin lecturas\",\n      tags: \"sin_conexion\"}))"
+    },
+    "mappings": {
+     "time": {
+      "source": "field",
+      "value": "_time"
+     },
+     "timeEnd": {
+      "source": "field",
+      "value": "timeEnd"
+     },
+     "text": {
+      "source": "field",
+      "value": "text"
+     },
+     "tags": {
+      "source": "field",
+      "value": "tags"
+     }
     }
    }
   ]
@@ -630,7 +665,7 @@
    "id": 13,
    "type": "timeseries",
    "title": "Nivel del tanque (%) con las llegadas marcadas",
-   "description": "Subida brusca = llegada de agua (marca azul); bajada gradual = consumo. Franja naranja = ventana del 80 % de la próxima llegada predicha por d4.1; marca roja = hora más probable; marca morada = dónde se había pronosticado una llegada ya verificada.",
+   "description": "Subida brusca = llegada de agua (marca azul); bajada gradual = consumo. Línea verde PUNTEADA = DATOS AGREGADOS: RECONSTRUCCIÓN rotulada de los huecos del sensor (no es una medición; u3/reconstruir_huecos_esp32.py); franja gris = sensor sin conexión. Franja naranja = ventana del 80 % de la próxima llegada predicha por d4.1; marca roja = hora más probable; marca morada = dónde se había pronosticado una llegada ya verificada.",
    "gridPos": {
     "x": 0,
     "y": 11,
@@ -645,6 +680,14 @@
       "uid": "influxdb"
      },
      "query": "from(bucket: \"${origen}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"nivel_tanque\" and r._field == \"nivelPct\")\n  |> filter(fn: (r) => r.sensorId =~ /^${sensorId:regex}$/)\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"sensorId\"])"
+    },
+    {
+     "refId": "B",
+     "datasource": {
+      "type": "influxdb",
+      "uid": "influxdb"
+     },
+     "query": "from(bucket: \"monitoraqua_aumentados\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"nivel_tanque\" and r._field == \"nivelPct\")\n  |> filter(fn: (r) => r.sensorId =~ /^(${sensorId:regex})-reconstruido$/)\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"sensorId\"])"
     }
    ],
    "datasource": {
@@ -657,9 +700,43 @@
      "min": 0,
      "max": 100,
      "noValue": "Sin nivel en el periodo",
+     "custom": {
+      "insertNulls": 3600000,
+      "spanNulls": false
+     },
      "displayName": "${__field.labels.sensorId}"
     },
-    "overrides": []
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": ".*reconstruido.*"
+      },
+      "properties": [
+       {
+        "id": "custom.lineStyle",
+        "value": {
+         "fill": "dash",
+         "dash": [
+          8,
+          6
+         ]
+        }
+       },
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "green"
+        }
+       },
+       {
+        "id": "displayName",
+        "value": "${__field.labels.sensorId} (datos agregados, no medido)"
+       }
+      ]
+     }
+    ]
    },
    "options": {
     "legend": {
@@ -1185,7 +1262,7 @@
   {
    "id": 27,
    "type": "row",
-   "title": "Qué se infiere de cada vista",
+   "title": "U3 · Ejecución integrada de D4 (DataOps: compuertas, percentiles, manifiesto)",
    "collapsed": false,
    "gridPos": {
     "x": 0,
@@ -1197,17 +1274,311 @@
   },
   {
    "id": 28,
+   "type": "stat",
+   "title": "Latencia de ingesta del ESP32: p50 frente a p95",
+   "description": "Segundos entre la medición del ESP32 y su llegada al puente. El p50 es lo que vive una lectura típica; el p95, las atrasadas por reconexiones. El promedio se muestra solo para ver cuánto engaña.",
+   "gridPos": {
+    "x": 0,
+    "y": 49,
+    "w": 6,
+    "h": 5
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "prometheus"
+     },
+     "expr": "monitoraqua_d4_latencia_ingesta_esp32_p50_s{job=\"monitoraqua_d4\"}",
+     "legendFormat": "p50 (lectura típica)"
+    },
+    {
+     "refId": "B",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "prometheus"
+     },
+     "expr": "monitoraqua_d4_latencia_ingesta_esp32_p95_s{job=\"monitoraqua_d4\"}",
+     "legendFormat": "p95 (las más lentas)"
+    },
+    {
+     "refId": "C",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "prometheus"
+     },
+     "expr": "monitoraqua_d4_latencia_ingesta_esp32_promedio_s{job=\"monitoraqua_d4\"}",
+     "legendFormat": "promedio (engaña)"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prometheus"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "s",
+     "decimals": 1,
+     "noValue": "Sin ejecución integrada"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value_and_name"
+   }
+  },
+  {
+   "id": 29,
+   "type": "stat",
+   "title": "Horas entre llegadas: p50 frente a p95",
+   "description": "KPI de tiempo de D4. Compuerta de plausibilidad: p50 entre 6 y 48 h (servicio diario intermitente).",
+   "gridPos": {
+    "x": 6,
+    "y": 49,
+    "w": 6,
+    "h": 5
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "prometheus"
+     },
+     "expr": "monitoraqua_d4_intervalo_llegadas_p50_h{job=\"monitoraqua_d4\"}",
+     "legendFormat": "p50 (espera típica)"
+    },
+    {
+     "refId": "B",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "prometheus"
+     },
+     "expr": "monitoraqua_d4_intervalo_llegadas_p95_h{job=\"monitoraqua_d4\"}",
+     "legendFormat": "p95 (cortes)"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prometheus"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "h",
+     "decimals": 1,
+     "noValue": "Sin ejecución integrada"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value_and_name"
+   }
+  },
+  {
+   "id": 30,
+   "type": "stat",
+   "title": "Error del modelo en producción (flota)",
+   "description": "MAE en vivo de la hora de llegada (F7) en la flota. Debe repetirse corrida a corrida: si cambia, es una regresión.",
+   "gridPos": {
+    "x": 12,
+    "y": 49,
+    "w": 4,
+    "h": 5
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "prometheus"
+     },
+     "expr": "monitoraqua_d4_mae_vivo_flota_h{job=\"monitoraqua_d4\"}",
+     "legendFormat": "MAE en vivo"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prometheus"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "h",
+     "decimals": 2,
+     "noValue": "Sin ejecución integrada"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 31,
+   "type": "stat",
+   "title": "Lecturas procesadas por el stream",
+   "description": "Filas que entraron en la ventana fija de streaming de la última ejecución integrada.",
+   "gridPos": {
+    "x": 16,
+    "y": 49,
+    "w": 4,
+    "h": 5
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "prometheus"
+     },
+     "expr": "monitoraqua_d4_stream_filas_total{job=\"monitoraqua_d4\"}",
+     "legendFormat": "filas"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prometheus"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "none",
+     "noValue": "Sin ejecución integrada"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "none",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 32,
+   "type": "stat",
+   "title": "Antigüedad de la última ejecución",
+   "description": "Hace cuánto corrió la ejecución integrada. El Pushgateway conserva el último valor: sin este panel, una ejecución de hace días parece viva.",
+   "gridPos": {
+    "x": 20,
+    "y": 49,
+    "w": 4,
+    "h": 5
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "prometheus",
+      "uid": "prometheus"
+     },
+     "expr": "time() - monitoraqua_d4_ultima_ejecucion_timestamp{job=\"monitoraqua_d4\"}",
+     "legendFormat": "antigüedad"
+    }
+   ],
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prometheus"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "s",
+     "decimals": 0,
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 86400
+       },
+       {
+        "color": "red",
+        "value": 259200
+       }
+      ]
+     },
+     "noValue": "Sin ejecución integrada"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   }
+  },
+  {
+   "id": 33,
+   "type": "row",
+   "title": "Qué se infiere de cada vista",
+   "collapsed": false,
+   "gridPos": {
+    "x": 0,
+    "y": 54,
+    "w": 24,
+    "h": 1
+   },
+   "panels": []
+  },
+  {
+   "id": 34,
    "type": "text",
    "title": "Lectura del tablero",
    "gridPos": {
     "x": 0,
-    "y": 49,
+    "y": 55,
     "w": 24,
     "h": 12
    },
    "options": {
     "mode": "markdown",
-    "content": "**En vivo.** Si *Última lectura recibida hace* está en **verde** (menos de 1 min), toda la cadena funciona:\nESP32 → Firebase → puente → Kafka → Spark → InfluxDB → Grafana. En **rojo** (más de 5 min), el sensor dejó de\npublicar: sin WiFi o sin energía. El nivel, los litros y la distancia son la última foto del tanque.\n\n**Nivel del tanque.** Una **subida brusca** del nivel es una **llegada de agua** (marca azul): el servicio de la red\nvolvió. Una **bajada gradual** es el consumo de la casa. Los picos aislados hacia abajo son ecos falsos del sensor\nultrasónico, que el detector descarta con la mediana de 5 lecturas. Los tramos rectos y planos son huecos: el\nsensor no envió datos.\n\n**Llegadas detectadas e intervalo mediano.** Cuántas veces llegó el agua en el periodo y cada cuánto tiempo:\nes el **ritmo del servicio** en ese tanque. Si el intervalo es estable, la próxima llegada se puede anticipar\n(es lo que aprende el modelo d4.1 en el notebook).\n\n**A qué hora del día llega.** La franja horaria en la que llega el agua. En Juliaca el suministro suele llegar de\nmadrugada; con pocas llegadas observadas, el gráfico es todavía indicativo.\n\n**Caudal de llenado.** Qué tan rápido entra el agua (L/min = subida × capacidad / minutos). Un caudal bajo indica\nbaja presión de red. En el ESP32 es **aproximado**: la geometría del tanque es provisional (por medir).\n\n**Predicción de la próxima llegada (modelo d4.1).** En el gráfico de nivel: **franja naranja** = ventana del 80 %,\n**marca roja** = hora más probable, **marca morada** = dónde se había pronosticado una llegada ya\nverificada (compárala con la marca azul real). La fila **Pronóstico vs real** da el error de cada\npronóstico, el MAE en vivo y el % de llegadas dentro de la ventana, igual que In [11] del notebook. Spark aplica el modelo cada 15 min: con las horas desde la\núltima llegada y la hora del día calcula la **hora más probable** de la próxima llegada, la **ventana del 80 %**\n(P10-P90 calibrada) y la **probabilidad** de que llegue en 6 y 12 h. Si el agua no llega dentro de la ventana, es\nseñal de un corte. Con *origenLecturas = aumentado* y *sensorId = All* se ve la flota; en *real*, el tanque\nThingSpeak 1233810. Donde el modelo no aplica (ESP32 con pocas llegadas, tanque de lluvia) se muestra el **motivo**.\nLa validación y las métricas están en el notebook `notebooks/u2/d4_llegadas.ipynb`."
+    "content": "**En vivo.** Si *Última lectura recibida hace* está en **verde** (menos de 1 min), toda la cadena funciona:\nESP32 → Firebase → puente → Kafka → Spark → InfluxDB → Grafana. En **rojo** (más de 5 min), el sensor dejó de\npublicar: sin WiFi o sin energía. El nivel, los litros y la distancia son la última foto del tanque.\n\n**Huecos del sensor.** La **franja gris** marca cuándo el ESP32 no envió lecturas (sin WiFi o sin energía). La **línea verde punteada** son **datos agregados**: su **reconstrucción rotulada** (días análogos del mismo sensor, `u3/reconstruir_huecos_esp32.py`): sirve para ver la serie continua, pero **no es una medición** y no entra en ninguna métrica.\n\n**Nivel del tanque.** Una **subida brusca** del nivel es una **llegada de agua** (marca azul): el servicio de la red\nvolvió. Una **bajada gradual** es el consumo de la casa. Los picos aislados hacia abajo son ecos falsos del sensor\nultrasónico, que el detector descarta con la mediana de 5 lecturas. Los tramos rectos y planos son huecos: el\nsensor no envió datos.\n\n**Llegadas detectadas e intervalo mediano.** Cuántas veces llegó el agua en el periodo y cada cuánto tiempo:\nes el **ritmo del servicio** en ese tanque. Si el intervalo es estable, la próxima llegada se puede anticipar\n(es lo que aprende el modelo d4.1 en el notebook).\n\n**A qué hora del día llega.** La franja horaria en la que llega el agua. En Juliaca el suministro suele llegar de\nmadrugada; con pocas llegadas observadas, el gráfico es todavía indicativo.\n\n**Caudal de llenado.** Qué tan rápido entra el agua (L/min = subida × capacidad / minutos). Un caudal bajo indica\nbaja presión de red. En el ESP32 es **aproximado**: la geometría del tanque es provisional (por medir).\n\n**Predicción de la próxima llegada (modelo d4.1).** En el gráfico de nivel: **franja naranja** = ventana del 80 %,\n**marca roja** = hora más probable, **marca morada** = dónde se había pronosticado una llegada ya\nverificada (compárala con la marca azul real). La fila **Pronóstico vs real** da el error de cada\npronóstico, el MAE en vivo y el % de llegadas dentro de la ventana, igual que In [11] del notebook. Spark aplica el modelo cada 15 min: con las horas desde la\núltima llegada y la hora del día calcula la **hora más probable** de la próxima llegada, la **ventana del 80 %**\n(P10-P90 calibrada) y la **probabilidad** de que llegue en 6 y 12 h. Si el agua no llega dentro de la ventana, es\nseñal de un corte. Con *origenLecturas = aumentado* y *sensorId = All* se ve la flota; en *real*, el tanque\nThingSpeak 1233810. Donde el modelo no aplica (ESP32 con pocas llegadas, tanque de lluvia) se muestra el **motivo**.\nLa validación y las métricas están en el notebook `notebooks/u2/d4_llegadas.ipynb`.\n\n**U3 · Ejecución integrada.** La fila U3 muestra la última corrida de `u3/d4_ejecucion_integrada.py`: latencia de\ningesta del ESP32 y horas entre llegadas como **p50 y p95** (el promedio se ve solo para mostrar cuánto engaña), el\nerror del modelo en producción y la **antigüedad** de la corrida: si está en rojo, los valores son de hace días."
    }
   }
  ]
