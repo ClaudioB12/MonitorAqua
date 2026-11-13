@@ -1,5 +1,38 @@
+# Secretos y credenciales
+.env
+credenciales/
+*-firebase-adminsdk-*.json
+*serviceAccount*.json
+
+# Estado de Spark Streaming y datos locales
+checkpoints/
+**/chk*/
+data/local/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Jupyter (estado del contenedor de U1)
+.ipynb_checkpoints/
+pyspark/.local/
+pyspark/.ipython/
+pyspark/.jupyter/
+pyspark/.npm/
+
+# MkDocs
+site/
+
+# Datos generados o descargados por la capa batch (Parquet aumentado, fuentes)
+batch/datos/
+# Modelos GBT de Spark MLlib (binarios, se regeneran con batch/modelo_d2.py); se versionan holt.json y
+# manifiesto.json de cada versión, que no contienen datos
+batch/modelos/**/gbt_*/
+# Credenciales del firmware del ESP32 (Wi-Fi, Firebase): nunca a git; se versiona solo el .ino
+firmware/esp32/secrets.h
 code_ino/**/secrets.h
 Sesiones - Unidad 2 Bigdata/
 
-# U3: manifiestos de cada ejecución integrada (evidencia local; los elegidos se copian a docs/evidencias/u3-d4/)
+# U3: manifiestos de cada ejecucion integrada (evidencia local; los elegidos se copian a docs/evidencias/u3-d4/)
 u3/artifacts/
