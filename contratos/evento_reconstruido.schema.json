@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ClaudioB12/MonitorAqua/contratos/evento_reconstruido.schema.json",
+  "title": "Lectura RECONSTRUIDA del ESP32 (U3 · D4)",
+  "description": "Lecturas que rellenan los huecos del ESP32 por el método de días análogos (u3/reconstruir_huecos_esp32.py). NO son mediciones: viajan solo por el tópico aqua-eventos-reconstruidos y terminan en los datos aumentados. Contrato aparte para no modificar evento_aqua.schema.json; mismos nombres de campo.",
+  "type": "object",
+  "required": ["tipoEvento", "eventId", "sensorId", "origen", "fuenteTipo", "runId", "timestamp", "distanciaCm",
+               "temperaturaC", "humedadPct", "reconstruido", "metodo"],
+  "additionalProperties": false,
+  "properties": {
+    "tipoEvento": { "const": "aqua.tanque.lectura" },
+    "eventId": { "type": "string", "pattern": "^esp32-tanque-real-01-reconstruido-[0-9]+$",
+                 "description": "sensorId-timestamp: determinístico, clave de deduplicación en Spark." },
+    "sensorId": { "const": "esp32-tanque-real-01-reconstruido" },
+    "origen": { "const": "reconstruccion-esp32" },
+    "fuenteTipo": { "const": "aumentado" },
+    "runId": { "type": "string", "pattern": "^reconstruccion-esp32-[0-9]{8}$" },
+    "timestamp": { "type": "integer", "minimum": 0, "description": "Epoch ms del instante reconstruido." },
+    "ingestaTs": { "type": "integer", "minimum": 0, "description": "Epoch ms de la publicación en Kafka." },
+    "distanciaCm": { "type": "number", "minimum": 0 },
+    "temperaturaC": { "type": "number" },
+    "humedadPct": { "type": "number", "minimum": 0, "maximum": 100 },
+    "reconstruido": { "const": true },
+    "metodo": { "const": "dias-analogos" },
+    "donanteDia": { "type": "string", "format": "date", "description": "Día real del mismo ESP32 cuyo comportamiento se copió." },
+    "esAnomalia": { "const": false }
+  }
+}

@@ -41,6 +41,8 @@ nav:
       - D4 · Próxima llegada: modelo-d4.md
       - D6 · Pérdida por fuga: modelo-d6.md
       - D8 · Temperatura y residencia: modelo-d8.md
+  - Producto U3 (integración y DataOps):
+      - D4 · Ejecución integrada y hardening: u3-d4.md
   - Operación:
       - Arranque diario: arranque-diario.md
       - Guion de la demo: guion-demo.md

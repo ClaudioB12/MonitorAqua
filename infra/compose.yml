@@ -23,6 +23,13 @@ services:
     volumes:
       - monitoraqua_influxdb_data:/var/lib/influxdb2
       - monitoraqua_influxdb_config:/etc/influxdb2
+    # U3 (hardening, S14): "listo" no es lo mismo que "arrancó". influx ping consulta /health dentro del contenedor.
+    healthcheck:
+      test: ["CMD", "influx", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
     networks:
       - lambda26-kafka-net
 
@@ -47,8 +54,16 @@ services:
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
       - ../dashboards:/var/lib/grafana/dashboards:ro
       - lambda26_grafana_data:/var/lib/grafana
+    # U3 (hardening, S14): Grafana espera a que InfluxDB esté sano, no solo arrancado, y declara su propia salud
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
     depends_on:
-      - influxdb
+      influxdb:
+        condition: service_healthy
     networks:
       - lambda26-kafka-net
 
